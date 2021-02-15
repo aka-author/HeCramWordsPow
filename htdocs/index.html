@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>מילה חדשה</title>
+		
+		<meta charset="utf-8"/>
+		
+		<link rel="stylesheet" href="css/layout.css">
+		
+		<!-- Fetching a static dictionary (legacy) -->
+		<script src="data/heru.js"></script>
+			
+		<!-- Fetching an on-line dictionary from a Google spreadsheet -->
+		<script src="js/fetchwords.js"></script>
+		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Nouns"></script>
+		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Adjectives"></script>
+		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Verbs"></script>
+		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Adverbs"></script>
+		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Service"></script>
+		
+		<!-- The gaming code -->
+		<script src="js/misc.js"></script>
+		<script src="js/hebrew.js"></script>
+		<script src="js/gdocs.js"></script>
+		<script src="js/multidic.js"></script>
+		<script src="js/uigeneric.js"></script>
+		<script src="js/uigame.js"></script>
+		<script src="js/game.js"></script>
+		<script src="js/app.js"></script>
+			
+	</head>
+	<body onload="playGame()">
+
+		<!-- Logo -->	
+		<img src="img/nakar01.jpg" id="nakarlogo" alt="אנחנו דולבידים" title="אנחנו דולבידים">
+	
+		<!-- Working area -->
+		<form>
+			<div id="gameAreaDiv">
+			
+				<div id="gameModeArea">
+				
+					<!-- Selecting a lesson -->
+					<div id="lessonSelectorArea">
+						<span id="lessonSelectorArea">Урок:</span>
+						<select value="all" 
+								id="lessonSelectorSelect"
+								onchange="GLOBAL_app.mainPage.lessonSelector.onChange()"></select>
+					</div>	
+				
+					<!-- Selecting a mode of a game  -->
+					<div id="fromToSelectorsArea">
+						<select value="ru" 
+								id="srcLangSelectorSelect" 
+								onchange="GLOBAL_app.mainPage.srcLangSelector.onChange()">
+							<!-- <option value="en">EN</option> -->
+							<option value="he">HE</option>
+							<option value="ru" selected="yes">RU</option>
+						</select>
+						<span id="fromToArrowSpan"> => </span>
+						<select value="he" 
+								id="targetLangSelectorSelect"
+								onchange="GLOBAL_app.mainPage.targetLangSelector.onChange()">
+							<!-- <option value="en">EN</option> -->
+							<option value="he" selected="yes">HE</option>
+							<option value="ru">RU</option>
+						</select>						
+					</div>	
+				
+				</div>	
+				
+				<!-- Displaying content (questions, answrs, etc.) -->
+				<div id="wordAreaDiv">					
+					<div id="questionAreaDiv" style="display:">Word</div>
+					<div id="answerAreaDiv" style="display: none">מִלָה</div>
+					<div id="promptAreaDiv" style="display: none">מִ*ה</div>
+					<div id="mnemoPoemAreaDiv" style="display: none">Жили у бабуси<br>два веселых гуся</div>
+				</div>
+				
+				<!-- Performing game activities -->
+				<div id="userActionPaneDiv">
+					<img src="img/translate03.jpg" 
+						 id="giveUpButtonImg" 
+						 onclick="GLOBAL_app.mainPage.giveUpButton.getPressed()">
+					<img src="img/lamp03-02.png" 
+						 id="showPromptButtonImg"
+						 onclick="GLOBAL_app.mainPage.showPromptButton.getPressed()">						 
+					<img src="img/next01.jpg" 
+						 id="takeNextQuestionButtonImg"
+						 onclick="GLOBAL_app.mainPage.takeNextQuestionButton.getPressed()">
+				</div>
+				
+			</div>
+		</form>
+		<div id="sysVersionArea">&copy; <a href="https://www.linkedin.com/in/mikhail-ostrogorskij-22b2b5/">Mikhail Ostrogorskiy</a>, v. 1.1.01c, 2021-02-21</div>
+	</body>
+</html>

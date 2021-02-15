@@ -1,0 +1,117 @@
+:root {
+	--func-block-top-margin:       15px;
+	--func-block-bottom-margin:    15px;
+	--area-border-radius:          10px;
+	--action-button-width:	       70px;
+	--action-button-height:	       70px;
+	--action-button-radius:	       36px;
+	--action-button-margin:	       35px;
+	--action-button-normal-border: 2px solid black;
+}
+
+body {
+	font-family: sans-serif;
+}
+
+#nakarlogo {
+	width: 150px;
+}
+
+#gameAreaDiv {
+	width: 80%;
+	height: 80%;
+	margin-top: 5%;
+	margin-bottom: 10%;
+	margin-left: 10%;
+	margin-right: 10%;
+	border-radius: 10px;
+	text-align: center;
+}
+
+#gameModeArea {
+	width: 20%;
+	margin-left: 40%;
+	margin-right: 40%;
+	margin-bottom: var(--func-block-bottom-margin);
+	padding: 5px;
+	background: #fcc133;
+	border-radius: var(--area-border-radius);
+}
+
+#wordAreaDiv {
+	height: 80%;
+	min-height: 100px;
+	margin-top: 10pt;
+	margin-bottom: 10pt;
+	border-radius: var(--area-border-radius);
+	padding: 20pt;
+	vertical-align: middle;
+	background: #fcd0c2;
+	font-size: 76px;
+}
+
+#lessonSelectorArea {
+	margin-top:    var(--func-block-top-margin);
+	margin-bottom: var(--func-block-bottom-margin);
+}
+
+#fromToSelectorsArea {
+	margin-top:    var(--func-block-top-margin);
+	margin-bottom: var(--func-block-bottom-margin);	
+}
+
+#fromToArrowSpan {
+	font-size: 12pt;
+}
+
+#userActionPaneDiv {
+	margin-top:    var(--func-block-top-margin);
+	margin-bottom: var(--func-block-bottom-margin);
+}
+
+#mnemoPoemAreaDiv {
+	font-size: 40px;
+}
+
+span.hebrewWordInMnemoPoem {
+	background: #000000;
+	color: #000000;
+	font-weight: bold;
+}
+
+span.hebrewDisclosedWordInMnemoPoem {
+	background: #fcd0c2;
+	color: #c60021;
+	font-weight: bold;
+}
+
+#giveUpButtonImg {
+	width:         var(--action-button-width);
+	height:        var(--action-button-height);
+	border:        var(--action-button-normal-border);
+	border-radius: var(--action-button-radius);
+	cursor:        pointer;
+}
+
+#showPromptButtonImg {	
+	width:         var(--action-button-width);
+	height:        var(--action-button-height);
+	margin-left:   var(--action-button-margin);
+	margin-right:  var(--action-button-margin);
+	border:        var(--action-button-normal-border);
+	border-radius: var(--action-button-radius);
+	cursor:        pointer;
+}
+
+#takeNextQuestionButtonImg {
+	width:         var(--action-button-width);
+	height:        var(--action-button-height);
+	border:        var(--action-button-normal-border);
+	border-radius: var(--action-button-radius);
+	cursor:        pointer;
+}
+
+#sysVersionArea {
+	text-align: center;
+	font-size: 8pt;
+}
