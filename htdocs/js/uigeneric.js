@@ -12,7 +12,11 @@ class UIControl {
 		this.id = id;
 		this.control = this.getControl();
 		this.controlValue = "";
-		this.objectValue = this.control ? this.getObjectValue() : null;		 
+		this.objectValue = this.control ? this.getObjectValue() : null;	
+		this.setupProperties();	
+	}
+	
+	setupProperties() {
 	}
 	
 	getParentControl() {
@@ -99,5 +103,83 @@ class Selector extends UIControl {
 	}
 }
 
+
 class Area extends UIControl {
 }
+
+
+class GroupOfPanes extends UIControl {
+	
+	setupProperties() {
+		this.paneLabels = new Array();
+		this.frontPaneLabel = null;
+	}
+	
+	appendPane(pane, paneLabel) {
+		paneLabel.setPane(pane);
+		paneLabel.setGroupOfPanes(this);
+		this.paneLabels[paneLabel.getId()] = paneLabel;
+		this.frontPaneLabel = paneLabel;
+	}
+	
+	getFrontPane() {
+		return this.getFrontPaneLabel().getPane();
+	}
+	
+	getFrontPaneLabel() {
+		return this.frontPaneLabel;
+	}
+	
+	switchToPane(paneLabel) {
+		
+		this.getFrontPane().hide();
+		this.getFrontPaneLabel().goBack();
+		
+		this.frontPaneLabel = paneLabel;
+		
+		this.getFrontPane().show();
+		this.getFrontPaneLabel().goFront();
+	}
+}
+
+
+class Pane extends UIControl {
+}
+
+
+class PaneLabel extends UIControl {
+	
+	getPane() {
+		return this.pane;
+	}
+	
+	setPane(pane) {
+		this.pane = pane;
+	}		
+	
+	getGroupOfPanes() {
+		return this.groupOfPanes;
+	}
+	
+	setGroupOfPanes(groupOfPanes) {
+		this.groupOfPanes = groupOfPanes;
+	}
+	
+	isFront() {
+		return this.getGroupOfPanes().getFrontPaneLabel().getId() == this.getId();
+	}
+	
+	goFront() {
+	}
+	
+	goBack() {
+	}
+	
+	onSwitch() {
+		if(!this.isFront())
+			this.getGroupOfPanes().switchToPane(this);
+	}
+}
+
+
+

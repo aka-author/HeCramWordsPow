@@ -260,9 +260,44 @@ class TakeNextQuestionButton extends GraphButton {
 }
 
 
+class MainGroupOfPanesLabel extends PaneLabel {
+	
+	goFront() {
+		this.getControl().style.textDecoration = "none";
+		this.getControl().style.cursor = "default";
+	}
+	
+	goBack() {
+		this.getControl().style.textDecoration = "underline";
+		this.getControl().style.cursor = "pointer";
+	}
+}
+
 class MainPage {
 	
 	constructor(game) {
+		
+		// Creating a main menu
+		this.mainGroupOfPanes = new GroupOfPanes(this, "mainGroupOfPanes");
+		
+		this.learnPane = new Pane(this.mainGroupOfPanes, "learnPaneDiv");
+		this.learnPaneLabel = new MainGroupOfPanesLabel(this, "learnMenuItemSpan");
+		this.mainGroupOfPanes.appendPane(this.learnPane, this.learnPaneLabel);
+		
+		this.teachPane = new Pane(this.mainGroupOfPanes, "teachPaneDiv");
+		this.teachPaneLabel = new MainGroupOfPanesLabel(this, "teachMenuItemSpan");
+		this.mainGroupOfPanes.appendPane(this.teachPane, this.teachPaneLabel);
+		
+		this.servicePane = new Pane(this.mainGroupOfPanes, "servicePaneDiv");
+		this.servicePaneLabel = new MainGroupOfPanesLabel(this, "serviceMenuItemSpan");
+		this.mainGroupOfPanes.appendPane(this.servicePane, this.servicePaneLabel);
+		
+		this.aboutUsPane = new Pane(this.mainGroupOfPanes, "aboutUsPaneDiv");
+		this.aboutUsPaneLabel = new MainGroupOfPanesLabel(this, "aboutUsMenuItemSpan");
+		this.mainGroupOfPanes.appendPane(this.aboutUsPane, this.aboutUsPaneLabel);
+		
+		this.learnPaneLabel.onSwitch();
+		
 		
 		this.lessonSelector = new LessonSelector(this, "lessonSelectorSelect");
 		let lessons = ["all"].concat(game.getLessons());
