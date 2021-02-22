@@ -7,22 +7,50 @@
 	--action-button-radius:	       36px;
 	--action-button-margin:	       35px;
 	--action-button-normal-border: 2px solid black;
+	--nakar-emphased-color:        #c60021;
 }
 
 body {
 	font-family: sans-serif;
 }
 
+#pageHeader {
+	display: flex;
+	vertical-align: middle;
+}
+
 #nakarlogo {
 	width: 150px;
 }
 
+#mainMenuBlockDiv {
+	margin-top: 10px;
+	margin-left: 30px;
+}
+
+#mainMenuLineDiv {
+	margin-top: 20px;
+}
+
+.mainMenuItem {
+	margin-right: 30px;
+	font-weight: bold;
+	font-size: 20px;
+	text-decoration: underline;
+	cursor: pointer;
+	color: var(--nakar-emphased-color);
+}
+
+#mainGroupOfPanesDiv {
+	margin-left: 180px;
+}
+
 #gameAreaDiv {
-	width: 80%;
-	height: 80%;
-	margin-top: 5%;
+    --width: 80%;
+	height: 70%;
+	/* margin-top: 5%; */
 	margin-bottom: 10%;
-	margin-left: 10%;
+	--margin-left: 10%;
 	margin-right: 10%;
 	border-radius: 10px;
 	text-align: center;
@@ -30,8 +58,8 @@ body {
 
 #gameModeArea {
 	width: 20%;
-	margin-left: 40%;
-	margin-right: 40%;
+	--margin-left: 40%;
+	--margin-right: 40%;
 	margin-bottom: var(--func-block-bottom-margin);
 	padding: 5px;
 	background: #fcc133;
@@ -81,7 +109,7 @@ span.hebrewWordInMnemoPoem {
 
 span.hebrewDisclosedWordInMnemoPoem {
 	background: #fcd0c2;
-	color: #c60021;
+	color: var(--nakar-emphased-color);
 	font-weight: bold;
 }
 
