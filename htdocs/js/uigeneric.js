@@ -39,14 +39,32 @@ class UIControl {
 		this.control.value = controlValue;
 	}
 	
+	// when picking from a file
+	parseSerializedObjectValue(serializedObjectValue) {
+		return serializedObjectValue;
+	}
+	
+	// when loading to a control, e.g. option/@vaue
+	assembleControlValue(objectValue) {
+		return String(objectValue);
+	}
+	
+	// when loading to a control, e.g. option
+	assembleControlValueAppearance(objectValue) {
+		return String(objectValue);
+	}
+	
+	// when retrieving from a control
 	parseControlValue(controlValue) {
 		return controlValue;
 	}
 	
+	// when saving to a file
 	serializeObjectValue(objectValue) {
 		return String(objectValue);
 	}
 	
+	// when displaying a value out of a control
 	publishObjectValue(objectValue) {
 		return String(objectValue);
 	}	
@@ -60,7 +78,7 @@ class UIControl {
 	
 	setObjectValue(objectValue) {
 		this.control = this.getControl();
-		this.controlValue = this.serializeObjectValue(objectValue);
+		this.controlValue = this.assembleControlValue(objectValue);
 		this.setControlValue(this.controlValue);
 	}		
 	
@@ -91,10 +109,10 @@ class Selector extends UIControl {
 			
 			let optionElement = document.createElement("option");
 			
-			let optionValue = this.serializeObjectValue(objectValues[i]);
+			let optionValue = this.assembleControlValue(objectValues[i]);
 			optionElement.setAttribute("value", optionValue);
 			
-			let optionWording = this.publishObjectValue(objectValues[i]);
+			let optionWording = this.assembleControlValueAppearance(objectValues[i]);
 			let optionTextNode = document.createTextNode(optionWording);
 			optionElement.appendChild(optionTextNode);
 			
@@ -119,11 +137,12 @@ class GroupOfPanes extends UIControl {
 		paneLabel.setPane(pane);
 		paneLabel.setGroupOfPanes(this);
 		this.paneLabels[paneLabel.getId()] = paneLabel;
-		this.frontPaneLabel = paneLabel;
 	}
 	
 	getFrontPane() {
-		return this.getFrontPaneLabel().getPane();
+		return this.frontPaneLabel ? 
+					this.getFrontPaneLabel().getPane() : 
+					null;
 	}
 	
 	getFrontPaneLabel() {
@@ -132,13 +151,15 @@ class GroupOfPanes extends UIControl {
 	
 	switchToPane(paneLabel) {
 		
-		this.getFrontPane().hide();
-		this.getFrontPaneLabel().goBack();
+		if(this.getFrontPaneLabel()) {
+			this.getFrontPane().hide();
+			this.getFrontPaneLabel().sendBack();
+		}	
 		
 		this.frontPaneLabel = paneLabel;
 		
 		this.getFrontPane().show();
-		this.getFrontPaneLabel().goFront();
+		this.getFrontPaneLabel().sendFront();
 	}
 }
 
@@ -166,13 +187,19 @@ class PaneLabel extends UIControl {
 	}
 	
 	isFront() {
-		return this.getGroupOfPanes().getFrontPaneLabel().getId() == this.getId();
+		
+		let frontPaneLabel = 
+			this.getGroupOfPanes().getFrontPaneLabel();
+		
+		return frontPaneLabel ? 
+					frontPaneLabel.getId() == this.getId() :
+					false;
 	}
 	
-	goFront() {
+	sendFront() {
 	}
 	
-	goBack() {
+	sendBack() {
 	}
 	
 	onSwitch() {

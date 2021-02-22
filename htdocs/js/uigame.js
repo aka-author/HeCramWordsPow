@@ -7,7 +7,7 @@
 
 class LessonSelector extends Selector {
 	
-	publishObjectValue(objectValue) {
+	assembleObjectValueAppearence(objectValue) {
 		return objectValue == "all" ? "Все" : String(objectValue);	
 	}
 	
@@ -24,6 +24,14 @@ class LessonSelector extends Selector {
 
 
 class LangSelector extends Selector {
+	
+	assembleControlValue(objectValue) {
+		return objectValue.value;
+	}
+	
+	assembleControlValueAppearance(objectValue) {
+		return objectValue.wording;
+	}
 }
 
 
@@ -74,7 +82,7 @@ class WordInfoArea extends Area {
 		this.getControl().innerHTML = headword;
 	}
 
-	serializeObjectValue(dicWordInfo) {
+	assembleControlValue(dicWordInfo) {
 		return dicWordInfo.getHeadword();
 	}
 
@@ -83,7 +91,7 @@ class WordInfoArea extends Area {
 
 class PromptWordInfoArea extends WordInfoArea {
 
-	serializeObjectValue(dicWordInfo) {
+	assembleControlValue(dicWordInfo) {
 		
 		let base = headwordBase(dicWordInfo.getHeadword());
 		
@@ -187,7 +195,7 @@ class MnemoPoemArea extends Area {
 		return poemLines;
 	}
 	
-	serializeObjectValue(mnemoPoem) {
+	assembleControlValue(mnemoPoem) {
 		
 		let poemLines = this.splitPoem(mnemoPoem);
 		
@@ -260,14 +268,19 @@ class TakeNextQuestionButton extends GraphButton {
 }
 
 
-class MainGroupOfPanesLabel extends PaneLabel {
+class UiLangSelector extends LangSelector {
 	
-	goFront() {
+}
+	
+
+class MainMenuItem extends PaneLabel {
+	
+	sendFront() {
 		this.getControl().style.textDecoration = "none";
 		this.getControl().style.cursor = "default";
 	}
 	
-	goBack() {
+	sendBack() {
 		this.getControl().style.textDecoration = "underline";
 		this.getControl().style.cursor = "pointer";
 	}
@@ -277,27 +290,11 @@ class MainPage {
 	
 	constructor(game) {
 		
-		// Creating a main menu
-		this.mainGroupOfPanes = new GroupOfPanes(this, "mainGroupOfPanes");
+		this.createUiLangSelector();
 		
-		this.learnPane = new Pane(this.mainGroupOfPanes, "learnPaneDiv");
-		this.learnPaneLabel = new MainGroupOfPanesLabel(this, "learnMenuItemSpan");
-		this.mainGroupOfPanes.appendPane(this.learnPane, this.learnPaneLabel);
-		
-		this.teachPane = new Pane(this.mainGroupOfPanes, "teachPaneDiv");
-		this.teachPaneLabel = new MainGroupOfPanesLabel(this, "teachMenuItemSpan");
-		this.mainGroupOfPanes.appendPane(this.teachPane, this.teachPaneLabel);
-		
-		this.servicePane = new Pane(this.mainGroupOfPanes, "servicePaneDiv");
-		this.servicePaneLabel = new MainGroupOfPanesLabel(this, "serviceMenuItemSpan");
-		this.mainGroupOfPanes.appendPane(this.servicePane, this.servicePaneLabel);
-		
-		this.aboutUsPane = new Pane(this.mainGroupOfPanes, "aboutUsPaneDiv");
-		this.aboutUsPaneLabel = new MainGroupOfPanesLabel(this, "aboutUsMenuItemSpan");
-		this.mainGroupOfPanes.appendPane(this.aboutUsPane, this.aboutUsPaneLabel);
-		
-		this.learnPaneLabel.onSwitch();
-		
+		this.createMainMenuItems();
+		this.createMainGroupOfPanes();
+		this.learnMainMenuItem.onSwitch();
 		
 		this.lessonSelector = new LessonSelector(this, "lessonSelectorSelect");
 		let lessons = ["all"].concat(game.getLessons());
@@ -335,6 +332,41 @@ class MainPage {
 		this.game.setTargetLang(this.targetLangSelector.getObjectValue());
 		this.game.takeNextQuestion();
 	}		
+	
+	createMainMenuItems() {
+		this.learnMainMenuItem   = new MainMenuItem(this, "learnMenuItemSpan");
+		this.teachMainMenuItem   = new MainMenuItem(this, "teachMenuItemSpan");
+		this.serviceMainMenuItem = new MainMenuItem(this, "serviceMenuItemSpan");
+		this.aboutUsMainMenuItem = new MainMenuItem(this, "aboutUsMenuItemSpan");
+	}
+	
+	createUiLangSelector() {
+		this.uiLangSelector = new UiLangSelector(this, "uiLangSelectorSelect");
+		this.uiLangSelector.appendOptions(this.getAvailableUiLangs());
+	}
+	
+	createMainGroupOfPanes() {
+		
+		this.mainGroupOfPanes = new GroupOfPanes(this, "mainGroupOfPanes");
+		
+		this.learnPane = new Pane(this.mainGroupOfPanes, "learnPaneDiv");
+		this.mainGroupOfPanes.appendPane(this.learnPane, this.learnMainMenuItem);
+		
+		this.teachPane = new Pane(this.mainGroupOfPanes, "teachPaneDiv");
+		this.mainGroupOfPanes.appendPane(this.teachPane, this.teachMainMenuItem);
+		
+		this.servicePane = new Pane(this.mainGroupOfPanes, "servicePaneDiv");
+		this.mainGroupOfPanes.appendPane(this.servicePane, this.serviceMainMenuItem);
+		
+		this.aboutUsPane = new Pane(this.mainGroupOfPanes, "aboutUsPaneDiv");
+		this.mainGroupOfPanes.appendPane(this.aboutUsPane, this.aboutUsMainMenuItem);
+	}
+	
+	getAvailableUiLangs() {
+		return [{"value" : "en", "wording" : "English"},
+			    {"value" : "he", "wording" : "עברית"},
+				{"value" : "ru", "wording" : "Русский"}];
+	}
 	
 	getGame() {
 		return this.game;
