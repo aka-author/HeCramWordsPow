@@ -270,6 +270,11 @@ class TakeNextQuestionButton extends GraphButton {
 
 class UiLangSelector extends LangSelector {
 	
+	onChange() {
+		let lang = this.getObjectValue();
+		this.getParentControl().setCurrUiLang(lang);
+	}
+	
 }
 	
 
@@ -288,8 +293,9 @@ class MainMenuItem extends PaneLabel {
 
 class MainPage {
 	
-	constructor(game) {
+	constructor(game, i18n) {
 		
+		this.currUiLang = "en";
 		this.createUiLangSelector();
 		
 		this.createMainMenuItems();
@@ -331,7 +337,19 @@ class MainPage {
 		this.game.setSrcLang(this.srcLangSelector.getObjectValue());
 		this.game.setTargetLang(this.targetLangSelector.getObjectValue());
 		this.game.takeNextQuestion();
+		
+		this.i18n = i18n;
+		this.i18n.loadLocalLabels(document);
 	}		
+	
+	getCurrUiLang() {
+		return this.uiLang;
+	}
+	
+	setCurrUiLang(lang) {
+		this.currUiLang = lang;
+		this.i18n.loadLocalLabels(document, lang);
+	}
 	
 	createMainMenuItems() {
 		this.learnMainMenuItem   = new MainMenuItem(this, "learnMenuItemSpan");
@@ -364,7 +382,9 @@ class MainPage {
 	
 	getAvailableUiLangs() {
 		return [{"value" : "en", "wording" : "English"},
+			    {"value" : "sp", "wording" : "Española"},
 			    {"value" : "he", "wording" : "עברית"},
+				{"value" : "pt", "wording" : "Português"},
 				{"value" : "ru", "wording" : "Русский"}];
 	}
 	

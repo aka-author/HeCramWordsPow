@@ -8,8 +8,10 @@
 class Application {
 	
 	constructor() {		
+		this.i18n = new I18n();
+		this.i18n.setStringTable(GLOBAL_UIStrings);
 		this.game = new Game();
-		this.mainPage = new MainPage(this.game);
+		this.mainPage = new MainPage(this.game, this.i18n);
 	}
 }
 
