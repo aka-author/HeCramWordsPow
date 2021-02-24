@@ -7,8 +7,8 @@
 
 class UIControl {
 	
-	constructor(parentControl, id) {
-		this.parentControl = parentControl;
+	constructor(parentUiControl, id) {
+		this.parentUiControl = parentUiControl;
 		this.id = id;
 		this.control = this.getControl();
 		this.controlValue = "";
@@ -19,8 +19,8 @@ class UIControl {
 	setupProperties() {
 	}
 	
-	getParentControl() {
-		return this.parentControl;
+	getparentUiControl() {
+		return this.parentUiControl;
 	}
 	
 	getId() {
@@ -91,7 +91,7 @@ class UIControl {
 	}
 	
 	getGame() {
-		return this.game ? this.game : this.parentControl.getGame();  
+		return this.game ? this.game : this.parentUiControl.getGame();  
 	}
 	
 	onChange() {
@@ -100,6 +100,10 @@ class UIControl {
 
 
 class Selector extends UIControl {
+	
+	assembleOptionId(value) {
+		return this.getId() + "__" + value;
+	}
 	
 	appendOptions(objectValues) {
 		
@@ -111,6 +115,7 @@ class Selector extends UIControl {
 			
 			let optionValue = this.assembleControlValue(objectValues[i]);
 			optionElement.setAttribute("value", optionValue);
+			optionElement.setAttribute("id", this.assembleOptionId(optionValue));
 			
 			let optionWording = this.assembleControlValueAppearance(objectValues[i]);
 			let optionTextNode = document.createTextNode(optionWording);

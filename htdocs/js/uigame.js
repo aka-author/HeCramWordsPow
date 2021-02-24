@@ -43,13 +43,13 @@ class SrcLangSelector extends LangSelector {
 		let game = this.getGame();
 		let oldSrcLang = game.getSrcLang();
 		game.setSrcLang(newSrcLang);
-		let parentControl = this.getParentControl();
+		let parentUiControl = this.getparentUiControl();
 		if(newSrcLang != "he") {
-			parentControl.targetLangSelector.setObjectValue("he");
+			parentUiControl.targetLangSelector.setObjectValue("he");
 			game.setTargetLang("he");
 		} 
 		else {
-			parentControl.targetLangSelector.setObjectValue(oldSrcLang);
+			parentUiControl.targetLangSelector.setObjectValue(oldSrcLang);
 			game.setTargetLang(oldSrcLang);
 		}			
 	}
@@ -63,13 +63,13 @@ class TargetLangSelector extends LangSelector {
 		let game = this.getGame();
 		let oldTargetLang = game.getTargetLang();
 		game.setTargetLang(newTargetLang);
-		let parentControl = this.getParentControl();
+		let parentUiControl = this.getparentUiControl();
 		if(newTargetLang != "he") {
-			parentControl.srcLangSelector.setObjectValue("he");
+			parentUiControl.srcLangSelector.setObjectValue("he");
 			game.setSrcLang("he");
 		} 
 		else {
-			parentControl.srcLangSelector.setObjectValue(oldTargetLang);
+			parentUiControl.srcLangSelector.setObjectValue(oldTargetLang);
 			game.setSrcLang(oldTargetLang);
 		}	
 	}	
@@ -272,7 +272,7 @@ class UiLangSelector extends LangSelector {
 	
 	onChange() {
 		let lang = this.getObjectValue();
-		this.getParentControl().setCurrUiLang(lang);
+		this.getparentUiControl().setCurrUiLang(lang);
 	}
 	
 }
@@ -291,152 +291,4 @@ class MainMenuItem extends PaneLabel {
 	}
 }
 
-class MainPage {
-	
-	constructor(game, i18n) {
-		
-		this.currUiLang = "en";
-		this.createUiLangSelector();
-		
-		this.createMainMenuItems();
-		this.createMainGroupOfPanes();
-		this.learnMainMenuItem.onSwitch();
-		
-		this.lessonSelector = new LessonSelector(this, "lessonSelectorSelect");
-		let lessons = ["all"].concat(game.getLessons());
-		this.lessonSelector.appendLessons(lessons);
-		this.lessonSelector.setObjectValue(game.getCurrLesson());
-		
-		this.srcLangSelector = new SrcLangSelector(this, "srcLangSelectorSelect");
-		this.targetLangSelector = new TargetLangSelector(this, "targetLangSelectorSelect");
-		
-		this.questionArea = new WordInfoArea(this, "questionAreaDiv");
-		this.answerArea = new WordInfoArea(this, "answerAreaDiv");
-		this.promptArea = new PromptWordInfoArea(this, "promptAreaDiv");
-		this.mnemoPoemArea = new MnemoPoemArea(this, "mnemoPoemAreaDiv");
-		
-		this.wordInfoAreas = 
-			{"question"  : this.questionArea,
-			 "answer"    : this.answerArea,
-			 "prompt"    : this.promptArea,
-			 "mnemoPoem" : this.mnemoPoemArea};
-			 
-		this.visibleArea = "question";	 
-		
-		this.giveUpButton = 
-			new GiveUpButton(this, "giveUpButtonImg");
-		this.showPromptButton = 
-			new ShowPromptButton(this, "showPromptButtonImg");
-		this.takeNextQuestionButton = 
-			new TakeNextQuestionButton(this, "takeNextQuestionButtonImg");
-		
-		this.game = game;
-		this.game.setMainPage(this);
-		
-		
-		this.game.setSrcLang(this.srcLangSelector.getObjectValue());
-		this.game.setTargetLang(this.targetLangSelector.getObjectValue());
-		this.game.takeNextQuestion();
-		
-		this.i18n = i18n;
-		this.i18n.loadLocalLabels(document);
-	}		
-	
-	getCurrUiLang() {
-		return this.uiLang;
-	}
-	
-	setCurrUiLang(lang) {
-		this.currUiLang = lang;
-		this.i18n.loadLocalLabels(document, lang);
-	}
-	
-	createMainMenuItems() {
-		this.learnMainMenuItem   = new MainMenuItem(this, "learnMenuItemSpan");
-		this.teachMainMenuItem   = new MainMenuItem(this, "teachMenuItemSpan");
-		this.serviceMainMenuItem = new MainMenuItem(this, "serviceMenuItemSpan");
-		this.aboutUsMainMenuItem = new MainMenuItem(this, "aboutUsMenuItemSpan");
-	}
-	
-	createUiLangSelector() {
-		this.uiLangSelector = new UiLangSelector(this, "uiLangSelectorSelect");
-		this.uiLangSelector.appendOptions(this.getAvailableUiLangs());
-	}
-	
-	createMainGroupOfPanes() {
-		
-		this.mainGroupOfPanes = new GroupOfPanes(this, "mainGroupOfPanes");
-		
-		this.learnPane = new Pane(this.mainGroupOfPanes, "learnPaneDiv");
-		this.mainGroupOfPanes.appendPane(this.learnPane, this.learnMainMenuItem);
-		
-		this.teachPane = new Pane(this.mainGroupOfPanes, "teachPaneDiv");
-		this.mainGroupOfPanes.appendPane(this.teachPane, this.teachMainMenuItem);
-		
-		this.servicePane = new Pane(this.mainGroupOfPanes, "servicePaneDiv");
-		this.mainGroupOfPanes.appendPane(this.servicePane, this.serviceMainMenuItem);
-		
-		this.aboutUsPane = new Pane(this.mainGroupOfPanes, "aboutUsPaneDiv");
-		this.mainGroupOfPanes.appendPane(this.aboutUsPane, this.aboutUsMainMenuItem);
-	}
-	
-	getAvailableUiLangs() {
-		return [{"value" : "en", "wording" : "English"},
-			    {"value" : "sp", "wording" : "Española"},
-			    {"value" : "he", "wording" : "עברית"},
-				{"value" : "pt", "wording" : "Português"},
-				{"value" : "ru", "wording" : "Русский"}];
-	}
-	
-	getGame() {
-		return this.game;
-	}
-	
-	getVisibleAreaName() {
-		return this.visibleArea;
-	}
-	
-	getLesson() {
-		return this.lessonSelector.getObjectValue();
-	}
-	
-	getMnemoPoemState() {
-		return this.mnemoPoemState;
-	}
-	
-	displayWordInfoArea(targetAreaName) {
-		for(let areaName in this.wordInfoAreas)
-			if(areaName == targetAreaName) {
-				this.wordInfoAreas[areaName].show();
-				this.visibleArea = areaName;
-			}	
-			else
-				this.wordInfoAreas[areaName].hide();
-	}
-	
-	displayQuestion(dicWordInfo) {
-		this.questionArea.setObjectValue(dicWordInfo);
-		this.displayWordInfoArea("question");
-	}
-	
-	displayPrompt(dicWordInfo) {
-		this.promptArea.setObjectValue(dicWordInfo);
-		this.displayWordInfoArea("prompt");
-	}
-	
-	displayMnemoPoem(mnemoPoem) {
-		this.mnemoPoemArea.setObjectValue(mnemoPoem);
-		this.displayWordInfoArea("mnemoPoem");
-		this.mnemoPoemState = "concealed";
-	}
-	
-	discloseHebrewWords() {
-		this.mnemoPoemArea.discloseHebrewWords();
-		this.mnemoPoemState = "disclosed";	
-	}
-	
-	displayAnswer(dicWordInfo) {
-		this.answerArea.setObjectValue(dicWordInfo);
-		this.displayWordInfoArea("answer");
-	}
-}
+
