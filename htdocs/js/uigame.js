@@ -26,7 +26,7 @@ class LessonSelector extends Selector {
 class LangSelector extends Selector {
 	
 	assembleControlValue(objectValue) {
-		return objectValue.value;
+		return objectValue.code;
 	}
 	
 	assembleControlValueAppearance(objectValue) {
@@ -43,7 +43,7 @@ class SrcLangSelector extends LangSelector {
 		let game = this.getGame();
 		let oldSrcLang = game.getSrcLang();
 		game.setSrcLang(newSrcLang);
-		let parentUiControl = this.getparentUiControl();
+		let parentUiControl = this.getChief();
 		if(newSrcLang != "he") {
 			parentUiControl.targetLangSelector.setObjectValue("he");
 			game.setTargetLang("he");
@@ -83,7 +83,7 @@ class WordInfoArea extends Area {
 	}
 
 	assembleControlValue(dicWordInfo) {
-		return dicWordInfo.getHeadword();
+		return dicWordInfo ? dicWordInfo.getHeadword() : "";
 	}
 
 }
@@ -272,7 +272,7 @@ class UiLangSelector extends LangSelector {
 	
 	onChange() {
 		let lang = this.getObjectValue();
-		this.getparentUiControl().setCurrUiLang(lang);
+		this.getChief().setCurrUiLang(lang);
 	}
 	
 }

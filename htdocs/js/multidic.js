@@ -46,6 +46,10 @@ class DicSpreadsheet extends GoogleSpreadsheetSimple {
 		return this.getFieldValue(sheetName, rowIdx, "russian");
 	}
 	
+	getTranslation(sheetName, rowIdx, lang) {
+		return this.getFieldValue(sheetName, rowIdx, lang);
+	}
+	
 	getLesson(sheetName, rowIdx) {
 		return this.getFieldValue(sheetName, rowIdx, "lesson");
 	}	

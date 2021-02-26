@@ -5,25 +5,20 @@
 //                                                    (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
-class Game {
+class Game extends Bureaucrat {
 
-	constructor() {
+	constructor(app) {
+		
+		super(app, "GAME");
+		
 		this.mainPage = null;
-		this.srcLang = "ru";
+		this.srcLang = "en";
 		this.targetLang = "he";
 		
 		this.dic = this.loadDictionaryFromGdocs();
 				
 		this.currLesson = "all";
 	}		
-
-	getMainPage() {
-		return this.mainPage;
-	}
-
-	setMainPage(mainPage) {
-		this.mainPage = mainPage;
-	}
 
 	getLessons() {
 		return this.getDictionary().getLessons();
@@ -87,6 +82,10 @@ class Game {
 		return dic;
 	}	
 	
+	colname(coltag) {
+		return coltag == "ru" ? "russian" : coltag;
+	}
+	
 	loadDictionaryFromGdocs() {
 		
 		let gdoc = new DicSpreadsheet();
@@ -94,29 +93,38 @@ class Game {
 		
 		let dic = new Dictionary();
 		
+		let targetDicLang = this.getTargetDicLang();
+		
 		for(let partOfSpeach in gdoc.doc.sheets) {
 			
 			let countRows = gdoc.countRows(partOfSpeach);
+			let langs = this.getAvailableDicLangs();
 			
 			for(let rowIdx = 0; rowIdx < countRows;  rowIdx++) {
 				
-				let heHeadword = gdoc.getSpelling(partOfSpeach, rowIdx);
-				let heWord = new DicWordInfo( "he", heHeadword);
+				let dicEntry = new DicEntry();
 				
-				let ruHeadword = gdoc.getRussian(partOfSpeach, rowIdx);
-				let ruWord = new DicWordInfo( "ru", ruHeadword);
+				let headword = gdoc.getSpelling(partOfSpeach, rowIdx);
+				let headwordInfo = new DicWordInfo(targetDicLang, headword);
+				
+				dicEntry.addWordInfo(headwordInfo);
+				
+				for(let langIdx in langs) {
+					let lang = langs[langIdx].code;
+					//console.log(lang);
+					let translation = gdoc.getTranslation(partOfSpeach, rowIdx, this.colname(lang));
+					//console.log(translation);
+					let translationWordInfo = new DicWordInfo(lang, translation);
+					dicEntry.addWordInfo(translationWordInfo); 
+				}
 								
-				let heru = new DicEntry();
-				heru.addWordInfo(heWord);
-				heru.addWordInfo(ruWord);
-				
 				let lesson = gdoc.getLesson(partOfSpeach, rowIdx);
-				heru.setLesson(lesson);
+				dicEntry.setLesson(lesson);
 				
 				let mnemoPoemRu = gdoc.getMnemoPoemRu(partOfSpeach, rowIdx);
-				heru.setMnemoPoem("ru", mnemoPoemRu);
-				
-				dic.addDicEntry(heru);
+				//dicEntry.setMnemoPoem("ru", mnemoPoemRu);
+				//console.log(dicEntry)
+				dic.addDicEntry(dicEntry);
 			}
 		}
 		
@@ -136,8 +144,20 @@ class Game {
 	
 	}
 	
+	getAvailableDicLangs() {
+		return [{"code" : "en", "wording" : "English"},
+			    {"code" : "es", "wording" : "Española"},
+				{"code" : "pt", "wording" : "Português"},
+				{"code" : "ru", "wording" : "Русский"}];
+	}
+	
+	getTargetDicLang() {
+		return "he";
+	}
+	
 	selectRandomWord(lang) {
-		let lesson = this.getMainPage().getLesson();
+		let mainPage = this.getMainPage();
+		let lesson = mainPage ? this.getMainPage().getLesson() : "all";
 		return this.getDictionary().getRandomEntry(lang, lesson);
 	}
 
@@ -190,6 +210,14 @@ class Game {
 		
 		let srcDicWordInfo = randomWord.dicWordInfos[srcLang];
 		this.getMainPage().displayQuestion(srcDicWordInfo);
+	}
+	
+	play() {
+		
+		let mainPage = this.getMainPage();
+		this.setSrcLang(mainPage.srcLangSelector.getObjectValue());
+		this.setTargetLang(mainPage.targetLangSelector.getObjectValue());
+		this.takeNextQuestion();
 	}
 }
 

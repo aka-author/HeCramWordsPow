@@ -5,11 +5,14 @@
 //                                               (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
-class MainPage {
+class MainPage extends Bureaucrat {
 	
-	constructor(game, i18n) {
+	constructor(app) {
 		
-		this.currUiLang = "en";
+		super(app, "MAINPAGE");
+		
+		let game = this.getGame();
+				
 		this.createUiLangSelector();
 		
 		this.createMainMenuItems();
@@ -22,7 +25,14 @@ class MainPage {
 		this.lessonSelector.setObjectValue(game.getCurrLesson());
 		
 		this.srcLangSelector = new SrcLangSelector(this, "srcLangSelectorSelect");
+		this.srcLangSelector.appendOptions(game.getAvailableDicLangs());
+		this.srcLangSelector.appendOptions([{"value" : "he", "wording" : "עברית"}]);
+		this.srcLangSelector.setObjectValue("es");
+		
 		this.targetLangSelector = new TargetLangSelector(this, "targetLangSelectorSelect");
+		this.targetLangSelector.appendOptions(game.getAvailableDicLangs());
+		this.targetLangSelector.appendOptions([{"value" : "he", "wording" : "עברית"}]);
+		this.targetLangSelector.setObjectValue("he");
 		
 		this.questionArea = new WordInfoArea(this, "questionAreaDiv");
 		this.answerArea = new WordInfoArea(this, "answerAreaDiv");
@@ -44,27 +54,25 @@ class MainPage {
 		this.takeNextQuestionButton = 
 			new TakeNextQuestionButton(this, "takeNextQuestionButtonImg");
 		
-		this.game = game;
-		this.game.setMainPage(this);
 		
 		
-		this.game.setSrcLang(this.srcLangSelector.getObjectValue());
-		this.game.setTargetLang(this.targetLangSelector.getObjectValue());
-		this.game.takeNextQuestion();
-		
-		this.i18n = i18n;
-		this.i18n.loadLocalLabels(document);
+		this.setCurrUiLang(this.getUserConfig().getDefaultUiLang());
 	}		
 	
+	// Environment
+	
+	/*getUserConfig() {
+		return this.userConfig;
+	}*/
 	
 	// UI language 
 	
 	getAvailableUiLangs() {
-		return [{"value" : "en", "wording" : "English"},
-			    {"value" : "es", "wording" : "Española"},
-			    {"value" : "he", "wording" : "עברית"},
-				{"value" : "pt", "wording" : "Português"},
-				{"value" : "ru", "wording" : "Русский"}];
+		return [{"code" : "en", "wording" : "English"},
+			    {"code" : "es", "wording" : "Española"},
+			    {"code" : "he", "wording" : "עברית"},
+				{"code" : "pt", "wording" : "Português"},
+				{"code" : "ru", "wording" : "Русский"}];
 	}
 	
 	getCurrUiLang() {
@@ -72,8 +80,9 @@ class MainPage {
 	}
 	
 	setCurrUiLang(lang) {
-		this.currUiLang = lang;
-		this.i18n.loadLocalLabels(document, lang);
+		this.currUiLang = lang;//alert(lang);
+		this.getI18n().loadLocalLabels(document, lang);
+		this.uiLangSelector.setObjectValue({"code" : lang});
 	}
 	
 	createUiLangSelector() {
@@ -94,13 +103,6 @@ class MainPage {
 		this.techdocMainMenuItem = new MainMenuItem(this, "techdocMenuItemSpan");
 		this.helpMainMenuItem    = new MainMenuItem(this, "helpMenuItemSpan");
 	}
-	
-	
-	// Scope of learning
-	
-		// Wordspace goes here
-	
-		// Level goes here 
 	
 	getLesson() {
 		return this.lessonSelector.getObjectValue();
@@ -138,9 +140,9 @@ class MainPage {
 	
 	// Game
 	
-	getGame() {
+	/*getGame() {
 		return this.game;
-	}
+	}*/
 	
 	getVisibleAreaName() {
 		return this.visibleArea;

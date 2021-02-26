@@ -5,11 +5,12 @@
 //                                                 (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
-class UIControl {
+class UIControl extends Bureaucrat {
 	
 	constructor(parentUiControl, id) {
-		this.parentUiControl = parentUiControl;
-		this.id = id;
+		
+		super(parentUiControl, id);
+				
 		this.control = this.getControl();
 		this.controlValue = "";
 		this.objectValue = this.control ? this.getObjectValue() : null;	
@@ -19,13 +20,9 @@ class UIControl {
 	setupProperties() {
 	}
 	
-	getparentUiControl() {
-		return this.parentUiControl;
-	}
-	
-	getId() {
+	/* getId() {
 		return this.id;
-	}
+	} */
 	
 	getControl() {
 		return document.getElementById(this.getId());
@@ -90,9 +87,10 @@ class UIControl {
 		this.getControl().style.display = "none";
 	}
 	
+	/*
 	getGame() {
 		return this.game ? this.game : this.parentUiControl.getGame();  
-	}
+	}*/
 	
 	onChange() {
 	}
