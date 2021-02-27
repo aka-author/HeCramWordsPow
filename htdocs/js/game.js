@@ -17,11 +17,17 @@ class Game extends Bureaucrat {
 		
 		this.ws = this.useWordspaceFromGdocs();
 		
-		this.baseLangCode = config.getDefaultBaseLangCode(this.ws);
-		this.targetLangCode = config.getDefaultTargetLangCode(this.ws);		
+		this.riddleLangCode = config.getDefaultRiddleLangCode(this.ws);
+		this.guessLangCode = config.getDefaultGuessLangCode(this.ws);
 		this.currLevelNo  = config.getDefaultCurrLevelNo(this.ws);		
 		this.currLessonNo = config.getDefaultCurrLessonNo(this.ws);
 	}		
+
+	getTargetLangCode() {
+		return this.getWordspace() ? 
+					this.getWordspace().getTargetLangCode() : 
+					undefined;
+	}
 
 	getLevelList() {
 		return this.getWordspace().getLevelLessonList();
@@ -51,21 +57,21 @@ class Game extends Bureaucrat {
 		this.currLessonNo = lessonNo;
 	}
 
-	getBaseLangCode() {
-		return this.baseLangCode;
+	getRiddleLangCode() {
+		return this.riddleLangCode;
 	}
 	
-	setBaseLang(langCode) {
-		this.baseLangCode = langCode;
+	setRiddleLang(langCode) {
+		this.riddleLangCode = langCode;
 		this.takeNextQuestion();
 	}
 	
-	getTargetLangCode() {
-		return this.targetLangCode;
+	getGuessLangCode() {
+		return this.guessLangCode;
 	}
 	
-	setTargetLang(langCode) {;
-		this.targetLangCode = langCode;
+	setGuessLang(langCode) {
+		this.guessLangCode = langCode;
 	}
 
 	useDummyWordspace() {
@@ -112,7 +118,7 @@ class Game extends Bureaucrat {
 		
 		let ws = new Wordspace();
 		
-		let targetLangCode = this.getTargetLangCode();
+		let targetLangCode = ws.getTargetLangCode();
 		
 		for(let partOfSpeach in gdoc.doc.sheets) {
 			
@@ -177,10 +183,6 @@ class Game extends Bureaucrat {
 				{"code" : "ru", "wording" : "Русский"}];
 	}
 	
-	getTargetLangCode() {
-		return "he";
-	}
-	
 	selectRandomWord(langCode) {
 		let mainPage = this.getMainPage();
 		let levelNo = mainPage ? this.getMainPage().getCurrLevelNo() : undefined;
@@ -195,14 +197,14 @@ class Game extends Bureaucrat {
 		switch(visibleAreaName) {
 			case "question": 
 			case "prompt":
-				let targetLangCode = this.getTargetLangCode();
+				let targetLangCode = this.getGuessLangCode();
 				let targetWordInfo = this.getCurrDicEntry().wordInfos[targetLangCode];
 				this.getMainPage().displayAnswer(targetWordInfo);
 				break;
 			case "answer":
-				let baseLangCode = this.getBaseLangCode();
+				let baseLangCode = this.getGuessLangCode();
 				let baseWordInfo = this.getCurrDicEntry().wordInfos[baseLangCode];
-				this.getMainPage().displayQuestion(srcDicWordInfo);
+				this.getMainPage().displayQuestion(baseWordInfo);
 				break;
 			case "mnemoPhrase":
 				switch(this.getMainPage().getMnemoPhraseState()) {
@@ -219,35 +221,37 @@ class Game extends Bureaucrat {
 	
 	showPrompt() {
 		
-		let targetLangCode = this.getTargetLangCode();
-		let targetWordInfo = this.getCurrDicEntry().wordInfos[targetLangCode];
+		let guessLangCode = this.getGuessLangCode();
+		console.log("glc " + guessLangCode);
+		let guessWordInfo = this.getCurrDicEntry().wordInfos[guessLangCode];
 		
-		let baseLangCode = this.getBaseLangCode();
+		let riddleLangCode = this.getRiddleLangCode();
 		
-		let mnemoPhrase = this.getCurrDicEntry().getMnemoPhrase(baseLangCode);
+		let mnemoPhrase = this.getCurrDicEntry().getMnemoPhrase(riddleLangCode);
 		
 		if(mnemoPhrase)
 			this.getMainPage().displayMnemoPhrase(mnemoPhrase);
 		else
-			this.getMainPage().displayPrompt(targetWordInfo);
+			this.getMainPage().displayPrompt(guessWordInfo);
 	}
 
 	takeNextQuestion() {
 		
 		let ws = this.getWordspace();
-		let baseLangCode = this.getBaseLangCode();
-		let randomWord = this.selectRandomWord(baseLangCode);
+		
+		let riddleLangCode = this.getRiddleLangCode();
+		let randomWord = this.selectRandomWord(riddleLangCode);
 		this.setCurrDicEntry(randomWord);	
 		
-		let baseWordInfo = randomWord.wordInfos[baseLangCode];
-		this.getMainPage().displayQuestion(baseWordInfo);
+		let riddleWordInfo = randomWord.wordInfos[riddleLangCode];
+		this.getMainPage().displayQuestion(riddleWordInfo);
 	}
 	
 	play() {
 		
 		let mainPage = this.getMainPage();
-		this.setBaseLang(mainPage.guessLangSelector.getUiControlValue());
-		this.setTargetLang(mainPage.riddleLangSelector.getUiControlValue());
+		this.setRiddleLang(mainPage.riddleLangSelector.getUiControlValue());
+		this.setGuessLang(mainPage.guessLangSelector.getUiControlValue());
 		this.takeNextQuestion();
 	}
 }

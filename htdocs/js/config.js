@@ -9,10 +9,10 @@ class UserConfig {
 	
 	constructor() {
 		this.defaultWordspace      = null;
-		this.defaultLevelNo        = "alef";
-		this.defaultLessonNo       = "all";
-		this.defaultTargetLangCode = "he";
-		this.defaultBaseLangCode   = "en";
+		this.defaultCurrLevelNo    = "alef";
+		this.defaultCurrLessonNo   = "all";
+		this.defaultRiddleLangCode = "en";
+		this.defaultGuessLangCode  = "he";
 		this.defaultUiLangCode     = "en";
 	}
 	
@@ -28,12 +28,12 @@ class UserConfig {
 		return this.defaultCurrLessonNo;
 	}
 	
-	getDefaultTargetLangCode(wordspace=null) {
-		return this.defaultTargetLangCode;
+	getDefaultRiddleLangCode(wordspace=null) {
+		return this.defaultRiddleLangCode;
 	}
 	
-	getDefaultBaseLangCode(wordspace=null) {
-		return this.defaultBaseLangCode;
+	getDefaultGuessLangCode(wordspace=null) {
+		return this.defaultGuessLangCode;
 	}
 	
 	getDefaultUiLangCode(wordspace=null) {

@@ -62,41 +62,44 @@ class LangSelector extends Selector {
 class RiddleLangSelector extends LangSelector {
 	
 	onChange() {
-		let newTargetLangCode = this.getUiControlValue();
+		let newRiddleLangCode = this.getUiControlValue();
 		let game = this.getGame();
-		let oldTargetLangCode = game.getTargetLangCode();
-		game.setTargetLang(newTargetLangCode);
-		let parentUiControl = this.getparentUiControl();
-		if(newTargetLang != "he") {
-			parentUiControl.srcLangSelector.setObjectValue("he");
-			game.setSrcLang("he");
+		let oldRiddleLangCode = game.getRiddleLangCode();
+		let guessLangCode = game.getGuessLangCode();
+		let targetLangCode = game.getTargetLangCode();
+		game.setRiddleLang(newRiddleLangCode);
+		let parentUiControl = this.getChief();
+		if(newRiddleLangCode == targetLangCode && guessLangCode == targetLangCode) {
+			parentUiControl.guessLangSelector.setUiControlValue({"code" : oldRiddleLangCode});
+			game.setGuessLang(oldRiddleLangCode);
 		} 
-		else {
-			parentUiControl.srcLangSelector.setObjectValue(oldTargetLang);
-			game.setSrcLang(oldTargetLang);
-		}	
+		else if(newRiddleLangCode != targetLangCode && guessLangCode != targetLangCode) {
+			parentUiControl.guessLangSelector.setUiControlValue({"code" : targetLangCode});
+			game.setGuessLang(targetLangCode);
+		}
+		
 	}	
 }
 
 
 class GuessLangSelector extends LangSelector {
 	
-	onChange() {
-				
-		let newBaseLangCode = this.getUiControlValue();
+	onChange() {	
+		let newGuessLangCode = this.getUiControlValue();
 		let game = this.getGame();
-		let oldBaseLangCode = game.getBaseLangCode();
-		game.setBaseLang(newBaseLangCode);
+		let oldGuessLangCode = game.getGuessLangCode();
+		game.setGuessLang(newGuessLangCode);
 		let parentUiControl = this.getChief();
+		let riddleLangCode = game.getRiddleLangCode();
 		let targetLangCode = game.getTargetLangCode();
-		if(newBaseLangCode != targetLangCode) {
-			parentUiControl.riddleLangSelector.setUiControlValue(targetLangCode);
-			game.setTargetLang(targetLangCode);
-		} 
-		else {
-			parentUiControl.targetLangSelector.setObjectValue(oldBaseLangCode);
-			game.setTargetLang(oldBaseLangCode);
-		}			
+		if(newGuessLangCode == targetLangCode && riddleLangCode == targetLangCode) {
+			parentUiControl.riddleLangSelector.setUiControlValue({"code" : oldGuessLangCode});
+			game.setRiddleLang(oldGuessLangCode);
+		} 		
+		else if(newGuessLangCode != targetLangCode && riddleLangCode != targetLangCode){
+			parentUiControl.riddleLangSelector.setUiControlValue({"code" : targetLangCode});
+			game.setRiddleLang(targetLangCode);
+		}
 	}
 }
 

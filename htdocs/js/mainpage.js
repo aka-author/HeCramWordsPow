@@ -20,9 +20,9 @@ class MainPage extends Bureaucrat {
 		this.wordsMainMenuItem.onSwitch();
 		
 		this.levelSelector = new LevelSelector(this, "levelSelectorSelect");
-		let levels = ["all"].concat(game.getLevels());
-		this.levelSelector.appendLevels(levels);
-		this.levelSelector.setUiControlValue(game.getCurrLevelNo());
+		//let levels = ["all"].concat(game.getLevels());
+		//this.levelSelector.appendLevels(levels);
+		//this.levelSelector.setUiControlValue(game.getCurrLevelNo());
 		
 		this.lessonSelector = new LessonSelector(this, "lessonSelectorSelect");
 		let lessons = ["all"].concat(game.getLessons());
@@ -31,13 +31,13 @@ class MainPage extends Bureaucrat {
 		
 		this.riddleLangSelector = new RiddleLangSelector(this, "riddleLangSelectorSelect");
 		this.riddleLangSelector.appendOptions(game.getAvailableBaseLangCodes());
-		this.riddleLangSelector.appendOptions([{"value" : "he", "wording" : "עברית"}]);
-		this.riddleLangSelector.setUiControlValue("en");
+		this.riddleLangSelector.appendOptions([{"code" : "he", "wording" : "עברית"}]);
+		this.riddleLangSelector.setUiControlValue({"code" : "en"});
 		
 		this.guessLangSelector = new GuessLangSelector(this, "guessLangSelectorSelect");
 		this.guessLangSelector.appendOptions(game.getAvailableBaseLangCodes());
-		this.guessLangSelector.appendOptions([{"value" : "he", "wording" : "עברית"}]);
-		this.guessLangSelector.setUiControlValue("he");
+		this.guessLangSelector.appendOptions([{"code" : "he", "wording" : "עברית"}]);
+		this.guessLangSelector.setUiControlValue({"code" : "he"});
 		
 		this.questionArea = new WordInfoArea(this, "questionAreaDiv");
 		this.answerArea = new WordInfoArea(this, "answerAreaDiv");

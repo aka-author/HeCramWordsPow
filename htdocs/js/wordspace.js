@@ -177,9 +177,9 @@ class Wordspace {
 		return translations;
 	}
 	
-	getRandomEntry(langCode, lessonNo="all") {
-			
-		let index = (lessonNo == "all") || (!lessonNo) ? 
+	getRandomEntry(langCode, levelNo, lessonNo="all") {
+		
+		let index = (lessonNo == "all") || (!levelNo) || (!lessonNo) ? 
 				this.langIndices["he"] :
 			 	this.lessonIndex[lessonNo];
 						
@@ -190,6 +190,10 @@ class Wordspace {
 	
 	compareLessonNumbers(lessonNo1, lessonNo2) {
 		return parseInt(lessonNo2) - parseInt(lessonNo1);
+	}
+	
+	getTargetLangCode() {
+		return "he";
 	}
 	
 	getLessons() {
