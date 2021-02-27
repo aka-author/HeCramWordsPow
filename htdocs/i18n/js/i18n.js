@@ -9,7 +9,7 @@ class I18n {
 	
 	constructor() {
 		this.stringTable = null;
-		this.defaultLang = "en";
+		this.defaultLangCode = "en";
 	}
 	
 	setStringTable(stringTable) {
@@ -20,39 +20,35 @@ class I18n {
 		return this.stringTable;
 	}
 	
-	getDefaultLang() {
-		return this.defaultLang;
+	getDefaultLangCode() {
+		return this.defaultLangCode;
 	}
 	
-	setDefaultLang(lang) {
-		this.defaultLang = lang;
+	setDefaultLangCode(lang) {
+		this.defaultLangCode = lang;
 	}
 	
-	getText(id, lang=null) {
-		let actualLang = lang ? lang : this.getDefaultLang();
+	getText(id, langCode=null) {
+		let actualLangCode = langCode ? langCode : this.getDefaultLangCode();
 		let stringTable = this.getStringTable();
 		let stringTableRow = stringTable[id];
-		return stringTableRow ? stringTableRow[actualLang] : undefined;
+		return stringTableRow ? stringTableRow[actualLangCode] : undefined;
 	}
 	
-	loadLocalLabels(rootNode, lang=null) {
+	loadLocalLabels(rootNode, langCode=undefined) {
 	
-		let actualLang = lang ? lang : this.getDefaultLang();
+		let actualLangCode = langCode ? langCode : this.getDefaultLangCode();
 		
-		try {
-			if(rootNode.getAttribute) {
-				let id = rootNode.getAttribute("id");
-				if(id) {
-					let localText = this.getText(id, actualLang);
-					if(localText) 
-						rootNode.innerHTML = localText;
-				}	
-				
-			}
-		}	
-		catch(e) {}
+		if(isHtmlElement(rootNode)) {
+			let id = rootNode.getAttribute("id");
+			if(id) {
+				let localText = this.getText(id, actualLangCode);
+				if(localText) 
+					rootNode.innerHTML = localText;
+			}		
+		}
 		
 		for(let childIdx in rootNode.children)
-			this.loadLocalLabels(rootNode.children[childIdx], actualLang);
+			this.loadLocalLabels(rootNode.children[childIdx], actualLangCode);
 	}
 }

@@ -19,31 +19,36 @@ class MainPage extends Bureaucrat {
 		this.createMainGroupOfPanes();
 		this.wordsMainMenuItem.onSwitch();
 		
+		this.levelSelector = new LevelSelector(this, "levelSelectorSelect");
+		let levels = ["all"].concat(game.getLevels());
+		this.levelSelector.appendLevels(levels);
+		this.levelSelector.setUiControlValue(game.getCurrLevelNo());
+		
 		this.lessonSelector = new LessonSelector(this, "lessonSelectorSelect");
 		let lessons = ["all"].concat(game.getLessons());
 		this.lessonSelector.appendLessons(lessons);
-		this.lessonSelector.setObjectValue(game.getCurrLesson());
+		this.lessonSelector.setUiControlValue(game.getCurrLessonNo());
 		
-		this.srcLangSelector = new SrcLangSelector(this, "srcLangSelectorSelect");
-		this.srcLangSelector.appendOptions(game.getAvailableDicLangs());
-		this.srcLangSelector.appendOptions([{"value" : "he", "wording" : "עברית"}]);
-		this.srcLangSelector.setObjectValue("es");
+		this.riddleLangSelector = new RiddleLangSelector(this, "riddleLangSelectorSelect");
+		this.riddleLangSelector.appendOptions(game.getAvailableBaseLangCodes());
+		this.riddleLangSelector.appendOptions([{"value" : "he", "wording" : "עברית"}]);
+		this.riddleLangSelector.setUiControlValue("en");
 		
-		this.targetLangSelector = new TargetLangSelector(this, "targetLangSelectorSelect");
-		this.targetLangSelector.appendOptions(game.getAvailableDicLangs());
-		this.targetLangSelector.appendOptions([{"value" : "he", "wording" : "עברית"}]);
-		this.targetLangSelector.setObjectValue("he");
+		this.guessLangSelector = new GuessLangSelector(this, "guessLangSelectorSelect");
+		this.guessLangSelector.appendOptions(game.getAvailableBaseLangCodes());
+		this.guessLangSelector.appendOptions([{"value" : "he", "wording" : "עברית"}]);
+		this.guessLangSelector.setUiControlValue("he");
 		
 		this.questionArea = new WordInfoArea(this, "questionAreaDiv");
 		this.answerArea = new WordInfoArea(this, "answerAreaDiv");
 		this.promptArea = new PromptWordInfoArea(this, "promptAreaDiv");
-		this.mnemoPoemArea = new MnemoPoemArea(this, "mnemoPoemAreaDiv");
+		this.mnemoPhraseArea = new MnemoPhraseArea(this, "mnemoPhraseAreaDiv");
 		
 		this.wordInfoAreas = 
-			{"question"  : this.questionArea,
-			 "answer"    : this.answerArea,
-			 "prompt"    : this.promptArea,
-			 "mnemoPoem" : this.mnemoPoemArea};
+			{"question"    : this.questionArea,
+			 "answer"      : this.answerArea,
+			 "prompt"      : this.promptArea,
+			 "mnemoPhrase" : this.mnemoPhraseArea};
 			 
 		this.visibleArea = "question";	 
 		
@@ -56,15 +61,9 @@ class MainPage extends Bureaucrat {
 		
 		
 		
-		this.setCurrUiLang(this.getUserConfig().getDefaultUiLang());
+		this.setCurrUiLang(this.getUserConfig().getDefaultUiLangCode());
 	}		
-	
-	// Environment
-	
-	/*getUserConfig() {
-		return this.userConfig;
-	}*/
-	
+		
 	// UI language 
 	
 	getAvailableUiLangs() {
@@ -75,14 +74,14 @@ class MainPage extends Bureaucrat {
 				{"code" : "ru", "wording" : "Русский"}];
 	}
 	
-	getCurrUiLang() {
+	getCurrUiLangCode() {
 		return this.uiLang;
 	}
 	
-	setCurrUiLang(lang) {
-		this.currUiLang = lang;//alert(lang);
-		this.getI18n().loadLocalLabels(document, lang);
-		this.uiLangSelector.setObjectValue({"code" : lang});
+	setCurrUiLang(langCode) {
+		this.currUiLangCode = langCode;
+		this.getI18n().loadLocalLabels(document, langCode);
+		this.uiLangSelector.setUiControlValue({"code" : langCode});
 	}
 	
 	createUiLangSelector() {
@@ -104,8 +103,12 @@ class MainPage extends Bureaucrat {
 		this.helpMainMenuItem    = new MainMenuItem(this, "helpMenuItemSpan");
 	}
 	
-	getLesson() {
-		return this.lessonSelector.getObjectValue();
+	getCurrLevelNo() {
+		return this.levelSelector.getUiControlValue();
+	}
+	
+	getCurrLessonNo() {
+		return this.lessonSelector.getUiControlValue();
 	}
 	
 	
@@ -140,18 +143,12 @@ class MainPage extends Bureaucrat {
 	
 	// Game
 	
-	/*getGame() {
-		return this.game;
-	}*/
-	
 	getVisibleAreaName() {
 		return this.visibleArea;
 	}
 	
-	
-	
-	getMnemoPoemState() {
-		return this.mnemoPoemState;
+	getMnemoPhraseState() {
+		return this.mnemoPhraseState;
 	}
 	
 	displayWordInfoArea(targetAreaName) {
@@ -160,33 +157,33 @@ class MainPage extends Bureaucrat {
 				this.wordInfoAreas[areaName].show();
 				this.visibleArea = areaName;
 			}	
-			else
+			else 
 				this.wordInfoAreas[areaName].hide();
 	}
 	
-	displayQuestion(dicWordInfo) {
-		this.questionArea.setObjectValue(dicWordInfo);
+	displayQuestion(wordInfo) {
+		this.questionArea.setUiControlValue(wordInfo);
 		this.displayWordInfoArea("question");
 	}
 	
-	displayPrompt(dicWordInfo) {
-		this.promptArea.setObjectValue(dicWordInfo);
+	displayPrompt(wordInfo) {
+		this.promptArea.setUiControlValue(wordInfo);
 		this.displayWordInfoArea("prompt");
 	}
 	
-	displayMnemoPoem(mnemoPoem) {
-		this.mnemoPoemArea.setObjectValue(mnemoPoem);
-		this.displayWordInfoArea("mnemoPoem");
-		this.mnemoPoemState = "concealed";
+	displayMnemoPhrase(mnemoPhrase) {
+		this.mnemoPhraseArea.setUiControlValue(mnemoPhrase);
+		this.displayWordInfoArea("mnemoPhrase");
+		this.mnemoPhraseState = "concealed";
 	}
 	
-	discloseHebrewWords() {
-		this.mnemoPoemArea.discloseHebrewWords();
-		this.mnemoPoemState = "disclosed";	
+	discloseTargetWords() {
+		this.mnemoPhraseArea.discloseTargetWords();
+		this.mnemoPhraseState = "disclosed";	
 	}
 	
-	displayAnswer(dicWordInfo) {
-		this.answerArea.setObjectValue(dicWordInfo);
+	displayAnswer(wordInfo) {
+		this.answerArea.setUiControlValue(wordInfo);
 		this.displayWordInfoArea("answer");
 	}
 }

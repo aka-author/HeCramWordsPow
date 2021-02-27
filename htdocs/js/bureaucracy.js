@@ -13,14 +13,14 @@ class Bureaucrat {
 		
 		this.id = id;
 		
-		this.subordinates = new Array();
-		this.subordinatesByIds = new Array();
-		
 		this.userConfig = null;
 		this.i18n = null;
 		this.mainPage = null;
 		this.game = null;
 		this.app = null;
+		
+		this.subordinates = new Array();
+		this.subordinatesByIds = new Array();
 		
 		if(chief)
 			chief.registerSubordinate(this);
@@ -76,7 +76,9 @@ class Bureaucrat {
 	}
 	
 	getSubordinateById(id) {
-		return this.subordinatesByIds[id] ? this.subordinatesByIds[id] : null;
+		return this.subordinatesByIds[id] ? 
+					this.subordinatesByIds[id] : 
+					null;
 	}
 	
 	doMyself(methodName, argsObject) {

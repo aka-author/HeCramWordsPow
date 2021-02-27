@@ -5,6 +5,10 @@
 //                                               (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
+//
+// Application class
+//
+
 class Application extends Bureaucrat {
 	
 	constructor() {
@@ -12,15 +16,11 @@ class Application extends Bureaucrat {
 		super(null, "APP");
 		
 		this.userConfig = new UserConfig();
-	}
-	
-	getUserConfig() {
-		return this.userConfig;
-	}
-	
-	run() {
 		this.i18n = new I18n();
 		this.i18n.setStringTable(GLOBAL_UIStrings);
+	}
+	
+	run() {	
 		this.game = new Game(this);
 		this.mainPage = new MainPage(this);
 		this.game.play();
@@ -30,7 +30,7 @@ class Application extends Bureaucrat {
 
 
 //
-// Playing a game
+// Playing the game
 //
 
 var GLOBAL_app = null;

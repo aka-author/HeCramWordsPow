@@ -1,12 +1,12 @@
 //* * ** *** ***** ******** ************* *********************
-// Misc. cinstants, functions, etc.
+// Misc. constants, functions, etc.
 //
 //                                                    (\_/)
 //                                                    (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
 //
-// Character and string functions
+// Characters and strings
 //
 
 function firstChr(str) {
@@ -25,18 +25,13 @@ function trimFirstChr(str) {
 
 
 function multiChr(chr, num) {
-	str = "";
-	for(let i = 0; i < num; i++) str += chr;
-	return str;
+	return chr.repeat(num);
 }
 
 
 
-
-
-
 //
-// Randomization functions
+// Randomization
 //
 
 function getRandomAlternative(probabilityOfTrue) {
@@ -51,7 +46,17 @@ function randomInt(from, to) {
 
 
 function getRandomKey(arr) {
-	let keys = Object.keys(arr);
+	let keys = arr ? Object.keys(arr) : [];
 	let randomKeyIdx = randomInt(0, keys.length - 1);	
 	return keys[randomKeyIdx];
+}
+
+
+
+//
+// HTML
+//
+
+function isHtmlElement(domNode) {
+	return domNode instanceof HTMLElement;
 }

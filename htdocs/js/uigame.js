@@ -1,68 +1,71 @@
 //* * ** *** ***** ******** ************* *********************
-// Game User Interface
+// User Interface Controls Specific for the Game
 //
 //                                                (\_/)
 //                                                (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
-class LessonSelector extends Selector {
+//
+// Level and lesson selectors
+//
+
+class LevelSelector extends Selector {
 	
-	assembleObjectValueAppearence(objectValue) {
-		return objectValue == "all" ? "Все" : String(objectValue);	
+	appendLevels(levels) {
+		this.appendOptions(levels);
 	}
+	
+	onChange() {
+		// this.getGame().setCurrLesson(this.getUiControlValue());
+		// this.getGame().takeNextQuestion();
+	}	
+
+}
+
+
+class LessonSelector extends Selector {
 	
 	appendLessons(lessons) {
 		this.appendOptions(lessons);
 	}
 	
 	onChange() {
-		this.getGame().setCurrLesson(this.getObjectValue);
+		this.getGame().setCurrLesson(this.getUiControlValue());
 		this.getGame().takeNextQuestion();
 	}	
 
 }
 
 
+
+//
+// Language selector
+//
+
 class LangSelector extends Selector {
 	
-	assembleControlValue(objectValue) {
-		return objectValue.code;
+	assembleDomObjectValue(uiControlValue) {
+		return uiControlValue.code;
 	}
 	
-	assembleControlValueAppearance(objectValue) {
-		return objectValue.wording;
-	}
-}
-
-
-class SrcLangSelector extends LangSelector {
-	
-	onChange() {
-				
-		let newSrcLang = this.getObjectValue();
-		let game = this.getGame();
-		let oldSrcLang = game.getSrcLang();
-		game.setSrcLang(newSrcLang);
-		let parentUiControl = this.getChief();
-		if(newSrcLang != "he") {
-			parentUiControl.targetLangSelector.setObjectValue("he");
-			game.setTargetLang("he");
-		} 
-		else {
-			parentUiControl.targetLangSelector.setObjectValue(oldSrcLang);
-			game.setTargetLang(oldSrcLang);
-		}			
+	assembleDomObjectValueAppearance(uiControlValue) {
+		return uiControlValue.wording;
 	}
 }
 
 
-class TargetLangSelector extends LangSelector {
+
+//
+// Riddle and guess language selectors
+//
+
+class RiddleLangSelector extends LangSelector {
 	
 	onChange() {
-		let newTargetLang = this.getObjectValue();
+		let newTargetLangCode = this.getUiControlValue();
 		let game = this.getGame();
-		let oldTargetLang = game.getTargetLang();
-		game.setTargetLang(newTargetLang);
+		let oldTargetLangCode = game.getTargetLangCode();
+		game.setTargetLang(newTargetLangCode);
 		let parentUiControl = this.getparentUiControl();
 		if(newTargetLang != "he") {
 			parentUiControl.srcLangSelector.setObjectValue("he");
@@ -76,14 +79,36 @@ class TargetLangSelector extends LangSelector {
 }
 
 
+class GuessLangSelector extends LangSelector {
+	
+	onChange() {
+				
+		let newBaseLangCode = this.getUiControlValue();
+		let game = this.getGame();
+		let oldBaseLangCode = game.getBaseLangCode();
+		game.setBaseLang(newBaseLangCode);
+		let parentUiControl = this.getChief();
+		let targetLangCode = game.getTargetLangCode();
+		if(newBaseLangCode != targetLangCode) {
+			parentUiControl.riddleLangSelector.setUiControlValue(targetLangCode);
+			game.setTargetLang(targetLangCode);
+		} 
+		else {
+			parentUiControl.targetLangSelector.setObjectValue(oldBaseLangCode);
+			game.setTargetLang(oldBaseLangCode);
+		}			
+	}
+}
+
+
 class WordInfoArea extends Area {
 
-	setControlValue(headword) {
-		this.getControl().innerHTML = headword;
+	setDomObjectValue(headword) {
+		this.getDomObject().innerHTML = headword;
 	}
 
-	assembleControlValue(dicWordInfo) {
-		return dicWordInfo ? dicWordInfo.getHeadword() : "";
+	assembleDomObjectValue(wordInfo) {
+		return wordInfo ? wordInfo.getHeadword() : "";
 	}
 
 }
@@ -91,9 +116,9 @@ class WordInfoArea extends Area {
 
 class PromptWordInfoArea extends WordInfoArea {
 
-	assembleControlValue(dicWordInfo) {
+	assembleDomObjectValue(wordInfo) {
 		
-		let base = headwordBase(dicWordInfo.getHeadword());
+		let base = headwordBase(wordInfo.getHeadword());
 		
 		let wordPrompt = firstChr(base);
 			
@@ -106,21 +131,21 @@ class PromptWordInfoArea extends WordInfoArea {
 }
 
 
-class MnemoPoemArea extends Area {
+class MnemoPhraseArea extends Area {
 	
-	setControlValue(poemDiv) {
-		this.getControl().innerHTML = "";
-		this.getControl().appendChild(poemDiv);
+	setDomObjectValue(mnemoPhraseDiv) {
+		this.getDomObject().innerHTML = "";
+		this.getDomObject().appendChild(mnemoPhraseDiv);
 	}
 	
-	splitPoemLine(poemLineRemain, stack="", tokens=null) {
+	splitPhraseLine(phraseLineRemain, stack="", tokens=null) {
 		
 		if(!tokens)
 			var tokens = new Array();
 		
-		if(poemLineRemain.length > 0) {
+		if(phraseLineRemain.length > 0) {
 			
-			let currChr = firstChr(poemLineRemain)		
+			let currChr = firstChr(phraseLineRemain)		
 			let isCurrChrHebrew = isHebrewChr(currChr);
 			
 			let isPrevChrHebrew = stack.length > 0 ? 
@@ -133,8 +158,8 @@ class MnemoPoemArea extends Area {
 				
 			stack += currChr;	
 				
-			if(poemLineRemain.length > 0)
-				this.splitPoemLine(trimFirstChr(poemLineRemain),
+			if(phraseLineRemain.length > 0)
+				this.splitPhraseLine(trimFirstChr(phraseLineRemain),
 								   stack,
 								   tokens);
 		}
@@ -150,7 +175,7 @@ class MnemoPoemArea extends Area {
 		let node = document.createTextNode(token);
 		span.appendChild(node);
 		span.setAttribute("lang", "he");
-		span.setAttribute("class", "hebrewWordInMnemoPoem");
+		span.setAttribute("class", "hebrewWordInMnemoPhrase");
 		return span;
 	}
 	
@@ -161,9 +186,9 @@ class MnemoPoemArea extends Area {
 		return span;
 	}
 	
-	markupPoemLine(poemLine) {
+	markupPhraseLine(phraseLine) {
 	
-		let tokens = this.splitPoemLine(poemLine);
+		let tokens = this.splitPhraseLine(phraseLine);
 
 		let spans = new Array();
 		
@@ -183,64 +208,47 @@ class MnemoPoemArea extends Area {
 		return spans;
 	}
 	
-	splitPoem(poem) {
+	splitPhrase(phrase) {
 	
-		let rawPoemLines = poem.split(/\//);
+		let rawPhraseLines = phrase.split(/\//);
 		
-		let poemLines = new Array();
+		let phraseLines = new Array();
 		
-		for(let poemLineIdx in rawPoemLines)
-			poemLines.push(rawPoemLines[poemLineIdx].trim());
+		for(let phraseLineIdx in rawPhraseLines)
+			phraseLines.push(rawPhraseLines[phraseLineIdx].trim());
 		
-		return poemLines;
+		return phraseLines;
 	}
 	
-	assembleControlValue(mnemoPoem) {
+	assembleDomObjectValue(mnemoPhrase) {
 		
-		let poemLines = this.splitPoem(mnemoPoem);
+		let phraseLines = this.splitPhrase(mnemoPhrase);
 		
 		this.hebrewSpans = new Array();
 		
-		let poemDiv = document.createElement("div");
+		let mnemoPhraseDiv = document.createElement("div");
 		
-		for(let poemLineIdx in poemLines) {
+		for(let phraseLineIdx in phraseLines) {
 			
-			let poemLineDiv = document.createElement("div");
+			let phraseLineDiv = document.createElement("div");
 
-			let poemLineSpans = this.markupPoemLine(poemLines[poemLineIdx]);
+			let phraseLineSpans = this.markupPhraseLine(phraseLines[phraseLineIdx]);
 
-			for(let spanIdx in poemLineSpans)	
-				poemLineDiv.appendChild(poemLineSpans[spanIdx]);
+			for(let spanIdx in phraseLineSpans)	
+				phraseLineDiv.appendChild(phraseLineSpans[spanIdx]);
 			
-			poemDiv.appendChild(poemLineDiv);
+			mnemoPhraseDiv.appendChild(phraseLineDiv);
 		}
 		
-		return poemDiv;
+		return mnemoPhraseDiv;
 	}
 	
-	discloseHebrewWords() {
+	discloseTargetWords() {
 		for(let hebrewSpanIdx in this.hebrewSpans) {
 			this.hebrewSpans[hebrewSpanIdx].setAttribute("class", 
-		"hebrewDisclosedWordInMnemoPoem"); }
+		"hebrewDisclosedWordInMnemoPhrase"); }
 	}
 	
-}
-
-
-class Button extends UIControl {
-	
-	animatePress() {}
-	
-	performAction() {}
-	
-	getPressed() {
-		this.animatePress();
-		this.performAction();
-	}
-}
-
-
-class GraphButton extends Button {
 }
 
 
@@ -271,7 +279,7 @@ class TakeNextQuestionButton extends GraphButton {
 class UiLangSelector extends LangSelector {
 	
 	onChange() {
-		let lang = this.getObjectValue();
+		let lang = this.getUiControlValue();
 		this.getChief().setCurrUiLang(lang);
 	}
 	
@@ -281,13 +289,13 @@ class UiLangSelector extends LangSelector {
 class MainMenuItem extends PaneLabel {
 	
 	sendFront() {
-		this.getControl().style.textDecoration = "none";
-		this.getControl().style.cursor = "default";
+		this.getDomObject().style.textDecoration = "none";
+		this.getDomObject().style.cursor = "default";
 	}
 	
 	sendBack() {
-		this.getControl().style.textDecoration = "underline";
-		this.getControl().style.cursor = "pointer";
+		this.getDomObject().style.textDecoration = "underline";
+		this.getDomObject().style.cursor = "pointer";
 	}
 }
 

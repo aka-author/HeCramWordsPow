@@ -1,5 +1,7 @@
 :root {
+	--content-left-margin:         180px;
 	--func-block-top-margin:       15px;
+	--func-block-top-margin-large: 30px;
 	--func-block-bottom-margin:    15px;
 	--area-border-radius:          10px;
 	--action-button-width:	       70px;
@@ -7,6 +9,9 @@
 	--action-button-radius:	       36px;
 	--action-button-margin:	       35px;
 	--action-button-normal-border: 2px solid black;
+	--supreme-font-size:           14pt;
+	--normal-font-size:            12pt;
+	--service-font-size:           9pt;
 	--nakar-emphased-color:        #c60021;
 }
 
@@ -23,17 +28,58 @@ body {
 	width: 150px;
 }
 
+#currWordspaceSelectorDiv {
+	font-weight: bold;
+	font-size: 	24pt;
+	
+}
+
+#currWordspaceSelectorSpan {
+	padding: 5px;
+	border-radius: var(--area-border-radius);
+	background: #494d5f;
+	color: #ffffff;
+}
+
+#currScopeOfLearning {
+	display: 		flex;
+	margin-top: 	15pt;
+	color: 			#494d5f;
+	font-weight: 	bold;
+	font-size: 	 	18pt;
+}
+
+#currScopeOfLearningDetailsDiv {
+	margin-left: 	1em;
+	font-size: 		14pt;
+}
+
+#levelSelectorSelect {
+	font-weight: bold;
+	font-size: 	 14pt;
+}
+
+#lessonSelectorLabel {
+	margin-left: 1em;
+}
+
+#lessonSelectorSelect {
+	font-weight: bold;
+	font-size: 	 14pt;
+}
+
 #mainMenuBlockDiv {
 	margin-top: 10px;
 	margin-left: 30px;
 }
 
 #mainMenuLineDiv {
-	margin-top: 20px;
+	margin-top: 40px;
+	margin-bottom: 20px;
 }
 
 .mainMenuItem {
-	margin-right: 30px;
+	margin-right: 2em;
 	font-weight: bold;
 	font-size: 20px;
 	text-decoration: underline;
@@ -42,7 +88,7 @@ body {
 }
 
 #mainGroupOfPanesDiv {
-	margin-left: 180px;
+	margin-left: var(--content-left-margin);
 }
 
 #gameAreaDiv {
@@ -57,12 +103,13 @@ body {
 }
 
 #gameModeArea {
-	width: 20%;
+	text-align: left;
+	--width: 20%;
 	--margin-left: 40%;
 	--margin-right: 40%;
 	margin-bottom: var(--func-block-bottom-margin);
-	padding: 5px;
-	background: #fcc133;
+	--padding: 5px;
+	--background: #fcc133;
 	border-radius: var(--area-border-radius);
 }
 
@@ -97,20 +144,20 @@ body {
 	margin-bottom: var(--func-block-bottom-margin);
 }
 
-#mnemoPoemAreaDiv {
+#mnemoPhraseAreaDiv {
 	font-size: 40px;
 }
 
-span.hebrewWordInMnemoPoem {
-	background: #000000;
-	color: #000000;
-	font-weight: bold;
+span.hebrewWordInMnemoPhrase {
+	background: 	#000000;
+	color: 			#000000;
+	font-weight: 	bold;
 }
 
-span.hebrewDisclosedWordInMnemoPoem {
-	background: #fcd0c2;
-	color: var(--nakar-emphased-color);
-	font-weight: bold;
+span.hebrewDisclosedWordInMnemoPhrase {
+	background: 	#fcd0c2;
+	color: 			var(--nakar-emphased-color);
+	font-weight: 	bold;
 }
 
 #giveUpButtonImg {
@@ -139,7 +186,32 @@ span.hebrewDisclosedWordInMnemoPoem {
 	cursor:        pointer;
 }
 
+#footerDiv {
+	margin-left: var(--content-left-margin);
+	font-size:   var(--service-font-size);
+}
+
+.footerMenuItem {
+	margin-right: 		2em;
+	font-weight: 		bold;
+	font-size: 			var(--service-font-size);
+	text-decoration: 	underline;
+	cursor: 			pointer;
+	color: 				var(--nakar-emphased-color);
+}
+
+#uiLangSelectorDiv {
+	font-size: var(--service-font-size);
+}
+
+#uiLangSelectorSelect {
+	margin-top:		var(--func-block-top-margin-large);
+	margin-left:	10px;
+	font-size: 		var(--service-font-size);
+}
+
 #sysVersionArea {
-	text-align: center;
-	font-size: 8pt;
+	margin-top:		var(--func-block-top-margin-large);
+	margin-left: 	var(--content-left-margin);
+	font-size: 		var(--service-font-size);
 }

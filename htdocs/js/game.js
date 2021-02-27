@@ -12,44 +12,63 @@ class Game extends Bureaucrat {
 		super(app, "GAME");
 		
 		this.mainPage = null;
-		this.srcLang = "en";
-		this.targetLang = "he";
 		
-		this.dic = this.loadDictionaryFromGdocs();
-				
-		this.currLesson = "all";
+		let config = this.getUserConfig();
+		
+		this.ws = this.useWordspaceFromGdocs();
+		
+		this.baseLangCode = config.getDefaultBaseLangCode(this.ws);
+		this.targetLangCode = config.getDefaultTargetLangCode(this.ws);		
+		this.currLevelNo  = config.getDefaultCurrLevelNo(this.ws);		
+		this.currLessonNo = config.getDefaultCurrLessonNo(this.ws);
 	}		
 
+	getLevelList() {
+		return this.getWordspace().getLevelLessonList();
+	}
+	
+	getLevels() {
+		return []; //this.getWordspace().getLessons();
+	}
+	
 	getLessons() {
-		return this.getDictionary().getLessons();
+		return this.getWordspace().getLessons();
 	}
 	
-	getCurrLesson() {
-		return this.currLesson;
-	}
-
-	setCurrLesson(lesson) {
-		this.currLesson = lesson;
-	}
-
-	getSrcLang() {
-		return this.srcLang;
+	getCurrLevelNo() {
+		return this.currLevel;
 	}
 	
-	setSrcLang(lang) {
-		this.srcLang = lang;
+	setCurrLevel(levelNo) {
+		this.currLevelNo = levelNo;
+	}
+	
+	getCurrLessonNo() {
+		return this.currLessonNo;
+	}
+
+	setCurrLesson(lessonNo) {
+		this.currLessonNo = lessonNo;
+	}
+
+	getBaseLangCode() {
+		return this.baseLangCode;
+	}
+	
+	setBaseLang(langCode) {
+		this.baseLangCode = langCode;
 		this.takeNextQuestion();
 	}
 	
-	getTargetLang() {
-		return this.targetLang;
+	getTargetLangCode() {
+		return this.targetLangCode;
 	}
 	
-	setTargetLang(lang) {;
-		this.targetLang = lang;
+	setTargetLang(langCode) {;
+		this.targetLangCode = langCode;
 	}
 
-	loadDummyDictionary() {
+	useDummyWordspace() {
 		var hatul = new DicWordInfo("he", "חתול");
 		var cat = new DicWordInfo("ru", "кот");
 		var hatul_cat = new DicEntry();
@@ -60,79 +79,86 @@ class Game extends Bureaucrat {
 		var more_techer = new DicEntry();
 		more_techer.addWordInfo(more);
 		more_techer.addWordInfo(teacher);
-		var dic = new Dictionary();
-		dic.addDicEntry(hatul_cat);
-		dic.addDicEntry(more_techer);
-		return dic;
+		var ws = new Wordspace();
+		ws.addDicEntry(hatul_cat);
+		ws.addDicEntry(more_techer);
+		return ws;
 	}	
 
-	loadStaticDictionary() {
+	useBuitInWordspace(id=undefined) {
 		
-		let dic = new Dictionary();
+		let ws = new Wordspace();
 		
 		for(let i = 0; i < GLOBAL_heru.dic.length; i++) {
-			let heWord = new DicWordInfo( "he", GLOBAL_heru.dic[i]["he"]);
-			let ruWord = new DicWordInfo( "ru", GLOBAL_heru.dic[i]["ru"]);
+			let heWord = new wordInfo( "he", GLOBAL_heru.dic[i]["he"]);
+			let ruWord = new wordInfo( "ru", GLOBAL_heru.dic[i]["ru"]);
 			let heru = new DicEntry();
 			heru.addWordInfo(heWord);
 			heru.addWordInfo(ruWord);
-			dic.addDicEntry(heru);
+			ws.addDicEntry(heru);
 		}	
 			
-		return dic;
+		return ws;
 	}	
 	
-	colname(coltag) {
-		return coltag == "ru" ? "russian" : coltag;
+	assembleWsColName(colName) {
+		return colName == "ru" ? "russian" : colName;
 	}
 	
-	loadDictionaryFromGdocs() {
+	useWordspaceFromGdocs() {
 		
-		let gdoc = new DicSpreadsheet();
+		let gdoc = new WsSpreadsheet();
 		gdoc.fetch();
 		
-		let dic = new Dictionary();
+		let ws = new Wordspace();
 		
-		let targetDicLang = this.getTargetDicLang();
+		let targetLangCode = this.getTargetLangCode();
 		
 		for(let partOfSpeach in gdoc.doc.sheets) {
 			
 			let countRows = gdoc.countRows(partOfSpeach);
-			let langs = this.getAvailableDicLangs();
+			let baseLangCodes = this.getAvailableBaseLangCodes();
 			
-			for(let rowIdx = 0; rowIdx < countRows;  rowIdx++) {
+			for(let rowIdx = 0; rowIdx < countRows; rowIdx++) {
 				
 				let dicEntry = new DicEntry();
 				
-				let headword = gdoc.getSpelling(partOfSpeach, rowIdx);
-				let headwordInfo = new DicWordInfo(targetDicLang, headword);
+				let targetWord = gdoc.getHeadword(partOfSpeach, rowIdx);
+				let targetWordInfo = new WordInfo(targetLangCode, targetWord);
 				
-				dicEntry.addWordInfo(headwordInfo);
+				dicEntry.appendWordInfo(targetWordInfo);
 				
-				for(let langIdx in langs) {
-					let lang = langs[langIdx].code;
-					//console.log(lang);
-					let translation = gdoc.getTranslation(partOfSpeach, rowIdx, this.colname(lang));
-					//console.log(translation);
-					let translationWordInfo = new DicWordInfo(lang, translation);
-					dicEntry.addWordInfo(translationWordInfo); 
+				for(let baseLangIdx in baseLangCodes) {
+					
+					let baseLangCode = baseLangCodes[baseLangIdx].code;
+					
+					let baseColName = this.assembleWsColName(baseLangCode);
+					let baseWord = gdoc.getTranslation(partOfSpeach, rowIdx, baseColName);
+					
+					let baseWordInfo = new WordInfo(baseLangCode, baseWord);
+					
+					let mnemoPhrase = gdoc.getMnemoPhrase(partOfSpeach, rowIdx, baseLangCode);
+					if(mnemoPhrase)
+						baseWordInfo.setMnemoPhrase(mnemoPhrase);
+					
+					dicEntry.appendWordInfo(baseWordInfo); 
 				}
 								
-				let lesson = gdoc.getLesson(partOfSpeach, rowIdx);
-				dicEntry.setLesson(lesson);
+				let levelNo = gdoc.getLevelNo(partOfSpeach, rowIdx);				
+				dicEntry.setLevelNo(levelNo);
 				
-				let mnemoPoemRu = gdoc.getMnemoPoemRu(partOfSpeach, rowIdx);
-				//dicEntry.setMnemoPoem("ru", mnemoPoemRu);
-				//console.log(dicEntry)
-				dic.addDicEntry(dicEntry);
+				let lessonNo = gdoc.getLessonNo(partOfSpeach, rowIdx);
+				dicEntry.setLessonNo(lessonNo);
+				
+				ws.appendDicEntry(dicEntry);
 			}
 		}
 		
-		return dic;
+		return ws;
 	}
 	
-	getDictionary() {
-		return this.dic;
+	getWordspace() {
+		return this.ws;
 	}
 	
 	getCurrDicEntry() {
@@ -144,21 +170,22 @@ class Game extends Bureaucrat {
 	
 	}
 	
-	getAvailableDicLangs() {
+	getAvailableBaseLangCodes() {
 		return [{"code" : "en", "wording" : "English"},
 			    {"code" : "es", "wording" : "Española"},
 				{"code" : "pt", "wording" : "Português"},
 				{"code" : "ru", "wording" : "Русский"}];
 	}
 	
-	getTargetDicLang() {
+	getTargetLangCode() {
 		return "he";
 	}
 	
-	selectRandomWord(lang) {
+	selectRandomWord(langCode) {
 		let mainPage = this.getMainPage();
-		let lesson = mainPage ? this.getMainPage().getLesson() : "all";
-		return this.getDictionary().getRandomEntry(lang, lesson);
+		let levelNo = mainPage ? this.getMainPage().getCurrLevelNo() : undefined;
+		let lessonNo = mainPage ? this.getMainPage().getCurrLessonNo() : "all";
+		return this.getWordspace().getRandomEntry(langCode, levelNo, lessonNo);
 	}
 
 	giveUp() {
@@ -168,59 +195,59 @@ class Game extends Bureaucrat {
 		switch(visibleAreaName) {
 			case "question": 
 			case "prompt":
-				let targetLang = this.getTargetLang();
-				let targetDicWordInfo = this.getCurrDicEntry().dicWordInfos[targetLang];
-				this.getMainPage().displayAnswer(targetDicWordInfo);
+				let targetLangCode = this.getTargetLangCode();
+				let targetWordInfo = this.getCurrDicEntry().wordInfos[targetLangCode];
+				this.getMainPage().displayAnswer(targetWordInfo);
 				break;
 			case "answer":
-				let srcLang = this.getSrcLang();
-				let srcDicWordInfo = this.getCurrDicEntry().dicWordInfos[srcLang];
+				let baseLangCode = this.getBaseLangCode();
+				let baseWordInfo = this.getCurrDicEntry().wordInfos[baseLangCode];
 				this.getMainPage().displayQuestion(srcDicWordInfo);
 				break;
-			case "mnemoPoem":
-				switch(this.getMainPage().getMnemoPoemState()) {
+			case "mnemoPhrase":
+				switch(this.getMainPage().getMnemoPhraseState()) {
 					case "concealed":	
-						this.getMainPage().discloseHebrewWords();
+						this.getMainPage().discloseTargetWords();
 						break;
 					case "disclosed":
-						let srcLang = this.getSrcLang();
-						let srcDicWordInfo = this.getCurrDicEntry().dicWordInfos[srcLang];
-						this.getMainPage().displayQuestion(srcDicWordInfo);
+						let baseLangCode = this.getBaseLangCode();
+						let baseWordInfo = this.getCurrDicEntry().wordInfos[baseLangCode];
+						this.getMainPage().displayQuestion(baseWordInfo);
 				}
 		}
 	}
 	
 	showPrompt() {
-		let targetLang = this.getTargetLang();
-		let targetDicWordInfo = this.getCurrDicEntry().dicWordInfos[targetLang];
 		
-		let mnemoPoem = this.getCurrDicEntry().getMnemoPoem("ru");
-		if(mnemoPoem)
-			this.getMainPage().displayMnemoPoem(mnemoPoem);
+		let targetLangCode = this.getTargetLangCode();
+		let targetWordInfo = this.getCurrDicEntry().wordInfos[targetLangCode];
+		
+		let baseLangCode = this.getBaseLangCode();
+		
+		let mnemoPhrase = this.getCurrDicEntry().getMnemoPhrase(baseLangCode);
+		
+		if(mnemoPhrase)
+			this.getMainPage().displayMnemoPhrase(mnemoPhrase);
 		else
-			this.getMainPage().displayPrompt(targetDicWordInfo);
+			this.getMainPage().displayPrompt(targetWordInfo);
 	}
 
 	takeNextQuestion() {
 		
-		let dic = this.getDictionary();
-		let srcLang = this.getSrcLang();
-		let randomWord = this.selectRandomWord(srcLang);
+		let ws = this.getWordspace();
+		let baseLangCode = this.getBaseLangCode();
+		let randomWord = this.selectRandomWord(baseLangCode);
 		this.setCurrDicEntry(randomWord);	
 		
-		let srcDicWordInfo = randomWord.dicWordInfos[srcLang];
-		this.getMainPage().displayQuestion(srcDicWordInfo);
+		let baseWordInfo = randomWord.wordInfos[baseLangCode];
+		this.getMainPage().displayQuestion(baseWordInfo);
 	}
 	
 	play() {
 		
 		let mainPage = this.getMainPage();
-		this.setSrcLang(mainPage.srcLangSelector.getObjectValue());
-		this.setTargetLang(mainPage.targetLangSelector.getObjectValue());
+		this.setBaseLang(mainPage.guessLangSelector.getUiControlValue());
+		this.setTargetLang(mainPage.riddleLangSelector.getUiControlValue());
 		this.takeNextQuestion();
 	}
 }
-
-
-
-

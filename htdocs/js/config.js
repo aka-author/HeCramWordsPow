@@ -8,20 +8,35 @@
 class UserConfig {
 	
 	constructor() {
-		this.defaultSrcLang    = "es";
-		this.defaultTargetLang = "he";
-		this.defaultUiLang     = "es";
+		this.defaultWordspace      = null;
+		this.defaultLevelNo        = "alef";
+		this.defaultLessonNo       = "all";
+		this.defaultTargetLangCode = "he";
+		this.defaultBaseLangCode   = "en";
+		this.defaultUiLangCode     = "en";
 	}
 	
-	getDefaultSrcLang() {
-		return this.defaultSrcLang;
+	getDefaultCurrWordspace(wordspace=null) {
+		return this.defaultCurrWirdspace;
 	}
 	
-	getDefaultTargetLang() {
-		return this.defaultTargetLang;
+	getDefaultCurrLevelNo(wordspace=null) {
+		return this.defaultCurrLevelNo;
 	}
 	
-	getDefaultUiLang() {
-		return this.defaultUiLang;
+	getDefaultCurrLessonNo(wordspace=null) {
+		return this.defaultCurrLessonNo;
+	}
+	
+	getDefaultTargetLangCode(wordspace=null) {
+		return this.defaultTargetLangCode;
+	}
+	
+	getDefaultBaseLangCode(wordspace=null) {
+		return this.defaultBaseLangCode;
+	}
+	
+	getDefaultUiLangCode(wordspace=null) {
+		return this.defaultUiLangCode;
 	}
 }

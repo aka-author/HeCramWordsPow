@@ -5,117 +5,122 @@
 //                                                 (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
-class UIControl extends Bureaucrat {
+//
+// Abstract controls
+//
+
+class UiControl extends Bureaucrat {
 	
 	constructor(parentUiControl, id) {
 		
 		super(parentUiControl, id);
 				
-		this.control = this.getControl();
-		this.controlValue = "";
-		this.objectValue = this.control ? this.getObjectValue() : null;	
+		this.domObject = this.getDomObject();
+		this.domObjectValue = this.getDomObjectValue();
+		this.uiControlValue = this.domObject ? this.getUiControlValue() : null;	
 		this.setupProperties();	
 	}
 	
-	setupProperties() {
-	}
+	setupProperties() {/* abstract */}
 	
-	/* getId() {
-		return this.id;
-	} */
-	
-	getControl() {
+	getDomObject() {
 		return document.getElementById(this.getId());
 	}
 	
-	getControlValue() { 	
-		return this.control.value;
+	getDomObjectValue() { 	
+		let domObject = this.getDomObject();
+		return domObject ? this.getDomObject().value : this.getId();
 	}
 	
-	setControlValue(controlValue) {
-		this.control.value = controlValue;
+	setDomObjectValue(domObjectValue) {
+		this.getDomObject().value = domObjectValue;
 	}
 	
 	// when picking from a file
-	parseSerializedObjectValue(serializedObjectValue) {
-		return serializedObjectValue;
+	parseSerializedUiControlValue(serializedUiControlValue) {
+		return serializedUiControlValue;
 	}
 	
-	// when loading to a control, e.g. option/@vaue
-	assembleControlValue(objectValue) {
-		return String(objectValue);
+	// when loading a value to a DOM object, e.g. select/option/@value
+	assembleDomObjectValue(uiControlValue) {
+		return String(uiControlValue);
 	}
 	
-	// when loading to a control, e.g. option
-	assembleControlValueAppearance(objectValue) {
-		return String(objectValue);
+	// when loading a representation to a DOM object, e.g. select/option
+	assembleDomObjectValueAppearance(uiControlValue) {
+		return String(uiControlValue);
 	}
 	
-	// when retrieving from a control
-	parseControlValue(controlValue) {
-		return controlValue;
+	// when retrieving a value from a DOM object
+	parseDomObjectValue(domObjectValue) {
+		return domObjectValue;
 	}
 	
 	// when saving to a file
-	serializeObjectValue(objectValue) {
-		return String(objectValue);
+	serializeUiControlValue(uiControlValue) {
+		return String(uiControlValue);
 	}
 	
 	// when displaying a value out of a control
-	publishObjectValue(objectValue) {
-		return String(objectValue);
+	publishUiControlValue(uiControlValue) {
+		return String(uiControlValue);
 	}	
 	
-	getObjectValue() {
-		this.control = this.getControl();
-		this.controlValue = this.getControlValue();
-		this.objectValue = this.parseControlValue(this.controlValue);
-		return this.objectValue;
+	getUiControlValue() {
+		this.domObject = this.getDomObject();
+		this.domObjectValue = this.getDomObjectValue();
+		this.uiControlValue = this.parseDomObjectValue(this.domObjectValue);
+		return this.uiControlValue;
 	}
 	
-	setObjectValue(objectValue) {
-		this.control = this.getControl();
-		this.controlValue = this.assembleControlValue(objectValue);
-		this.setControlValue(this.controlValue);
+	setUiControlValue(uiControlValue) {
+		this.uiControlValue = uiControlValue;
+		this.domObject = this.getDomObject();
+		this.domObjectValue = this.assembleDomObjectValue(uiControlValue);
+		this.setDomObjectValue(this.domObjectValue);
 	}		
 	
 	show() {
-		this.getControl().style.display = "";
+		this.getDomObject().style.display = "";
 	}
 	
 	hide() {
-		this.getControl().style.display = "none";
+		this.getDomObject().style.display = "none";
 	}
-	
-	/*
-	getGame() {
-		return this.game ? this.game : this.parentUiControl.getGame();  
-	}*/
 	
 	onChange() {
 	}
 }
 
 
-class Selector extends UIControl {
+
+//
+// Selectors
+//
+
+class Selector extends UiControl {
 	
 	assembleOptionId(value) {
 		return this.getId() + "__" + value;
 	}
 	
-	appendOptions(objectValues) {
+	appendOptions(uiControlValues) {
 		
-		let selectElement = this.getControl();
+		let selectElement = this.getDomObject();
 		
-		for(let i = 0; i < objectValues.length; i++) {
+		for(let uiControlValueIdx in uiControlValues) {
 			
 			let optionElement = document.createElement("option");
 			
-			let optionValue = this.assembleControlValue(objectValues[i]);
+			let optionValue = 
+					this.assembleDomObjectValue(uiControlValues[uiControlValueIdx]);
+			
 			optionElement.setAttribute("value", optionValue);
 			optionElement.setAttribute("id", this.assembleOptionId(optionValue));
 			
-			let optionWording = this.assembleControlValueAppearance(objectValues[i]);
+			let optionWording = 
+					this.assembleDomObjectValueAppearance(uiControlValues[uiControlValueIdx]);
+					
 			let optionTextNode = document.createTextNode(optionWording);
 			optionElement.appendChild(optionTextNode);
 			
@@ -125,11 +130,15 @@ class Selector extends UIControl {
 }
 
 
-class Area extends UIControl {
-}
+
+//
+// Areas and panes
+//
+
+class Area extends UiControl {/* gasket */}
 
 
-class GroupOfPanes extends UIControl {
+class GroupOfPanes extends UiControl {
 	
 	setupProperties() {
 		this.paneLabels = new Array();
@@ -167,11 +176,10 @@ class GroupOfPanes extends UIControl {
 }
 
 
-class Pane extends UIControl {
-}
+class Pane extends UiControl {/* gasket */}
 
 
-class PaneLabel extends UIControl {
+class PaneLabel extends UiControl {
 	
 	getPane() {
 		return this.pane;
@@ -199,11 +207,9 @@ class PaneLabel extends UIControl {
 					false;
 	}
 	
-	sendFront() {
-	}
+	sendFront() {/* abstract */}
 	
-	sendBack() {
-	}
+	sendBack() {/* abstract */}
 	
 	onSwitch() {
 		if(!this.isFront())
@@ -213,3 +219,22 @@ class PaneLabel extends UIControl {
 
 
 
+//
+// Buttons
+//
+
+class Button extends UiControl {
+	
+	animatePress() {}
+	
+	performAction() {}
+	
+	getPressed() {
+		this.animatePress();
+		this.performAction();
+	}
+}
+
+
+class GraphButton extends Button {
+}
