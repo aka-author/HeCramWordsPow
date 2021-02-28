@@ -162,11 +162,12 @@
 			</div>
 			
 			<div id="servicePaneDiv" style="display: none" class="mainPaneDiv">
-				<div><img src="img/coming-soon01.jpg" width="33%" style="margin: 30pt;"></div>
+				<p><span id="pealimLinkSpan">Pealim Hebrew dictionary:</span>&nbsp;<a href="http://pealim.com" target="_blank">http://pealim.com</a>.</p>
+				<p><span id="sourceTableSpan">Source table:</span>&nbsp;<a target="_blank" href="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M">Google Docs</a>.</p>
 			</div>
 			
 			<div id="aboutUsPaneDiv" style="display: none" class="mainPaneDiv">
-				<h2>About Us</h2>
+				<h2 id="aboutUsH2">About Us</h2>
 				<p id="aboutCramwordsP"></p>
 				<p>E-mail: <a href="mailto:info@cramwords.com">info@cramwords.com</a></p>
 				<p>Fax: +97237618197*</p>
@@ -214,7 +215,7 @@
 			<div id="uiLangSeletorDiv">
 				<label id="uiLangSelectorLabel">User interface language</label>
 				<select id="uiLangSelectorSelect"
-						onchange="GLOBAL_app.process(this.id, 'onChange')">
+						onchange="GLOBAL_app.process(this.id, 'onChange')"></select>
 			</div> <!-- /UI language selector  -->			  
 
 		</div> <!-- /Footer -->

@@ -11,9 +11,9 @@ class UserConfig {
 		this.defaultWordspace      = null;
 		this.defaultCurrLevelNo    = "alef";
 		this.defaultCurrLessonNo   = "all";
-		this.defaultRiddleLangCode = "en";
+		this.defaultRiddleLangCode = navigator.language.substring(0,2);
 		this.defaultGuessLangCode  = "he";
-		this.defaultUiLangCode     = "en";
+		this.defaultUiLangCode     = navigator.language.substring(0,2);
 	}
 	
 	getDefaultCurrWordspace(wordspace=null) {
@@ -32,11 +32,23 @@ class UserConfig {
 		return this.defaultRiddleLangCode;
 	}
 	
+	setDefaultRiddleLangCode(langCode) {
+		this.defaultRiddleLangCode = langCode;
+	}
+	
 	getDefaultGuessLangCode(wordspace=null) {
 		return this.defaultGuessLangCode;
 	}
 	
+	setDefaultGuessLangCode(langCode) {
+		this.defaultGuessLangCode = langCode;
+	}
+	
 	getDefaultUiLangCode(wordspace=null) {
 		return this.defaultUiLangCode;
+	}
+	
+	setDefaultUiLangCode(langCode) {
+		this.defaultUiLangCode = langCode;
 	}
 }

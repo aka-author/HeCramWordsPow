@@ -35,15 +35,15 @@ function headwordBase(headword) {
 class WsSpreadsheet extends GoogleSpreadsheetSimple {
 	
 	isValidDataRow(row, fields) {
-		return isHebrewTextInside(row["spelling"]);
+		return isHebrewTextInside(row["headword"]);
 	}	
 	
 	getHeadword(sheetName, rowIdx) {
-		return this.getFieldValue(sheetName, rowIdx, "spelling");
+		return this.getFieldValue(sheetName, rowIdx, "headword");
 	}
 	
 	getRussian(sheetName, rowIdx) {
-		return this.getFieldValue(sheetName, rowIdx, "russian");
+		return this.getFieldValue(sheetName, rowIdx, "ru");
 	}
 	
 	getTranslation(sheetName, rowIdx, langCode) {

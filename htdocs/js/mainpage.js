@@ -32,7 +32,11 @@ class MainPage extends Bureaucrat {
 		this.riddleLangSelector = new RiddleLangSelector(this, "riddleLangSelectorSelect");
 		this.riddleLangSelector.appendOptions(game.getAvailableBaseLangCodes());
 		this.riddleLangSelector.appendOptions([{"code" : "he", "wording" : "עברית"}]);
-		this.riddleLangSelector.setUiControlValue({"code" : "en"});
+		let defaultRiddleLangCode = this.getUserConfig().getDefaultRiddleLangCode();
+		let actualRiddleLangCode = 
+				this.getGame().isBaseLangAvailable(defaultRiddleLangCode) ?
+					defaultRiddleLangCode : "en";
+		this.riddleLangSelector.setUiControlValue({"code" : actualRiddleLangCode});
 		
 		this.guessLangSelector = new GuessLangSelector(this, "guessLangSelectorSelect");
 		this.guessLangSelector.appendOptions(game.getAvailableBaseLangCodes());
@@ -74,14 +78,27 @@ class MainPage extends Bureaucrat {
 				{"code" : "ru", "wording" : "Русский"}];
 	}
 	
+	isUiLangAvailable(langCode) {
+		let langs = this.getAvailableUiLangs();
+		let result = false;
+		for(let langIdx in langs) 
+			if(langs[langIdx].code == langCode) {
+				result = true;
+				break;
+			}	
+		return result;
+	}
+	
 	getCurrUiLangCode() {
 		return this.uiLang;
 	}
 	
 	setCurrUiLang(langCode) {
-		this.currUiLangCode = langCode;
-		this.getI18n().loadLocalLabels(document, langCode);
-		this.uiLangSelector.setUiControlValue({"code" : langCode});
+		let actualLangCode = 
+				this.isUiLangAvailable(langCode) ? langCode : "en";
+		this.currUiLangCode = actualLangCode;
+		this.getI18n().loadLocalLabels(document, actualLangCode);
+		this.uiLangSelector.setUiControlValue({"code" : actualLangCode});
 	}
 	
 	createUiLangSelector() {

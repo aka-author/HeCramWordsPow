@@ -108,7 +108,7 @@ class Game extends Bureaucrat {
 	}	
 	
 	assembleWsColName(colName) {
-		return colName == "ru" ? "russian" : colName;
+		return colName;
 	}
 	
 	useWordspaceFromGdocs() {
@@ -183,6 +183,17 @@ class Game extends Bureaucrat {
 				{"code" : "ru", "wording" : "Русский"}];
 	}
 	
+	isBaseLangAvailable(langCode) {
+		let langs = this.getAvailableBaseLangCodes();
+		let result = false;
+		for(let langIdx in langs)
+			if(langs[langIdx].code == langCode) {
+				result = true;
+				break;
+			}	
+		return result;
+	}
+	
 	selectRandomWord(langCode) {
 		let mainPage = this.getMainPage();
 		let levelNo = mainPage ? this.getMainPage().getCurrLevelNo() : undefined;
@@ -197,14 +208,14 @@ class Game extends Bureaucrat {
 		switch(visibleAreaName) {
 			case "question": 
 			case "prompt":
-				let targetLangCode = this.getGuessLangCode();
-				let targetWordInfo = this.getCurrDicEntry().wordInfos[targetLangCode];
-				this.getMainPage().displayAnswer(targetWordInfo);
+				let guessLangCode = this.getGuessLangCode();
+				let guessWordInfo = this.getCurrDicEntry().wordInfos[guessLangCode];
+				this.getMainPage().displayAnswer(guessWordInfo);
 				break;
 			case "answer":
-				let baseLangCode = this.getGuessLangCode();
-				let baseWordInfo = this.getCurrDicEntry().wordInfos[baseLangCode];
-				this.getMainPage().displayQuestion(baseWordInfo);
+				let riddleLangCode = this.getRiddleLangCode();
+				let riddleWordInfo = this.getCurrDicEntry().wordInfos[riddleLangCode];
+				this.getMainPage().displayQuestion(riddleWordInfo);
 				break;
 			case "mnemoPhrase":
 				switch(this.getMainPage().getMnemoPhraseState()) {
@@ -212,7 +223,7 @@ class Game extends Bureaucrat {
 						this.getMainPage().discloseTargetWords();
 						break;
 					case "disclosed":
-						let baseLangCode = this.getBaseLangCode();
+						let baseLangCode = this.getRiddleLangCode();
 						let baseWordInfo = this.getCurrDicEntry().wordInfos[baseLangCode];
 						this.getMainPage().displayQuestion(baseWordInfo);
 				}
@@ -222,7 +233,7 @@ class Game extends Bureaucrat {
 	showPrompt() {
 		
 		let guessLangCode = this.getGuessLangCode();
-		console.log("glc " + guessLangCode);
+		
 		let guessWordInfo = this.getCurrDicEntry().wordInfos[guessLangCode];
 		
 		let riddleLangCode = this.getRiddleLangCode();

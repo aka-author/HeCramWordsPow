@@ -18,5 +18,24 @@ var GLOBAL_UIStrings = {
 	"helpMenuItemSpan"    : {"en" : "Help",       "he" : "עזרה",       "ru" : "Справка",   "es" : "Ayuda",          "pt" : "Ajuda"},
 	
 	"uiLangSelectorLabel" : {"en" : "User interface language", "he" : "שפת ממשק", "ru" : "Язык интерфейса", "es" : "Lenguaje de interfaz", "pt" : "Idioma da interface"},
+	
+	"aboutUsH2" : {"en" : "About Us", 
+	               "he" : "עלינו", 
+			       "ru" : "О нас", 
+				   "es" : "Sobre nosotras", 
+				   "pt" : "Sobre nós"},
+	
+	"pealimLinkSpan" : {"en" : "Pealim Hebrew dictionary:", 
+	                    "he" : "מילון Pealim בעברית:", 
+						"ru" : "Словарь иврита Pealim:", 
+						"es" : "Diccionario hebreo Pealim:", 
+						"pt" : "Dicionário hebraico Pealim:"},
+						
 
+	"sourceTableSpan" : {"en" : "Source table:", 
+	                    "he" : "מילון Pealim בעברית:", 
+						"ru" : "Исходная таблица:", 
+						"es" : "Tabla de origen:", 
+						"pt" : "Tabela de origem:"}
+						
 };
