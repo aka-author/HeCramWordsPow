@@ -69,9 +69,10 @@ class WsSpreadsheet extends GoogleSpreadsheetSimple {
 class WordInfo {
 	
 	constructor(langCode, headword) {
-		this.langCode = langCode;
-		this.headword = headword;
-		this.mnemoPhrase = undefined;
+		this.langCode         = langCode;
+		this.headword         = headword;
+		this.partOfSpeachCode = "other";
+		this.mnemoPhrase      = undefined;
 	}
 	
 	getLangCode() {
@@ -80,6 +81,14 @@ class WordInfo {
 	
 	getHeadword() {
 		return this.headword;
+	}
+	
+	getPartOfSpeachCode() {
+		return this.partOfSpeachCode;
+	}
+	
+	setPartOfSpeach(partOfSpeachCode) {
+		this.partOfSpeachCode = partOfSpeachCode;
 	}
 	
 	getMnemoPhrase() {
@@ -140,6 +149,7 @@ class DicEntry {
 class Wordspace {
 	
 	constructor() {
+		this.dicEntries  = new Array();
 		this.langIndices = new Array();
 		this.lessonIndex = new Array();
 	}
@@ -160,6 +170,8 @@ class Wordspace {
 	}
 	
 	appendDicEntry(dicEntry) {
+		
+		this.dicEntries.push(dicEntry);
 		
 		for(let langCode in dicEntry.wordInfos)  
 			this.appendDicEntry2LangIndex(langCode, dicEntry);	
@@ -198,6 +210,33 @@ class Wordspace {
 	
 	getLessons() {
 		return Object.keys(this.lessonIndex).sort(this.compareLessonNumbers);
+	}
+	
+	selectDicEntries(query) {
+		
+		let lessonNo = query.lessonNo;
+		
+		let partOfSpeach = query.partOfSpeach;
+		
+		let candidates = new Array();
+		
+		let filter = new Array();
+		
+		if(lessonNo != "all") {
+			candidates = this.lessonIndex[lessonNo];
+		}	
+		else
+			candidates = this.dicEntries;
+		
+		if(partOfSpeach != "all") 
+			for(let dicEntryIdx in candidates) { 
+				if(candidates[dicEntryIdx].wordInfos["he"].getPartOfSpeachCode() == partOfSpeach)
+					filter.push(candidates[dicEntryIdx]);
+			}
+		else
+			filter = candidates;
+		
+		return filter;
 	}
 	
 }

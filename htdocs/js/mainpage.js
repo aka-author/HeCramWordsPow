@@ -43,6 +43,9 @@ class MainPage extends Bureaucrat {
 		this.guessLangSelector.appendOptions([{"code" : "he", "wording" : "עברית"}]);
 		this.guessLangSelector.setUiControlValue({"code" : "he"});
 		
+		this.partOfSpeachSelector = new PartOfSpeachSelector(this, "partOfSpeachSelectorSelect");
+		
+		
 		this.questionArea = new WordInfoArea(this, "questionAreaDiv");
 		this.answerArea = new WordInfoArea(this, "answerAreaDiv");
 		this.promptArea = new PromptWordInfoArea(this, "promptAreaDiv");

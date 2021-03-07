@@ -16,6 +16,17 @@ var GLOBAL_UIStrings = {
 	"partnerMenuItemSpan" : {"en" : "Friends?",   "he" : "חברים?",     "ru" : "Друзья?",   "es" : "¿Amigos?",       "pt" : "Amigos?"},
     "techdocMenuItemSpan" : {"en" : "Tech. docs", "he" : "טק. מסמכים", "ru" : "Тех. док.", "es" : "Doc. técn.",     "pt" : "Doc. técn."},
 	"helpMenuItemSpan"    : {"en" : "Help",       "he" : "עזרה",       "ru" : "Справка",   "es" : "Ayuda",          "pt" : "Ajuda"},
+
+	"partOfSpeachSelectorLabel" : {"en" : "Part of speach:", "he" : "חלק מהדיבור:", "ru" : "Часть речи:", "es" : "Parte del discurso:", "pt" : "Parte do discurso:"},
+	"partOfSpeachSelectorSelect__all" : {"en" : "All", "he" : "כל", "ru" : "Все", "es"  : "Todas", "pt" : "Todas"},
+	"partOfSpeachSelectorSelect__noun" : {"en" : "Noun", "he" : "שֵׁם עֶצֶם", "ru" : "Существительное", "es"  : "Sustantivo", "pt" : "Substantivo"},
+	"partOfSpeachSelectorSelect__adjective" : {"en" : "Adjective", "he" : "תוֹאַר", "ru" : "Прилагательное", "es"  : "Adjetivo", "pt" : "Adjetivo"},			
+	"partOfSpeachSelectorSelect__verb" : {"en" : "Verb", "he" : "פועל", "ru" : "Глагол", "es"  : "Verbo", "pt" : "Verbo"},
+	"partOfSpeachSelectorSelect__adverb" : {"en" : "Adverb", "he" : "תואר הפועל", "ru" : "Наречие", "es"  : "Adverbio", "pt" : "Advérbio"},
+	"partOfSpeachSelectorSelect__pronoun" : {"en" : "Pronoun", "he" : "כנוי", "ru" : "Местоимение", "es"  : "Pronombre", "pt" : "Pronome"},
+	"partOfSpeachSelectorSelect__preposition" : {"en" : "Preposition", "he" : "מילת יחס", "ru" : "Предлог", "es"  : "Preposición", "pt" : "Preposição"},
+	"partOfSpeachSelectorSelect__conjunction" : {"en" : "Conjunction", "he" : "צירוף", "ru" : "Союз", "es"  : "Conjunción", "pt" : "Conjunção"},
+	"partOfSpeachSelectorSelect__other" : {"en" : "Other", "he" : "אַחֵר", "ru" : "Прочее", "es"  : "Otro", "pt" : "Outro"},
 	
 	"uiLangSelectorLabel" : {"en" : "User interface language", "he" : "שפת ממשק", "ru" : "Язык интерфейса", "es" : "Lenguaje de interfaz", "pt" : "Idioma da interface"},
 	

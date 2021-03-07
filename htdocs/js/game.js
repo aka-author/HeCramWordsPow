@@ -16,11 +16,14 @@ class Game extends Bureaucrat {
 		let config = this.getUserConfig();
 		
 		this.ws = this.useWordspaceFromGdocs();
+		this.filter = this.ws.dicEntries;
 		
 		this.riddleLangCode = config.getDefaultRiddleLangCode(this.ws);
 		this.guessLangCode = config.getDefaultGuessLangCode(this.ws);
 		this.currLevelNo  = config.getDefaultCurrLevelNo(this.ws);		
 		this.currLessonNo = config.getDefaultCurrLessonNo(this.ws);
+		
+		this.currPartOfSpeach = config.getDefaultPartOfSpeachCode(this.ws);
 	}		
 
 	getTargetLangCode() {
@@ -41,6 +44,20 @@ class Game extends Bureaucrat {
 		return this.getWordspace().getLessons();
 	}
 	
+	assembleCurrFilter() {
+		
+		let filter = new Array();
+		
+		let query = new Array();
+		
+		query.lessonNo = this.getCurrLessonNo();
+		query.partOfSpeach = this.getCurrPartOfSpeach();
+		
+		filter = this.getWordspace().selectDicEntries(query);
+		
+		return filter;
+	}
+	
 	getCurrLevelNo() {
 		return this.currLevel;
 	}
@@ -55,6 +72,7 @@ class Game extends Bureaucrat {
 
 	setCurrLesson(lessonNo) {
 		this.currLessonNo = lessonNo;
+		this.filter = this.assembleCurrFilter();
 	}
 
 	getRiddleLangCode() {
@@ -131,6 +149,7 @@ class Game extends Bureaucrat {
 				
 				let targetWord = gdoc.getHeadword(partOfSpeach, rowIdx);
 				let targetWordInfo = new WordInfo(targetLangCode, targetWord);
+				targetWordInfo.setPartOfSpeach(partOfSpeach);
 				
 				dicEntry.appendWordInfo(targetWordInfo);
 				
@@ -194,11 +213,30 @@ class Game extends Bureaucrat {
 		return result;
 	}
 	
+	getCurrPartOfSpeach() {
+		return this.currPartOfSpeach;
+	}
+	
+	setCurrPartOfSpeach(partOfSpeachCode) {
+		this.currPartOfSpeach = partOfSpeachCode;
+		this.filter = this.assembleCurrFilter();
+	}
+	
+	selectLexemesByFilters() {
+		
+		let query = new Array();
+		
+		query.lessonNo = this.getCurrLessonNo();
+		query.partOfSpeach = this.getCurrPartOfSpeach();
+		
+		this.filter = this.getWordspace().selectDicEntries(query);
+		
+		this.takeNextQuestion();
+	}
+	
 	selectRandomWord(langCode) {
-		let mainPage = this.getMainPage();
-		let levelNo = mainPage ? this.getMainPage().getCurrLevelNo() : undefined;
-		let lessonNo = mainPage ? this.getMainPage().getCurrLessonNo() : "all";
-		return this.getWordspace().getRandomEntry(langCode, levelNo, lessonNo);
+		let randomLexemeIdx = randomInt(0, this.filter.length - 1);
+		return this.filter[randomLexemeIdx];
 	}
 
 	giveUp() {
@@ -248,14 +286,21 @@ class Game extends Bureaucrat {
 
 	takeNextQuestion() {
 		
-		let ws = this.getWordspace();
 		
-		let riddleLangCode = this.getRiddleLangCode();
-		let randomWord = this.selectRandomWord(riddleLangCode);
-		this.setCurrDicEntry(randomWord);	
-		
-		let riddleWordInfo = randomWord.wordInfos[riddleLangCode];
-		this.getMainPage().displayQuestion(riddleWordInfo);
+		if(this.filter.length != 0) {
+			let ws = this.getWordspace();
+			let riddleLangCode = this.getRiddleLangCode();
+			let randomWord = this.selectRandomWord(riddleLangCode);
+			this.setCurrDicEntry(randomWord);	
+			let riddleWordInfo = randomWord.wordInfos[riddleLangCode];
+			this.getMainPage().displayQuestion(riddleWordInfo);	
+		}	
+		else {
+			this.getMainPage().questionArea.clear();
+			this.getMainPage().answerArea.clear();
+			this.getMainPage().promptArea.clear();
+			this.getMainPage().mnemoPhraseArea.clear();
+		}
 	}
 	
 	play() {

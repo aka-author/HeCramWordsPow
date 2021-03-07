@@ -16,7 +16,10 @@
 		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Adjectives"></script>
 		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Verbs"></script>
 		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Adverbs"></script>
-		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Service"></script>
+		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Pronouns"></script>
+		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Prepositions"></script>
+		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Conjunctions"></script>
+		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Other"></script>
 		
 		<!-- The gaming code -->
 		<script src="js/utils.js"></script>
@@ -46,7 +49,7 @@
 
 			  gtag('config', 'G-YRL7F97Q7X');
 		</script>	
-		-->	
+		-->
 	</head>
 	<body onload="playGame()">
 
@@ -119,13 +122,29 @@
 						
 							<!-- Selecting a mode of a game  -->
 							<div id="fromToSelectorsArea">
+								
 								<select id="riddleLangSelectorSelect" 
 										onchange="GLOBAL_app.process(this.id, 'onChange')">
 								</select>
 								<span id="fromToArrowSpan">&#9654;</span>
 								<select id="guessLangSelectorSelect"
 										onchange="GLOBAL_app.process(this.id, 'onChange')">
-								</select>						
+								</select>	
+
+								<label id="partOfSpeachSelectorLabel">Part of speach:</label>
+								<select id="partOfSpeachSelectorSelect"
+										onchange="GLOBAL_app.process(this.id, 'onChange')">
+									<option value="all" id="partOfSpeachSelectorSelect__all">All</option>
+									<option value="nouns" id="partOfSpeachSelectorSelect__noun">Noun</option>
+									<option value="adjectives" id="partOfSpeachSelectorSelect__adjective">Adjective</option>
+									<option value="verbs" id="partOfSpeachSelectorSelect__verb">Verb</option>
+									<option value="adverbs" id="partOfSpeachSelectorSelect__adverb">Adverb</option>
+									<option value="prepositions" id="partOfSpeachSelectorSelect__preposition">Preposition</option>
+									<option value="pronouns" id="partOfSpeachSelectorSelect__pronoun">Pronoun</option>
+									<option value="conjunctions" id="partOfSpeachSelectorSelect__conjunction">Conjunction</option>
+									<option value="other" id="partOfSpeachSelectorSelect__other">Other</option>
+								</select>
+									
 							</div>	
 						
 						</div>	
@@ -223,7 +242,7 @@
 		<!-- Verinfo -->
 		<div id="sysVersionArea">
 			<p>&copy; <a target="_blank" href="https://www.linkedin.com/in/mikhail-ostrogorskij-22b2b5/">Mikhail Ostrogorskiy</a>, 2021.</p>
-			<p>v. 1.1.01c, 2021-02-28</p>
+			<p>v. 1.1.01d, 2021-03-07</p>
 		</div> <!-- /Verinfo -->
 		
 	</body>

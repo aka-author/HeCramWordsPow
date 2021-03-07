@@ -8,12 +8,13 @@
 class UserConfig {
 	
 	constructor() {
-		this.defaultWordspace      = null;
-		this.defaultCurrLevelNo    = "alef";
-		this.defaultCurrLessonNo   = "all";
-		this.defaultRiddleLangCode = navigator.language.substring(0,2);
-		this.defaultGuessLangCode  = "he";
-		this.defaultUiLangCode     = navigator.language.substring(0,2);
+		this.defaultWordspace        = null;
+		this.defaultCurrLevelNo      = "alef";
+		this.defaultCurrLessonNo     = "all";
+		this.defaultRiddleLangCode   = navigator.language.substring(0,2);
+		this.defaultGuessLangCode    = "he";
+		this.defaultPartOfSpeachCode = "all";
+		this.defaultUiLangCode       = navigator.language.substring(0,2);
 	}
 	
 	getDefaultCurrWordspace(wordspace=null) {
@@ -42,6 +43,14 @@ class UserConfig {
 	
 	setDefaultGuessLangCode(langCode) {
 		this.defaultGuessLangCode = langCode;
+	}
+	
+	getDefaultPartOfSpeachCode() {
+		return this.defaultPartOfSpeachCode;
+	}
+	
+	setDefaultPartOfSpeach(partOfSpeachCode) {
+		this.defaultPartOfSpeachCode = partOfSpeachCode;
 	}
 	
 	getDefaultUiLangCode(wordspace=null) {

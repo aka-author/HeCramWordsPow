@@ -104,6 +104,15 @@ class GuessLangSelector extends LangSelector {
 }
 
 
+class PartOfSpeachSelector extends Selector {
+
+	onChange() {
+		this.getGame().setCurrPartOfSpeach(this.getUiControlValue());
+		this.getGame().takeNextQuestion();
+	}
+
+}
+
 class WordInfoArea extends Area {
 
 	setDomObjectValue(headword) {

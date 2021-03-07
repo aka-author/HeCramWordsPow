@@ -204,6 +204,10 @@ span.hebrewDisclosedWordInMnemoPhrase {
 	font-size: var(--service-font-size);
 }
 
+#partOfSpeachSelectorLabel {
+	margin-left: 10px;
+}
+
 #uiLangSelectorSelect {
 	margin-top:		var(--func-block-top-margin-large);
 	margin-left:	10px;

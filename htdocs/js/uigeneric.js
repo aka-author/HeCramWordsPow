@@ -135,7 +135,13 @@ class Selector extends UiControl {
 // Areas and panes
 //
 
-class Area extends UiControl {/* gasket */}
+class Area extends UiControl {
+	
+	clear() {
+		this.getDomObject().innerHTML = "";
+	}
+	
+}
 
 
 class GroupOfPanes extends UiControl {

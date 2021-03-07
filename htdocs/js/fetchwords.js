@@ -15,8 +15,8 @@ class Google {
 		
 		let tag = sheetJson.table.cols[0].label.toLowerCase().trim();
 	
-		if(tag.includes("noun"))
-			partOfSpeech = "nouns";
+		if(tag.includes("pronoun"))
+			partOfSpeech = "pronouns";
 		else 
 			if(tag.includes("adjective")) 
 				partOfSpeech = "adjectives";
@@ -25,7 +25,16 @@ class Google {
 				partOfSpeech = "adverbs";
 		else 
 			if(tag.includes("verb")) 
-				partOfSpeech = "verbs";
+				partOfSpeech = "verbs";	
+		else 
+			if(tag.includes("noun")) 
+				partOfSpeech = "nouns";	
+		else 
+			if(tag.includes("preposition")) 
+				partOfSpeech = "prepositions";	
+		else 
+			if(tag.includes("conjunction")) 
+				partOfSpeech = "conjunctions";	
 		else
 			partOfSpeech = "other";
 		
