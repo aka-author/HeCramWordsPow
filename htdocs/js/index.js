@@ -135,6 +135,11 @@ class Index {
 		return filter;	
 	}
 	
+	selectAllItems() {
+		let fittingItems = this.indexedItems;
+		return this.assembleFilter(fittingItems);
+	}
+	
 	selectItemsByKeyValues() { 
 	
 		let fittingItems = this.indexedItems;

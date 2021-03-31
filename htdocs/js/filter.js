@@ -154,23 +154,37 @@ class Filter {
 		return this.sortedItems.length;
 	}
 	
-	getItemByIdx(idx) {
+	fetchItemByIdx(idx) {
 		return this.sortedItems[idx];
+	}
+	
+	fetchRandomItem() {
+		return this.fetchItemByIdx(randomInt(0, this.countItems() - 1));
 	}
 }
 
 
 // TEST
-/* 
+/*
 console.log("Start testing filters");
 
-var item1 = {"name" : "Vasya", "age" : 20, "salary" : 1000};
-var item2 = {"name" : "Asya",  "age" : 30, "salary" : 2000};
-var item3 = {"name" : "Sya",   "age" : 40, "salary" : 3000};
+var item1 = {"company" : "Vector", "name" : "Vasya", "age" : 20, "salary" : 1000, "nic" : "Darklord"};
+var item2 = {"company" : "Vector", "name" : "Asya",  "age" : 30, "salary" : 2000};
+var item3 = {"company" : "Zaichik", "name" : "Sya",   "age" : 40, "salary" : 3000, "nic" : "Darklord"};
+var item4 = {"company" : "Zaichik", "name" : "Ari",   "age" : 45, "salary" : 4000, "nic" : "Darklord"};
+
+class CompanyIndex extends StringIndex {
+	getItemKeyValues(item) {
+			return [item.company];
+	}
+}
 
 class NameIndex extends StringIndex {
 	getItemKeyValues(item) {
-		return [item.name];
+		if(item.nic) 
+			return [item.name, item.nic];
+		else
+			return [item.name];
 	}
 }
 
@@ -186,25 +200,55 @@ class SalaryIndex extends NumericIndex {
 	}
 }
 
+var companyIndex = new CompanyIndex("company", SORT_DESCENDING);
 var nameIndex = new NameIndex("name", SORT_ASCENDING);
 var ageIndex = new AgeIndex("age", SORT_ASCENDING);
 var salaryIndex = new SalaryIndex("salary", SORT_ASCENDING);
 
+companyIndex.appendItem(item1);
 nameIndex.appendItem(item1);
 ageIndex.appendItem(item1);
 salaryIndex.appendItem(item1);
+
+companyIndex.appendItem(item2);
 nameIndex.appendItem(item2);
 ageIndex.appendItem(item2);
 salaryIndex.appendItem(item2);
+
+companyIndex.appendItem(item3);
 nameIndex.appendItem(item3);
 ageIndex.appendItem(item3);
 salaryIndex.appendItem(item3);
 
+companyIndex.appendItem(item4);
+nameIndex.appendItem(item4);
+ageIndex.appendItem(item4);
+salaryIndex.appendItem(item4);
+
 console.log(nameIndex.selectItemsByKeyValues("Vasya", "Sya", "Asya"));
 console.log(ageIndex.selectItemsByKeyValues(40, 30));
 
+let filter0 = nameIndex.selectAllItems();
+console.log(filter0.countItems());
+console.log(filter0.fetchItemByIdx(filter0.countItems() - 1));
+console.log(filter0.fetchRandomItem());
+
 let filter1 = nameIndex.selectItemsByKeyValues("Vasya", "Asya");
+console.log(filter1.countItems());
+console.log(filter1.fetchItemByIdx(1));
+
 let filter2 = ageIndex.selectItemsByKeyValues(40, 30);
+console.log(filter1.fetchItemByIdx(0));
+
+console.log("Darklord");
+let filter3 = nameIndex.selectItemsByKeyValues("Darklord", "Vasya");
+console.log(filter3);
+
+console.log("Company");
+let filter4 = companyIndex.selectAllItems();
+filter4.appendItemComparator(salaryIndex);
+console.log(filter4);
+
 console.log(filter1.crossWithFilters(filter2));
 
 console.log("Stop testing filters");
