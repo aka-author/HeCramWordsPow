@@ -1,8 +1,9 @@
 //* * ** *** ***** ******** ************* *********************
-// Managing a Multilingual Dictionary
-//
-//                                                   (\_/)
-//                                                   (^.^) 
+// Project: Nakar
+// Module:  Play of Words
+// Layer:	Web front-end
+// File:	wordspace.js                (\_/)
+// Func:	Managing wordspaces         (^.^)                                                 (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
 // Parsing headwords
@@ -28,6 +29,65 @@ function headwordBase(headword) {
 				break;
 			
 	return mainPart.trim();
+}
+
+
+// Indices 
+
+class LangIndex extends Index {
+
+	getKeyValues(dicEntry) {
+		return dicEntry.getLangCodes();
+	}
+
+}
+
+
+class LevelIndex extends Index {
+	
+	getKeyValues(dicEntry) {
+		return [dicEntry.getLevelCode()];
+	}
+	
+}
+
+
+class LessonIndex extends Index {
+	
+	getKeyValues(dicEntry) {
+		let levelCode = dicEntry.getLevelCode();
+		let lessonNo = dicEntry.getLessonNo();
+		let keyValue = {"levelCode" : levelCode, "lessonNo" : lessonNo};
+		return [keyValue];
+	}
+	
+	compareKeyValues(kv1, kv2) {
+		
+		let result = kv1.levelCode.locateCompare(kv2.levelCode)
+		
+		if(result == 0) 
+			result = kv1.lessonNo - kv2.lessonNo;
+			
+		return [result];
+	}	
+	
+}
+
+
+class PartOfSpeachIndex extends Index {
+	
+	getKeyValues(dicEntry) {
+		return [dicEntry.getPartOfSpeachCode()];
+	}
+}
+
+
+class SubjectDomainsIndex extends Index {
+	
+	getKeyValues(dicEntry) {
+		return dicEntry.getSubjectDomainTags();
+	}
+	
 }
 
 
@@ -146,17 +206,32 @@ class DicEntry {
 }
 
 
+
+
+class wordspaceQuery {
+	
+	matches(dicEntry) {
+		return true; 
+	}
+
+}
+
+
 class Wordspace {
 	
 	constructor() {
 		this.dicEntries  = new Array();
-		this.langIndices = new Array();
-		this.lessonIndex = new Array();
+		
+		this.langIndex = new LangIndex();
+		this.levelIndex = new LevelIndex();
+		this.lessonIndex = new LessonIndex();
+		this.partOfSpeachIndex = new PartOfSpeachIndex();
+		//this.subjectDomainIndex = new PublicDomainIndex();
 	}
 	
 	checkLangIndex(langCode) {
-		if(!this.langIndices[langCode]) 
-			this.langIndices[langCode] = new Array();
+		//if(!this.langIndices[langCode]) 
+		//	this.langIndices[langCode] = new Array();
 	}
 	
 	checkLessonIndex(lessonNo) {
@@ -166,7 +241,7 @@ class Wordspace {
 	
 	appendDicEntry2LangIndex(langCode, dicEntry) {
 		this.checkLangIndex(langCode);
-		this.langIndices[langCode][dicEntry.getHeadword(langCode)] = dicEntry;
+		//this.langIndices[langCode][dicEntry.getHeadword(langCode)] = dicEntry;
 	}
 	
 	appendDicEntry(dicEntry) {
@@ -212,7 +287,7 @@ class Wordspace {
 		return Object.keys(this.lessonIndex).sort(this.compareLessonNumbers);
 	}
 	
-	selectDicEntries(query) {
+	selectDicEntries(query, _filter=null) {
 		
 		let lessonNo = query.lessonNo;
 		
