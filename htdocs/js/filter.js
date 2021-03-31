@@ -71,10 +71,6 @@ class Filter {
 		return count;
 	}
 	
-	bbb() {
-		return this.compareItems;
-	}
-	
 	rebuild() {
 		
 		this.sortedItems = new Array(...this.getSetOfItems());
@@ -252,4 +248,6 @@ console.log(filter4);
 console.log(filter1.crossWithFilters(filter2));
 
 console.log("Stop testing filters");
+
+console.log(companyIndex.selectKeyValueStats("Vector"));
 */

@@ -31,6 +31,33 @@ function multiChr(chr, num) {
 
 
 //
+// Numeric
+//
+
+function max2(a, b) {
+	 return a >= b ? a : b;
+}
+
+function maxMulti(getComparableValueFunc) {
+	
+	let max = undefined;
+	
+	if(arguments.length < 2) {
+		max = getComparableValueFunc(arguments[1]);
+		for(let argIdx = 2; argIdx < arguments.length; argIdx++)
+			max = max2(max, getComparableValueFunc(arguments[argIdx]));
+	}
+	
+	return max;
+}
+
+function safeDiv(a, b) {
+	return b != 0 ? a/b : undefined;
+}
+
+
+
+//
 // Randomization
 //
 

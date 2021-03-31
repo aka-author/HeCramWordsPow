@@ -31,6 +31,10 @@ class Index {
 		this.sortMode = sortMode;
 	}
 	
+	countItems() {
+		return this.indexedItems.size;
+	}
+	
 	applySortMode(rawCompareResult) {
 		
 		let compareResult = 0;
@@ -160,6 +164,34 @@ class Index {
 		}
 	
 		return this.assembleFilter(fittingItems);
+	}
+	
+	countItemsForKeyValue(keyValue) {
+		let hashValue = this.assembleKeyHash(keyValue);
+		return this.keyEntries[hashValue].items.size;
+	}
+	
+	selectKeyValueStats(keyValue) {
+		
+		let keyValues = this.selectKeyValues();
+		
+		let maxItemsForKeyValue = 0;
+		
+		for(let otherKeyValueIdx in keyValues) {
+			let otherKeyValue = keyValues[otherKeyValueIdx];
+			let bidder = this.countItemsForKeyValue(otherKeyValue);
+			maxItemsForKeyValue = max2(maxItemsForKeyValue, bidder); 
+		}
+		
+		let countItemsForKeyValue = this.countItemsForKeyValue(keyValue);
+		
+		let keyValueStats = {
+			"size" 		   : countItemsForKeyValue,
+			"relativeSize" : safeDiv(countItemsForKeyValue, maxItemsForKeyValue),
+			"share"        : safeDiv(countItemsForKeyValue, this.countItems())
+		}	
+		
+		return keyValueStats;
 	}
 }
 
