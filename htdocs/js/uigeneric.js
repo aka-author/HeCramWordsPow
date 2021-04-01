@@ -1,8 +1,9 @@
 //* * ** *** ***** ******** ************* *********************
-// Generic User Interface Controls
-//
-//                                                 (\_/)
-//                                                 (^.^) 
+// Project: Nakar
+// Module:  Play of Words
+// Layer:	Web front-end
+// File:	uigeneric.js                         (\_/)
+// Func:	Generic user interface controls      (^.^)
 //* * ** *** ***** ******** ************* *********************
 
 //
@@ -243,4 +244,131 @@ class Button extends UiControl {
 
 
 class GraphButton extends Button {
+}
+
+
+
+//
+// Clouds of tags
+//
+
+class TagSwitch extends UiControl {
+	
+	constructor(tagCloud, tag) {
+		let id = tagCloud.getId() + "__" + tag.code;
+		super(tagCloud, id);
+		this.tag = tag;
+		this.uiControlValue = this.getEmptyValue();
+		this.className = this.assembleClassName(tag); 
+	}
+		
+	assembleClassName() {
+		return "tag" + Math.floor(this.tag.relativeSize*10);
+	}
+	
+	getClassName() {
+		return this.className;
+	}
+	
+	getEmptyValue() {
+		return "*";
+	}
+	
+	getUiControlValue() {
+		return this.uiControlValue;
+	}
+	
+	isTagSelected() {
+		return this.getUiControlValue() != this.getEmptyValue();
+	}
+	
+	selectTag() {
+		this.uiControlValue = this.tag.code;
+	}
+	
+	deselectTag() {
+		this.uiControlValue = this.getEmptyValue();
+	}
+	
+	getPressed() {
+		
+		if(this.isTagSelected()) {
+			this.deselectTag();}
+		else {
+			this.selectTag();}
+		
+		this.show();
+		
+		this.getChief().onChange(); 
+	}
+	
+	assembleHtml() {
+		
+		let id = this.getId();
+		
+		let tagSpan = document.createElement("span");
+		
+		tagSpan.setAttribute("id", id);
+		tagSpan.setAttribute("class", this.getClassName());
+		tagSpan.innerHTML = this.tag.wording;
+		
+		tagSpan.onclick = function() {
+			GLOBAL_app.process(id, 'getPressed');
+		};
+		
+		return tagSpan;
+	}
+	
+	show() {
+		let span = this.getDomObject();
+		
+		if(this.isTagSelected()) 
+			span.style.background = "#ffccdd";
+		else 
+			span.style.background = "#ffffff";
+	}
+}
+
+
+class TagCloud extends UiControl {
+	
+	assembleHtml() {
+	
+		let tagCloudDiv = document.createElement("div");
+	
+		this.tagSwitches = new Array();
+	
+		for(let tagIdx in this.tags) {
+			let tag = this.tags[tagIdx];
+			let tagSwitch = new TagSwitch(this, tag);
+			this.tagSwitches[tag.code] = tagSwitch;
+			tagCloudDiv.appendChild(tagSwitch.assembleHtml());
+		}
+		
+		return tagCloudDiv;
+	}
+	
+	appendTags(tags) {
+		this.tags = tags;
+		let html = this.assembleHtml();
+		
+		console.log(html);
+		console.log(this.getDomObject());
+		
+		this.getDomObject().appendChild(html);
+	}
+	
+	onChange() {
+		
+		this.uiControlValue = new Array();
+		
+		for(let tagCode in this.tagSwitches) 
+			if(this.tagSwitches[tagCode].isTagSelected())
+				this.uiControlValue.push(tagCode);
+	
+	}
+	
+	setUiControlValue(tags) {
+		this.uiControlValue = tags;
+	}
 }

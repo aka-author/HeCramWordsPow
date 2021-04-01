@@ -312,3 +312,8 @@ class MainMenuItem extends PaneLabel {
 }
 
 
+class SubjectDomainsTagCloud extends TagCloud {
+	
+	
+}
+

@@ -43,7 +43,24 @@ class MainPage extends Bureaucrat {
 		this.guessLangSelector.appendOptions([{"code" : "he", "wording" : "עברית"}]);
 		this.guessLangSelector.setUiControlValue({"code" : "he"});
 		
-		this.partOfSpeachSelector = new PartOfSpeachSelector(this, "partOfSpeachSelectorSelect");
+		this.partOfSpeachSelector = 
+			new PartOfSpeachSelector(this, "partOfSpeachSelectorSelect");
+		
+		// Subject domain tags
+		
+		this.subjectDomainsTagCloud = 
+			new SubjectDomainsTagCloud(this, "subjectDomainCloudDiv");
+			
+		let tags = [
+			{"code" : "mental", "wording" : "Mental", "relativeSize" : 0.40},
+			{"code" : "food",   "wording" : "Food",   "relativeSize" : 0.30},
+			{"code" : "health", "wording" : "Health", "relativeSize" : 0.60},
+			{"code" : "sport",  "wording" : "Sport",  "relativeSize" : 0.50}
+		];			
+			
+		this.subjectDomainsTagCloud.appendTags(tags);	
+		
+		// End: Subject domain tags
 		
 		
 		this.questionArea = new WordInfoArea(this, "questionAreaDiv");
