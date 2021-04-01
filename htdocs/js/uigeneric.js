@@ -278,24 +278,24 @@ class TagSwitch extends UiControl {
 		return this.uiControlValue;
 	}
 	
-	isTagSelected() {
+	isTagOn() {
 		return this.getUiControlValue() != this.getEmptyValue();
 	}
 	
-	selectTag() {
+	turnOn() {
 		this.uiControlValue = this.tag.code;
 	}
 	
-	deselectTag() {
+	turnOff() {
 		this.uiControlValue = this.getEmptyValue();
 	}
 	
 	getPressed() {
 		
-		if(this.isTagSelected()) {
-			this.deselectTag();}
-		else {
-			this.selectTag();}
+		if(this.isTagOn()) 
+			this.turnOff();
+		else 
+			this.turnOn();
 		
 		this.show();
 		
@@ -322,7 +322,7 @@ class TagSwitch extends UiControl {
 	show() {
 		let span = this.getDomObject();
 		
-		if(this.isTagSelected()) 
+		if(this.isTagOn()) 
 			span.style.background = "#ffccdd";
 		else 
 			span.style.background = "#ffffff";
@@ -363,9 +363,8 @@ class TagCloud extends UiControl {
 		this.uiControlValue = new Array();
 		
 		for(let tagCode in this.tagSwitches) 
-			if(this.tagSwitches[tagCode].isTagSelected())
+			if(this.tagSwitches[tagCode].isTagOn())
 				this.uiControlValue.push(tagCode);
-	
 	}
 	
 	setUiControlValue(tags) {
