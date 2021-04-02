@@ -62,8 +62,8 @@ class RiddleLangSelector extends LangSelector {
 	onChange() {
 		let newRiddleLangCode = this.getUiControlValue();
 		let game = this.getGame();
-		let oldRiddleLangCode = game.getRiddleLangCode();
-		let guessLangCode = game.getGuessLangCode();
+		let oldRiddleLangCode = game.getCurrRiddleLangCode();
+		let guessLangCode = game.getCurrGuessLangCode();
 		let targetLangCode = game.getTargetLangCode();
 		game.setRiddleLang(newRiddleLangCode);
 		let parentUiControl = this.getChief();
@@ -73,7 +73,7 @@ class RiddleLangSelector extends LangSelector {
 		} 
 		else if(newRiddleLangCode != targetLangCode && guessLangCode != targetLangCode) {
 			parentUiControl.guessLangSelector.setUiControlValue({"code" : targetLangCode});
-			game.setGuessLang(targetLangCode);
+			game.setCurrGuessLang(targetLangCode);
 		}
 		
 	}	
@@ -85,18 +85,18 @@ class GuessLangSelector extends LangSelector {
 	onChange() {	
 		let newGuessLangCode = this.getUiControlValue();
 		let game = this.getGame();
-		let oldGuessLangCode = game.getGuessLangCode();
+		let oldGuessLangCode = game.getCurrGuessLangCode();
 		game.setGuessLang(newGuessLangCode);
 		let parentUiControl = this.getChief();
-		let riddleLangCode = game.getRiddleLangCode();
+		let riddleLangCode = game.getCurrRiddleLangCode();
 		let targetLangCode = game.getTargetLangCode();
 		if(newGuessLangCode == targetLangCode && riddleLangCode == targetLangCode) {
 			parentUiControl.riddleLangSelector.setUiControlValue({"code" : oldGuessLangCode});
-			game.setRiddleLang(oldGuessLangCode);
+			game.setCurrRiddleLang(oldGuessLangCode);
 		} 		
 		else if(newGuessLangCode != targetLangCode && riddleLangCode != targetLangCode){
 			parentUiControl.riddleLangSelector.setUiControlValue({"code" : targetLangCode});
-			game.setRiddleLang(targetLangCode);
+			game.setCurrRiddleLang(targetLangCode);
 		}
 	}
 }
@@ -105,7 +105,7 @@ class GuessLangSelector extends LangSelector {
 class PartOfSpeachSelector extends Selector {
 
 	onChange() {
-		this.getGame().setCurrPartOfSpeachCode(this.getUiControlValue());
+		this.getGame().setCurrPartOfSpeach(this.getUiControlValue());
 	}
 
 }

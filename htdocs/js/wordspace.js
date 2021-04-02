@@ -326,18 +326,7 @@ class Wordspace {
 		translations[0] = this.langIndices[srcLangCode][srcHeadword].getHeadword(targetLangCode);
 		return translations;
 	}
-	
-	getRandomEntry(langCode, levelNo, lessonNo="all") {
 		
-		let index = (lessonNo == "all") || (!levelNo) || (!lessonNo) ? 
-				this.langIndices["he"] :
-			 	this.lessonIndex[lessonNo];
-						
-		let dicEntry = index[getRandomKey(index)];		
-			
-		return dicEntry;		
-	}
-	
 	compareLessonNumbers(lessonNo1, lessonNo2) {
 		return parseInt(lessonNo2) - parseInt(lessonNo1);
 	}
@@ -346,7 +335,7 @@ class Wordspace {
 		return "he";
 	}
 	
-	getLessons() {
+	getLessons(levelCode) {
 		return Object.keys(this.lessonNoIndex).sort(this.compareLessonNumbers);
 	}
 	
