@@ -17,7 +17,6 @@ class LevelSelector extends Selector {
 	
 	onChange() {
 		// this.getGame().setCurrLesson(this.getUiControlValue());
-		// this.getGame().takeNextQuestion();
 	}	
 
 }
@@ -31,7 +30,6 @@ class LessonSelector extends Selector {
 	
 	onChange() {
 		this.getGame().setCurrLesson(this.getUiControlValue());
-		this.getGame().takeNextQuestion();
 	}	
 
 }
@@ -107,8 +105,7 @@ class GuessLangSelector extends LangSelector {
 class PartOfSpeachSelector extends Selector {
 
 	onChange() {
-		this.getGame().setCurrPartOfSpeach(this.getUiControlValue());
-		this.getGame().takeNextQuestion();
+		this.getGame().setCurrPartOfSpeachCode(this.getUiControlValue());
 	}
 
 }
@@ -314,6 +311,9 @@ class MainMenuItem extends PaneLabel {
 
 class SubjectDomainsTagCloud extends TagCloud {
 	
+	onChange() {
+		this.getGame().setCurrSubjectDomains(this.getUiControlValue());
+	}
 	
 }
 

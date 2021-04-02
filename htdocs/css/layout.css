@@ -13,6 +13,9 @@
 	--normal-font-size:            12pt;
 	--service-font-size:           9pt;
 	--nakar-emphased-color:        #c60021;
+	--tag-margin-right:			   0px;
+	--tag-padding:                 5px;
+	--tag-border-radius:           5px;
 }
 
 body {
@@ -92,11 +95,8 @@ body {
 }
 
 #gameAreaDiv {
-    --width: 80%;
 	height: 70%;
-	/* margin-top: 5%; */
 	margin-bottom: 10%;
-	--margin-left: 10%;
 	margin-right: 10%;
 	border-radius: 10px;
 	text-align: center;
@@ -104,12 +104,7 @@ body {
 
 #gameModeArea {
 	text-align: left;
-	--width: 20%;
-	--margin-left: 40%;
-	--margin-right: 40%;
 	margin-bottom: var(--func-block-bottom-margin);
-	--padding: 5px;
-	--background: #fcc133;
 	border-radius: var(--area-border-radius);
 }
 
@@ -118,86 +113,103 @@ body {
 }
 
 .tag0 {
-	margin-right: 10px;
-	padding: 5px;
-	border-radius: 5px;
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
 	cursor: pointer;
 	font-size: 6px;
 }
 
 .tag1 {
-	margin-right: 10px;
-	padding: 5px;
-	border-radius: 5px;
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
 	cursor: pointer;
 	font-size: 8px;
 }
 
 .tag2 {
-	margin-right: 10px;
-	padding: 5px;
-	border-radius: 5px;
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
 	cursor: pointer;
 	font-size: 10px;
 }
 
 .tag3 {
-	margin-right: 10px;
-	padding: 5px;
-	border-radius: 5px;
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
 	cursor: pointer;
 	font-size: 12px;
 }
 
 .tag4 {
-	margin-right: 10px;
-	padding: 5px;
-	border-radius: 5px;
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
 	cursor: pointer;
 	font-size: 14px;
 }
 
 .tag5 {
-	margin-right: 10px;
-	padding: 5px;
-	border-radius: 5px;
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
 	cursor: pointer;
 	font-size: 16px;
 }
 
 .tag6 {
-	margin-right: 10px;
-	padding: 5px;
-	border-radius: 5px;
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
 	cursor: pointer;
 	font-size: 18px;
 }
 
 .tag7 {
-	margin-right: 10px;
-	padding: 5px;
-	border-radius: 5px;
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
 	cursor: pointer;
 	font-size: 20px;
 }
 
 .tag8 {
-	margin-right: 10px;
-	padding: 5px;
-	border-radius: 5px;
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
 	cursor: pointer;
 	font-size: 22px;
 }
 
 .tag9 {
-	margin-right: 10px;
-	padding: 5px;
-	border-radius: 5px;
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
 	cursor: pointer;
 	font-size: 24px;
 }
 
-
+.tag10 {
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
+	cursor: pointer;
+	font-size: 26px;
+}
 
 #wordAreaDiv {
 	height: 80%;

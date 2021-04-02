@@ -299,7 +299,7 @@ class TagSwitch extends UiControl {
 		
 		this.show();
 		
-		this.getChief().onChange(); 
+		this.getChief().getPressed(); 
 	}
 	
 	assembleHtml() {
@@ -327,6 +327,11 @@ class TagSwitch extends UiControl {
 		else 
 			span.style.background = "#ffffff";
 	}
+	
+	setWording(wording) {
+		let span = this.getDomObject();
+		span.innerHTML = wording;
+	}
 }
 
 
@@ -343,9 +348,15 @@ class TagCloud extends UiControl {
 			let tagSwitch = new TagSwitch(this, tag);
 			this.tagSwitches[tag.code] = tagSwitch;
 			tagCloudDiv.appendChild(tagSwitch.assembleHtml());
+			
+			tagCloudDiv.appendChild(document.createTextNode(" "));
 		}
 		
 		return tagCloudDiv;
+	}
+	
+	getUiControlValue() {
+		return this.uiControlValue;
 	}
 	
 	appendTags(tags) {
@@ -358,16 +369,34 @@ class TagCloud extends UiControl {
 		this.getDomObject().appendChild(html);
 	}
 	
-	onChange() {
+	getPressed() {
 		
 		this.uiControlValue = new Array();
 		
 		for(let tagCode in this.tagSwitches) 
 			if(this.tagSwitches[tagCode].isTagOn())
 				this.uiControlValue.push(tagCode);
+		
+		this.onChange();	
+	}
+	
+	onChange() {
+		// Abstract
 	}
 	
 	setUiControlValue(tags) {
 		this.uiControlValue = tags;
+	}
+	
+	setLocalTagWordings(tagWordings) {
+		this.tagWordings = tagWordings;
+	}
+	
+	localize(i18nTable, langCode) {
+		for(let tagCode in this.tagsSwitches) {
+			let wording = this.tagWordings[tagCode][langCode];
+			if(wording)
+				this.tagSwitches[tagCode].setWording(wording);
+		}
 	}
 }

@@ -50,15 +50,18 @@ class MainPage extends Bureaucrat {
 		
 		this.subjectDomainsTagCloud = 
 			new SubjectDomainsTagCloud(this, "subjectDomainCloudDiv");
-			
-		let tags = [
+		
+		/* let tags = [
 			{"code" : "mental", "wording" : "Mental", "relativeSize" : 0.40},
 			{"code" : "food",   "wording" : "Food",   "relativeSize" : 0.30},
 			{"code" : "health", "wording" : "Health", "relativeSize" : 0.60},
 			{"code" : "sport",  "wording" : "Sport",  "relativeSize" : 0.50}
-		];			
+		]; */			
 			
-		this.subjectDomainsTagCloud.appendTags(tags);	
+		//this.subjectDomainsTagCloud.appendTags(tags);	
+			
+		this.subjectDomainsTagCloud.appendTags(this.getGame().subjectDomainTagRecords);
+		//console.log(this.getGame().tags);
 		
 		// End: Subject domain tags
 		

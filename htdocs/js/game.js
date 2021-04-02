@@ -64,6 +64,7 @@ class Game extends Bureaucrat {
 	
 	setCurrLevel(levelNo) {
 		this.currLevelNo = levelNo;
+		this.takeNextQuestion();
 	}
 	
 	getCurrLessonNo() {
@@ -72,7 +73,7 @@ class Game extends Bureaucrat {
 
 	setCurrLesson(lessonNo) {
 		this.currLessonNo = lessonNo;
-		this.filter = this.assembleCurrFilter();
+		this.takeNextQuestion();
 	}
 
 	getRiddleLangCode() {
@@ -129,6 +130,28 @@ class Game extends Bureaucrat {
 		return colName;
 	}
 	
+	assembleTagRecord(code, relativeSize){
+		return {"code"         : code,  
+		        "wording"      : code, 
+				"relativeSize" : relativeSize};
+	}
+	
+	assembleSubjectDomainTagRecords(wordspace) {
+		
+		let tags = wordspace.getSubjectDomainTags();
+		
+		let tagRecords = new Array();
+		
+		for(let tagIdx in tags) {
+			let tag = tags[tagIdx];
+			let stat = wordspace.getSubjectDomainTagStat(tag);
+			let tagRecord = this.assembleTagRecord(tag, stat.relativeSize);
+			tagRecords.push(tagRecord);
+		}
+		
+		return tagRecords;
+	}
+	
 	useWordspaceFromGdocs() {
 		
 		let gdoc = new WsSpreadsheet();
@@ -175,9 +198,15 @@ class Game extends Bureaucrat {
 				let lessonNo = gdoc.getLessonNo(partOfSpeach, rowIdx);
 				dicEntry.setLessonNo(lessonNo);
 				
+				let subjectDomainTags = gdoc.getSubjectDomainTags(partOfSpeach, rowIdx);
+				dicEntry.setSubjectDomainTags(subjectDomainTags);
+				
 				ws.appendDicEntry(dicEntry);
 			}
 		}
+		
+		this.subjectDomainTagRecords = 
+			this.assembleSubjectDomainTagRecords(ws);
 		
 		return ws;
 	}
@@ -213,30 +242,53 @@ class Game extends Bureaucrat {
 		return result;
 	}
 	
-	getCurrPartOfSpeach() {
-		return this.currPartOfSpeach;
+	getCurrPartOfSpeachCode() {
+		return this.currPartOfSpeachCode;
 	}
 	
-	setCurrPartOfSpeach(partOfSpeachCode) {
-		this.currPartOfSpeach = partOfSpeachCode;
-		this.filter = this.assembleCurrFilter();
-	}
-	
-	selectLexemesByFilters() {
-		
-		let query = new Array();
-		
-		query.lessonNo = this.getCurrLessonNo();
-		query.partOfSpeach = this.getCurrPartOfSpeach();
-		
-		this.filter = this.getWordspace().selectDicEntries(query);
-		
+	setCurrPartOfSpeachCode(partOfSpeachCode) {
+		this.currPartOfSpeachCode = partOfSpeachCode;
 		this.takeNextQuestion();
 	}
 	
-	selectRandomWord(langCode) {
-		let randomLexemeIdx = randomInt(0, this.filter.length - 1);
-		return this.filter[randomLexemeIdx];
+	getCurrSubjectDomainTags(subjectDomainTags) {
+		return this.currSubjectDomainTags;
+	}
+	
+	setCurrSubjectDomains(subjectDomainTags) {
+		this.currSubjectDomainTags = subjectDomainTags;
+		this.takeNextQuestion();
+	}
+	
+	getCurrFilter() {
+		return this.currFilter;
+	}
+
+	updateCurrFilter() {
+		
+		let ws = this.getWordspace();
+		
+		let currLessonNoFilter = 
+			ws.assembleLessonNoFilter(this.getCurrLessonNo());
+			
+		console.log("::: ");	
+		console.log(currLessonNoFilter);	
+		
+		let currPartOfSpeachFilter = 
+			ws.assemblePartOfSpeachFilter(this.getCurrPartOfSpeachCode());	
+		
+		let currSubjectDomainTagFilter = 
+			ws.assembleSubjectDomainTagFilter(this.getCurrSubjectDomainTags());
+		
+				
+		this.currFilter = 
+			currLessonNoFilter.crossWithFilters(currPartOfSpeachFilter, 
+			                               currSubjectDomainTagFilter);
+		
+		//this.currFilter = 
+		//	currSubjectDomainTagFilter.crossWithFilters(currPartOfSpeachFilter);
+		
+		console.log(this.currFilter);	
 	}
 
 	giveUp() {
@@ -286,14 +338,17 @@ class Game extends Bureaucrat {
 
 	takeNextQuestion() {
 		
+		this.updateCurrFilter();
 		
-		if(this.filter.length != 0) {
-			let ws = this.getWordspace();
+		let currFilter = this.getCurrFilter();
+			
+		if(currFilter.countItems() > 0) {
+			console.log(currFilter.fetchRandomItem());
 			let riddleLangCode = this.getRiddleLangCode();
-			let randomWord = this.selectRandomWord(riddleLangCode);
+			let randomWord = currFilter.fetchRandomItem();
 			this.setCurrDicEntry(randomWord);	
 			let riddleWordInfo = randomWord.wordInfos[riddleLangCode];
-			this.getMainPage().displayQuestion(riddleWordInfo);	
+			this.getMainPage().displayQuestion(riddleWordInfo);		
 		}	
 		else {
 			this.getMainPage().questionArea.clear();

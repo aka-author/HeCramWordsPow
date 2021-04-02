@@ -34,7 +34,11 @@ function headwordBase(headword) {
 
 // Indices 
 
-class LangIndex extends Index {
+class LangCodeIndex extends Index {
+	
+	constructor() {
+		super("lang_code");
+	}
 
 	getKeyValues(dicEntry) {
 		return dicEntry.getLangCodes();
@@ -43,7 +47,11 @@ class LangIndex extends Index {
 }
 
 
-class LevelIndex extends Index {
+class LevelCodeIndex extends Index {
+	
+	constructor() {
+		super("level_code");
+	}
 	
 	getKeyValues(dicEntry) {
 		return [dicEntry.getLevelCode()];
@@ -52,21 +60,32 @@ class LevelIndex extends Index {
 }
 
 
-class LessonIndex extends Index {
+class LessonNoIndex extends Index {
 	
-	getKeyValues(dicEntry) {
-		let levelCode = dicEntry.getLevelCode();
+	constructor() {
+		super("lesson_no");
+	}
+	
+	getItemKeyValues(dicEntry) {
+		//let levelCode = dicEntry.getLevelCode();
 		let lessonNo = dicEntry.getLessonNo();
-		let keyValue = {"levelCode" : levelCode, "lessonNo" : lessonNo};
-		return [keyValue];
+		//let keyValue = {"levelCode" : levelCode, "lessonNo" : lessonNo};
+		//return [keyValue];
+		return [lessonNo];
 	}
 	
 	compareKeyValues(kv1, kv2) {
 		
-		let result = kv1.levelCode.locateCompare(kv2.levelCode)
+		let result = 0;
 		
-		if(result == 0) 
-			result = kv1.lessonNo - kv2.lessonNo;
+		if(Boolean(kv1) && Boolean(kv2)) {
+		
+			//let result = kv1.levelCode.locateCompare(kv2.levelCode)
+			
+			//if(result == 0) 
+			//	result = kv1.lessonNo - kv2.lessonNo;
+			result = kv1 - kv2;
+		}
 			
 		return [result];
 	}	
@@ -74,17 +93,25 @@ class LessonIndex extends Index {
 }
 
 
-class PartOfSpeachIndex extends Index {
+class PartOfSpeachIndex extends StringIndex {
 	
-	getKeyValues(dicEntry) {
+	constructor() {
+		super("part_of_speach");
+	}
+	
+	getItemKeyValues(dicEntry) {
 		return [dicEntry.getPartOfSpeachCode()];
 	}
 }
 
 
-class SubjectDomainsIndex extends Index {
+class SubjectDomainTagIndex extends StringIndex {
 	
-	getKeyValues(dicEntry) {
+	constructor() {
+		super("subject_domain_tag");
+	}
+	
+	getItemKeyValues(dicEntry) {
 		return dicEntry.getSubjectDomainTags();
 	}
 	
@@ -117,6 +144,13 @@ class WsSpreadsheet extends GoogleSpreadsheetSimple {
 	getLessonNo(sheetName, rowIdx) {
 		return this.getFieldValue(sheetName, rowIdx, "lesson");
 	}	
+	
+	getSubjectDomainTags(sheetName, rowIdx) {
+		
+		
+		return this.getFieldValue(sheetName, rowIdx, "tags_en");
+		//return "Mind, Directions, Food, Sport, Ocupations";
+	}
 	
 	getMnemoPhrase(sheetName, rowIdx, langCode) {
 		let mnemoColName = "mnemo_" + langCode;
@@ -195,6 +229,31 @@ class DicEntry {
 		this.lessonNo = lessonNo;
 	}	
 
+	getPartOfSpeachCode() {
+		let partOfSpeachCode = "";
+		for(let langCode in this.wordInfos) {
+			partOfSpeachCode =
+				this.wordInfos[langCode].getPartOfSpeachCode();
+			break;	
+		}
+		return partOfSpeachCode;
+	}
+	
+	getSubjectDomainTags() {
+		return this.subjectDomainTags;
+	}
+	
+	setSubjectDomainTags(subjectDomainTagsStr) {
+		let rawTags = subjectDomainTagsStr ? 
+			subjectDomainTagsStr.split(",") : "";
+		this.subjectDomainTags = new Array();
+		for(let tagIdx in rawTags) {
+			let tag = rawTags[tagIdx].trim();
+			if(tag != "")
+				this.subjectDomainTags.push(tag);
+		}	
+	}
+
 	getMnemoPhrase(langCode) {
 		return this.wordInfos[langCode].getMnemoPhrase();	
 	}	
@@ -222,11 +281,11 @@ class Wordspace {
 	constructor() {
 		this.dicEntries  = new Array();
 		
-		this.langIndex = new LangIndex();
-		this.levelIndex = new LevelIndex();
-		this.lessonIndex = new LessonIndex();
+		this.langCodeIndex = new LangCodeIndex();
+		this.levelCodeIndex = new LevelCodeIndex();
+		this.lessonNoIndex = new LessonNoIndex();
 		this.partOfSpeachIndex = new PartOfSpeachIndex();
-		//this.subjectDomainIndex = new PublicDomainIndex();
+		this.subjectDomainTagIndex = new SubjectDomainTagIndex();
 	}
 	
 	checkLangIndex(langCode) {
@@ -235,8 +294,8 @@ class Wordspace {
 	}
 	
 	checkLessonIndex(lessonNo) {
-		if(!this.lessonIndex[lessonNo])
-			this.lessonIndex[lessonNo] = new Array();
+		if(!this.lessonNoIndex[lessonNo])
+			this.lessonNoIndex[lessonNo] = new Array();
 	}
 	
 	appendDicEntry2LangIndex(langCode, dicEntry) {
@@ -254,8 +313,12 @@ class Wordspace {
 		let lessonNo = dicEntry.getLessonNo();
 		if(lessonNo) {
 			this.checkLessonIndex(lessonNo);
-			this.lessonIndex[lessonNo].push(dicEntry);
+			this.lessonNoIndex[lessonNo].push(dicEntry);
 		}
+		
+		this.lessonNoIndex.appendItem(dicEntry);
+		this.partOfSpeachIndex.appendItem(dicEntry);
+		this.subjectDomainTagIndex.appendItem(dicEntry);
 	}
 		
 	translateHeadword(srcLangCode, srcHeadword, targetLangCode) {
@@ -284,7 +347,15 @@ class Wordspace {
 	}
 	
 	getLessons() {
-		return Object.keys(this.lessonIndex).sort(this.compareLessonNumbers);
+		return Object.keys(this.lessonNoIndex).sort(this.compareLessonNumbers);
+	}
+	
+	getSubjectDomainTags() {
+		return this.subjectDomainTagIndex.selectKeyValues();
+	}
+	
+	getSubjectDomainTagStat(tag) {
+		return this.subjectDomainTagIndex.selectKeyValueStat(tag);
 	}
 	
 	selectDicEntries(query, _filter=null) {
@@ -310,8 +381,31 @@ class Wordspace {
 			}
 		else
 			filter = candidates;
-		
+		console.log(this.subjectDomainIndex);
 		return filter;
+	}
+	
+	assembleLessonNoFilter(lessonNo) {
+		console.log(this.lessonNoIndex);
+		console.log("lesson: " + typeof lessonNo);
+		console.log("lesson: " + parseInt(lessonNo));
+		return lessonNo && (lessonNo != "all") ?
+			this.lessonNoIndex.selectItemsByKeyValues(parseInt(lessonNo)) :
+			this.lessonNoIndex.selectAllItems();
+	}
+	
+	assemblePartOfSpeachFilter(partOfSpeachCode) {
+		console.log("pos: " + partOfSpeachCode);
+		return partOfSpeachCode && (partOfSpeachCode != "all")? 
+			this.partOfSpeachIndex.selectItemsByKeyValues(partOfSpeachCode) :
+			this.partOfSpeachIndex.selectAllItems();
+	}
+	
+	assembleSubjectDomainTagFilter(tags) {
+		console.log("tags: " + tags);
+		return tags ? 
+			this.subjectDomainTagIndex.selectItemsByKeyValues(...tags) :
+			this.subjectDomainTagIndex.selectAllItems();
 	}
 	
 }

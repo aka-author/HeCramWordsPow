@@ -171,7 +171,7 @@ class Index {
 		return this.keyEntries[hashValue].items.size;
 	}
 	
-	selectKeyValueStats(keyValue) {
+	selectKeyValueStat(keyValue) {
 		
 		let keyValues = this.selectKeyValues();
 		
@@ -204,8 +204,8 @@ class StringIndex extends Index {
 
 	compareKeyValues(kv1, kv2) {
 		
-		return kv1.localeCompare(kv2);
-		           
+		return String(kv1).localeCompare(String(kv2));
+		
 	}
 	
 }

@@ -132,7 +132,7 @@ class Filter {
 	
 	joinFilters() {
 		let setsOfItems = new Array(this.getSetOfItems());
-		for(argIdx in arguments)
+		for(let argIdx in arguments)
 			setsOfItems.push(arguments[argIdx].getSetOfItems());
 		this.setSetOfItems(uniteSets(...setsOfItems));
 		return this;
