@@ -46,13 +46,9 @@ class MainPage extends Bureaucrat {
 		this.partOfSpeachSelector = 
 			new PartOfSpeachSelector(this, "partOfSpeachSelectorSelect");
 		
-		this.subjectDomainsTagCloud = 
-			new SubjectDomainsTagCloud(this, "subjectDomainCloudDiv");
+		this.subjectDomainTagCloud = 
+			new SubjectDomainTagCloud(this, "subjectDomainCloudDiv");
 			
-		this.subjectDomainsTagCloud.appendTags(this.getGame().subjectDomainTagRecords);
-		
-		
-		
 		this.questionArea = new WordInfoArea(this, "questionAreaDiv");
 		this.answerArea = new WordInfoArea(this, "answerAreaDiv");
 		this.promptArea = new PromptWordInfoArea(this, "promptAreaDiv");
@@ -165,6 +161,12 @@ class MainPage extends Bureaucrat {
 		
 		this.helpPane = new Pane(this.mainGroupOfPanes, "helpPaneDiv");
 		this.mainGroupOfPanes.appendPane(this.helpPane, this.helpMainMenuItem);
+	}
+	
+	
+	// Cloud of tags 
+	localizeSubjectDomainTagCloud(localTags, langCode) {
+		this.subjectDomainTagCloud.localize(localTags, langCode);
 	}
 	
 	

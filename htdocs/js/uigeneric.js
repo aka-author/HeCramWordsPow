@@ -254,16 +254,16 @@ class GraphButton extends Button {
 
 class TagSwitch extends UiControl {
 	
-	constructor(tagCloud, tag) {
-		let id = tagCloud.getId() + "__" + tag.code;
+	constructor(tagCloud, tagRecord) {
+		let id = tagCloud.getId() + "__" + tagRecord.code;
 		super(tagCloud, id);
-		this.tag = tag;
+		this.tagRecord = tagRecord;
 		this.uiControlValue = this.getEmptyValue();
-		this.className = this.assembleClassName(tag); 
+		this.className = this.assembleClassName(tagRecord); 
 	}
 		
 	assembleClassName() {
-		return "tag" + Math.floor(this.tag.relativeSize*10);
+		return "tag" + Math.floor(this.tagRecord.relativeSize*10);
 	}
 	
 	getClassName() {
@@ -283,7 +283,7 @@ class TagSwitch extends UiControl {
 	}
 	
 	turnOn() {
-		this.uiControlValue = this.tag.code;
+		this.uiControlValue = this.tagRecord.code;
 	}
 	
 	turnOff() {
@@ -310,7 +310,7 @@ class TagSwitch extends UiControl {
 		
 		tagSpan.setAttribute("id", id);
 		tagSpan.setAttribute("class", this.getClassName());
-		tagSpan.innerHTML = this.tag.wording;
+		tagSpan.innerHTML = this.tagRecord.wording;
 		
 		tagSpan.onclick = function() {
 			GLOBAL_app.process(id, 'getPressed');
@@ -337,36 +337,66 @@ class TagSwitch extends UiControl {
 
 class TagCloud extends UiControl {
 	
+	assembleSeparatorHtml() {
+		return document.createTextNode(" ");
+	}
+	
+	assembleTagCloudWrapperElementId() {
+		return this.getId() + "Wrapper"; 	
+	}
+	
+	assembleTagCloudWrapperElement() {
+		let tagCloudWrapperElement = document.createElement("div");
+		let id = this.assembleTagCloudWrapperElementId();
+		tagCloudWrapperElement.setAttribute("id", id);
+		return tagCloudWrapperElement;
+	}
+	
 	assembleHtml() {
-	
-		let tagCloudDiv = document.createElement("div");
-	
+		
 		this.tagSwitches = new Array();
 	
-		for(let tagIdx in this.tags) {
-			let tag = this.tags[tagIdx];
-			let tagSwitch = new TagSwitch(this, tag);
-			this.tagSwitches[tag.code] = tagSwitch;
-			tagCloudDiv.appendChild(tagSwitch.assembleHtml());
-			
-			tagCloudDiv.appendChild(document.createTextNode(" "));
+		let tagCloudWrapper = this.assembleTagCloudWrapperElement();
+		
+		let count = 0;		
+		for(let tag in this.tagRecords) {
+			let tagRecord = this.tagRecords[tag];
+			let tagSwitch = new TagSwitch(this, tagRecord);
+			if(count > 0) 
+				tagCloudWrapper.appendChild(this.assembleSeparatorHtml());
+			tagCloudWrapper.appendChild(tagSwitch.assembleHtml());
+			this.tagSwitches[tagRecord.code] = tagSwitch;
+			count++;
 		}
 		
-		return tagCloudDiv;
+		return tagCloudWrapper;
+	}
+	
+	appendTags(tagRecords) {
+		this.tagRecords = tagRecords;
+		let html = this.assembleHtml();
+		this.getDomObject().appendChild(html);
+	}
+	
+	setTagLocalWordings(localWordings) {
+		this.localWordings = localWordings;
+	}		
+	
+	getTagWording(tag, langCode=undefined) {
+		
+		let wording = "";
+		
+		if(this.localTagWordings[tag] && langCode) 
+			wording = this.localTagWordings[tag][langCode];
+		else 
+			if(this.tags[tag])
+				wording = this.tags[tag].wording;
+			
+		return wording;		
 	}
 	
 	getUiControlValue() {
 		return this.uiControlValue;
-	}
-	
-	appendTags(tags) {
-		this.tags = tags;
-		let html = this.assembleHtml();
-		
-		console.log(html);
-		console.log(this.getDomObject());
-		
-		this.getDomObject().appendChild(html);
 	}
 	
 	getPressed() {
@@ -388,15 +418,11 @@ class TagCloud extends UiControl {
 		this.uiControlValue = tags;
 	}
 	
-	setLocalTagWordings(tagWordings) {
-		this.tagWordings = tagWordings;
-	}
-	
-	localize(i18nTable, langCode) {
-		for(let tagCode in this.tagsSwitches) {
-			let wording = this.tagWordings[tagCode][langCode];
+	showLocalWordings(langCode) {
+		for(let tag in this.tagRecords) {
+			let wording = this.getTagWording(tag, langCode);
 			if(wording)
-				this.tagSwitches[tagCode].setWording(wording);
+				this.tagSwitches[tag].setWording(wording);
 		}
 	}
 }

@@ -347,6 +347,18 @@ class Wordspace {
 		return this.subjectDomainTagIndex.selectKeyValueStat(tag);
 	}
 	
+	getSubjectDomainTagWordings() {
+		
+		let subjectDomainTagWordings = {
+			"languages" : {"en" : "languages", "ru" : "языки"},
+			"mental" : {"en" : "mental", "ru" : "создание"},
+            "profession" : {"en" : "profession", "ru" : "профессии"},
+            "time" : {"en" : "time", "ru" : "время"}
+		};
+		
+		return subjectDomainTagWordings;
+	}
+	
 	selectDicEntries(query, _filter=null) {
 		
 		let lessonNo = query.lessonNo;
@@ -370,28 +382,23 @@ class Wordspace {
 			}
 		else
 			filter = candidates;
-		console.log(this.subjectDomainIndex);
+		
 		return filter;
 	}
 	
 	assembleLessonNoFilter(lessonNo) {
-		console.log(this.lessonNoIndex);
-		console.log("lesson: " + typeof lessonNo);
-		console.log("lesson: " + parseInt(lessonNo));
 		return lessonNo && (lessonNo != "all") ?
 			this.lessonNoIndex.selectItemsByKeyValues(parseInt(lessonNo)) :
 			this.lessonNoIndex.selectAllItems();
 	}
 	
 	assemblePartOfSpeachFilter(partOfSpeachCode) {
-		console.log("pos: " + partOfSpeachCode);
 		return partOfSpeachCode && (partOfSpeachCode != "all")? 
 			this.partOfSpeachIndex.selectItemsByKeyValues(partOfSpeachCode) :
 			this.partOfSpeachIndex.selectAllItems();
 	}
 	
 	assembleSubjectDomainTagFilter(tags) {
-		console.log("tags: " + tags);
 		return tags ? 
 			this.subjectDomainTagIndex.selectItemsByKeyValues(...tags) :
 			this.subjectDomainTagIndex.selectAllItems();

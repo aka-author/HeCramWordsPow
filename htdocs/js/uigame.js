@@ -65,11 +65,11 @@ class RiddleLangSelector extends LangSelector {
 		let oldRiddleLangCode = game.getCurrRiddleLangCode();
 		let guessLangCode = game.getCurrGuessLangCode();
 		let targetLangCode = game.getTargetLangCode();
-		game.setRiddleLang(newRiddleLangCode);
+		game.setCurrRiddleLang(newRiddleLangCode);
 		let parentUiControl = this.getChief();
 		if(newRiddleLangCode == targetLangCode && guessLangCode == targetLangCode) {
 			parentUiControl.guessLangSelector.setUiControlValue({"code" : oldRiddleLangCode});
-			game.setGuessLang(oldRiddleLangCode);
+			game.setCurrGuessLang(oldRiddleLangCode);
 		} 
 		else if(newRiddleLangCode != targetLangCode && guessLangCode != targetLangCode) {
 			parentUiControl.guessLangSelector.setUiControlValue({"code" : targetLangCode});
@@ -86,7 +86,7 @@ class GuessLangSelector extends LangSelector {
 		let newGuessLangCode = this.getUiControlValue();
 		let game = this.getGame();
 		let oldGuessLangCode = game.getCurrGuessLangCode();
-		game.setGuessLang(newGuessLangCode);
+		game.setCurrGuessLang(newGuessLangCode);
 		let parentUiControl = this.getChief();
 		let riddleLangCode = game.getCurrRiddleLangCode();
 		let targetLangCode = game.getTargetLangCode();
@@ -309,7 +309,7 @@ class MainMenuItem extends PaneLabel {
 }
 
 
-class SubjectDomainsTagCloud extends TagCloud {
+class SubjectDomainTagCloud extends TagCloud {
 	
 	onChange() {
 		this.getGame().setCurrSubjectDomains(this.getUiControlValue());

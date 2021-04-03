@@ -2,8 +2,8 @@
 // Project: Nakar
 // Module:  Play of Words
 // Layer:	Web front-end
-// File:	game.js                     	  (\_/)
-// Func:	Supporting user's activities      (^.^)
+// File:	game.js                         (\_/)
+// Func:	Executing user's commands       (^.^)
 //* * ** *** ***** ******** ************* *********************
 
 class Game extends Bureaucrat {
@@ -26,24 +26,7 @@ class Game extends Bureaucrat {
 		this.currPartOfSpeachTags = config.getDefaultPartOfSpeachCode(this.ws);
 		this.currFilter = this.ws.assembleLessonNoFilter("all");
 	}		
-
-	useDummyWordspace() {
-		var hatul = new DicWordInfo("he", "חתול");
-		var cat = new DicWordInfo("ru", "кот");
-		var hatul_cat = new DicEntry();
-		hatul_cat.addWordInfo(hatul);
-		hatul_cat.addWordInfo(cat);
-		var more = new DicWordInfo("he", "מוֹרֶה");
-		var teacher = new DicWordInfo("ru", "учитель");
-		var more_techer = new DicEntry();
-		more_techer.addWordInfo(more);
-		more_techer.addWordInfo(teacher);
-		var ws = new Wordspace();
-		ws.addDicEntry(hatul_cat);
-		ws.addDicEntry(more_techer);
-		return ws;
-	}	
-
+	
 	useBuitInWordspace(id=undefined) {
 		
 		let ws = new Wordspace();
@@ -70,7 +53,7 @@ class Game extends Bureaucrat {
 				"relativeSize" : relativeSize};
 	}
 	
-	assembleSubjectDomainTagRecords(wordspace) {
+	getSubjectDomainTagRecords(wordspace) {
 		
 		let tags = wordspace.getSubjectDomainTags();
 		
@@ -80,10 +63,14 @@ class Game extends Bureaucrat {
 			let tag = tags[tagIdx];
 			let stat = wordspace.getSubjectDomainTagStat(tag);
 			let tagRecord = this.assembleTagRecord(tag, stat.relativeSize);
-			tagRecords.push(tagRecord);
+			tagRecords[tag] = tagRecord;
 		}
 		
 		return tagRecords;
+	}
+	
+	getSubjectDomainTagLocalWordings(wordspace) {
+		return wordspace.getSubjectDomainTagWordings();
 	}
 	
 	useWordspaceFromGdocs() {
@@ -140,7 +127,7 @@ class Game extends Bureaucrat {
 		}
 		
 		this.subjectDomainTagRecords = 
-			this.assembleSubjectDomainTagRecords(ws);
+			this.getSubjectDomainTagRecords(ws);
 		
 		return ws;
 	}
@@ -208,8 +195,10 @@ class Game extends Bureaucrat {
 	}
 	
 	setCurrRiddleLang(langCode) {
-		this.ccurrRiddleLangCode = langCode;
+		this.currRiddleLangCode = langCode;
 		this.takeNextQuestion();
+		let localTags = this.getWordspace().getSubjectDomainTagWordings();
+		this.getMainPage().subjectDomainTagCloud.showLocalWordings(langCode);
 	}
 	
 	getCurrGuessLangCode() {
@@ -227,6 +216,17 @@ class Game extends Bureaucrat {
 	setCurrPartOfSpeach(partOfSpeachCode) {
 		this.currPartOfSpeachCode = partOfSpeachCode;
 		this.takeNextQuestion();
+	}
+	
+	setSubjectDomainTags(wordspace) {
+		
+		let mainPage = this.getMainPage();
+		
+		let tagRecords = this.getSubjectDomainTagRecords(wordspace);
+		mainPage.subjectDomainTagCloud.appendTags(tagRecords);
+		
+		let tagLocalWordings = this.getSubjectDomainTagLocalWordings(wordspace);
+		mainPage.subjectDomainTagCloud.setTagLocalWordings(tagLocalWordings);
 	}
 	
 	getCurrSubjectDomainTags(subjectDomainTags) {
@@ -255,9 +255,7 @@ class Game extends Bureaucrat {
 			
 		this.currFilter = 
 			currLessonNoFilter.crossWithFilters(currPartOfSpeachFilter, 
-			                               currSubjectDomainTagFilter);
-		
-		console.log(this.currFilter);	
+			                               currSubjectDomainTagFilter);	
 	}
 
 	getCurrDicEntry() {
@@ -316,7 +314,6 @@ class Game extends Bureaucrat {
 		let currFilter = this.getCurrFilter();
 			
 		if(currFilter.countItems() > 0) {
-			console.log(currFilter.fetchRandomItem());
 			let riddleLangCode = this.getCurrRiddleLangCode();
 			let randomWord = currFilter.fetchRandomItem();
 			this.setCurrDicEntry(randomWord);	
@@ -333,8 +330,11 @@ class Game extends Bureaucrat {
 	
 	play() {
 		let mainPage = this.getMainPage();
+		
 		this.setCurrRiddleLang(mainPage.riddleLangSelector.getUiControlValue());
 		this.setCurrGuessLang(mainPage.guessLangSelector.getUiControlValue());
+		this.setSubjectDomainTags(this.getWordspace());
+			
 		this.takeNextQuestion();
 	}
 }
