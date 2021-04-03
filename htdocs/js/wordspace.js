@@ -122,7 +122,7 @@ class SubjectDomainTagIndex extends StringIndex {
 class WsSpreadsheet extends GoogleSpreadsheetSimple {
 	
 	isValidDataRow(row, fields) {
-		return isHebrewTextInside(row["headword"]);
+		return row["tag_no"] || isHebrewTextInside(row["headword"]);
 	}	
 	
 	getHeadword(sheetName, rowIdx) {
@@ -146,10 +146,7 @@ class WsSpreadsheet extends GoogleSpreadsheetSimple {
 	}	
 	
 	getSubjectDomainTags(sheetName, rowIdx) {
-		
-		
-		return this.getFieldValue(sheetName, rowIdx, "tags_en");
-		//return "Mind, Directions, Food, Sport, Ocupations";
+		return this.getFieldValue(sheetName, rowIdx, "tags");
 	}
 	
 	getMnemoPhrase(sheetName, rowIdx, langCode) {
@@ -348,15 +345,11 @@ class Wordspace {
 	}
 	
 	getSubjectDomainTagWordings() {
-		
-		let subjectDomainTagWordings = {
-			"languages" : {"en" : "languages", "ru" : "языки"},
-			"mental" : {"en" : "mental", "ru" : "создание"},
-            "profession" : {"en" : "profession", "ru" : "профессии"},
-            "time" : {"en" : "time", "ru" : "время"}
-		};
-		
-		return subjectDomainTagWordings;
+		return this.subjectDomainTagWordings;
+	}
+	
+	setSubjectDomainTagWordings(tagWordings) {
+		this.subjectDomainTagWordings = tagWordings;
 	}
 	
 	selectDicEntries(query, _filter=null) {

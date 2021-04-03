@@ -21,6 +21,9 @@
 		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Conjunctions"></script>
 		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Other"></script>
 		
+		<!-- Fetching service sheets -->
+		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Tags"></script>
+		
 		<!-- The gaming code -->
 		<script src="js/utils.js"></script>
 		<script src="js/setops.js"></script>
@@ -153,6 +156,8 @@
 						</div>
 
 						<!-- Cloud of tags -->
+						<div id="subjectDomainCloudSwitchDiv"
+						     onclick="GLOBAL_app.process(this.id, 'onChange')">[-]</div>
 						<div id="subjectDomainCloudDiv"></div>
 						
 						<!-- Displaying content (questions, answrs, etc.) -->
@@ -179,6 +184,12 @@
 					</div>
 					
 				</form>
+				
+				<!--
+				<div id="wordListDiv">
+				<p>====</p>
+				</div>
+				-->
 				
 			</div>
 			

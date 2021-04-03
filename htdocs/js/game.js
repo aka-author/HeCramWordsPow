@@ -84,47 +84,69 @@ class Game extends Bureaucrat {
 		
 		for(let partOfSpeach in gdoc.doc.sheets) {
 			
-			let countRows = gdoc.countRows(partOfSpeach);
-			let baseLangCodes = this.getAvailableBaseLangCodes();
+			if(!partOfSpeach.includes("service.")) {
+				
+				let countRows = gdoc.countRows(partOfSpeach);
+				let baseLangCodes = this.getAvailableBaseLangCodes();
+				
+				for(let rowIdx = 0; rowIdx < countRows; rowIdx++) {
+					
+					let dicEntry = new DicEntry();
+					
+					let targetWord = gdoc.getHeadword(partOfSpeach, rowIdx);
+					let targetWordInfo = new WordInfo(targetLangCode, targetWord);
+					targetWordInfo.setPartOfSpeach(partOfSpeach);
+					
+					dicEntry.appendWordInfo(targetWordInfo);
+					
+					for(let baseLangIdx in baseLangCodes) {
+						
+						let baseLangCode = baseLangCodes[baseLangIdx].code;
+						
+						let baseColName = this.assembleWsColName(baseLangCode);
+						let baseWord = gdoc.getTranslation(partOfSpeach, rowIdx, baseColName);
+						
+						let baseWordInfo = new WordInfo(baseLangCode, baseWord);
+						
+						let mnemoPhrase = gdoc.getMnemoPhrase(partOfSpeach, rowIdx, baseLangCode);
+						if(mnemoPhrase)
+							baseWordInfo.setMnemoPhrase(mnemoPhrase);
+						
+						dicEntry.appendWordInfo(baseWordInfo); 
+					}
+									
+					let levelNo = gdoc.getLevelNo(partOfSpeach, rowIdx);				
+					dicEntry.setLevelNo(levelNo);
+					
+					let lessonNo = gdoc.getLessonNo(partOfSpeach, rowIdx);
+					dicEntry.setLessonNo(lessonNo);
+					
+					let subjectDomainTags = gdoc.getSubjectDomainTags(partOfSpeach, rowIdx);
+					dicEntry.setSubjectDomainTags(subjectDomainTags);
+					
+					ws.appendDicEntry(dicEntry);
+				} // for
+			} // if	
+		} // for
+		
+		let tagWordings = new Array();
+		
+		let countRows = gdoc.countRows("service.tags");
+		let baseLangCodes = this.getAvailableBaseLangCodes();
+		
+		for(let rowIdx = 0; rowIdx < countRows; rowIdx++) {
 			
-			for(let rowIdx = 0; rowIdx < countRows; rowIdx++) {
-				
-				let dicEntry = new DicEntry();
-				
-				let targetWord = gdoc.getHeadword(partOfSpeach, rowIdx);
-				let targetWordInfo = new WordInfo(targetLangCode, targetWord);
-				targetWordInfo.setPartOfSpeach(partOfSpeach);
-				
-				dicEntry.appendWordInfo(targetWordInfo);
-				
-				for(let baseLangIdx in baseLangCodes) {
-					
-					let baseLangCode = baseLangCodes[baseLangIdx].code;
-					
-					let baseColName = this.assembleWsColName(baseLangCode);
-					let baseWord = gdoc.getTranslation(partOfSpeach, rowIdx, baseColName);
-					
-					let baseWordInfo = new WordInfo(baseLangCode, baseWord);
-					
-					let mnemoPhrase = gdoc.getMnemoPhrase(partOfSpeach, rowIdx, baseLangCode);
-					if(mnemoPhrase)
-						baseWordInfo.setMnemoPhrase(mnemoPhrase);
-					
-					dicEntry.appendWordInfo(baseWordInfo); 
-				}
-								
-				let levelNo = gdoc.getLevelNo(partOfSpeach, rowIdx);				
-				dicEntry.setLevelNo(levelNo);
-				
-				let lessonNo = gdoc.getLessonNo(partOfSpeach, rowIdx);
-				dicEntry.setLessonNo(lessonNo);
-				
-				let subjectDomainTags = gdoc.getSubjectDomainTags(partOfSpeach, rowIdx);
-				dicEntry.setSubjectDomainTags(subjectDomainTags);
-				
-				ws.appendDicEntry(dicEntry);
+			let tag = gdoc.getFieldValue("service.tags", rowIdx, "tag");
+			
+			tagWordings[tag] = new Array();
+			for(let baseLangIdx in baseLangCodes) {
+				let langCode = baseLangCodes[baseLangIdx].code;
+				tagWordings[tag][langCode] = 
+					gdoc.getFieldValue("service.tags", rowIdx, "tag_" + langCode);
 			}
 		}
+		
+		ws.setSubjectDomainTagWordings(tagWordings);
 		
 		this.subjectDomainTagRecords = 
 			this.getSubjectDomainTagRecords(ws);
@@ -331,9 +353,9 @@ class Game extends Bureaucrat {
 	play() {
 		let mainPage = this.getMainPage();
 		
+		this.setSubjectDomainTags(this.getWordspace());
 		this.setCurrRiddleLang(mainPage.riddleLangSelector.getUiControlValue());
 		this.setCurrGuessLang(mainPage.guessLangSelector.getUiControlValue());
-		this.setSubjectDomainTags(this.getWordspace());
 			
 		this.takeNextQuestion();
 	}

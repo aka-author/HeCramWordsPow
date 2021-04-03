@@ -108,6 +108,12 @@ body {
 	border-radius: var(--area-border-radius);
 }
 
+#subjectDomainCloudSwitchDiv {
+	text-align: left;
+	cursor: pointer;
+	font-family: monospace;
+}
+
 #subjectDomainCloudDiv {
 	text-align: left;
 }

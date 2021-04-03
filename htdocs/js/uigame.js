@@ -309,6 +309,18 @@ class MainMenuItem extends PaneLabel {
 }
 
 
+class subjectDomainTagCloudSwitch extends UiControl {
+	
+	onChange() {
+		let switchDiv = document.getElementById("subjectDomainCloudSwitchDiv");
+		let cloud = document.getElementById("subjectDomainCloudDiv");
+		let state = cloud.style.display;
+		cloud.style.display = state == "none" ? "" : "none";
+		switchDiv.innerHTML = state == "none" ? "[-]" : "[+]";
+	}
+	
+}
+
 class SubjectDomainTagCloud extends TagCloud {
 	
 	onChange() {
@@ -317,3 +329,14 @@ class SubjectDomainTagCloud extends TagCloud {
 	
 }
 
+/*
+class wordTable extends UiControl {
+
+	assembleHtml() {
+		let filter = this.getGame().currFilter;
+		for(let wordIdx = 0; wordIdx < filter.countItems; i++) {
+			
+		}
+	}
+
+} */

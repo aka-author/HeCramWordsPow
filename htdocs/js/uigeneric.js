@@ -358,9 +358,11 @@ class TagCloud extends UiControl {
 	
 		let tagCloudWrapper = this.assembleTagCloudWrapperElement();
 		
+		let tags = Object.keys(this.tagRecords);
+		
 		let count = 0;		
-		for(let tag in this.tagRecords) {
-			let tagRecord = this.tagRecords[tag];
+		for(let tagIdx in tags) {
+			let tagRecord = this.tagRecords[tags[tagIdx]];
 			let tagSwitch = new TagSwitch(this, tagRecord);
 			if(count > 0) 
 				tagCloudWrapper.appendChild(this.assembleSeparatorHtml());
@@ -379,7 +381,7 @@ class TagCloud extends UiControl {
 	}
 	
 	setTagLocalWordings(localWordings) {
-		this.localWordings = localWordings;
+		this.localTagWordings = localWordings;
 	}		
 	
 	getTagWording(tag, langCode=undefined) {
@@ -389,8 +391,8 @@ class TagCloud extends UiControl {
 		if(this.localTagWordings[tag] && langCode) 
 			wording = this.localTagWordings[tag][langCode];
 		else 
-			if(this.tags[tag])
-				wording = this.tags[tag].wording;
+			if(this.tagRecords[tag])
+				wording = this.tagRecords[tag].wording;
 			
 		return wording;		
 	}

@@ -46,6 +46,9 @@ class MainPage extends Bureaucrat {
 		this.partOfSpeachSelector = 
 			new PartOfSpeachSelector(this, "partOfSpeachSelectorSelect");
 		
+		this.subjectDomainTagCloudSwitch = 
+			new subjectDomainTagCloudSwitch(this, "subjectDomainCloudSwitchDiv");
+			
 		this.subjectDomainTagCloud = 
 			new SubjectDomainTagCloud(this, "subjectDomainCloudDiv");
 			

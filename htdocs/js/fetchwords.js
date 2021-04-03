@@ -14,7 +14,7 @@ class Google {
 		let partOfSpeech = "other";
 		
 		let tag = sheetJson.table.cols[0].label.toLowerCase().trim();
-	
+		
 		if(tag.includes("pronoun"))
 			partOfSpeech = "pronouns";
 		else 
@@ -34,7 +34,10 @@ class Google {
 				partOfSpeech = "prepositions";	
 		else 
 			if(tag.includes("conjunction")) 
-				partOfSpeech = "conjunctions";	
+				partOfSpeech = "conjunctions";
+		else 
+			if(tag.includes("tag")) 
+				partOfSpeech = "service.tags";	
 		else
 			partOfSpeech = "other";
 		
