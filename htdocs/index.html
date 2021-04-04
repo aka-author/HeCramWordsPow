@@ -158,8 +158,12 @@
 
 						<!-- Cloud of tags -->
 						
+						<!--
 						<div id="subjectDomainCloudSwitchDiv"
 							 onclick="GLOBAL_app.process(this.id, 'onChange')">[-]</div>
+						-->	 
+						<div id="subjectDomainCloudSwitchDiv"
+							 onclick="GLOBAL_app.process(this.id, 'onChange')"><img id="subjectDomainCloudSwitchImg" src="img/glaz-zakr.png" class="showHideImg"> <label id="subjectDomainCloudSwitchLabel" class="showHideLabel">Subject domain tags</label></div>
 						<div id="subjectDomainCloudDiv"></div>
 						
 						<!-- Displaying content (questions, answrs, etc.) -->
@@ -190,8 +194,7 @@
 				<div id="wordListBlockDiv">
 					<div id="wordListHeadlineDiv">
 						<span id="wordListSwitchSpan"
-							  onclick="GLOBAL_app.process(this.id, 'onChange')">[+]</span>
-						<label id="wordListLabel">Words </label>	
+							  onclick="GLOBAL_app.process(this.id, 'onChange')"><img id="wordListSwitchImg" src="img/glaz-otkr.png" class="showHideImg"></span> <label id="wordListLabel" class="showHideLabel">List of words</label>	
 					</div>	
 					<div id="wordListDiv" style="display: none"></div>
 				</div>

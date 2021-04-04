@@ -312,11 +312,11 @@ class MainMenuItem extends PaneLabel {
 class subjectDomainTagCloudSwitch extends UiControl {
 	
 	onChange() {
-		let switchDiv = document.getElementById("subjectDomainCloudSwitchDiv");
+		let switchImg = document.getElementById("subjectDomainCloudSwitchImg");
 		let cloud = document.getElementById("subjectDomainCloudDiv");
 		let state = cloud.style.display;
 		cloud.style.display = state == "none" ? "" : "none";
-		switchDiv.innerHTML = state == "none" ? "[-]" : "[+]";
+		switchImg.src = state == "none" ? "img/glaz-zakr.png" : "img/glaz-otkr.png";
 	}
 	
 }
@@ -334,11 +334,11 @@ class SubjectDomainTagCloud extends TagCloud {
 class WordListSwitch extends UiControl {
 	
 	onChange() {
-		let switchDiv = document.getElementById("wordListSwitchSpan");
+		let switchImg = document.getElementById("wordListSwitchImg");
 		let list = document.getElementById("wordListDiv");
 		let state = list.style.display;
 		list.style.display = state == "none" ? "" : "none";
-		switchDiv.innerHTML = state == "none" ? "[-]" : "[+]";
+		switchImg.src = state == "none" ? "img/glaz-zakr.png" : "img/glaz-otkr.png";
 	}
 	
 }

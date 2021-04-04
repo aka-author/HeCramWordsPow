@@ -112,7 +112,6 @@ body {
 #subjectDomainCloudSwitchDiv {
 	text-align: left;
 	cursor: pointer;
-	font-family: monospace;
 }
 
 #subjectDomainCloudDiv {
@@ -219,6 +218,17 @@ body {
 	font-size: 26px;
 }
 
+.showHideImg {
+	vertical-align: middle;
+	width: 2em;
+	
+}
+
+.showHideLabel {
+	height: 2em;
+	
+}
+
 #wordAreaDiv {
 	height: 80%;
 	min-height: 100px;
@@ -304,7 +314,6 @@ span.hebrewDisclosedWordInMnemoPhrase {
 
 #wordListSwitchSpan {
 	cursor: pointer;
-	font-family: Monospace;
 }
 
 #wordListDiv {
