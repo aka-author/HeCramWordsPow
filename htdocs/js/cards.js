@@ -37,16 +37,20 @@ class CardGenerator {
 				let table = document.createElement("table");
 				for(let rowIdx = 0; rowIdx < this.getRowsPerPage(); rowIdx++) {
 					let tr = document.createElement("tr");
+					if(langIdx == 1) 
+						dicEntryIdx += this.getColsPerPage() - 1;
 					for(let colIdx = 0; colIdx < this.getColsPerPage(); colIdx++) {
 						let td = document.createElement("td");
 						if(dicEntryIdx < this.filter.countItems()) {
 							let dicEntry = this.filter.fetchItemByIdx(dicEntryIdx);
 							let headword = dicEntry.getHeadword(langCodes[langIdx]);
 							td.innerHTML = headword;
-							dicEntryIdx++;
 						}
+						dicEntryIdx += langIdx == 0 ? 1 : -1;
 						tr.appendChild(td);
 					}
+					if(langIdx == 1) 
+							dicEntryIdx += this.getColsPerPage() + 1;
 					table.appendChild(tr);
 				}
 				div.appendChild(table);

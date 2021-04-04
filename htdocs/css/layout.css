@@ -348,6 +348,12 @@ span.hebrewDisclosedWordInMnemoPhrase {
 	font-size:   var(--service-font-size);
 }
 
+#printButtonImg {
+	margin-top: 10px;
+	width: 50px;
+	cursor: pointer;
+}
+
 .footerMenuItem {
 	margin-right: 		2em;
 	font-weight: 		bold;
