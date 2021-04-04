@@ -79,6 +79,8 @@ class MainPage extends Bureaucrat {
 		
 		
 		this.setCurrUiLang(this.getUserConfig().getDefaultUiLangCode());
+		
+		this.printCardsButton = new PrintCardsButton(this, "printButton");
 	}		
 		
 	// UI language 

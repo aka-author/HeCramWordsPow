@@ -398,5 +398,14 @@ class WordList extends UiControl {
 		div.appendChild(this.html);
 	}
 	
-
 } 
+
+
+class PrintCardsButton extends Button {
+
+	getPressed() {
+		
+		this.getGame().printCards();
+	}
+
+}

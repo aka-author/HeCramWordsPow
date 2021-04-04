@@ -6,6 +6,9 @@
 // Func:	Executing user's commands       (^.^)
 //* * ** *** ***** ******** ************* *********************
 
+
+var GLOBAL_PRINT = new Array();
+
 class Game extends Bureaucrat {
 
 	constructor(app) {
@@ -365,6 +368,21 @@ class Game extends Bureaucrat {
 		mainPage.wordList.setParams(this.currFilter, 
 								this.currRiddleLangCode,
 								this.currGuessLangCode);
+	}
+	
+	
+	
+	
+	printCards() {
+		
+		let carder = new CardGenerator(this.currFilter, this.getCurrRiddleLangCode(), 
+										this.getCurrGuessLangCode());
+										
+		var html = carder.assembleHtml();	
+		
+		GLOBAL_PRINT.push(html);
+		
+		let win1 = window.open("print/cards.html");	
 	}
 	
 	play() {

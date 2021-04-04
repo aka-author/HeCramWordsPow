@@ -319,7 +319,8 @@ span.hebrewDisclosedWordInMnemoPhrase {
 #wordListDiv {
 	margin-right:	10%;
 	column-width: 	15em;
-	column-count: 	auto;
+	--column-count: 	auto;
+	-moz-column-count: 2;
 	column-gap:   	3em;
 	column-rule: 	4px double #ffccdd;
 }
@@ -329,9 +330,15 @@ span.hebrewDisclosedWordInMnemoPhrase {
 	border-collapse: collapse;
 }
 
+#wordListTable tr {
+	--break-inside: avoid;
+}
+
 #wordListTable tr td {
 	border-bottom: 1px dashed #cccccc;
+	break-inside: avoid;
 }
+
 #wordListTable tr td:nth-child(2) {
 	padding-left: 1em;
 }
