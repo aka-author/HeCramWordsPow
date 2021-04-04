@@ -86,13 +86,13 @@ function getRandomKey(arr) {
 
 function safeCompareStrings(s1, s2) {
 	
-	if(s1 === undefined && s2 !== undefined)
+	if(!Boolean(s1) && Boolean(s2))
 		return 1;
 	else 
-		if(s1 !== undefined && s2 === undefined)
+		if(Boolean(s1) && !Boolean(s2))
 			return -1;
 		else 
-			if(s1 === undefined && s2 === undefined)
+			if(!Boolean(s1) && !Boolean(s2))
 				return 0;
 			else
 				return s1.localeCompare(s2);	

@@ -231,6 +231,8 @@ class Game extends Bureaucrat {
 	
 	setCurrGuessLang(langCode) {
 		this.currGuessLangCode = langCode;
+		this.takeNextQuestion();
+		this.updateWordList();
 	}
 	
 	getCurrPartOfSpeachCode() {
@@ -253,7 +255,7 @@ class Game extends Bureaucrat {
 		let tagLocalWordings = this.getSubjectDomainTagLocalWordings(wordspace);
 		mainPage.subjectDomainTagCloud.setTagLocalWordings(tagLocalWordings);
 		
-		//this.takeNextQuestion();
+		this.takeNextQuestion();
 		this.updateWordList();
 	}
 	
@@ -263,6 +265,8 @@ class Game extends Bureaucrat {
 	
 	setCurrSubjectDomains(subjectDomainTags) {
 		this.currSubjectDomainTags = subjectDomainTags;
+		this.takeNextQuestion();
+		this.updateWordList();
 	}
 	
 	getCurrFilter() {
@@ -356,6 +360,7 @@ class Game extends Bureaucrat {
 	}
 	
 	updateWordList() {
+		console.log(this.currRiddleLangCode, this.currGuessLangCode)
 		let mainPage = this.getMainPage();
 		mainPage.wordList.setParams(this.currFilter, 
 								this.currRiddleLangCode,

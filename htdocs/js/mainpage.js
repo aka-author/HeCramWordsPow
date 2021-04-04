@@ -73,7 +73,7 @@ class MainPage extends Bureaucrat {
 			new TakeNextQuestionButton(this, "takeNextQuestionButtonImg");
 		
 		this.wordListSwitch = 
-			new WordListSwitch(this, "wordListSwitchDiv");
+			new WordListSwitch(this, "wordListSwitchSpan");
 		
 		this.wordList = new WordList(this, "wordListDiv");
 		

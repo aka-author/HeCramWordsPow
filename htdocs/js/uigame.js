@@ -324,6 +324,7 @@ class subjectDomainTagCloudSwitch extends UiControl {
 class SubjectDomainTagCloud extends TagCloud {
 	
 	onChange() {
+		console.log(this.getGame());
 		this.getGame().setCurrSubjectDomains(this.getUiControlValue());
 	}
 	
@@ -333,7 +334,7 @@ class SubjectDomainTagCloud extends TagCloud {
 class WordListSwitch extends UiControl {
 	
 	onChange() {
-		let switchDiv = document.getElementById("wordListSwitchDiv");
+		let switchDiv = document.getElementById("wordListSwitchSpan");
 		let list = document.getElementById("wordListDiv");
 		let state = list.style.display;
 		list.style.display = state == "none" ? "" : "none";
