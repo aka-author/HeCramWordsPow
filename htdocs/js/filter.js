@@ -8,7 +8,7 @@
 
 class Filter {
 	
-	constructor(setOfItems) {
+	constructor(setOfItems=null) {
 		this.itemComparators = new Array();
 		this.setSetOfItems(setOfItems);
 	}
@@ -18,7 +18,7 @@ class Filter {
 	}
 	
 	setSetOfItems(setOfItems) {
-		this.setOfItems = setOfItems;
+		this.setOfItems = setOfItems ? setOfItems : new Set();
 		this.rebuild();
 	}
 	
@@ -104,12 +104,16 @@ class Filter {
 		return newItemComparatorPriority++;	
 	}
 	
-	appendItemComparator(itemComparator, fieldName, sortMode=SORT_ASCENDING) {
+	assembleFieldName(fieldName) {
+		return fieldName ? fieldName : "field" + this.itemComparators.length; 
+	}
+	
+	appendItemComparator(itemComparator, fieldName=undefined, sortMode=SORT_ASCENDING) {
 		
 		let itemComparatorEntry = new Array();
 		
 		itemComparatorEntry.itemComparator = itemComparator;
-		itemComparatorEntry.fieldName = fieldName;
+		itemComparatorEntry.fieldName = this.assembleFieldName(fieldName);
 		itemComparatorEntry.sortMode = sortMode;
 		itemComparatorEntry.priority = this.getNewItemComparatorPriority();
 		

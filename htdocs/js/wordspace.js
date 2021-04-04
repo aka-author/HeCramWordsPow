@@ -262,6 +262,19 @@ class DicEntry {
 }
 
 
+class DicEntryComparator extends Comparator {
+
+	constructor(compareLangCode) {
+		super();
+		this.compareLangCode = compareLangCode;
+	}
+	
+	compareItems(dicEntry1, dicEntry2) {
+		let headword1 = dicEntry1.getHeadword(this.compareLangCode);
+		let headword2 = dicEntry2.getHeadword(this.compareLangCode);
+		return safeCompareStrings(headword1, headword2);
+	}		
+}
 
 
 class wordspaceQuery {

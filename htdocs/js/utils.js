@@ -81,9 +81,34 @@ function getRandomKey(arr) {
 
 
 //
+// Comparing values
+//
+
+function safeCompareStrings(s1, s2) {
+	
+	if(s1 === undefined && s2 !== undefined)
+		return 1;
+	else 
+		if(s1 !== undefined && s2 === undefined)
+			return -1;
+		else 
+			if(s1 === undefined && s2 === undefined)
+				return 0;
+			else
+				return s1.localeCompare(s2);	
+}
+
+
+
+//
 // HTML
 //
 
 function isHtmlElement(domNode) {
 	return domNode instanceof HTMLElement;
+}
+
+
+function clearInnerHtml(htmlElement) {
+	htmlElement.innerHTML = "";
 }

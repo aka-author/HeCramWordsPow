@@ -1,21 +1,22 @@
 :root {
-	--content-left-margin:         180px;
-	--func-block-top-margin:       15px;
-	--func-block-top-margin-large: 30px;
-	--func-block-bottom-margin:    15px;
-	--area-border-radius:          10px;
-	--action-button-width:	       70px;
-	--action-button-height:	       70px;
-	--action-button-radius:	       36px;
-	--action-button-margin:	       35px;
-	--action-button-normal-border: 2px solid black;
-	--supreme-font-size:           14pt;
-	--normal-font-size:            12pt;
-	--service-font-size:           9pt;
-	--nakar-emphased-color:        #c60021;
-	--tag-margin-right:			   0px;
-	--tag-padding:                 5px;
-	--tag-border-radius:           5px;
+	--content-left-margin:         		180px;
+	--func-block-top-margin:       		15px;
+	--func-block-top-margin-large: 		30px;
+	--func-block-bottom-margin:    		15px;
+	--last-func-block-bottom-margin:	10%;
+	--area-border-radius:          		10px;
+	--action-button-width:	       		70px;
+	--action-button-height:	       		70px;
+	--action-button-radius:	       		36px;
+	--action-button-margin:	       		35px;
+	--action-button-normal-border: 		2px solid black;
+	--supreme-font-size:           		14pt;
+	--normal-font-size:            		12pt;
+	--service-font-size:           		9pt;
+	--nakar-emphased-color:        		#c60021;
+	--tag-margin-right:			   		0px;
+	--tag-padding:                 		5px;
+	--tag-border-radius:           		5px;
 }
 
 body {
@@ -96,7 +97,7 @@ body {
 
 #gameAreaDiv {
 	height: 70%;
-	margin-bottom: 10%;
+	--margin-bottom: 10%;
 	margin-right: 10%;
 	border-radius: 10px;
 	text-align: center;
@@ -116,6 +117,7 @@ body {
 
 #subjectDomainCloudDiv {
 	text-align: left;
+	line-height: 24pt;
 }
 
 .tag0 {
@@ -288,6 +290,28 @@ span.hebrewDisclosedWordInMnemoPhrase {
 	border:        var(--action-button-normal-border);
 	border-radius: var(--action-button-radius);
 	cursor:        pointer;
+}
+
+#wordListBlockDiv {
+	margin-top:    var(--func-block-top-margin);
+	margin-bottom: var(--last-func-block-bottom-margin);
+}
+
+#wordListHeadlineDiv {
+	margin-top:    var(--func-block-top-margin);
+	margin-bottom: var(--func-block-bottom-margin);
+}
+
+#wordListDiv {
+	margin-right:	10%;
+	column-width: 	15em;
+	column-count: 	auto;
+	column-gap:   	3em;
+	column-rule: 	4px double #ff00ff;
+}
+
+#wordListTable {
+	width: 100%;
 }
 
 #footerDiv {

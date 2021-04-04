@@ -27,6 +27,7 @@
 		<!-- The gaming code -->
 		<script src="js/utils.js"></script>
 		<script src="js/setops.js"></script>
+		<script src="js/comparator.js"></script>
 		<script src="js/index.js"></script>
 		<script src="js/filter.js"></script>
 		<script src="js/bureaucracy.js"></script>
@@ -156,8 +157,9 @@
 						</div>
 
 						<!-- Cloud of tags -->
+						
 						<div id="subjectDomainCloudSwitchDiv"
-						     onclick="GLOBAL_app.process(this.id, 'onChange')">[-]</div>
+							 onclick="GLOBAL_app.process(this.id, 'onChange')">[-]</div>
 						<div id="subjectDomainCloudDiv"></div>
 						
 						<!-- Displaying content (questions, answrs, etc.) -->
@@ -185,11 +187,16 @@
 					
 				</form>
 				
-				<!--
-				<div id="wordListDiv">
-				<p>====</p>
+				<div id="wordListBlockDiv">
+					<div id="wordListHeadlineDiv">
+						<span id="wordListSwitchDiv"
+							  onclick="GLOBAL_app.process(this.id, 'onChange')">[+]</span>
+						<label>Words </label>	
+					</div>	
+					<div id="wordListDiv" style="display: none"></div>
 				</div>
-				-->
+				
+				
 				
 			</div>
 			

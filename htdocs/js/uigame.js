@@ -329,14 +329,73 @@ class SubjectDomainTagCloud extends TagCloud {
 	
 }
 
-/*
-class wordTable extends UiControl {
+
+class WordListSwitch extends UiControl {
+	
+	onChange() {
+		let switchDiv = document.getElementById("wordListSwitchDiv");
+		let list = document.getElementById("wordListDiv");
+		let state = list.style.display;
+		list.style.display = state == "none" ? "" : "none";
+		switchDiv.innerHTML = state == "none" ? "[-]" : "[+]";
+	}
+	
+}
+
+
+class WordList extends UiControl {
 
 	assembleHtml() {
-		let filter = this.getGame().currFilter;
-		for(let wordIdx = 0; wordIdx < filter.countItems; i++) {
+		
+		console.log(this.currFilter);
+		
+		let countDicEntries = this.currFilter.countItems();
+		
+		let wordListTable = document.createElement("table");
+		wordListTable.setAttribute("id", "wordListTable");
+		
+		for(let dicEntryIdx = 0; dicEntryIdx < countDicEntries; dicEntryIdx++) {
 			
+			let dicEntry = this.currFilter.fetchItemByIdx(dicEntryIdx);
+			
+			let riddleTd = document.createElement("td");
+			riddleTd.setAttribute("lang", this.currRiddleLangCode);
+			riddleTd.setAttribute("dir", "auto");
+			let riddleHeadwordText = document.createTextNode(dicEntry.getHeadword(this.currRiddleLangCode));
+			riddleTd.appendChild(riddleHeadwordText);
+			
+			let guessTd = document.createElement("td");
+			guessTd.setAttribute("lang", this.currGuessLangCode);
+			guessTd.setAttribute("dir", "auto");
+			let guessHeadwordText = document.createTextNode(dicEntry.getHeadword(this.currGuessLangCode));
+			guessTd.appendChild(guessHeadwordText);
+			
+			let dicEntryTr = document.createElement("tr");
+			dicEntryTr.appendChild(riddleTd);
+			dicEntryTr.appendChild(guessTd);
+			
+			wordListTable.appendChild(dicEntryTr);
 		}
+		
+		return wordListTable;
 	}
+	
+	setParams(filter, riddleLangCode, guessLangCode) {
+	
+		let dicEntryComparator = new DicEntryComparator(riddleLangCode);
+	
+		this.currFilter = new Filter();
+		this.currFilter.appendItemComparator(dicEntryComparator);
+		this.currFilter.joinFilters(filter);
+				
+		this.currRiddleLangCode = riddleLangCode;
+		this.currGuessLangCode = guessLangCode;
+		this.html = this.assembleHtml();
+		
+		let div = this.getDomObject();
+		clearInnerHtml(div);
+		div.appendChild(this.html);
+	}
+	
 
-} */
+} 
