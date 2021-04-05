@@ -1,18 +1,22 @@
 :root {
-	--content-left-margin:         180px;
-	--func-block-top-margin:       15px;
-	--func-block-top-margin-large: 30px;
-	--func-block-bottom-margin:    15px;
-	--area-border-radius:          10px;
-	--action-button-width:	       70px;
-	--action-button-height:	       70px;
-	--action-button-radius:	       36px;
-	--action-button-margin:	       35px;
-	--action-button-normal-border: 2px solid black;
-	--supreme-font-size:           14pt;
-	--normal-font-size:            12pt;
-	--service-font-size:           9pt;
-	--nakar-emphased-color:        #c60021;
+	--content-left-margin:         		180px;
+	--func-block-top-margin:       		15px;
+	--func-block-top-margin-large: 		30px;
+	--func-block-bottom-margin:    		15px;
+	--last-func-block-bottom-margin:	10%;
+	--area-border-radius:          		10px;
+	--action-button-width:	       		70px;
+	--action-button-height:	       		70px;
+	--action-button-radius:	       		36px;
+	--action-button-margin:	       		35px;
+	--action-button-normal-border: 		2px solid black;
+	--supreme-font-size:           		14pt;
+	--normal-font-size:            		12pt;
+	--service-font-size:           		9pt;
+	--nakar-emphased-color:        		#c60021;
+	--tag-margin-right:			   		0px;
+	--tag-padding:                 		5px;
+	--tag-border-radius:           		5px;
 }
 
 body {
@@ -92,11 +96,8 @@ body {
 }
 
 #gameAreaDiv {
-    --width: 80%;
 	height: 70%;
-	/* margin-top: 5%; */
-	margin-bottom: 10%;
-	--margin-left: 10%;
+	--margin-bottom: 10%;
 	margin-right: 10%;
 	border-radius: 10px;
 	text-align: center;
@@ -104,13 +105,128 @@ body {
 
 #gameModeArea {
 	text-align: left;
-	--width: 20%;
-	--margin-left: 40%;
-	--margin-right: 40%;
 	margin-bottom: var(--func-block-bottom-margin);
-	--padding: 5px;
-	--background: #fcc133;
 	border-radius: var(--area-border-radius);
+}
+
+#subjectDomainCloudSwitchDiv {
+	text-align: left;
+	cursor: pointer;
+}
+
+#subjectDomainCloudDiv {
+	text-align: left;
+	line-height: 24pt;
+}
+
+.tag0 {
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
+	cursor: pointer;
+	font-size: 6px;
+}
+
+.tag1 {
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
+	cursor: pointer;
+	font-size: 8px;
+}
+
+.tag2 {
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
+	cursor: pointer;
+	font-size: 10px;
+}
+
+.tag3 {
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
+	cursor: pointer;
+	font-size: 12px;
+}
+
+.tag4 {
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
+	cursor: pointer;
+	font-size: 14px;
+}
+
+.tag5 {
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
+	cursor: pointer;
+	font-size: 16px;
+}
+
+.tag6 {
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
+	cursor: pointer;
+	font-size: 18px;
+}
+
+.tag7 {
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
+	cursor: pointer;
+	font-size: 20px;
+}
+
+.tag8 {
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
+	cursor: pointer;
+	font-size: 22px;
+}
+
+.tag9 {
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
+	cursor: pointer;
+	font-size: 24px;
+}
+
+.tag10 {
+	margin-right: var(--tag-margin-right);
+	padding: var(--tag-padding);
+	border-radius: var(--tag-border-radius);
+	white-space: nowrap;
+	cursor: pointer;
+	font-size: 26px;
+}
+
+.showHideImg {
+	vertical-align: middle;
+	width: 2em;
+	
+}
+
+.showHideLabel {
+	height: 2em;
+	
 }
 
 #wordAreaDiv {
@@ -186,9 +302,69 @@ span.hebrewDisclosedWordInMnemoPhrase {
 	cursor:        pointer;
 }
 
+#wordListBlockDiv {
+	margin-top:    var(--func-block-top-margin);
+	margin-bottom: var(--last-func-block-bottom-margin);
+}
+
+#wordListHeadlineDiv {
+	margin-top:    var(--func-block-top-margin);
+	margin-bottom: var(--func-block-bottom-margin);
+}
+
+#wordListSwitchSpan {
+	cursor: pointer;
+}
+
+#wordListDiv {
+	margin-right:	10%;
+	column-width: 	15em;
+	--column-count: 	auto;
+	-moz-column-count: 2;
+	column-gap:   	3em;
+	column-rule: 	4px double #ffccdd;
+}
+
+#wordListTable {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#wordListTable tr {
+	--break-inside: avoid;
+}
+
+#wordListTable tr td {
+	border-bottom: 1px dashed #cccccc;
+	break-inside: avoid;
+}
+
+#wordListTable tr td:nth-child(2) {
+	padding-left: 1em;
+}
+
+.wordListLink:link {
+	text-decoration: none;
+}
+
+.wordListLink:hover, .wordListLink:active, .wordListLink:focus {
+	text-decoration: underline;
+}
+
+#printButton {
+	margin-right:	10%;
+	text-align: center;
+}
+
 #footerDiv {
 	margin-left: var(--content-left-margin);
 	font-size:   var(--service-font-size);
+}
+
+#printButtonImg {
+	margin-top: 10px;
+	width: 50px;
+	cursor: pointer;
 }
 
 .footerMenuItem {

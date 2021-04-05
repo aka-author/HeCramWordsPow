@@ -1,8 +1,9 @@
 //* * ** *** ***** ******** ************* *********************
-// Generic User Interface Controls
-//
-//                                                 (\_/)
-//                                                 (^.^) 
+// Project: Nakar
+// Module:  Play of Words
+// Layer:	Web front-end
+// File:	uigeneric.js                         (\_/)
+// Func:	Generic user interface controls      (^.^)
 //* * ** *** ***** ******** ************* *********************
 
 //
@@ -243,4 +244,187 @@ class Button extends UiControl {
 
 
 class GraphButton extends Button {
+}
+
+
+
+//
+// Clouds of tags
+//
+
+class TagSwitch extends UiControl {
+	
+	constructor(tagCloud, tagRecord) {
+		let id = tagCloud.getId() + "__" + tagRecord.code;
+		super(tagCloud, id);
+		this.tagRecord = tagRecord;
+		this.uiControlValue = this.getEmptyValue();
+		this.className = this.assembleClassName(tagRecord); 
+	}
+		
+	assembleClassName() {
+		return "tag" + Math.floor(this.tagRecord.relativeSize*10);
+	}
+	
+	getClassName() {
+		return this.className;
+	}
+	
+	getEmptyValue() {
+		return "*";
+	}
+	
+	getUiControlValue() {
+		return this.uiControlValue;
+	}
+	
+	isTagOn() {
+		return this.getUiControlValue() != this.getEmptyValue();
+	}
+	
+	turnOn() {
+		this.uiControlValue = this.tagRecord.code;
+	}
+	
+	turnOff() {
+		this.uiControlValue = this.getEmptyValue();
+	}
+	
+	getPressed() {
+		
+		if(this.isTagOn()) 
+			this.turnOff();
+		else 
+			this.turnOn();
+		
+		this.show();
+		
+		this.getChief().getPressed(); 
+	}
+	
+	assembleHtml() {
+		
+		let id = this.getId();
+		
+		let tagSpan = document.createElement("span");
+		
+		tagSpan.setAttribute("id", id);
+		tagSpan.setAttribute("class", this.getClassName());
+		tagSpan.innerHTML = this.tagRecord.wording;
+		
+		tagSpan.onclick = function() {
+			GLOBAL_app.process(id, 'getPressed');
+		};
+		
+		return tagSpan;
+	}
+	
+	show() {
+		let span = this.getDomObject();
+		
+		if(this.isTagOn()) 
+			span.style.background = "#ffccdd";
+		else 
+			span.style.background = "#ffffff";
+	}
+	
+	setWording(wording) {
+		let span = this.getDomObject();
+		span.innerHTML = wording;
+	}
+}
+
+
+class TagCloud extends UiControl {
+	
+	assembleSeparatorHtml() {
+		return document.createTextNode(" ");
+	}
+	
+	assembleTagCloudWrapperElementId() {
+		return this.getId() + "Wrapper"; 	
+	}
+	
+	assembleTagCloudWrapperElement() {
+		let tagCloudWrapperElement = document.createElement("div");
+		let id = this.assembleTagCloudWrapperElementId();
+		tagCloudWrapperElement.setAttribute("id", id);
+		return tagCloudWrapperElement;
+	}
+	
+	assembleHtml() {
+		
+		this.tagSwitches = new Array();
+	
+		let tagCloudWrapper = this.assembleTagCloudWrapperElement();
+		
+		let tags = Object.keys(this.tagRecords);
+		
+		let count = 0;		
+		for(let tagIdx in tags) {
+			let tagRecord = this.tagRecords[tags[tagIdx]];
+			let tagSwitch = new TagSwitch(this, tagRecord);
+			if(count > 0) 
+				tagCloudWrapper.appendChild(this.assembleSeparatorHtml());
+			tagCloudWrapper.appendChild(tagSwitch.assembleHtml());
+			this.tagSwitches[tagRecord.code] = tagSwitch;
+			count++;
+		}
+		
+		return tagCloudWrapper;
+	}
+	
+	appendTags(tagRecords) {
+		this.tagRecords = tagRecords;
+		let html = this.assembleHtml();
+		this.getDomObject().appendChild(html);
+	}
+	
+	setTagLocalWordings(localWordings) {
+		this.localTagWordings = localWordings;
+	}		
+	
+	getTagWording(tag, langCode=undefined) {
+		
+		let wording = "";
+		
+		if(this.localTagWordings[tag] && langCode) 
+			wording = this.localTagWordings[tag][langCode];
+		else 
+			if(this.tagRecords[tag])
+				wording = this.tagRecords[tag].wording;
+			
+		return wording;		
+	}
+	
+	getUiControlValue() {
+		return this.uiControlValue;
+	}
+	
+	getPressed() {
+		
+		this.uiControlValue = new Array();
+		
+		for(let tagCode in this.tagSwitches) 
+			if(this.tagSwitches[tagCode].isTagOn())
+				this.uiControlValue.push(tagCode);
+		
+		this.onChange();	
+	}
+	
+	onChange() {
+		// Abstract
+	}
+	
+	setUiControlValue(tags) {
+		this.uiControlValue = tags;
+	}
+	
+	showLocalWordings(langCode) {
+		for(let tag in this.tagRecords) {
+			let wording = this.getTagWording(tag, langCode);
+			if(wording)
+				this.tagSwitches[tag].setWording(wording);
+		}
+	}
 }

@@ -31,6 +31,33 @@ function multiChr(chr, num) {
 
 
 //
+// Numeric
+//
+
+function max2(a, b) {
+	 return a >= b ? a : b;
+}
+
+function maxMulti(getComparableValueFunc) {
+	
+	let max = undefined;
+	
+	if(arguments.length < 2) {
+		max = getComparableValueFunc(arguments[1]);
+		for(let argIdx = 2; argIdx < arguments.length; argIdx++)
+			max = max2(max, getComparableValueFunc(arguments[argIdx]));
+	}
+	
+	return max;
+}
+
+function safeDiv(a, b) {
+	return b != 0 ? a/b : undefined;
+}
+
+
+
+//
 // Randomization
 //
 
@@ -54,9 +81,59 @@ function getRandomKey(arr) {
 
 
 //
+// Comparing values
+//
+
+function safeCompareStrings(s1, s2) {
+	
+	if(!Boolean(s1) && Boolean(s2))
+		return 1;
+	else 
+		if(Boolean(s1) && !Boolean(s2))
+			return -1;
+		else 
+			if(!Boolean(s1) && !Boolean(s2))
+				return 0;
+			else
+				return s1.localeCompare(s2);	
+}
+
+
+
+//
 // HTML
 //
 
 function isHtmlElement(domNode) {
 	return domNode instanceof HTMLElement;
+}
+
+
+function clearInnerHtml(htmlElement) {
+	htmlElement.innerHTML = "";
+}
+
+
+function guarnteeDomObject(smth) {
+	return isHtmlElement(smth) ? smth : document.createTextNode(smth);
+}
+
+
+function wrapIntoLink(linkHolder, url, target=undefined) {
+	
+	let resultHtml = null;
+	
+	let innerHtml = guarnteeDomObject(linkHolder);
+	
+	if(Boolean(url)) {
+		let a = document.createElement("a");
+		a.setAttribute("href", url);
+		if(target) a.setAttribute("target", target);
+		a.appendChild(innerHtml);
+		resultHtml = a;
+	}
+	else 
+		resultHtml = innerHtml;
+	
+	return resultHtml;
 }

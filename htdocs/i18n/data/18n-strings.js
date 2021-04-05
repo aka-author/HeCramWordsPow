@@ -28,6 +28,9 @@ var GLOBAL_UIStrings = {
 	"partOfSpeachSelectorSelect__conjunction" : {"en" : "Conjunction", "he" : "צירוף", "ru" : "Союз", "es"  : "Conjunción", "pt" : "Conjunção"},
 	"partOfSpeachSelectorSelect__other" : {"en" : "Other", "he" : "אַחֵר", "ru" : "Прочее", "es"  : "Otro", "pt" : "Outro"},
 	
+	"subjectDomainCloudSwitchLabel" : {"en" : "Subject domain tags", "he" : "תגי תחום נושא", "ru" : "Слова по темам", "es"  : "Etiquetas de dominio de asunto", "pt" : "Tags de domínio do assunto"},
+	"wordListLabel" : {"en" : "The selected words", "he" : "המילים שנבחרו", "ru" : "Выбранные слова", "es"  : "Las palabras seleccionadas", "pt" : "As palavras selecionadas"},
+	
 	"uiLangSelectorLabel" : {"en" : "User interface language", "he" : "שפת ממשק", "ru" : "Язык интерфейса", "es" : "Lenguaje de interfaz", "pt" : "Idioma da interface"},
 	
 	"aboutUsH2" : {"en" : "About Us", 

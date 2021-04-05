@@ -1,0 +1,17 @@
+div table:nth-child(1) {
+	width: 				200mm;
+}
+
+table:not(:first-child) {
+	width: 				200mm;
+	page-break-before:	always !important;
+}
+
+td {
+	width: 				66mm;
+	height: 			41mm !important;
+	margin:				4mm;
+	border: 			1px dotted #000000;	
+	text-align:			center;
+	font-size:			5mm;
+}

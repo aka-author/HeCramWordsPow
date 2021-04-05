@@ -43,9 +43,15 @@ class MainPage extends Bureaucrat {
 		this.guessLangSelector.appendOptions([{"code" : "he", "wording" : "עברית"}]);
 		this.guessLangSelector.setUiControlValue({"code" : "he"});
 		
-		this.partOfSpeachSelector = new PartOfSpeachSelector(this, "partOfSpeachSelectorSelect");
+		this.partOfSpeachSelector = 
+			new PartOfSpeachSelector(this, "partOfSpeachSelectorSelect");
 		
-		
+		this.subjectDomainTagCloudSwitch = 
+			new subjectDomainTagCloudSwitch(this, "subjectDomainCloudSwitchDiv");
+			
+		this.subjectDomainTagCloud = 
+			new SubjectDomainTagCloud(this, "subjectDomainCloudDiv");
+			
 		this.questionArea = new WordInfoArea(this, "questionAreaDiv");
 		this.answerArea = new WordInfoArea(this, "answerAreaDiv");
 		this.promptArea = new PromptWordInfoArea(this, "promptAreaDiv");
@@ -66,9 +72,15 @@ class MainPage extends Bureaucrat {
 		this.takeNextQuestionButton = 
 			new TakeNextQuestionButton(this, "takeNextQuestionButtonImg");
 		
+		this.wordListSwitch = 
+			new WordListSwitch(this, "wordListSwitchSpan");
+		
+		this.wordList = new WordList(this, "wordListDiv");
 		
 		
 		this.setCurrUiLang(this.getUserConfig().getDefaultUiLangCode());
+		
+		this.printCardsButton = new PrintCardsButton(this, "printButton");
 	}		
 		
 	// UI language 
@@ -158,6 +170,12 @@ class MainPage extends Bureaucrat {
 		
 		this.helpPane = new Pane(this.mainGroupOfPanes, "helpPaneDiv");
 		this.mainGroupOfPanes.appendPane(this.helpPane, this.helpMainMenuItem);
+	}
+	
+	
+	// Cloud of tags 
+	localizeSubjectDomainTagCloud(localTags, langCode) {
+		this.subjectDomainTagCloud.localize(localTags, langCode);
 	}
 	
 	

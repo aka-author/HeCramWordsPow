@@ -21,8 +21,15 @@
 		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Conjunctions"></script>
 		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Other"></script>
 		
+		<!-- Fetching service sheets -->
+		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Tags"></script>
+		
 		<!-- The gaming code -->
 		<script src="js/utils.js"></script>
+		<script src="js/setops.js"></script>
+		<script src="js/comparator.js"></script>
+		<script src="js/index.js"></script>
+		<script src="js/filter.js"></script>
 		<script src="js/bureaucracy.js"></script>
 		<script src="js/config.js"></script>
 		<script src="js/lang.js"></script>
@@ -35,6 +42,7 @@
 		<script src="js/wordspace.js"></script>
 		<script src="js/uigeneric.js"></script>
 		<script src="js/uigame.js"></script>
+		<script src="js/cards.js"></script>
 		<script src="js/mainpage.js"></script>
 		<script src="js/game.js"></script>	
 		<script src="js/app.js"></script>
@@ -147,7 +155,17 @@
 									
 							</div>	
 						
-						</div>	
+						</div>
+
+						<!-- Cloud of tags -->
+						
+						<!--
+						<div id="subjectDomainCloudSwitchDiv"
+							 onclick="GLOBAL_app.process(this.id, 'onChange')">[-]</div>
+						-->	 
+						<div id="subjectDomainCloudSwitchDiv"
+							 onclick="GLOBAL_app.process(this.id, 'onChange')"><img id="subjectDomainCloudSwitchImg" src="img/glaz-zakr.png" class="showHideImg"> <label id="subjectDomainCloudSwitchLabel" class="showHideLabel">Subject domain tags</label></div>
+						<div id="subjectDomainCloudDiv"></div>
 						
 						<!-- Displaying content (questions, answrs, etc.) -->
 						<div id="wordAreaDiv">					
@@ -173,6 +191,19 @@
 					</div>
 					
 				</form>
+				
+				<div id="wordListBlockDiv">
+					<div id="wordListHeadlineDiv">
+						<span id="wordListSwitchSpan"
+							  onclick="GLOBAL_app.process(this.id, 'onChange')"><img id="wordListSwitchImg" src="img/glaz-otkr.png" class="showHideImg"></span> <label id="wordListLabel" class="showHideLabel">List of words</label>	
+					</div>	
+					<div id="wordListSubBlockDiv" style="display: none">
+						<div id="wordListDiv"></div>
+						<div id="printButton" onclick="GLOBAL_app.process(this.id, 'getPressed')"><img id="printButtonImg" src="img/printer03.jpg"></div>
+					</div>
+				</div>
+				
+				
 				
 			</div>
 			
@@ -242,7 +273,7 @@
 		<!-- Verinfo -->
 		<div id="sysVersionArea">
 			<p>&copy; <a target="_blank" href="https://www.linkedin.com/in/mikhail-ostrogorskij-22b2b5/">Mikhail Ostrogorskiy</a>, 2021.</p>
-			<p>v. 1.1.01d, 2021-03-07</p>
+			<p>v. 1.1.02a, 2021-04-05</p>
 		</div> <!-- /Verinfo -->
 		
 	</body>
