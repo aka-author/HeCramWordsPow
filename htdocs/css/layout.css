@@ -343,6 +343,19 @@ span.hebrewDisclosedWordInMnemoPhrase {
 	padding-left: 1em;
 }
 
+.wordListLink:link {
+	text-decoration: none;
+}
+
+.wordListLink:hover, .wordListLink:active, .wordListLink:focus {
+	text-decoration: underline;
+}
+
+#printButton {
+	margin-right:	10%;
+	text-align: center;
+}
+
 #footerDiv {
 	margin-left: var(--content-left-margin);
 	font-size:   var(--service-font-size);

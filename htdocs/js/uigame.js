@@ -76,6 +76,8 @@ class RiddleLangSelector extends LangSelector {
 			game.setCurrGuessLang(targetLangCode);
 		}
 		
+		//this.getChief().subjectDomainCloud.showLocalWordings(this.getGame().currBaseLangCode);
+		
 	}	
 }
 
@@ -324,7 +326,6 @@ class subjectDomainTagCloudSwitch extends UiControl {
 class SubjectDomainTagCloud extends TagCloud {
 	
 	onChange() {
-		console.log(this.getGame());
 		this.getGame().setCurrSubjectDomains(this.getUiControlValue());
 	}
 	
@@ -335,7 +336,7 @@ class WordListSwitch extends UiControl {
 	
 	onChange() {
 		let switchImg = document.getElementById("wordListSwitchImg");
-		let list = document.getElementById("wordListDiv");
+		let list = document.getElementById("wordListSubBlockDiv");
 		let state = list.style.display;
 		list.style.display = state == "none" ? "" : "none";
 		switchImg.src = state == "none" ? "img/glaz-zakr.png" : "img/glaz-otkr.png";
@@ -346,33 +347,42 @@ class WordListSwitch extends UiControl {
 
 class WordList extends UiControl {
 
+	assembleWordListTd(dicEntry, langCode) {
+		
+		let wordListTd = document.createElement("td");
+		wordListTd.setAttribute("lang", langCode);
+		wordListTd.setAttribute("dir", "auto");
+		
+		let ws = this.getGame().getWordspace();
+		
+		let extDicUrl = ws.assembleExtDicUrl(dicEntry, langCode);
+		let headword = dicEntry.getHeadword(langCode);
+		let innerHtml = wrapIntoLink(headword, extDicUrl, "_blank");
+		
+		if(isHtmlElement(innerHtml))
+			innerHtml.setAttribute("class", "wordListLink");
+		
+		wordListTd.appendChild(innerHtml);
+		
+		return wordListTd;
+	}
+
 	assembleHtml() {
-		
-		console.log(this.currFilter);
-		
+				
 		let countDicEntries = this.currFilter.countItems();
-		
+				
 		let wordListTable = document.createElement("table");
 		wordListTable.setAttribute("id", "wordListTable");
 		
 		for(let dicEntryIdx = 0; dicEntryIdx < countDicEntries; dicEntryIdx++) {
 			
 			let dicEntry = this.currFilter.fetchItemByIdx(dicEntryIdx);
-			
-			let riddleTd = document.createElement("td");
-			riddleTd.setAttribute("lang", this.currRiddleLangCode);
-			riddleTd.setAttribute("dir", "auto");
-			let riddleHeadwordText = document.createTextNode(dicEntry.getHeadword(this.currRiddleLangCode));
-			riddleTd.appendChild(riddleHeadwordText);
-			
-			let guessTd = document.createElement("td");
-			guessTd.setAttribute("lang", this.currGuessLangCode);
-			guessTd.setAttribute("dir", "auto");
-			let guessHeadwordText = document.createTextNode(dicEntry.getHeadword(this.currGuessLangCode));
-			guessTd.appendChild(guessHeadwordText);
-			
 			let dicEntryTr = document.createElement("tr");
+			
+			let riddleTd = this.assembleWordListTd(dicEntry, this.currRiddleLangCode);
 			dicEntryTr.appendChild(riddleTd);
+			
+			let guessTd = this.assembleWordListTd(dicEntry, this.currGuessLangCode);	
 			dicEntryTr.appendChild(guessTd);
 			
 			wordListTable.appendChild(dicEntryTr);

@@ -67,11 +67,8 @@ class LessonNoIndex extends Index {
 	}
 	
 	getItemKeyValues(dicEntry) {
-		//let levelCode = dicEntry.getLevelCode();
 		let lessonNo = dicEntry.getLessonNo();
-		//let keyValue = {"levelCode" : levelCode, "lessonNo" : lessonNo};
-		//return [keyValue];
-		return [lessonNo];
+		return lessonNo ? [lessonNo] : [];
 	}
 	
 	compareKeyValues(kv1, kv2) {
@@ -346,7 +343,7 @@ class Wordspace {
 	}
 	
 	getLessons(levelCode) {
-		return Object.keys(this.lessonNoIndex).sort(this.compareLessonNumbers);
+		return this.lessonNoIndex.selectKeyValues().sort(this.compareLessonNumbers);
 	}
 	
 	getSubjectDomainTags() {
@@ -408,6 +405,16 @@ class Wordspace {
 		return tags ? 
 			this.subjectDomainTagIndex.selectItemsByKeyValues(...tags) :
 			this.subjectDomainTagIndex.selectAllItems();
+	}
+	
+	assembleExtDicUrl(dicEntry, langCode) {
+		let url = "";
+		if(langCode == "he") {
+			let headword = dicEntry.getHeadword(langCode);
+			url = "https://www.pealim.com/search/?q=" + headword;
+		}	
+		
+		return url;
 	}
 	
 }

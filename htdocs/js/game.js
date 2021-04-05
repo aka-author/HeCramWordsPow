@@ -236,6 +236,9 @@ class Game extends Bureaucrat {
 		this.currGuessLangCode = langCode;
 		this.takeNextQuestion();
 		this.updateWordList();
+		
+		let localTags = this.getWordspace().getSubjectDomainTagWordings();
+		this.getMainPage().subjectDomainTagCloud.showLocalWordings(langCode);
 	}
 	
 	getCurrPartOfSpeachCode() {
@@ -363,7 +366,6 @@ class Game extends Bureaucrat {
 	}
 	
 	updateWordList() {
-		console.log(this.currRiddleLangCode, this.currGuessLangCode)
 		let mainPage = this.getMainPage();
 		mainPage.wordList.setParams(this.currFilter, 
 								this.currRiddleLangCode,

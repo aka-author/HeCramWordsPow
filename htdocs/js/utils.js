@@ -112,3 +112,28 @@ function isHtmlElement(domNode) {
 function clearInnerHtml(htmlElement) {
 	htmlElement.innerHTML = "";
 }
+
+
+function guarnteeDomObject(smth) {
+	return isHtmlElement(smth) ? smth : document.createTextNode(smth);
+}
+
+
+function wrapIntoLink(linkHolder, url, target=undefined) {
+	
+	let resultHtml = null;
+	
+	let innerHtml = guarnteeDomObject(linkHolder);
+	
+	if(Boolean(url)) {
+		let a = document.createElement("a");
+		a.setAttribute("href", url);
+		if(target) a.setAttribute("target", target);
+		a.appendChild(innerHtml);
+		resultHtml = a;
+	}
+	else 
+		resultHtml = innerHtml;
+	
+	return resultHtml;
+}

@@ -10,6 +10,7 @@ table:not(:first-child) {
 td {
 	width: 				66mm;
 	height: 			41mm !important;
+	margin:				4mm;
 	border: 			1px dotted #000000;	
 	text-align:			center;
 	font-size:			5mm;
