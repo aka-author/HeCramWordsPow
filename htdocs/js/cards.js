@@ -1,3 +1,10 @@
+//* * ** *** ***** ******** ************* *********************
+// Project: Nakar
+// Module:  Play of Words
+// Layer:	Web front-end
+// File:	cards.js                                 (\_/)
+// Func:	Formatting cards for printing them out   (^.^)
+//* * ** *** ***** ******** ************* *********************
 
 class CardGenerator {
 	
@@ -59,10 +66,8 @@ class CardGenerator {
 			
 		return div;
 	}
-	
-	
-	
 }
+
 
 function test() {
 	return GLOBAL_PRINT[GLOBAL_PRINT.length - 1];

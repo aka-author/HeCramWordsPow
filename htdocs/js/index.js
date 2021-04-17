@@ -6,51 +6,23 @@
 // Func:	Indexing and selecting items by keys    (^.^)                                                 (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
-const SORT_NONE       =  0;
-const SORT_ASCENDING  =  1; 
-const SORT_DESCENDING = -1; 
-
-class Index {
+class Index extends Comparator{
 	
 	constructor(fieldName, sortMode=SORT_NONE) {
+		
+		super(sortMode);
+		
 		this.fieldName = fieldName;
 		this.keyEntries = new Array();
 		this.indexedItems = new Set();
-		this.sortMode = sortMode;
 	}
 	
 	getFieldName() {
 		return this.fieldName;
 	}
 	
-	getSortMode() {
-		return this.sortMode;
-	}
-	
-	setSortMode(sortMode) {
-		this.sortMode = sortMode;
-	}
-	
 	countItems() {
 		return this.indexedItems.size;
-	}
-	
-	applySortMode(rawCompareResult) {
-		
-		let compareResult = 0;
-		
-		switch(this.getSortMode()) {
-			case SORT_ASCENDING:
-				compareResult = rawCompareResult;
-				break;
-			case SORT_DESCENDING:
-				compareResult = -rawCompareResult;
-				break;
-			default:
-				compareResult = 0;
-		}			
-		
-		return compareResult; 
 	}
 	
 	getItemKeyValues(item) {
@@ -58,7 +30,7 @@ class Index {
 	}	
 	
 	assembleKeyHash(keyValue) {
-		return String(keyValue);
+		return keyValue ? String(keyValue) : undefined;
 	}
 	
 	compareKeyValues(kv1, kv2) {
@@ -113,7 +85,8 @@ class Index {
 		for(let keyValueIdx in keyValues) {
 			let keyValue = keyValues[keyValueIdx];
 			let keyHash = this.checkKeyValue(keyValue);
-			this.keyEntries[keyHash].items.add(item);
+			if(keyHash)
+				this.keyEntries[keyHash].items.add(item);
 		}
 		
 		this.indexedItems.add(item);

@@ -428,3 +428,16 @@ class TagCloud extends UiControl {
 		}
 	}
 }
+
+
+
+//
+//  Sections
+//
+
+class SectionHeader extends UiControl {
+}
+
+
+class Section extends UiControl {
+}

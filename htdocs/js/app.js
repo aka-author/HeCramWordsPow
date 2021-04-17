@@ -5,6 +5,31 @@
 //                                               (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
+
+//
+// Handling application errors
+// 
+
+const ERR_OK = 0;
+const ERR_REMOTE_DATA_FAILURE = 1; 
+
+
+class AppError {
+
+	constructor(errCode=ERR_OK) {
+		this.errCode = errCode;
+	}
+
+	getCode() {
+		return this.errCode;
+	}
+	
+	setCode(errCode) {
+		this.errCode = errCode;
+	}
+}
+
+
 //
 // Application class
 //
@@ -32,6 +57,10 @@ class Application extends Bureaucrat {
 		else 
 			langCode = navigator.language.substring(0,2);
 		return langCode;
+	}
+	
+	getGdocsServUrl() {
+		return http://cramwords.com/cgi-bin/wordspace;
 	}
 	
 	run() {	

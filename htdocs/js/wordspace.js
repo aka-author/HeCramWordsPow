@@ -3,7 +3,7 @@
 // Module:  Play of Words
 // Layer:	Web front-end
 // File:	wordspace.js                (\_/)
-// Func:	Managing wordspaces         (^.^)                                                 (^.^) 
+// Func:	Managing wordspaces         (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
 // Parsing headwords
@@ -67,6 +67,7 @@ class LessonNoIndex extends Index {
 	}
 	
 	getItemKeyValues(dicEntry) {
+		
 		let lessonNo = dicEntry.getLessonNo();
 		return lessonNo ? [lessonNo] : [];
 	}
