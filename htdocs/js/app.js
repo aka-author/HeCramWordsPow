@@ -1,31 +1,55 @@
 //* * ** *** ***** ******** ************* *********************
-// Establishing a Global Environment
-//
-//                                               (\_/)
-//                                               (^.^) 
+// Project: Nakar
+// Module:  Play of Words
+// Layer:	Web front-end
+// File:	app.js                                (\_/)
+// Func:	Establishing a global environment     (^.^) 
 //* * ** *** ***** ******** ************* *********************
-
 
 //
 // Handling application errors
 // 
 
-const ERR_OK = 0;
-const ERR_REMOTE_DATA_FAILURE = 1; 
+// Total success
+const ERR_OK = 0; 
+
+// An object is not initialized as expected
+const ERR_OBJECT_IMMATURE = 1; 
+
+// Authorization failed or is missing
+const ERR_AUTH_FAILURE = 2;
+
+// Required data is missing or not available
+const ERR_ACCESS_FAILURE = 3;
+
+// Failed to parse some raw data
+const ERR_PARSE_FAILURE = 4;
+
+// Technically data is correct but inconsistent
+const ERR_DATA_INCONSISTENT = 5;
 
 
 class AppError {
 
-	constructor(errCode=ERR_OK) {
-		this.errCode = errCode;
+	constructor(code=ERR_OK, info=null) {
+		this.code = code;
+		this.info = info;
 	}
 
 	getCode() {
-		return this.errCode;
+		return this.code;
 	}
 	
-	setCode(errCode) {
-		this.errCode = errCode;
+	setCode(code) {
+		this.code = code;
+	}
+	
+	getInfo() {
+		return this.info;
+	}
+	
+	setInfo(info) {
+		this.info = info;
 	}
 }
 
@@ -59,8 +83,16 @@ class Application extends Bureaucrat {
 		return langCode;
 	}
 	
+	getBaseServUrl() {
+		return "http://cramwords.com/cgi-bin";
+	}
+	
+	assembleServUrl(servUrlPath) {
+		return this.getBaseServUrl() + "/" + "servUrlPath";
+	}
+	
 	getGdocsServUrl() {
-		return http://cramwords.com/cgi-bin/wordspace;
+		return this.assembleServUrl("wordspace");
 	}
 	
 	run() {	
@@ -77,6 +109,12 @@ class Application extends Bureaucrat {
 //
 
 var GLOBAL_app = null;
+
+
+function getGlobalApp() {
+	return GLOBAL_app;
+}	
+
 
 function playGame() {
 	GLOBAL_app = new Application();

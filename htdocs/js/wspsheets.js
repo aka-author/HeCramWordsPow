@@ -8,27 +8,39 @@
 
 class Field() {
 	
-	constructor(name, colIdx) {
+	constructor(name, letter, dataType) {
 		this.name = name;
-		this.colIdx = colIdx;
+		this.letter = letter;
+		this.dataType = dataType;
 	}
 	
 	getName() {
 		return this.name;
 	}
 	
-	getColIdx() {
-		return this.colIdx;
+	getLetter() {
+		return this.letter;
+	}
+	
+	getDataType() {
+		return this.dataType;
 	}
 }
 
 
-class Worksheet extends {
+//
+// Abstract spresdsheets
+//
+
+class Worksheet {
 
 	constructor(name) {
+		
 		this.name = name;
-		this.fieldsByColIdx = new Array();
+		
+		this.fields = new Array();
 		this.fieldsByName = new Array();
+		
 		this.rows = new Array();
 	}
 	
@@ -36,102 +48,197 @@ class Worksheet extends {
 		return this.name;
 	}
 	
-	getRow(rowIdx) {
-		return this.rows[rowIdx];
+	countFields() {
+		return this.fields.length;
 	}
 	
-	appendField(name, colIdx) {
-		
-		let field = new Field(name, colIdx);
-		
-		this.fieldsByColIdx[colIdx] = field;
-		this.fieldsByName[name] = field;
-		
-		return field;
+	getFieldByIdx(fieldIdx) {
+		return this.fields[fieldIdx];
 	}
 	
-	appendRow() {
+	getFieldByName(fieldName) {
+		return this.fieldsByName[fieldName];
 	}
 	
-	convertFieldNameToColIdx(rowIdx, fieldName) {
-		return this.fields[fieldName].getColIdx();
+	getFields() {
+		return this.fields;
+	}
+	
+	appendField(field) {
+		this.fields.push(field);
+		this.fieldsByName[field.getname()] = field;
 	}
 	
 	countRows() {
 		return this.rows.length;
 	}
 	
-	getColValue(rowIdx, colIdx) {
-		return this.getRow(rowIdx)[colIdx];
-	}
-	
-	getFieldValue(rowIdx, fieldName) {
-		let colIdx = this.convertFieldNameToColIdx(fieldName);
-		return this.getColValue(rowIdx, colIdx);
+	getRowByIdx(rowIdx) {
+		return this.rows[rowIdx];
 	}
 
+	isValidDataRow(row) {
+		return true;
+	}
+
+	appendRow(row) {
+		if(this.isValidDataRow(row))
+			this.rows.push(row);
+	}
+
+	getFieldValue(rowIdx, fieldName) {
+		return this.getRowByIdx(rowIdx)[fieldName];
+	}	
+		
+	getPropValue(propName, langCode=undefined) {
+		// TBD
+	}	
 }
 
 
 class Workbook extends RemoteDataset {
 
-	constructor(docId, credentials=null) {
+	constructor(url, creds=null) {
 		
-		this.docId = docId;
+		super(url, creds);
 		
-		let url = this.assembleUrl(docId);
-		super(url, credentials);
-	}
-		
-	assembleUrl(docId) {
-		return String(docId);
-	}		
-		
-	load(connectionString, ) {
-		let err = new AppError();
-		this.authData = null;
-		return err;
+		this.content.sheets = new Array();
 	}
 	
-	getSheetNames() {
-		return Object(this.sheets).keys();
-	}
+	countSheets() {
+		return Object.keys(this.content.sheets).length;
+	}	
 	
 	getSheet(sheetName) {
-		return this.sheets[sheetName];
+		this.content.sheets[sheetName];
+	}		
+		
+	createBlankSheet(sheetName) {
+		return new Worksheet(sheetName);
+	}		
+		
+	appendSheet(sheet) {	
+		this.content.sheets[sheet.getName()] = sheet;
+	}
+		
+	countFields(sheetName) {
+		return this.getSheet(sheetName).countFields();
+	}
+	
+	getFieldByName(sheetName, fieldName) {
+		return this.getSheet(sheetName).getFieldByName(fieldName);
+	}
+	
+	countRows(sheetName) {
+		return this.getSheet(sheetName).countRows();
 	}
 	
 	getFieldValue(sheetName, rowIdx, fieldName) {
-		let sheet = this.getSheet(sheetName);
-		return sheet.getFieldValue(rowIdx, fieldName);
-	}
-	
-	getParamValue(sheetName, paramName, langCode=undefined) {
-		let sheet = this.getSheet(sheetName);
-		return sheet.getParamValue(paramName, langCode);
-	}		
+		return this.getSheet(sheetName).getFieldValue(rowIdx, fieldName);
+	}	
+		
+	getPropValue(sheetName, propName, langCode=undefined) {
+		return this.getSheet(sheetName).getPropValue(propName, langCode);
+	}	
 }
 
 
-class SimpleGdocsSpreadsheet extends {
+//
+// Simple Google spreadsheets
+//
 
-	assembleSheetUrl(gdocId, sheetName) {
+class SimpleGoogleWorksheet extends Worksheet {
+	
+	assembleFieldName(colLabel) {
+		
+		const whiteSpace = " ";
+		
+		let fieldNameLength = colLabel.indexOf(whiteSpace);
+		
+		let rawFieldName = colLabel.includes(whiteSpace) ?
+				colLabel.substring(0, fieldNameLength) :
+				colLabel;
+				
+		let fieldName = rawFieldName.trim();
+		
+		return fieldName;
+	}
+	
+	parseCol2Field(colJson) {
+		let name = this.assembleFieldName(colJson.label);
+		let field = new Field(name, colJson.id, colJson.type);
+		return field;
+	}		
+	
+	parseCols2Fields(colsJson) {
+		
+		for(let colIdx in colsJson) 
+			this.appendField(this.parseCol2Field(colsJson[colIdx]));	
+	}
+	
+	parseCell(cellJson) {
+		return cellJson ? cellJson.v : null;
+	}
+
+	parseRow(rowJson) {
+
+		let row = new Array();
+		
+		for(let fieldIdx in this.getFields()) { 
+			let fieldName = this.getFieldByIdx(fieldIdx).getName();
+			row[fieldName] = this.parseCell(rowJson.c[fieldIdx]);
+		}
+		
+		return row;
+	}
+
+	parseRows(rowsJson) {
+		
+		for(let rowIdx in rowsJson) 
+			this.appendRow(this.parseRow(rowsJson[rowIdx]));
+	}
+	
+	parseRawJson(sheetRawJson) {
+		
+		this.parseCols2Fields(sheetRawJson.table.cols);
+		
+		this.parseRows(sheetRawJson.table.rows);
+		
+		return this;
+	}
+}
+
+
+class SimpleGoogleWorkbook extends Workbook {
+	
+	constructor(gdocId) {
+		
+		this.gdocId = gdocId;
+		
+		super(this.assembleSheetUrl(gdocId));
+	}
+
+	getGdocId() {
+		return this.gdocId;
+	}
+
+	assembleSheetUrl(sheetName=undefined) {
 		
 		let rawUri = 
 				this.getApp().getGdocsServUrl() + 
 				assembleUrlParams(
-					"gdoc_id", gdocId, 
+					"gdoc_id", this.getGdocId(), 
 					"sheet_name", sheetName);
 				
 		return encodeURI(rawUri);
 	}
 
-	retrieveSheet(gdocId, sheetName) {
+	retrieveSheetRawJson(sheetName) {
 		
-		let resp = new AppResponce();
+		let resp = new AppResponse();
 		
 		let xmlHttp = new XMLHttpRequest();
-		let strRequestUrl = this.assembleSheetUrl(gdocId, sheetName);
+		let strRequestUrl = this.assembleSheetUrl(sheetName);
 		
 		let appError = new AppError(ERR_RMT_LOAD_FAILURE);
 		
@@ -157,7 +264,7 @@ class SimpleGdocsSpreadsheet extends {
 		return resp;
 	}
 
-	getSheetNames() {
+	retrieveSheetNames() {
 		return [""];
 	}
 
@@ -165,104 +272,36 @@ class SimpleGdocsSpreadsheet extends {
 				
 		let error = new AppError(ERR_RMT_OK);
 		
-		let sheetNames = this.getSheetNames();
+		let sheetNames = this.retrieveSheetNames();
 		
 		for(let sheetIdx in sheetNames) {
-			let sheetName = sheetNames[sheetIdx];
-			sheets[sheetName] = this.retrieveSheet(gdocId, sheetName);
+			
+			let sheetResp = this.retrieveSheetRawJson(sheetNames[sheetIdx]);
+			
+			if(sheetResp.getAppErrorCode() == ERR_OK)
+				sheets[sheetName] = sheetResp.getPayload();
 		}
 			
-		let resp = new AppResponce(sheets, error);
+		let resp = new AppResponse(sheets, error);
 		
 		return resp;
 	}
-	
-	isValidDataRow(row, fields) {
-		return true;
+		
+	createBlankSheet(sheetName) {
+		return new SimpleGoogleWorksheet(sheetName);
 	}
 	
-	parseCell(cellJson) {
-		return cellJson ? cellJson.v : null;
-	}
-
-	parseRow(rowJson, fields) {
-
-		let row = new Array();
-		
-		for(let fieldIdx in fields) 
-			row[fields[fieldIdx].name] = this.parseCell(rowJson.c[fieldIdx]);
-		
-		return row;
-	}
-
-	parseRows(rowsJson, fields) {
-		
-		let rows = new Array();
-		
-		for(let rowIdx in rowsJson) {
-			let row = this.parseRow(rowsJson[rowIdx], fields);
-			if(this.isValidDataRow(row, fields)) 
-				rows[rows.length] = row;
-		}
-		
-		return rows;
-	}
-	
-	assembleFieldName(colLabel) {
-		
-		const whiteSpace = " ";
-		
-		let fieldNameLength = colLabel.indexOf(whiteSpace);
-		
-		let rawFieldName = colLabel.includes(whiteSpace) ?
-				colLabel.substring(0, fieldNameLength) :
-				colLabel;
-				
-		let fieldName = rawFieldName.trim();
-		
-		return fieldName;
-	}
-	
-	parseCol2Field(colJson) {
-		
-		let field = new Array();
-		
-		field.letter = colJson.id;
-		field.name = this.assembleFieldName(colJson.label);
-		field.dataType = colJson.type;
-	
-		return field;
-	}		
-	
-	parseCols2Fields(colsJson) {
-		
-		let fields = new Array();
-		
-		for(let colIdx in colsJson) 		
-			fields.push(this.parseCol2Field(colsJson[colIdx]));	
-		
-		return fields;
-	}
-	
-	parseSheet(sheetJson) {
-		
-		let sheet = new Array();
-		
-		sheet.fields = this.parseCols2Fields(sheetJson.table.cols);
-		sheet.rows = this.parseRows(sheetJson.table.rows, sheet.fields);
-		
-		return sheet;
-	}
-	
-	parseRawData(rawJsonSheets) {
+	parseRawData(sheetsRawJson) {
 		
 		let resp = new AppResponse();
 		
 		let sheets = new Array();
 				
-		for(let sheetName in rawJsonSheets) 
-			sheets[sheetName] = 
-				this.parseSheet(rawJsonSheets[sheetName]);
+		for(let sheetName in sheetsRawJson) {
+			let sheet = this.createBlankSheet(sheetName);
+			sheet.parseRawJson(sheetsRawJson[sheetName]);
+			sheets[sheetName] = sheet;
+		}		
 				
 		resp.setPayload(sheets);		
 				
@@ -271,14 +310,28 @@ class SimpleGdocsSpreadsheet extends {
 }
 
 
-SimpleGoogleWordsheet extends SimpleGoogleSpreadsheet {
+//
+// Wordsheets based on simple Google spreadsheets
+//
+
+class SimpleGoogleWordspace extends SimpleGoogleWorkbook {
 	
-	getSheetNames() {
+	retrieveSheetNames() {
 		
-		let gdocId = this.getId();
+		let sheetNames = new Array();
 		
-		this.retrieveSheet(gdocId, "Parts");
+		let tocResp = this.retrieveSheetRawJson(gdocId, "TOC");
 		
+		if(tocResp.getAppErrorCode() == ERR_OK) {
+			
+			let tocSheet = new SimpleGoogleWorksheet("TOC"); 
+			tocSheet.parseRawJson(tocResp.getPayload());
+			
+			for(let rowIdx in tocSheet.countRows())
+				sheetNames.push(tocSheet.getFieldValue(rowIdx, "sheet"));
+		}	
+		
+		return sheetNames;
 	}
 	
 }

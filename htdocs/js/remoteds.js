@@ -28,17 +28,11 @@ class Credentials {
 }
 
 
-const ERR_VIRGIN = 1;
-const ERR_REJECTED = 2;
-const ERR_NOT_AUTHORIZED = 3;
-const ERR_LOAD_FAILURE = 4;
-const ERR_PARSE_FAILURE = 5;
-
 class AppResponse {
 
-	constructor(payload=null, error=null) {
+	constructor(payload=null, appError=null) {
 		this.payload = payload;
-		this.error = error ? error : new AppError(ERR_OK);
+		this.appError = appError ? appError : new AppError(ERR_OK);
 	}
 	
 	getPayload() {
@@ -49,48 +43,48 @@ class AppResponse {
 		this.payload = payload;
 	}
 	
-	getError() {
-		return this.error;
+	getAppError() {
+		return this.appError;
 	}
 	
-	setError(error) {
-		this.error = error;
+	setAppError(appError) {
+		this.appError = appError;
 	}	
 	
-	getErrorCode() {
-		return this.getError().getCode();
+	getAppErrorCode() {
+		return this.getAppError().getCode();
 	}
 }
 
 
 class RemoteDataset {
 
-	constructor(url, credentials=null) {
-		this.error = new AppError(ERR_VIRGIN);
+	constructor(url, creds=null) {
+		this.appError = new AppError(ERR_OBJECT_IMMATURE);
 		this.url = url;
-		this.credentials = credentials;
+		this.creds = creds;
 		this.authData = null;
-		this.content = null;
+		this.content = new Array();
 	}
 	
 	getApp() {
-		return GLOBAL_app;
+		return getGlobalApp();
 	}
 	
 	getUrl() {
 		return this.url;
 	}
 	
-	setUrl() {
+	setUrl(url) {
 		this.url = url;
 	}
 	
-	getCredentials() {
-		return this.credentials;
+	getCreds() {
+		return this.creds;
 	}
 	
-	setCredentials(credentials) {
-		this.credentials = credentials;
+	setCreds(creds) {
+		this.creds = creds;
 	}
 	
 	getAuthData() {
@@ -101,12 +95,16 @@ class RemoteDataset {
 		this.authData = authData;
 	}
 	
-	getError() {
-		return this.error;
+	getAppError() {
+		return this.appError;
 	}
 	
-	setError(error) {
-		return this.error = error;
+	getAppErrorCode() {
+		return this.getAppError().getCode();
+	}
+	
+	setAppError(appError) {
+		return this.appError = appError;
 	}
 	
 	getContent() {
@@ -119,32 +117,32 @@ class RemoteDataset {
 	
 	isAuthorized() {
 		
-		let errCode = this.getAuthError().getCode();
+		let appErrCode = this.getAppError().getCode();
 		
-		return (errCode != ERR_VIRGIN) && 
-		       (errCode != ERR_REJECTED);
+		return (appErrCode != ERR_OBJECT_IMMATURE) && 
+		       (appErrCode != ERR_AUTH_FAILURE);
 	}
 	
 	isRawDataLoaded() {
 		
-		let errCode = this.getErr().getCode();
+		let appErrCode = this.getAppErr().getCode();
 		
 		return this.isAuthorized() && 
-		       errCode != ERR_RMT_LOAD_FAILURE;
+		       (appErrCode != ERR_ACCESS_FAILURE);
 	}
 	
-	sendAuthRequest(credentials) {
+	sendAuthRequest(creds) {
 		return new AppResponse();
 	}
 	
 	auth() {
 		
-		let cred = this.getCredentials();
+		let creds = this.getCreds();
 		
-		let authResp = this.sendAuthRequest(cred);
+		let authResp = this.sendAuthRequest(creds);
 		
 		this.setAuthData(authResp.getAuthData());
-		this.setError(authResp.getError());
+		this.setAppError(authResp.getAppError());
 		
 		return this;
 	}
@@ -162,21 +160,21 @@ class RemoteDataset {
 		if(this.isAuthorized()) {
 			
 			let loadResp = this.sendLoadRequest();
-			this.setError(loadResp.getError());
+			this.setAppError(loadResp.getAppError());
 			
-			if(loadResp.getErrorCode() == ERR_OK) {
+			if(loadResp.getAppErrorCode() == ERR_OK) {
 				let rawData = loadResp.getPayload();
 				let parseResp = this.parseRawData(rawData);
-				this.setError(parseResp.getError());
-				if(parseResp.getErrorCode() == ERR_OK) {
+				this.setError(parseResp.getAppError());
+				if(parseResp.getAppErrorCode() == ERR_OK) {
 					let content = parseResp.getPayload();
 					this.setContent(content);
 				}	
 			}	
 		}
 		else {
-			let error = new AppError(ERR_NOT_AUTHORIZED);
-			this.setError(error);
+			let appError = new AppError(ERR_AUTH_FAILURE);
+			this.setError(appError);
 		}	
 		
 		return this;
