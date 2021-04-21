@@ -112,7 +112,7 @@ class RemoteDataset {
 	}
 	
 	setContent(content) {
-		this.content = content
+		this.content = content;
 	}
 	
 	isAuthorized() {
@@ -141,7 +141,7 @@ class RemoteDataset {
 		
 		let authResp = this.sendAuthRequest(creds);
 		
-		this.setAuthData(authResp.getAuthData());
+		this.setAuthData(authResp.getPayload());
 		this.setAppError(authResp.getAppError());
 		
 		return this;
@@ -165,7 +165,7 @@ class RemoteDataset {
 			if(loadResp.getAppErrorCode() == ERR_OK) {
 				let rawData = loadResp.getPayload();
 				let parseResp = this.parseRawData(rawData);
-				this.setError(parseResp.getAppError());
+				this.setAppError(parseResp.getAppError());
 				if(parseResp.getAppErrorCode() == ERR_OK) {
 					let content = parseResp.getPayload();
 					this.setContent(content);
@@ -174,7 +174,7 @@ class RemoteDataset {
 		}
 		else {
 			let appError = new AppError(ERR_AUTH_FAILURE);
-			this.setError(appError);
+			this.setAppError(appError);
 		}	
 		
 		return this;

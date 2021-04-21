@@ -88,7 +88,7 @@ class Application extends Bureaucrat {
 	}
 	
 	assembleServUrl(servUrlPath) {
-		return this.getBaseServUrl() + "/" + "servUrlPath";
+		return this.getBaseServUrl() + "/" + servUrlPath;
 	}
 	
 	getGdocsServUrl() {

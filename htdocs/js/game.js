@@ -78,14 +78,15 @@ class Game extends Bureaucrat {
 	
 	useWordspaceFromGdocs() {
 		
-		let gdoc = new WsSpreadsheet();
-		gdoc.fetch();
+		let gdoc = new SimpleGoogleWordspace("1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M");
+		gdoc.auth();
+		gdoc.load();
 		
 		let ws = new Wordspace();
 		
 		let targetLangCode = ws.getTargetLangCode();
 		
-		for(let partOfSpeach in gdoc.doc.sheets) {
+		for(let partOfSpeach in gdoc.getContent().sheets) {
 			
 			if(!partOfSpeach.includes("service.")) {
 				

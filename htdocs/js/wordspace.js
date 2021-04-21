@@ -117,7 +117,7 @@ class SubjectDomainTagIndex extends StringIndex {
 
 
 // Dictionary Google spreadsheet
-class WsSpreadsheet extends GoogleSpreadsheetSimple {
+/*class WsSpreadsheet extends GoogleSpreadsheetSimple {
 	
 	isValidDataRow(row, fields) {
 		return row["tag_no"] || isHebrewTextInside(row["headword"]);
@@ -152,7 +152,7 @@ class WsSpreadsheet extends GoogleSpreadsheetSimple {
 		return this.getFieldValue(sheetName, rowIdx, mnemoColName);
 	}
 }
-
+*/
 
 // A word with associated grammer data
 class WordInfo {

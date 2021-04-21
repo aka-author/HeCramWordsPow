@@ -187,16 +187,17 @@ function assembleUrlParams() {
 		
 		if(arguments[paramValueIdx]) { 
 		
-			params += (paramCount == 0 ? "?" : "&") + 
-			          arguments[paramNameIdx] + 
-					  "=" + 
-					  arguments[paramValueIdx];
+			urlParams += 
+				(paramCount == 0 ? "?" : "&") + 
+			    arguments[paramNameIdx] + 
+			    "=" + 
+			    arguments[paramValueIdx];
 					  
 			paramCount++;		  
 		}			  
 					
 		paramNameIdx += 2;
 	}
-	
+		
 	return urlParams;
 }
