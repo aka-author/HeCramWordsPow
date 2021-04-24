@@ -45,6 +45,7 @@
 		<script src="i18n/data/18n-strings.js"></script>
 		<script src="i18n/js/i18n.js"></script>
 		<script src="js/wordspace.js"></script>
+		<script src="js/wspfactory.js"></script>
 		<script src="js/uigeneric.js"></script>
 		<script src="js/uigame.js"></script>
 		<script src="js/cards.js"></script>
@@ -70,7 +71,7 @@
 			
 			<!-- Logo -->	
 			<div>
-				<img src="img/nakar01.jpg" id="nakarlogo" alt="אנחנו דולבידים" title="אנחנו דולבידים">
+				<img src="img/nakar-actual-size.svg" id="nakarlogo" alt="אנחנו דולבידים" title="אנחנו דולבידים">
 			</div>
 			
 			<!-- Entire main menu block -->
@@ -169,7 +170,7 @@
 							 onclick="GLOBAL_app.process(this.id, 'onChange')">[-]</div>
 						-->	 
 						<div id="subjectDomainCloudSwitchDiv"
-							 onclick="GLOBAL_app.process(this.id, 'onChange')"><img id="subjectDomainCloudSwitchImg" src="img/glaz-zakr.png" class="showHideImg"> <label id="subjectDomainCloudSwitchLabel" class="showHideLabel">Subject domain tags</label></div>
+							 onclick="GLOBAL_app.process(this.id, 'onChange')"><img id="subjectDomainCloudSwitchImg" src="img/ain-sagur.svg" class="showHideImg"> <label id="subjectDomainCloudSwitchLabel" class="showHideLabel">Subject domain tags</label></div>
 						<div id="subjectDomainCloudDiv"></div>
 						
 						<!-- Displaying content (questions, answrs, etc.) -->
@@ -182,13 +183,13 @@
 						
 						<!-- Performing game activities -->
 						<div id="userActionPaneDiv">
-							<img src="img/translate03.jpg" 
+							<img src="img/targum70x70.png" 
 								 id="giveUpButtonImg" 
 								 onclick="GLOBAL_app.process(this.id, 'getPressed')">
-							<img src="img/lamp03-02.png" 
+							<img src="img/menora70x70.png" 
 								 id="showPromptButtonImg"
 								 onclick="GLOBAL_app.process(this.id, 'getPressed')">						 
-							<img src="img/next01.jpg" 
+							<img src="img/kadima70x70.png" 
 								 id="takeNextQuestionButtonImg"
 								 onclick="GLOBAL_app.process(this.id, 'getPressed')">
 						</div>
@@ -200,11 +201,11 @@
 				<div id="wordListBlockDiv">
 					<div id="wordListHeadlineDiv">
 						<span id="wordListSwitchSpan"
-							  onclick="GLOBAL_app.process(this.id, 'onChange')"><img id="wordListSwitchImg" src="img/glaz-otkr.png" class="showHideImg"></span> <label id="wordListLabel" class="showHideLabel">List of words</label>	
+							  onclick="GLOBAL_app.process(this.id, 'onChange')"><img id="wordListSwitchImg" src="img/ain-patoh.svg" class="showHideImg"></span> <label id="wordListLabel" class="showHideLabel">List of words</label>	
 					</div>	
 					<div id="wordListSubBlockDiv" style="display: none">
 						<div id="wordListDiv"></div>
-						<div id="printButton" onclick="GLOBAL_app.process(this.id, 'getPressed')"><img id="printButtonImg" src="img/printer03.jpg"></div>
+						<div id="printButton" onclick="GLOBAL_app.process(this.id, 'getPressed')"><img id="printButtonImg" src="img/madpeset50x50.png"></div>
 					</div>
 				</div>
 				

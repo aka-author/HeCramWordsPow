@@ -60,8 +60,24 @@ class Worksheet {
 		return this.fieldsByName[fieldName];
 	}
 	
+	fieldExists(fieldName) {
+		return Boolean(this.fieldsByName[fieldName]);
+	}
+	
 	getFields() {
 		return this.fields;
+	}
+	
+	getFieldNames() {
+		
+		let fieldNames = new Array();
+		
+		let fields = this.getFields();
+		
+		for(let fieldIdx in fields)
+			fieldNames.push(fields[fieldIdx].getName());
+		
+		return fieldNames;
 	}
 	
 	isLocalField(fieldName) {
@@ -72,9 +88,9 @@ class Worksheet {
 	
 	getLocalFieldName(fieldNameBase, langCode=undefined) {
 				
-		if(fieldsByName[fieldNameBase]) return fieldNameBase;
+		if(this.fieldsByName[fieldNameBase]) return fieldNameBase;
 		
-		if(langCode) return fieldNameBase + "_" + langCode;
+		if(langCode) return (fieldNameBase ? "_" : "") + langCode;
 		
 		let localFieldName = undefined;
 		
@@ -116,6 +132,7 @@ class Worksheet {
 	}
 
 	getFieldValue(rowIdx, fieldName) {
+		console.log(rowIdx);
 		return this.getRowByIdx(rowIdx)[fieldName];
 	}	
 		
@@ -145,12 +162,20 @@ class Workbook extends RemoteDataset {
 		this.content.sheets = new Array();
 	}
 	
+	getSheets() {
+		return this.content.sheets;	
+	}
+	
 	countSheets() {
-		return Object.keys(this.content.sheets).length;
+		return Object.keys(this.getSheets()).length;
 	}	
 	
 	getSheet(sheetName) {
-		return this.content.sheets[sheetName];
+		return this.getSheets()[sheetName];
+	}		
+		
+	getSheetNames() {
+		return Object.keys(this.getSheets());
 	}		
 		
 	createBlankSheet(sheetName) {
@@ -163,6 +188,18 @@ class Workbook extends RemoteDataset {
 		
 	countFields(sheetName) {
 		return this.getSheet(sheetName).countFields();
+	}
+	
+	fieldExists(sheetName, fieldName) {
+		return this.getSheet(sheetName).fieldExists(fieldName);
+	}
+	
+	getFieldNames(sheetName) {
+		return this.getSheet(sheetName).getFieldNames();
+	}
+	
+	getLocalFieldName(sheetName, fieldNameBase, langCode=undefined) {
+		return this.getSheet(sheetName).getLocalFieldName(fieldNameBase, langCode);
 	}
 	
 	getFieldByName(sheetName, fieldName) {
@@ -268,6 +305,7 @@ class SimpleGoogleWorkbook extends Workbook {
 		super(assembleSheetUrl(gdocId));
 		
 		this.gdocId = gdocId;
+		this.tocSheetRawJson = null;
 	}
 
 	getGdocId() {
@@ -315,6 +353,9 @@ class SimpleGoogleWorkbook extends Workbook {
 		let sheetNames = this.retrieveSheetNames();
 		
 		let sheets = new Array();
+		
+		if(this.tocSheetRawJson)
+			sheets["TOC"] = this.tocSheetRawJson;
 		
 		for(let sheetIdx in sheetNames) {
 			
@@ -369,8 +410,10 @@ class SimpleGoogleWordspace extends SimpleGoogleWorkbook {
 				
 		if(tocResp.getAppErrorCode() == ERR_OK) {
 			
+			this.tocSheetRawJson = tocResp.getPayload();
+			
 			let tocSheet = new SimpleGoogleWorksheet("TOC"); 
-			tocSheet.parseRawJson(tocResp.getPayload());
+			tocSheet.parseRawJson(this.tocSheetRawJson);
 			
 			for(let rowIdx = 0; rowIdx < tocSheet.countRows(); rowIdx++)
 				sheetNames.push(tocSheet.getFieldValue(rowIdx, "sheet"));
@@ -379,4 +422,36 @@ class SimpleGoogleWordspace extends SimpleGoogleWorkbook {
 		return sheetNames;
 	}
 	
+	isValidDataRow(row, fields) {
+		return row["tag_no"] || isHebrewTextInside(row["headword"]);
+	}	
+	
+	getHeadword(sheetName, rowIdx) {
+		return this.getFieldValue(sheetName, rowIdx, "headword");
+	}
+	
+	getRussian(sheetName, rowIdx) {
+		return this.getFieldValue(sheetName, rowIdx, "ru");
+	}
+	
+	getTranslation(sheetName, rowIdx, langCode) {
+		return this.getFieldValue(sheetName, rowIdx, langCode);
+	}
+	
+	getLevelNo(sheetName, rowIdx) {
+		return this.getFieldValue(sheetName, rowIdx, "level");
+	}	
+	
+	getLessonNo(sheetName, rowIdx) {
+		return this.getFieldValue(sheetName, rowIdx, "lesson");
+	}	
+	
+	getSubjectDomainTags(sheetName, rowIdx) {
+		return this.getFieldValue(sheetName, rowIdx, "tags");
+	}
+	
+	getMnemoPhrase(sheetName, rowIdx, langCode) {
+		let mnemoColName = "mnemo_" + langCode;
+		return this.getFieldValue(sheetName, rowIdx, mnemoColName);
+	}
 }

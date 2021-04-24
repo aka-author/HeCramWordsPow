@@ -116,46 +116,8 @@ class SubjectDomainTagIndex extends StringIndex {
 }
 
 
-// Dictionary Google spreadsheet
-/*class WsSpreadsheet extends GoogleSpreadsheetSimple {
-	
-	isValidDataRow(row, fields) {
-		return row["tag_no"] || isHebrewTextInside(row["headword"]);
-	}	
-	
-	getHeadword(sheetName, rowIdx) {
-		return this.getFieldValue(sheetName, rowIdx, "headword");
-	}
-	
-	getRussian(sheetName, rowIdx) {
-		return this.getFieldValue(sheetName, rowIdx, "ru");
-	}
-	
-	getTranslation(sheetName, rowIdx, langCode) {
-		return this.getFieldValue(sheetName, rowIdx, langCode);
-	}
-	
-	getLevelNo(sheetName, rowIdx) {
-		return this.getFieldValue(sheetName, rowIdx, "level");
-	}	
-	
-	getLessonNo(sheetName, rowIdx) {
-		return this.getFieldValue(sheetName, rowIdx, "lesson");
-	}	
-	
-	getSubjectDomainTags(sheetName, rowIdx) {
-		return this.getFieldValue(sheetName, rowIdx, "tags");
-	}
-	
-	getMnemoPhrase(sheetName, rowIdx, langCode) {
-		let mnemoColName = "mnemo_" + langCode;
-		return this.getFieldValue(sheetName, rowIdx, mnemoColName);
-	}
-}
-*/
-
 // A word with associated grammer data
-class WordInfo {
+class Lexeme {
 	
 	constructor(langCode, headword) {
 		this.langCode         = langCode;
@@ -194,18 +156,18 @@ class WordInfo {
 class DicEntry {
 	
 	constructor() {
-		this.wordInfos = new Array();
+		this.Lexemes = new Array();
 		this.levelNo = undefined;
 		this.lessonNo = undefined;
 	}
 	
-	appendWordInfo(wordInfo) {
-		let langCode = wordInfo.getLangCode();
-		this.wordInfos[langCode] = wordInfo;
+	appendLexeme(Lexeme) {
+		let langCode = Lexeme.getLangCode();
+		this.Lexemes[langCode] = Lexeme;
 	}
 	
 	getHeadword(langCode) {
-		return this.wordInfos[langCode].getHeadword();	
+		return this.Lexemes[langCode].getHeadword();	
 	}
 	
 	getLevelNo() {
@@ -226,9 +188,9 @@ class DicEntry {
 
 	getPartOfSpeachCode() {
 		let partOfSpeachCode = "";
-		for(let langCode in this.wordInfos) {
+		for(let langCode in this.Lexemes) {
 			partOfSpeachCode =
-				this.wordInfos[langCode].getPartOfSpeachCode();
+				this.Lexemes[langCode].getPartOfSpeachCode();
 			break;	
 		}
 		return partOfSpeachCode;
@@ -250,12 +212,12 @@ class DicEntry {
 	}
 
 	getMnemoPhrase(langCode) {
-		return this.wordInfos[langCode].getMnemoPhrase();	
+		return this.Lexemes[langCode].getMnemoPhrase();	
 	}	
 	
 	setMnemoPhrase(langCode, mnemoPhrase) {
-		if(this.wordInfos[langCode])
-			this.wordInfos[langCode].setMnemoPprase(mnemoPhrase);
+		if(this.Lexemes[langCode])
+			this.Lexemes[langCode].setMnemoPprase(mnemoPhrase);
 	}	
 }
 
@@ -315,7 +277,7 @@ class Wordspace {
 		
 		this.dicEntries.push(dicEntry);
 		
-		for(let langCode in dicEntry.wordInfos)  
+		for(let langCode in dicEntry.Lexemes)  
 			this.appendDicEntry2LangIndex(langCode, dicEntry);	
 		
 		let lessonNo = dicEntry.getLessonNo();
@@ -381,7 +343,7 @@ class Wordspace {
 		
 		if(partOfSpeach != "all") 
 			for(let dicEntryIdx in candidates) { 
-				if(candidates[dicEntryIdx].wordInfos["he"].getPartOfSpeachCode() == partOfSpeach)
+				if(candidates[dicEntryIdx].Lexemes["he"].getPartOfSpeachCode() == partOfSpeach)
 					filter.push(candidates[dicEntryIdx]);
 			}
 		else

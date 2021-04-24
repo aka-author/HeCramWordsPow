@@ -112,24 +112,24 @@ class PartOfSpeachSelector extends Selector {
 
 }
 
-class WordInfoArea extends Area {
+class LexemeArea extends Area {
 
 	setDomObjectValue(headword) {
 		this.getDomObject().innerHTML = headword;
 	}
 
-	assembleDomObjectValue(wordInfo) {
-		return wordInfo ? wordInfo.getHeadword() : "";
+	assembleDomObjectValue(Lexeme) {
+		return Lexeme ? Lexeme.getHeadword() : "";
 	}
 
 }
 
 
-class PromptWordInfoArea extends WordInfoArea {
+class PromptLexemeArea extends LexemeArea {
 
-	assembleDomObjectValue(wordInfo) {
+	assembleDomObjectValue(Lexeme) {
 		
-		let base = headwordBase(wordInfo.getHeadword());
+		let base = headwordBase(Lexeme.getHeadword());
 		
 		let wordPrompt = firstChr(base);
 			

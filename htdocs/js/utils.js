@@ -2,8 +2,8 @@
 // Project: Nakar
 // Module:  Play of Words
 // Layer:	Web front-end
-// File:	utils.js                               (\_/)
-// Func:	Misc. constants, functions, etc.       (^.^) 
+// File:	utils.js                                (\_/)
+// Func:	Common constants, functions, etc.       (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
 //

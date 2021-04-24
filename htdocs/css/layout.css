@@ -277,28 +277,28 @@ span.hebrewDisclosedWordInMnemoPhrase {
 }
 
 #giveUpButtonImg {
-	width:         var(--action-button-width);
-	height:        var(--action-button-height);
-	border:        var(--action-button-normal-border);
-	border-radius: var(--action-button-radius);
+	--width:         var(--action-button-width);
+	--height:        var(--action-button-height);
+	--border:        var(--action-button-normal-border);
+	--border-radius: var(--action-button-radius);
 	cursor:        pointer;
 }
 
 #showPromptButtonImg {	
-	width:         var(--action-button-width);
-	height:        var(--action-button-height);
+	--width:         var(--action-button-width);
+	--height:        var(--action-button-height);
 	margin-left:   var(--action-button-margin);
 	margin-right:  var(--action-button-margin);
-	border:        var(--action-button-normal-border);
-	border-radius: var(--action-button-radius);
+	--border:        var(--action-button-normal-border);
+	--border-radius: var(--action-button-radius);
 	cursor:        pointer;
 }
 
 #takeNextQuestionButtonImg {
-	width:         var(--action-button-width);
-	height:        var(--action-button-height);
-	border:        var(--action-button-normal-border);
-	border-radius: var(--action-button-radius);
+	--width:         var(--action-button-width);
+	--height:        var(--action-button-height);
+	--border:        var(--action-button-normal-border);
+	--border-radius: var(--action-button-radius);
 	cursor:        pointer;
 }
 

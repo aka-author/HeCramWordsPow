@@ -103,7 +103,6 @@ class Application extends Bureaucrat {
 }
 
 
-
 //
 // Playing the game
 //
