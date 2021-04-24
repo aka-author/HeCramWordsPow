@@ -1,8 +1,9 @@
 //* * ** *** ***** ******** ************* *********************
-// The main page of the POW module
-//
-//                                               (\_/)
-//                                               (^.^) 
+// Project: Nakar
+// Module:  Play of Words
+// Layer:	Web front-end
+// File:	mainpage.js                           (\_/)
+// Func:	The main page of the POW module       (^.^)
 //* * ** *** ***** ******** ************* *********************
 
 class MainPage extends Bureaucrat {
@@ -52,12 +53,12 @@ class MainPage extends Bureaucrat {
 		this.subjectDomainTagCloud = 
 			new SubjectDomainTagCloud(this, "subjectDomainCloudDiv");
 			
-		this.questionArea = new WordInfoArea(this, "questionAreaDiv");
-		this.answerArea = new WordInfoArea(this, "answerAreaDiv");
-		this.promptArea = new PromptWordInfoArea(this, "promptAreaDiv");
+		this.questionArea = new LexemeArea(this, "questionAreaDiv");
+		this.answerArea = new LexemeArea(this, "answerAreaDiv");
+		this.promptArea = new PromptLexemeArea(this, "promptAreaDiv");
 		this.mnemoPhraseArea = new MnemoPhraseArea(this, "mnemoPhraseAreaDiv");
 		
-		this.wordInfoAreas = 
+		this.LexemeAreas = 
 			{"question"    : this.questionArea,
 			 "answer"      : this.answerArea,
 			 "prompt"      : this.promptArea,
@@ -189,29 +190,29 @@ class MainPage extends Bureaucrat {
 		return this.mnemoPhraseState;
 	}
 	
-	displayWordInfoArea(targetAreaName) {
-		for(let areaName in this.wordInfoAreas)
+	displayLexemeArea(targetAreaName) {
+		for(let areaName in this.LexemeAreas)
 			if(areaName == targetAreaName) {
-				this.wordInfoAreas[areaName].show();
+				this.LexemeAreas[areaName].show();
 				this.visibleArea = areaName;
 			}	
 			else 
-				this.wordInfoAreas[areaName].hide();
+				this.LexemeAreas[areaName].hide();
 	}
 	
-	displayQuestion(wordInfo) {
-		this.questionArea.setUiControlValue(wordInfo);
-		this.displayWordInfoArea("question");
+	displayQuestion(Lexeme) {
+		this.questionArea.setUiControlValue(Lexeme);
+		this.displayLexemeArea("question");
 	}
 	
-	displayPrompt(wordInfo) {
-		this.promptArea.setUiControlValue(wordInfo);
-		this.displayWordInfoArea("prompt");
+	displayPrompt(Lexeme) {
+		this.promptArea.setUiControlValue(Lexeme);
+		this.displayLexemeArea("prompt");
 	}
 	
 	displayMnemoPhrase(mnemoPhrase) {
 		this.mnemoPhraseArea.setUiControlValue(mnemoPhrase);
-		this.displayWordInfoArea("mnemoPhrase");
+		this.displayLexemeArea("mnemoPhrase");
 		this.mnemoPhraseState = "concealed";
 	}
 	
@@ -220,8 +221,8 @@ class MainPage extends Bureaucrat {
 		this.mnemoPhraseState = "disclosed";	
 	}
 	
-	displayAnswer(wordInfo) {
-		this.answerArea.setUiControlValue(wordInfo);
-		this.displayWordInfoArea("answer");
+	displayAnswer(Lexeme) {
+		this.answerArea.setUiControlValue(Lexeme);
+		this.displayLexemeArea("answer");
 	}
 }

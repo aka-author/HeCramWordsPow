@@ -132,7 +132,6 @@ class Worksheet {
 	}
 
 	getFieldValue(rowIdx, fieldName) {
-		console.log(rowIdx);
 		return this.getRowByIdx(rowIdx)[fieldName];
 	}	
 		

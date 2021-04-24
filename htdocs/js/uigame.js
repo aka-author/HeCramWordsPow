@@ -1,8 +1,9 @@
 //* * ** *** ***** ******** ************* *********************
-// User Interface Controls Specific for the Game
-//
-//                                                (\_/)
-//                                                (^.^) 
+// Project: Nakar
+// Module:  Play of Words
+// Layer:	Web front-end
+// File:	mainpage.js                           (\_/)
+// Func:	UI controls specific for the game     (^.^)
 //* * ** *** ***** ******** ************* *********************
 
 //

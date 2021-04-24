@@ -56,7 +56,7 @@ function safeCompareStrings(s1, s2) {
 			if(!Boolean(s1) && !Boolean(s2))
 				return 0;
 			else
-				return s1.localeCompare(s2);	
+				return String(s1).localeCompare(String(s2));	
 }
 
 
@@ -116,7 +116,7 @@ function getRandomKey(arr) {
 //
 
 function isHtmlTextNode(smth) {
-	return smth instanceof HTMLTextNode;
+	return false;//smth instanceof HTMLTextNode;
 }
 
 

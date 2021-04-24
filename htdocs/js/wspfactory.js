@@ -15,9 +15,6 @@ class WordspaceFactory {
 		this.sheetNames = workbook.getSheetNames();
 		this.classifySheets();
 		
-		this.targetLangCode = "he";
-		this.baseLangCodes = ["en", "es", "pt", "ru"];
-		
 		this.wordspace = new Wordspace();
 	}
 
@@ -50,7 +47,7 @@ class WordspaceFactory {
 	}
 	
 	getMetaSheetName(sheetTypeCode) {
-		return this.meta[sheetTypeCode];
+		return this.metaSheetNames[sheetTypeCode];
 	}		
 	
 	getPosSheetNames() {
@@ -103,6 +100,45 @@ class WordspaceFactory {
 			this.classifySheet(sheetNames[sheetIdx]);
 	}
 		
+	importPartsOfSpeach() {
+	}
+	
+	importLangs() {
+		this.targetLangCode = "he";
+		this.baseLangCodes = ["en", "es", "pt", "ru"];
+	}
+	
+	importTags() {
+		
+		let wb = this.getWorkbook();
+		let ws = this.getWordspace();
+		
+		let tagsSheetName = this.getMetaSheetName("tags");
+		
+		let baseLangCodes = this.getBaseLangCodes();
+		
+		let tagWordings = new Array();
+		
+		let countRows = wb.countRows(tagsSheetName);
+		
+		for(let rowIdx = 0; rowIdx < countRows; rowIdx++) {
+			
+			let tag = wb.getFieldValue(tagsSheetName, rowIdx, "tag");
+			
+			tagWordings[tag] = new Array();
+			
+			for(let baseLangCodeIdx in baseLangCodes) {
+				let langCode = baseLangCodes[baseLangCodeIdx];
+				tagWordings[tag][langCode] = 
+					wb.getFieldValue(tagsSheetName, rowIdx, "tag_" + langCode);
+			}
+		}
+		
+		console.log(tagWordings);
+		
+		ws.setSubjectDomainTagWordings(tagWordings);
+	}		
+		
 	importDicEntry(sheetName, rowIdx) {
 		
 		let wb = this.getWorkbook();
@@ -152,8 +188,6 @@ class WordspaceFactory {
 		
 		let posSheetNames = this.getPosSheetNames();
 		
-		console.log(posSheetNames);
-		
 		for(let posSheetNameIdx in posSheetNames) {
 			let posSneetName = posSheetNames[posSheetNameIdx];
 			let countRows = wb.countRows(posSneetName);
@@ -167,6 +201,9 @@ class WordspaceFactory {
 	
 	importWordspace() {
 	
+		this.importPartsOfSpeach();
+		this.importLangs();
+		this.importTags();
 		this.importDicEntries();
 	}
 }	
