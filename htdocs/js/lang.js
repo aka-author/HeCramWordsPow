@@ -1,19 +1,32 @@
+//* * ** *** ***** ******** ************* *********************
+// Project: Nakar
+// Module:  Play of Words
+// Layer:	Web front-end
+// File:	lang.js                           (\_/)
+// Func:	Managing language metadata        (^.^) 
+//* * ** *** ***** ******** ************* *********************
+
 class Lang {
 	
-	constructor() {
-		this.setProperties();
+	constructor(langCode) {
+		this.langCode = langCode;
+		this.names = Array();
+		this.setName(this.getCode(), this.getCode());
 	}
 	
-	setProperties() {
-		this.letters2 = "en";
-		this.originalName = "English";
+	getCode() {
+		return this.langCode;
 	}
 	
-	getLetters2() {
-		return this.letters2;
+	getName(langCode) {
+		return this.names[langCode];
+	}		
+	
+	setName(langCode, name) {
+		this.names[langCode] = name;
 	}
 	
 	getOriginalName() {
-		return this.originalName;
+		return this.getName(this.getCode());
 	}
 }

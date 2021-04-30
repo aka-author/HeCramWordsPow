@@ -249,6 +249,9 @@ class wordspaceQuery {
 class Wordspace {
 	
 	constructor() {
+		
+		this.langs = new Array();
+		
 		this.dicEntries  = new Array();
 		
 		this.langCodeIndex = new LangCodeIndex();
@@ -256,6 +259,14 @@ class Wordspace {
 		this.lessonNoIndex = new LessonNoIndex();
 		this.partOfSpeachIndex = new PartOfSpeachIndex();
 		this.subjectDomainTagIndex = new SubjectDomainTagIndex();
+	}
+	
+	appendLang(lang) {
+		this.langs[lang.getCode()] = lang;
+	}
+	
+	getLang(langCode) {
+		return this.langs[langCode];
 	}
 	
 	checkLangIndex(langCode) {
