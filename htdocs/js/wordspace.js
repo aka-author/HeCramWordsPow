@@ -250,7 +250,14 @@ class Wordspace {
 	
 	constructor() {
 		
-		this.langs = new Array();
+		this.title = "Default Wordspace";
+		
+		this.langs = new Array();	
+		this.targetLangCode = "en";
+		this.baseLangCodes = new Array();
+		this.defaultBaseLangCode = "en";
+		
+		this.externalDics = new Array();
 		
 		this.dicEntries  = new Array();
 		
@@ -312,8 +319,45 @@ class Wordspace {
 		return parseInt(lessonNo2) - parseInt(lessonNo1);
 	}
 	
+	getTitle() {
+		return this.title;
+	}
+	
+	setTitle(title) {
+		this.title = title;
+	}
+	
 	getTargetLangCode() {
-		return "he";
+		return this.targetLangCode;
+	}
+	
+	setTargetLang(langCode) {
+		this.targetLangCode = langCode;
+	}
+	
+	getBaselangCodes() {
+		return baseLangCode;
+	}
+	
+	setBaseLangCodes(baseLangCodes) {
+		this.baseLangCodes = baseLangCodes;
+	}
+	
+	getDefaultBaseLangCode() {
+		return this.tdefaultBaseLangCode;
+	}
+	
+	setDefaultBaseLang(langCode) {
+		this.defaultBaseLangCode = langCode;
+	}
+	
+	getExternalDic(langCode=undefined) {
+		let actualLangCode = langCode ? langCode : this.getDefaultBaseLangCode();
+		return this.externalDics[actualLangCode];
+	}
+	
+	setExternalDic(langCode, externalDicUrlTemplate) {
+		this.externalDics[langCode] = externalDicUrlTemplate;
 	}
 	
 	getLessons(levelCode) {

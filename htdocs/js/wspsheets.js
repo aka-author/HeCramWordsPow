@@ -80,8 +80,7 @@ class Worksheet {
 		return fieldNames;
 	}
 	
-	isLocalField(fieldName) {
-		
+	isLocalField(fieldName, fieldNameBase) {
 		return (fieldName.indexOf(fieldNameBase) == 0) &&
 			   (fieldName.charAt(fieldNameBase.length) == "_");
 	}
@@ -90,7 +89,7 @@ class Worksheet {
 				
 		if(this.fieldsByName[fieldNameBase]) return fieldNameBase;
 		
-		if(langCode) return (fieldNameBase ? "_" : "") + langCode;
+		if(langCode) return (fieldNameBase ? fieldNameBase + "_" : "") + langCode;
 		
 		let localFieldName = undefined;
 		
@@ -100,7 +99,7 @@ class Worksheet {
 			
 			let fieldName = this.fields[fieldIdx].getName(); 
 			
-			if(this.isLocalField(fieldName)) {
+			if(this.isLocalField(fieldName, fieldNameBase)) {
 				localFieldName = fieldName;
 				break;
 			}
@@ -146,8 +145,22 @@ class Worksheet {
 		return rowIdx < countRows ? rowIdx : undefined; 
 	}		
 		
-	getPropValue(propName, langCode=undefined) {
-		// TBD
+	getPropValue(propFieldName, valFieldName, propName, langCode=undefined) {
+		
+		let fieldValue = undefined;
+	
+		let countRows = this.countRows();
+		for(let rowIdx = 0; rowIdx < countRows; rowIdx++) {
+			
+			let currPropName = this.getFieldValue(rowIdx, propFieldName);
+			if(currPropName == propName) {
+				let fieldName = this.getLocalFieldName(valFieldName, langCode);
+				fieldValue = this.getFieldValue(rowIdx, fieldName);
+				break;
+			}
+		}
+				
+		return fieldValue;
 	}	
 }
 
@@ -213,8 +226,9 @@ class Workbook extends RemoteDataset {
 		return this.getSheet(sheetName).getFieldValue(rowIdx, fieldName);
 	}	
 		
-	getPropValue(sheetName, propName, langCode=undefined) {
-		return this.getSheet(sheetName).getPropValue(propName, langCode);
+	getPropValue(sheetName, propFieldName, valFieldName, propName, langCode=undefined) {
+		let sheet = this.getSheet(sheetName);		
+		return sheet.getPropValue(propFieldName, valFieldName, propName, langCode);
 	}	
 }
 
