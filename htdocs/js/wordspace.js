@@ -2,8 +2,8 @@
 // Project: Nakar
 // Module:  Play of Words
 // Layer:	Web front-end
-// File:	wordspace.js                (\_/)
-// Func:	Managing wordspaces         (^.^) 
+// File:	wordspace.js                   (\_/)
+// Func:	Managing wordspaces            (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
 // Parsing headwords
@@ -257,6 +257,8 @@ class Wordspace {
 		this.baseLangCodes = new Array();
 		this.defaultBaseLangCode = "en";
 		
+		this.poses = new Array();
+		
 		this.externalDics = new Array();
 		
 		this.dicEntries  = new Array();
@@ -279,6 +281,14 @@ class Wordspace {
 	checkLangIndex(langCode) {
 		//if(!this.langIndices[langCode]) 
 		//	this.langIndices[langCode] = new Array();
+	}
+	
+	appendPartOfSpeach(pos) {
+		this.poses[pos.getCode()] = pos;
+	}
+	
+	getPartOfSpeach(posCode) {
+		return this.poses[posCode];
 	}
 	
 	checkLessonIndex(lessonNo) {

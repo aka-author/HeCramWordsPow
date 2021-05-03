@@ -2,10 +2,10 @@
 // Project: Nakar
 // Module:  Play of Words
 // Layer:	Web front-end
-// File:	lang.js                           (\_/)
-// Func:	Managing language metadata        (^.^) 
+// File:	pos.js                 (\_/)
+// Func:	Parts of speach        (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
-class Lang extends WordspaceFeature {
+class PartOfSpeach extends WordspaceFeature {
 	
 }
