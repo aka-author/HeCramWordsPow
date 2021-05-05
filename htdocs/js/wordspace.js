@@ -345,11 +345,11 @@ class Wordspace {
 		this.targetLangCode = langCode;
 	}
 	
-	getBaselangCodes() {
-		return baseLangCode;
+	getBaseLangCodes() {
+		return this.baseLangCodes;
 	}
 	
-	setBaseLangCodes(baseLangCodes) {
+	setBaseLangs(baseLangCodes) {
 		this.baseLangCodes = baseLangCodes;
 	}
 	

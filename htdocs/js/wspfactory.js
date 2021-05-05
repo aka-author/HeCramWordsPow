@@ -47,11 +47,15 @@ class WordspaceFactory {
 	}
 
 	getBaseLangCodes() {
-		return this.baseLangCodes;
+		return this.getWordspace().getBaseLangCodes();
 	}
 	
-	setBaseLangCodes(langCodes) {
-		this.baseLangCodes = langCodes;
+	setBaseLangs(langCodes) {
+		this.getWordspace().setBaseLangs(langCodes);
+	}
+	
+	appendLang(lang) {
+		this.getWordspace().appendLang(lang);
 	}
 	
 	getSheetNames() {
@@ -62,12 +66,49 @@ class WordspaceFactory {
 		return this.getWorkbook().getSheet(sheetName);
 	}
 	
+	countRows(sheetName) {
+		return this.getWorkbook().getSheet(sheetName).countRows();
+	}
+	
 	getLocalFieldName(sheetName, fieldNameBase, langCode=undefined) {
 		return this.getSheet(sheetName).getLocalFieldName(fieldNameBase, langCode);
 	}
 	
 	getFieldValue(sheetName, rowIdx, fieldName) {
 		return this.getWorkbook().getFieldValue(sheetName, rowIdx, fieldName);
+	}
+	
+	getPropValue(propFieldName, valFieldName, propName, langCode=undefined) {
+		return this.getWorkbook().getPropValue(propFieldName, 
+					valFieldName, propName, langCode);
+	}
+	
+	setTitle(title) {
+		this.getWordspace().setTitle(title);
+	}
+	
+	getTargetLangCode() {
+		return this.getWordspace().getTargetLangCode();
+	}
+	
+	getDefaultBaseLangCode() {
+		this.getWordspace().getDefaultBaseLangCode();
+	}
+	
+	setDefaultBaseLang(langCode) {
+		this.getWordspace().setDefaultBaseLang(langCode);
+	}
+	
+	setTargetLang(langCode) {
+		this.getWordspace().setTargetLang(langCode);
+	}
+	
+	setExternalDic(langCode, dicUrlTemplate) {
+		this.getWordspace().setExternalDic(langCode, dicUrlTemplate);
+	}
+	
+	appendDicEntry(dicEntry) {
+		this.getWordspace().appendDicEntry(dicEntry);
 	}
 	
 	// Classifying sheets
@@ -141,7 +182,7 @@ class WordspaceFactory {
 			let localFieldName = 
 				this.getLocalFieldName(sheetName, valueFieldNameBase, langCode);
 			localValues[langCode] = 
-				this.getWorkbook().getFieldValue(sheetName, rowIdx, localFieldName);
+				this.getFieldValue(sheetName, rowIdx, localFieldName);
 		}
 		
 		return localValues;
@@ -159,11 +200,9 @@ class WordspaceFactory {
 		
 		let langCodes = new Array();
 		
-		let wb = this.getWorkbook();
-
-		let countRows = wb.countRows(langsSheetName);
+		let countRows = this.countRows(langsSheetName);
 		for(let rowIdx = 0; rowIdx < countRows; rowIdx++) 
-			langCodes.push(wb.getFieldValue(langsSheetName, rowIdx, "lang_code"));
+			langCodes.push(this.getFieldValue(langsSheetName, rowIdx, "lang_code"));
 		
 		return langCodes;
 	}
@@ -173,16 +212,13 @@ class WordspaceFactory {
 	}
 	
 	importLang(langsSheetName, rowIdx) {
-		
-		let wb = this.getWorkbook();
-		let ws = this.getWordspace();
-		
-		let currLangCode = wb.getFieldValue(langsSheetName, rowIdx, "lang_code");
+				
+		let currLangCode = this.getFieldValue(langsSheetName, rowIdx, "lang_code");
 		let lang = new Lang(currLangCode);
 		
 		this.importFeatureLocalNames(lang, langsSheetName, rowIdx, "lang");
 								
-		ws.appendLang(lang);
+		this.appendLang(lang);
 	}
 	
 	importLangs() {
@@ -196,31 +232,17 @@ class WordspaceFactory {
 	// General properties 
 	
 	importTitle(generalSheetName) {
-		
-		let wb = this.getWorkbook();
-		let ws = this.getWordspace();
-		
-		this.title = 
-			wb.getPropValue(generalSheetName, "field", "value", "title");
-		
-		ws.setTitle(this.title);
+		this.setTitle(this.getPropValue(generalSheetName, 
+				"field", "value", "title"));
 	}
 
 	importTargetLangCode(generalSheetName) {
-		
-		let wb = this.getWorkbook();
-		let ws = this.getWordspace();
-		
-		this.targetLangCode = 
-			wb.getPropValue(generalSheetName, "field", "value", "target_lang_code");	
-		
-		ws.setTargetLang(this.targetLangCode);
+		this.setTargetLang(this.getPropValue(generalSheetName, 
+				"field", "value", "target_lang_code"));
 	}
 
 	importBaseLangCodes() {
-		
-		let ws = this.getWordspace();
-		
+				
 		let baseLangCodes = new Array();
 		
 		let langs = this.getLangCodes();
@@ -228,36 +250,26 @@ class WordspaceFactory {
 			if(!this.isTargetLangCode(langs[langCodeIdx]))
 				baseLangCodes.push(langs[langCodeIdx]);	
 			
-		this.setBaseLangCodes(baseLangCodes);
-		ws.setBaseLangCodes(baseLangCodes);	
+		this.setBaseLangs(baseLangCodes);
 	}
 
 	importDefaultBaseLangCode(generalSheetName) {
-		
-		let wb = this.getWorkbook();
-		let ws = this.getWordspace();
-		
-		this.defaultBaseLangCode = 
-			wb.getPropValue(generalSheetName, "field", "value", "default_base_lang_code");	
-		
-		ws.setDefaultBaseLang(this.defaultBaseLangCode);
+		this.setDefaultBaseLang(this.getPropValue(generalSheetName, 
+					"field", "value", "default_base_lang_code"));	
 	}	
 		
 	importExternalDics(generalSheetName) {
-		
-		let wb = this.getWorkbook();
-		let ws = this.getWordspace();
-		
+				
 		let baseLangCodes = this.getBaseLangCodes();
 		for(let langCodeIdx in baseLangCodes) {
 			
 			let langCode = baseLangCodes[langCodeIdx];	
 			
 			let dicUrlTemplate = 
-					wb.getPropValue(generalSheetName, "field", "value", 
+					this.getPropValue(generalSheetName, "field", "value", 
 				                    "dictionary_url_template", langCode);
 			if(dicUrlTemplate)								
-				ws.setExternalDic(langCode, dicUrlTemplate);				
+				this.setExternalDic(langCode, dicUrlTemplate);				
 		}
 	}		
 		
@@ -274,15 +286,10 @@ class WordspaceFactory {
 	
 	// Parts of speach
 	
-	importPartOfSpeach(posSheetName, tocSheetName, rowIdx) {
-		
-		let ws = this.getWordspace();
-		
+	importPartOfSpeach(posSheetName, tocSheetName, rowIdx) {		
 		let pos = new PartOfSpeach(posSheetName);
-		
-		this.importFeatureLocalNames(pos, tocSheetName, rowIdx, "title");
-																
-		ws.appendPartOfSpeach(pos);
+		this.importFeatureLocalNames(pos, tocSheetName, rowIdx, "title");								
+		this.getWordspace().appendPartOfSpeach(pos);
 	}
 	
 	isPosSheet(sheetName) {
@@ -320,32 +327,29 @@ class WordspaceFactory {
 	// Subject domain tags 
 	
 	importTags() {
-		
-		let wb = this.getWorkbook();
-		let ws = this.getWordspace();
-		
+				
 		let tagsSheetName = this.getMetaSheetName("tags");
 		
 		let baseLangCodes = this.getBaseLangCodes();
 		
 		let tagWordings = new Array();
 		
-		let countRows = wb.countRows(tagsSheetName);
+		let countRows = this.countRows(tagsSheetName);
 		
 		for(let rowIdx = 0; rowIdx < countRows; rowIdx++) {
 			
-			let tag = wb.getFieldValue(tagsSheetName, rowIdx, "tag");
+			let tag = this.getFieldValue(tagsSheetName, rowIdx, "tag");
 			
 			tagWordings[tag] = new Array();
 			
 			for(let baseLangCodeIdx in baseLangCodes) {
 				let langCode = baseLangCodes[baseLangCodeIdx];
 				tagWordings[tag][langCode] = 
-					wb.getFieldValue(tagsSheetName, rowIdx, "tag_" + langCode);
+					this.getFieldValue(tagsSheetName, rowIdx, "tag_" + langCode);
 			}
 		}
 		
-		ws.setSubjectDomainTagWordings(tagWordings);
+		this.getWordspace().setSubjectDomainTagWordings(tagWordings);
 	}		
 		
 	importLexemes(dicEntry, sheetName, rowIdx, baseLangCodes) {
@@ -410,18 +414,15 @@ class WordspaceFactory {
 	}
 	
 	importDicEntries() {
-		
-		let wb = this.getWorkbook();
-		let ws = this.getWordspace();
-		
+				
 		let posSheetNames = this.getPosSheetNames();
 		
 		for(let posSheetNameIdx in posSheetNames) {
 			let posSneetName = posSheetNames[posSheetNameIdx];
-			let countRows = wb.countRows(posSneetName);
+			let countRows = this.countRows(posSneetName);
 			for(let rowIdx = 0; rowIdx < countRows; rowIdx++) {
 				let dicEntry = this.importDicEntry(posSneetName, rowIdx);
-				ws.appendDicEntry(dicEntry);
+				this.appendDicEntry(dicEntry);
 			}	
 		}
 	}
