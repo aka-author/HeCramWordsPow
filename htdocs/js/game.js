@@ -78,7 +78,7 @@ class Game extends Bureaucrat {
 	
 	useWordspaceFromGdocs() {
 				
-		let gdoc = new SimpleGoogleWordspace("1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M");
+		let gdoc = new SimpleGoogleWordspace("1X_0dhuSwxZJyP32FzUDTPUVaCOg0YKVgkBPrVZgfUis");
 		gdoc.auth();
 		gdoc.load();
 		

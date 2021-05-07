@@ -28,14 +28,16 @@ class Field {
 }
 
 
+
 //
 // Abstract spresdsheets
 //
 
 class Worksheet {
 
-	constructor(name) {
+	constructor(workbook, name) {
 		
+		this.workbook = workbook;
 		this.name = name;
 		
 		this.fields = new Array();
@@ -123,12 +125,51 @@ class Worksheet {
 		return this.rows[rowIdx];
 	}
 
-	isValidDataRow(row) {
+	isEmptyField(rowIdx, fieldName) {
+		let value = this.getFieldValue(rowIdx, fieldName);
+		return Boolean(String(value).trim());
+	}
+
+	isEmptyRow(rowIdx) {
+		
+		let result = true;
+		
+		let fields = this.getFields();
+		
+		for(let fieldIdx in fields) 
+			if(this.isEmptyField(rowIdx, fields[fieldIdx].getName())) {
+				result = false;
+				break;
+			}
+		
+		return result;
+	}
+
+	detectFirstDataRowIdx() {
+		
+		let countRows = this.countRows();
+		
+		let headingRowIdx = 0;
+		
+		for(headingRowIdx = 0; headingRowIdx < countRows; headingRowIdx++)
+			if(this.isEmptyRow(headingRowIdx))
+				break;
+			
+		let emptyRowIdx = 0;
+		
+		for(emptyRowIdx = headingRowIdx; emptyRowIdx < countRows; emptyRowIdx++)
+			if(!this.isEmptyRow(emptyRowIdx))
+				break;	
+			
+		return emptyRowIdx;
+	}
+
+	isValidDataRow(row, fields) {
 		return true;
 	}
 
 	appendRow(row) {
-		if(this.isValidDataRow(row))
+		if(this.isValidDataRow(row, this.getFields()))
 			this.rows.push(row);
 	}
 
@@ -193,7 +234,7 @@ class Workbook extends RemoteDataset {
 	}		
 		
 	createBlankSheet(sheetName) {
-		return new Worksheet(sheetName);
+		return new Worksheet(this, sheetName);
 	}		
 		
 	appendSheet(sheet) {	
@@ -224,6 +265,14 @@ class Workbook extends RemoteDataset {
 		return this.getSheet(sheetName).countRows();
 	}
 	
+	isEmptyRow(sheetName, rowIdx) {
+		return this.getSheet(sheetName).isEmptyRow(rowIdx);
+	}
+	
+	detectFirstDataRowIdx(sheetName) {
+		return this.getSheet(sheetName).detectFirstDataRowIdx();
+	}
+	
 	getFieldValue(sheetName, rowIdx, fieldName) {
 		return this.getSheet(sheetName).getFieldValue(rowIdx, fieldName);
 	}	
@@ -233,6 +282,7 @@ class Workbook extends RemoteDataset {
 		return sheet.getPropValue(propFieldName, valFieldName, propName, langCode);
 	}	
 }
+
 
 
 //
@@ -282,6 +332,10 @@ class SimpleGoogleWorksheet extends Worksheet {
 		}
 		
 		return row;
+	}
+
+	isValidDataRow(row, fields) {
+		return this.workbook.isValidDataRow(row, fields);
 	}
 
 	parseRows(rowsJson) {
@@ -386,7 +440,7 @@ class SimpleGoogleWorkbook extends Workbook {
 	}
 		
 	createBlankSheet(sheetName) {
-		return new SimpleGoogleWorksheet(sheetName);
+		return new SimpleGoogleWorksheet(this, sheetName);
 	}
 	
 	parseRawData(sheetsRawJson) {
@@ -411,6 +465,7 @@ class SimpleGoogleWorkbook extends Workbook {
 }
 
 
+
 //
 // Wordsheets based on simple Google spreadsheets
 //
@@ -427,7 +482,7 @@ class SimpleGoogleWordspace extends SimpleGoogleWorkbook {
 			
 			this.tocSheetRawJson = tocResp.getPayload();
 			
-			let tocSheet = new SimpleGoogleWorksheet("TOC"); 
+			let tocSheet = new SimpleGoogleWorksheet(this, "TOC"); 
 			tocSheet.parseRawJson(this.tocSheetRawJson);
 			
 			for(let rowIdx = 0; rowIdx < tocSheet.countRows(); rowIdx++)
@@ -438,7 +493,7 @@ class SimpleGoogleWordspace extends SimpleGoogleWorkbook {
 	}
 	
 	isValidDataRow(row, fields) {
-		return row["tag_no"] || isHebrewTextInside(row["headword"]);
+		return (parseInt(row["#"]) > 0);
 	}	
 	
 	getHeadword(sheetName, rowIdx) {

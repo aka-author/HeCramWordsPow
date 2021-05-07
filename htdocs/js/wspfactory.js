@@ -13,6 +13,8 @@ class WordspaceFactory {
 		this.workbook = workbook; 
 		this.wordspace = new Wordspace();
 		console.log(workbook);
+		console.log(":::", workbook.detectFirstDataRowIdx("Verbs"));
+		
 		this.langCodes = new Array();
 		
 		this.metaSheetNames = new Array();
