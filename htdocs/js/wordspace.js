@@ -156,18 +156,21 @@ class Lexeme {
 class DicEntry {
 	
 	constructor() {
-		this.Lexemes = new Array();
+		this.lexemes = new Array();
 		this.levelNo = undefined;
 		this.lessonNo = undefined;
 	}
 	
-	appendLexeme(Lexeme) {
-		let langCode = Lexeme.getLangCode();
-		this.Lexemes[langCode] = Lexeme;
+	appendLexeme(lexeme) {
+		let langCode = lexeme.getLangCode();
+		this.lexemes[langCode] = lexeme;
 	}
 	
 	getHeadword(langCode) {
-		return this.Lexemes[langCode].getHeadword();	
+		if(this.lexemes[langCode]) 
+			return this.lexemes[langCode].getHeadword();
+		else 
+			return undefined;	
 	}
 	
 	getLevelNo() {
@@ -188,9 +191,9 @@ class DicEntry {
 
 	getPartOfSpeachCode() {
 		let partOfSpeachCode = "";
-		for(let langCode in this.Lexemes) {
+		for(let langCode in this.lexemes) {
 			partOfSpeachCode =
-				this.Lexemes[langCode].getPartOfSpeachCode();
+				this.lexemes[langCode].getPartOfSpeachCode();
 			break;	
 		}
 		return partOfSpeachCode;
@@ -202,7 +205,7 @@ class DicEntry {
 	
 	setSubjectDomainTags(subjectDomainTagsStr) {
 		let rawTags = subjectDomainTagsStr ? 
-			subjectDomainTagsStr.split(",") : "";
+			String(subjectDomainTagsStr).split(",") : "";
 		this.subjectDomainTags = new Array();
 		for(let tagIdx in rawTags) {
 			let tag = rawTags[tagIdx].trim();
@@ -212,12 +215,12 @@ class DicEntry {
 	}
 
 	getMnemoPhrase(langCode) {
-		return this.Lexemes[langCode].getMnemoPhrase();	
+		return this.lexemes[langCode].getMnemoPhrase();	
 	}	
 	
 	setMnemoPhrase(langCode, mnemoPhrase) {
-		if(this.Lexemes[langCode])
-			this.Lexemes[langCode].setMnemoPprase(mnemoPhrase);
+		if(this.lexemes[langCode])
+			this.lexemes[langCode].setMnemoPprase(mnemoPhrase);
 	}	
 }
 
@@ -305,7 +308,7 @@ class Wordspace {
 		
 		this.dicEntries.push(dicEntry);
 		
-		for(let langCode in dicEntry.Lexemes)  
+		for(let langCode in dicEntry.lexemes)  
 			this.appendDicEntry2LangIndex(langCode, dicEntry);	
 		
 		let lessonNo = dicEntry.getLessonNo();
@@ -408,7 +411,7 @@ class Wordspace {
 		
 		if(partOfSpeach != "all") 
 			for(let dicEntryIdx in candidates) { 
-				if(candidates[dicEntryIdx].Lexemes["he"].getPartOfSpeachCode() == partOfSpeach)
+				if(candidates[dicEntryIdx].lexemes["he"].getPartOfSpeachCode() == partOfSpeach)
 					filter.push(candidates[dicEntryIdx]);
 			}
 		else

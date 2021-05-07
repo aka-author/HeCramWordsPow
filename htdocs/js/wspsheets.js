@@ -109,8 +109,10 @@ class Worksheet {
 	}
 	
 	appendField(field) {
-		this.fields.push(field);
-		this.fieldsByName[field.getName()] = field;
+		if(field.getName().trim()) {
+			this.fields.push(field);
+			this.fieldsByName[field.getName()] = field;
+		}
 	}
 	
 	countRows() {

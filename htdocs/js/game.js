@@ -249,12 +249,12 @@ class Game extends Bureaucrat {
 			case "question": 
 			case "prompt":
 				let guessLangCode = this.getCurrGuessLangCode();
-				let guessLexeme = this.getCurrDicEntry().Lexemes[guessLangCode];
+				let guessLexeme = this.getCurrDicEntry().lexemes[guessLangCode];
 				this.getMainPage().displayAnswer(guessLexeme);
 				break;
 			case "answer":
 				let riddleLangCode = this.getCurrRiddleLangCode();
-				let riddleLexeme = this.getCurrDicEntry().Lexemes[riddleLangCode];
+				let riddleLexeme = this.getCurrDicEntry().lexemes[riddleLangCode];
 				this.getMainPage().displayQuestion(riddleLexeme);
 				break;
 			case "mnemoPhrase":
@@ -264,7 +264,7 @@ class Game extends Bureaucrat {
 						break;
 					case "disclosed":
 						let baseLangCode = this.getCurrRiddleLangCode();
-						let baseLexeme = this.getCurrDicEntry().Lexemes[baseLangCode];
+						let baseLexeme = this.getCurrDicEntry().lexemes[baseLangCode];
 						this.getMainPage().displayQuestion(baseLexeme);
 				}
 		}
@@ -272,7 +272,7 @@ class Game extends Bureaucrat {
 	
 	showPrompt() {
 		let guessLangCode = this.getCurrGuessLangCode();
-		let guessLexeme = this.getCurrDicEntry().Lexemes[guessLangCode];
+		let guessLexeme = this.getCurrDicEntry().lexemes[guessLangCode];
 		let riddleLangCode = this.getCurrRiddleLangCode();
 		let mnemoPhrase = this.getCurrDicEntry().getMnemoPhrase(riddleLangCode);
 		if(mnemoPhrase)
@@ -291,7 +291,7 @@ class Game extends Bureaucrat {
 			let riddleLangCode = this.getCurrRiddleLangCode();
 			let randomWord = currFilter.fetchRandomItem();
 			this.setCurrDicEntry(randomWord);	
-			let riddleLexeme = randomWord.Lexemes[riddleLangCode];
+			let riddleLexeme = randomWord.lexemes[riddleLangCode];
 			this.getMainPage().displayQuestion(riddleLexeme);		
 		}	
 		else {
