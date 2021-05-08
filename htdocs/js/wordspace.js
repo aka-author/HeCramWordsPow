@@ -344,6 +344,14 @@ class Wordspace {
 		return this.targetLangCode;
 	}
 	
+	getTargetLang() {
+		return this.langs[this.getTargetLangCode()];
+	}
+	
+	getTargetLangName(langCode=undefined) {
+		return this.getTargetLang().getName(langCode);
+	}
+	
 	setTargetLang(langCode) {
 		this.targetLangCode = langCode;
 	}
@@ -357,7 +365,7 @@ class Wordspace {
 	}
 	
 	getDefaultBaseLangCode() {
-		return this.tdefaultBaseLangCode;
+		return this.defaultBaseLangCode;
 	}
 	
 	setDefaultBaseLang(langCode) {

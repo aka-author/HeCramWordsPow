@@ -13,6 +13,12 @@ class MainPage extends Bureaucrat {
 		super(app, "MAINPAGE");
 		
 		let game = this.getGame();
+		
+		let ws = game.getWordspace();
+		console.log(ws.getTargetLang());
+		let targetLangCode = ws.getTargetLangCode();
+		let targetLangName = ws.getTargetLangName();
+		let defaultBaseLangCode = ws.getDefaultBaseLangCode();
 				
 		this.createUiLangSelector();
 		
@@ -32,17 +38,19 @@ class MainPage extends Bureaucrat {
 		
 		this.riddleLangSelector = new RiddleLangSelector(this, "riddleLangSelectorSelect");
 		this.riddleLangSelector.appendOptions(game.getAvailableBaseLangCodes());
-		this.riddleLangSelector.appendOptions([{"code" : "he", "wording" : "עברית"}]);
+		this.riddleLangSelector.appendOptions([{"code"    : targetLangCode, 
+		                                        "wording" : targetLangName}]);
 		let defaultRiddleLangCode = this.getUserConfig().getDefaultRiddleLangCode();
 		let actualRiddleLangCode = 
 				this.getGame().isBaseLangAvailable(defaultRiddleLangCode) ?
-					defaultRiddleLangCode : "en";
+					defaultRiddleLangCode : defaultBaseLangCode;
 		this.riddleLangSelector.setUiControlValue({"code" : actualRiddleLangCode});
 		
 		this.guessLangSelector = new GuessLangSelector(this, "guessLangSelectorSelect");
 		this.guessLangSelector.appendOptions(game.getAvailableBaseLangCodes());
-		this.guessLangSelector.appendOptions([{"code" : "he", "wording" : "עברית"}]);
-		this.guessLangSelector.setUiControlValue({"code" : "he"});
+		this.guessLangSelector.appendOptions([{"code"    : targetLangCode, 
+		                                       "wording" : targetLangName}]);
+		this.guessLangSelector.setUiControlValue({"code" : targetLangCode});
 		
 		this.partOfSpeachSelector = 
 			new PartOfSpeachSelector(this, "partOfSpeachSelectorSelect");

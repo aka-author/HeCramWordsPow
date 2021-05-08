@@ -8,4 +8,8 @@
 
 class Lang extends WordspaceFeature {
 	
+	constructor(langCode) {
+		super(langCode, langCode);
+	}
+	
 }

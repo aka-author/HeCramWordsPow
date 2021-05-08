@@ -46,6 +46,8 @@ class Game extends Bureaucrat {
 		return ws;
 	}	
 	
+	
+	
 	assembleWsColName(colName) {
 		return colName;
 	}
@@ -78,7 +80,7 @@ class Game extends Bureaucrat {
 	
 	useWordspaceFromGdocs() {
 				
-		let gdoc = new SimpleGoogleWordspace("1X_0dhuSwxZJyP32FzUDTPUVaCOg0YKVgkBPrVZgfUis");
+		let gdoc = new SimpleGoogleWordspace("1FruniwyUvt-vRAuT5el1LfDPhOT5GkslNVf2Rt3Bx2w");
 		gdoc.auth();
 		gdoc.load();
 		
@@ -116,10 +118,17 @@ class Game extends Bureaucrat {
 		return result;
 	}
 	
+	getTargetLang() {
+		return this.getWordspace().getTargetLang();
+	}
+	
 	getTargetLangCode() {
 		return this.getWordspace() ? 
 					this.getWordspace().getTargetLangCode() : 
 					undefined;
+	}
+	
+	getTargetLangOriginalWording() {
 	}
 
 	getLevelList() {

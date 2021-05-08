@@ -8,8 +8,9 @@
 
 class WordspaceFeature {
 	
-	constructor(code) {
+	constructor(code, relatedLangCode=undefined) {
 		this.code = code;
+		this.relatedLangCode = relatedLangCode;
 		this.names = Array();
 		this.setName(this.getCode(), this.getCode());
 	}
@@ -18,15 +19,23 @@ class WordspaceFeature {
 		return this.code;
 	}
 	
-	getName(code) {
-		return this.names[code];
-	}		
-	
-	setName(code, name) {
-		this.names[code] = name;
+	getRelatedLangCode() {
+		return this.relatedLangCode;
 	}
 	
+	setRelatedLangCode(langCode) {
+		this.relatedLangCode = langCode;
+	}
+	
+	getName(langCode=undefined) {
+		return langCode ? this.names[langCode] : this.getOriginalName();
+	}
+
 	getOriginalName() {
-		return this.getName(this.getCode());
+		return this.getName(this.getRelatedLangCode());
+	}	
+	
+	setName(langCode, name) {
+		this.names[langCode] = name;
 	}
 }
