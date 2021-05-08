@@ -281,6 +281,42 @@ class Wordspace {
 		return this.langs[langCode];
 	}
 	
+	getTargetLangCode() {
+		return this.targetLangCode;
+	}
+	
+	getTargetLang() {
+		return this.getLang(this.getTargetLangCode());
+	}
+	
+	getTargetLangName(langCode=undefined) {
+		return this.getTargetLang().getName(langCode);
+	}
+	
+	setTargetLang(langCode) {
+		this.targetLangCode = langCode;
+	}
+	
+	getLangCodes() {
+		return [this.targetLangCode(), ...this.getBaseLangCodes()];
+	}
+	
+	getBaseLangCodes() {
+		return this.baseLangCodes;
+	}
+	
+	setBaseLangs(baseLangCodes) {
+		this.baseLangCodes = baseLangCodes;
+	}
+	
+	getDefaultBaseLangCode() {
+		return this.defaultBaseLangCode;
+	}
+	
+	setDefaultBaseLang(langCode) {
+		this.defaultBaseLangCode = langCode;
+	}
+	
 	checkLangIndex(langCode) {
 		//if(!this.langIndices[langCode]) 
 		//	this.langIndices[langCode] = new Array();
@@ -339,39 +375,7 @@ class Wordspace {
 	setTitle(title) {
 		this.title = title;
 	}
-	
-	getTargetLangCode() {
-		return this.targetLangCode;
-	}
-	
-	getTargetLang() {
-		return this.langs[this.getTargetLangCode()];
-	}
-	
-	getTargetLangName(langCode=undefined) {
-		return this.getTargetLang().getName(langCode);
-	}
-	
-	setTargetLang(langCode) {
-		this.targetLangCode = langCode;
-	}
-	
-	getBaseLangCodes() {
-		return this.baseLangCodes;
-	}
-	
-	setBaseLangs(baseLangCodes) {
-		this.baseLangCodes = baseLangCodes;
-	}
-	
-	getDefaultBaseLangCode() {
-		return this.defaultBaseLangCode;
-	}
-	
-	setDefaultBaseLang(langCode) {
-		this.defaultBaseLangCode = langCode;
-	}
-	
+
 	getExternalDic(langCode=undefined) {
 		let actualLangCode = langCode ? langCode : this.getDefaultBaseLangCode();
 		return this.externalDics[actualLangCode];

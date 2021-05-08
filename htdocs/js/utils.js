@@ -45,6 +45,11 @@ function multiChr(chr, num) {
 }
 
 
+function capitalizeFirstChr(str) {
+	return firstChr(str).toUpperCase() + trimFirstChr(str);
+}
+
+
 function safeCompareStrings(s1, s2) {
 	
 	if(!Boolean(s1) && Boolean(s2))

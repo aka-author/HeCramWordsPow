@@ -101,10 +101,25 @@ class Game extends Bureaucrat {
 	}
 	
 	getAvailableBaseLangCodes() {
-		return [{"code" : "en", "wording" : "English"},
+				
+		let ws = this.getWordspace();			
+				
+		let baseLangCodes = ws.getBaseLangCodes();
+		
+		let options = new Array();
+		
+		for(let baseLangCodeIdx in baseLangCodes) {
+			let lang = ws.getLang(baseLangCodes[baseLangCodeIdx]);
+			options.push({"code" : lang.getCode(), 
+			              "wording" : capitalizeFirstChr(lang.getName())});
+		}
+		
+		return options;
+				
+				/* [{"code" : "en", "wording" : "English"},
 			    {"code" : "es", "wording" : "Española"},
 				{"code" : "pt", "wording" : "Português"},
-				{"code" : "ru", "wording" : "Русский"}];
+				{"code" : "ru", "wording" : "Русский"}];*/
 	}
 	
 	isBaseLangAvailable(langCode) {
