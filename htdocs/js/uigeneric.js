@@ -385,7 +385,7 @@ class TagCloud extends UiControl {
 	}		
 	
 	getTagWording(tag, langCode=undefined) {
-		
+			
 		let wording = "";
 		
 		if(this.localTagWordings[tag] && langCode) 

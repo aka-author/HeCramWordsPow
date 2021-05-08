@@ -13,7 +13,6 @@ class WordspaceFactory {
 		this.workbook = workbook; 
 		this.wordspace = new Wordspace();
 		console.log(workbook);
-		console.log(":::", workbook.detectFirstDataRowIdx("Verbs"));
 		
 		this.langCodes = new Array();
 		
@@ -322,13 +321,13 @@ class WordspaceFactory {
 	importTags() {
 				
 		let tagsSheetName = this.getMetaSheetName("tags");
-		
+				
 		let baseLangCodes = this.getBaseLangCodes();
 		
 		let tagWordings = new Array();
 		
 		let countRows = this.countRows(tagsSheetName);
-		
+				
 		for(let rowIdx = 0; rowIdx < countRows; rowIdx++) {
 			
 			let tag = this.getFieldValue(tagsSheetName, rowIdx, "tag");

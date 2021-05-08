@@ -15,7 +15,6 @@ class MainPage extends Bureaucrat {
 		let game = this.getGame();
 		
 		let ws = game.getWordspace();
-		console.log(ws.getTargetLang());
 		let targetLangCode = ws.getTargetLangCode();
 		let targetLangName = ws.getTargetLangName();
 		let defaultBaseLangCode = ws.getDefaultBaseLangCode();
