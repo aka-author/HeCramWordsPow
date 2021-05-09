@@ -128,6 +128,17 @@ class Selector extends UiControl {
 			selectElement.appendChild(optionElement);
 		}
 	}
+	
+	setLocalWording(id, langCode, wording) {
+		this.getApp().setI18nText(this.assembleOptionId(id), langCode, wording);
+	}
+	
+	setLocalWordings(localWordings) {
+		
+		for(let id in localWordings) 
+			for(let langCode in localWordings[id])
+				this.setLocalWording(id, langCode, localWordings[id][langCode]);
+	}
 }
 
 

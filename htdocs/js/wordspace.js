@@ -335,6 +335,20 @@ class Wordspace {
 		return this.poses[posCode];
 	}
 	
+	getPartOfSpeachLocalNames() {
+		
+		let posNames = new Array();
+		
+		let posCodes = this.getPartOfSpeachCodes();
+				
+		for(let posCodeIdx in posCodes) {
+			let pos = this.getPartOfSpeach(posCodes[posCodeIdx]);
+			posNames[pos.getCode()] = pos.getNames();
+		}
+		
+		return posNames;
+	}
+	
 	checkLessonIndex(lessonNo) {
 		if(!this.lessonNoIndex[lessonNo])
 			this.lessonNoIndex[lessonNo] = new Array();

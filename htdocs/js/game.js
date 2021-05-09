@@ -214,6 +214,10 @@ class Game extends Bureaucrat {
 		return options;
 	}
 	
+	getPartOfSpeachLocalNames() {
+		return this.getWordspace().getPartOfSpeachLocalNames();
+	}
+	
 	getCurrPartOfSpeachCode() {
 		return this.currPartOfSpeachCode;
 	}

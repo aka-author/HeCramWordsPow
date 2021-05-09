@@ -12,7 +12,8 @@ class WordspaceFeature {
 		this.code = code;
 		this.relatedLangCode = relatedLangCode;
 		this.names = Array();
-		this.setName(this.getCode(), this.getCode());
+		if(relatedLangCode)
+			this.setName(relatedLangCode, this.getCode());
 	}
 	
 	getCode() {
@@ -27,8 +28,12 @@ class WordspaceFeature {
 		this.relatedLangCode = langCode;
 	}
 	
+	getNames() {
+		return this.names;
+	}
+	
 	getName(langCode=undefined) {
-		return langCode ? this.names[langCode] : this.getOriginalName();
+		return langCode ? this.getNames()[langCode] : this.getOriginalName();
 	}
 
 	getOriginalName() {

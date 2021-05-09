@@ -137,8 +137,9 @@ class WordspaceFactory {
 	
 	importFeatureLocalNames(feature, sheetName, rowIdx, nameFieldNameBase=undefined) {
 		let localValues = this.fetchLocalValues(sheetName, rowIdx, nameFieldNameBase);
-		for(let langCode in localValues)
+		for(let langCode in localValues) {
 			feature.setName(langCode, localValues[langCode]);
+		}
 	}
 		
 	// Languages
@@ -282,7 +283,7 @@ class WordspaceFactory {
 	
 	importPartOfSpeach(posSheetName, tocSheetName, rowIdx) {		
 		let pos = new PartOfSpeach(posSheetName);
-		this.importFeatureLocalNames(pos, tocSheetName, rowIdx, "title");								
+		this.importFeatureLocalNames(pos, tocSheetName, rowIdx, "title");
 		this.getWordspace().appendPartOfSpeach(pos);
 	}
 	

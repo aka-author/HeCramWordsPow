@@ -26,17 +26,17 @@ function comparableBooleanStr(v1) {
 //
 
 function firstChr(str) {
-	return str[0];
+	return str ? str[0] : "";
 }
 
 
 function lastChr(str) {
-	return str[str.length - 1];
+	return str ? str[str.length - 1] : "";
 }
 
 
 function trimFirstChr(str) {
-	return str.substring(1);
+	return str ? str.substring(1) : "";
 }
 
 
@@ -89,6 +89,45 @@ function maxMulti(getComparableValueFunc) {
 
 function safeDiv(a, b) {
 	return b != 0 ? a/b : undefined;
+}
+
+
+
+//
+// Arrays
+//
+
+function matrixMap(matrix, func) {
+	return matrix.map(function(row) {row.map(func)});
+}
+
+
+function assMap(assArr, func, upperContext=null) {
+
+	let outAssArr = new Array();
+	
+	for(let key in assArr) {
+		
+		let context = {
+			"upperContext" : upperContext, 
+			"array"        : assArr,
+			"key"          : key, 
+		}
+		
+		outAssArr[key] = func(assArr[key], context);
+	}	
+		
+	return outAssArr;
+}
+
+
+function matrixAssMap(matrix, func) {
+		
+	function mapRow(row, upperContext) {
+		return assMap(row, func, upperContext);
+	}
+	
+	return assMap(matrix, mapRow);
 }
 
 

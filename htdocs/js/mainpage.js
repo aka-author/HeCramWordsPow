@@ -12,6 +12,8 @@ class MainPage extends Bureaucrat {
 		
 		super(app, "MAINPAGE");
 		
+		this.app = app;
+		
 		let game = this.getGame();
 		
 		let ws = game.getWordspace();
@@ -54,7 +56,12 @@ class MainPage extends Bureaucrat {
 		this.partOfSpeachSelector = 
 			new PartOfSpeachSelector(this, "partOfSpeachSelectorSelect");
 		this.partOfSpeachSelector.appendOptions(game.getPartsOfSpeach());	
+		let posNames = 
+			matrixAssMap(game.getPartOfSpeachLocalNames(), 
+				function(pns, context) {return capitalizeFirstChr(pns)});		
 		
+		this.partOfSpeachSelector.setLocalWordings(posNames);
+				
 		this.subjectDomainTagCloudSwitch = 
 			new subjectDomainTagCloudSwitch(this, "subjectDomainCloudSwitchDiv");
 			

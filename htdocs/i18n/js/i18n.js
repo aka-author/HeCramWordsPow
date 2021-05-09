@@ -35,6 +35,12 @@ class I18n {
 		return stringTableRow ? stringTableRow[actualLangCode] : undefined;
 	}
 	
+	setText(id, langCode, wording) {
+		if(!this.stringTable[id])
+			this.stringTable[id] = new Array();
+		this.stringTable[id][langCode] = wording;
+	}
+	
 	loadLocalLabels(rootNode, langCode=undefined) {
 	
 		let actualLangCode = langCode ? langCode : this.getDefaultLangCode();

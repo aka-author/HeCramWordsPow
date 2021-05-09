@@ -95,6 +95,14 @@ class Application extends Bureaucrat {
 		return this.assembleServUrl("wordspace");
 	}
 	
+	getI18n() {
+		return this.i18n;
+	}
+	
+	setI18nText(id, langCode, wording) {
+		this.getI18n().setText(id, langCode, wording);
+	}
+	
 	run() {	
 		this.game = new Game(this);
 		this.mainPage = new MainPage(this);
