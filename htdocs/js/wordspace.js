@@ -326,6 +326,11 @@ class Wordspace {
 		this.poses[pos.getCode()] = pos;
 	}
 	
+	getPartOfSpeachCodes() {
+		//console.log(Object.keys(this.poses));
+		return Object.keys(this.poses);
+	}
+	
 	getPartOfSpeach(posCode) {
 		return this.poses[posCode];
 	}

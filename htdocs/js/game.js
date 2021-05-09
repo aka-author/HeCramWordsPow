@@ -195,6 +195,25 @@ class Game extends Bureaucrat {
 		this.getMainPage().subjectDomainTagCloud.showLocalWordings(langCode);
 	}
 	
+	getPartsOfSpeach() {
+				
+		let ws = this.getWordspace();			
+				
+		let partOfSpeachCodes = ws.getPartOfSpeachCodes();
+						
+		let options = new Array();
+		
+		for(let posCodeIdx in partOfSpeachCodes) {
+			let pos = ws.getPartOfSpeach(partOfSpeachCodes[posCodeIdx]);
+			options.push(
+				{"code" : pos.getCode(), 
+			     "wording" : 
+					capitalizeFirstChr(pos.getName(this.getCurrRiddleLangCode()))});
+		}
+				
+		return options;
+	}
+	
 	getCurrPartOfSpeachCode() {
 		return this.currPartOfSpeachCode;
 	}

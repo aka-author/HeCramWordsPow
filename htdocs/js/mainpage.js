@@ -53,6 +53,7 @@ class MainPage extends Bureaucrat {
 		
 		this.partOfSpeachSelector = 
 			new PartOfSpeachSelector(this, "partOfSpeachSelectorSelect");
+		this.partOfSpeachSelector.appendOptions(game.getPartsOfSpeach());	
 		
 		this.subjectDomainTagCloudSwitch = 
 			new subjectDomainTagCloudSwitch(this, "subjectDomainCloudSwitchDiv");
