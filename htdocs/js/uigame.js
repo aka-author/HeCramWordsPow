@@ -158,39 +158,14 @@ class MnemoPhraseArea extends Area {
 		this.getDomObject().appendChild(mnemoPhraseDiv);
 	}
 	
-	splitPhraseLine(phraseLineRemain, stack="", tokens=null) {
-		
-		if(!tokens)
-			var tokens = new Array();
-		
-		if(phraseLineRemain.length > 0) {
-			
-			let currChr = firstChr(phraseLineRemain)		
-			let isCurrChrHebrew = isHebrewChr(currChr);
-			
-			let isPrevChrHebrew = stack.length > 0 ? 
-				isHebrewChr(lastChr(stack)) : isCurrChrHebrew;
-			
-			if(isPrevChrHebrew != isCurrChrHebrew) { 
-				tokens.push(stack);
-				stack = "";
-			}	
-				
-			stack += currChr;	
-				
-			if(phraseLineRemain.length > 0)
-				this.splitPhraseLine(trimFirstChr(phraseLineRemain),
-								   stack,
-								   tokens);
-		}
-		else 
-			if(stack.length > 0 )
-				tokens.push(stack);
+	splitPhraseLine(phraseLine) {
 					   
-		return tokens;					   
+		let splitter = new SubstLexemSplitter(phraseLine);	
+ 
+		return splitter.split();				   
 	}
 	
-	hebrewSpan(token) {
+	targetSpan(token) {
 		let span = document.createElement("span");
 		let node = document.createTextNode(token);
 		span.appendChild(node);
@@ -199,7 +174,7 @@ class MnemoPhraseArea extends Area {
 		return span;
 	}
 	
-	usualSpan(token) {
+	baseSpan(token) {
 		let span = document.createElement("span");
 		let node = document.createTextNode(token);
 		span.appendChild(node);
@@ -208,7 +183,9 @@ class MnemoPhraseArea extends Area {
 	
 	markupPhraseLine(phraseLine) {
 	
-		let tokens = this.splitPhraseLine(phraseLine);
+		let tokens = this.splitPhraseLine(phraseLine); 
+		
+		console.log(tokens);
 
 		let spans = new Array();
 		
@@ -216,13 +193,13 @@ class MnemoPhraseArea extends Area {
 			
 			let token = tokens[tokenIdx];
 			
-			if(isHebrewTextInside(token)) {
-				let hebrewSpan = this.hebrewSpan(token);
-				spans.push(hebrewSpan); 
-				this.hebrewSpans.push(hebrewSpan); 
+			if(token.isSubst()) {
+				let targetSpan = this.targetSpan(token.getContent());
+				spans.push(targetSpan); 
+				this.targetSpans.push(targetSpan); 
 			}	
 			else 
-				spans.push(this.usualSpan(token));
+				spans.push(this.baseSpan(token.getContent()));
 		}
 		
 		return spans;
@@ -244,7 +221,7 @@ class MnemoPhraseArea extends Area {
 		
 		let phraseLines = this.splitPhrase(mnemoPhrase);
 		
-		this.hebrewSpans = new Array();
+		this.targetSpans = new Array();
 		
 		let mnemoPhraseDiv = document.createElement("div");
 		
@@ -264,8 +241,8 @@ class MnemoPhraseArea extends Area {
 	}
 	
 	discloseTargetWords() {
-		for(let hebrewSpanIdx in this.hebrewSpans) {
-			this.hebrewSpans[hebrewSpanIdx].setAttribute("class", 
+		for(let targetSpanIdx in this.targetSpans) {
+			this.targetSpans[targetSpanIdx].setAttribute("class", 
 		"hebrewDisclosedWordInMnemoPhrase"); }
 	}
 	

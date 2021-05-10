@@ -327,7 +327,6 @@ class Wordspace {
 	}
 	
 	getPartOfSpeachCodes() {
-		//console.log(Object.keys(this.poses));
 		return Object.keys(this.poses);
 	}
 	

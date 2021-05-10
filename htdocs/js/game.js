@@ -30,28 +30,6 @@ class Game extends Bureaucrat {
 		this.currFilter = this.ws.assembleLessonNoFilter("all");
 	}		
 	
-	useBuitInWordspace(id=undefined) {
-		
-		let ws = new Wordspace();
-		
-		for(let i = 0; i < GLOBAL_heru.dic.length; i++) {
-			let heWord = new Lexeme( "he", GLOBAL_heru.dic[i]["he"]);
-			let ruWord = new Lexeme( "ru", GLOBAL_heru.dic[i]["ru"]);
-			let heru = new DicEntry();
-			heru.addLexeme(heWord);
-			heru.addLexeme(ruWord);
-			ws.addDicEntry(heru);
-		}	
-			
-		return ws;
-	}	
-	
-	
-	
-	assembleWsColName(colName) {
-		return colName;
-	}
-	
 	assembleTagRecord(code, relativeSize){
 		return {"code"         : code,  
 		        "wording"      : code, 
@@ -187,6 +165,7 @@ class Game extends Bureaucrat {
 	}
 	
 	setCurrGuessLang(langCode) {
+		
 		this.currGuessLangCode = langCode;
 		this.takeNextQuestion();
 		this.updateWordList();
