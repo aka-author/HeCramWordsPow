@@ -152,6 +152,14 @@ class Game extends Bureaucrat {
 		return this.currRiddleLangCode;
 	}
 	
+	getCurrBaseLangCode() {
+		let targetLangCode = this.getTargetLangCode();
+		let riddleLangCode = this.getCurrRiddleLangCode();
+		let guessLangCode = this.getCurrGuessLangCode();
+		
+		return guessLangCode == targetLangCode ?  riddleLangCode : guessLangCode;
+	}
+	
 	setCurrRiddleLang(langCode) {
 		this.currRiddleLangCode = langCode;
 		this.takeNextQuestion();

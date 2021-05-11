@@ -319,5 +319,17 @@ class SubstFormalSplitter extends StringFormalSplitter {
 		return this;
 	}
 
+	substStr(substValues) {
+	
+		let result = "";
+		
+		let substClauses = this.subst(substValues);
+
+		for(let clauseIdx in this.substClauses)
+			result += this.substClauses[clauseIdx].getContent();
+			
+		return result;
+	}
+
 }
 

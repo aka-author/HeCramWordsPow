@@ -317,6 +317,8 @@ class Wordspace {
 		this.defaultBaseLangCode = langCode;
 	}
 	
+	
+	
 	checkLangIndex(langCode) {
 		//if(!this.langIndices[langCode]) 
 		//	this.langIndices[langCode] = new Array();
@@ -469,10 +471,23 @@ class Wordspace {
 	}
 	
 	assembleExtDicUrl(dicEntry, langCode) {
+		
 		let url = "";
-		if(langCode == "he") {
+		
+		if(langCode == this.getTargetLangCode()) {
+			
 			let headword = dicEntry.getHeadword(langCode);
-			url = "https://www.pealim.com/search/?q=" + headword;
+			
+			let params = 
+					{"headword"    : headword, 
+			         "target_lang" : this.getTargetLang(),
+				     "base_lang"   : getGlobalApp().getGame().getCurrBaseLangCode(),
+					 "ui_lang"     : getGlobalApp().getMainPage().getCurrUiLangCode()
+					};
+			
+			let externalDicLinkTemplate = this.getExternalDic();
+			let splitter = new SubstFormalSplitter(externalDicLinkTemplate); 
+			url = splitter.split().substStr(params);			
 		}	
 		
 		return url;
