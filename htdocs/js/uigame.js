@@ -160,9 +160,9 @@ class MnemoPhraseArea extends Area {
 	
 	splitPhraseLine(phraseLine) {
 					   
-		let splitter = new SubstLexemSplitter(phraseLine);	
+		let splitter = new SubstFormalSplitter(phraseLine);	
  
-		return splitter.split();				   
+		return splitter.split().getClauses();				   
 	}
 	
 	targetSpan(token) {
