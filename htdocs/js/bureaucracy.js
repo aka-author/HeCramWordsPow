@@ -1,8 +1,9 @@
 //* * ** *** ***** ******** ************* *********************
-// Essential abstract classes
-//
-//                                                   (\_/)
-//                                                   (^.^) 
+// Project: Nakar
+// Module:  Play of Words
+// Layer:	Web front-end
+// File:	bureaucracy.js                            (\_/)
+// Func:	Abstract object-to-object interaction     (^.^)
 //* * ** *** ***** ******** ************* *********************
 
 class Bureaucrat {
@@ -63,16 +64,32 @@ class Bureaucrat {
 		return this.getProperty("i18n");
 	}
 	
+	getTargetLangCode() {
+		return this.targetLangCode ?? this.getChief().getTargetLangCode();
+	}
+	
+	getWordspace() {
+		return this.ws ?? this.getChief().getWordspace();
+	}
+	
+	getCurrUiLangCode() {
+		return this.currUiLangCode ?? this.getChief().getCurrUiLangCode();
+	}
+	
 	getMainPage() {
-		return this.getProperty("mainPage");
+		return this.mainPage ?? this.getChief().getMainPage();
+	}
+	
+	getCurrBaseLangCode() {
+		return this.currUiLangCode ?? this.getChief().getCurrBaseLangCode();
 	}
 	
 	getGame() {
-		return this.getProperty("game");
+		return this.game ?? this.getChief().getGame();
 	}
 	
 	getApp() {
-		return this.getProperty("app");
+		return this.app ?? this.getChief().getApp();
 	}
 	
 	getSubordinateById(id) {

@@ -333,24 +333,52 @@ class WordListSwitch extends UiControl {
 
 class WordList extends UiControl {
 
-	assembleWordListTd(dicEntry, langCode) {
+	assembleWordListTd(dicEntry, _langCode=undefined) {
 		
 		let wordListTd = document.createElement("td");
-		wordListTd.setAttribute("lang", langCode);
-		wordListTd.setAttribute("dir", "auto");
+				
+		let langCode = _langCode ?? this.getTargetLangCode();
 		
-		let ws = this.getGame().getWordspace();
+		let extDicUrl = 
+			this.assembleExtDicUrl(dicEntry, langCode, 
+					this.getCurrBaseLangCode(), this.getCurrUiLangCode());
 		
-		let extDicUrl = ws.assembleExtDicUrl(dicEntry, langCode);
 		let headword = dicEntry.getHeadword(langCode);
-		let innerHtml = wrapIntoLink(headword, extDicUrl, "_blank");
+		
+		let innerHtml = 
+				langCode == this.getTargetLangCode() ? 
+					wrapIntoLink(headword, extDicUrl, "_blank") : 
+					wrapIntoSpan(headword);
 		
 		if(isHtmlElement(innerHtml))
 			innerHtml.setAttribute("class", "wordListLink");
 		
 		wordListTd.appendChild(innerHtml);
 		
+		wordListTd.setAttribute("lang", langCode);
+		wordListTd.setAttribute("dir", "auto");
+		
 		return wordListTd;
+	}
+	
+	assembleExtDicUrl(dicEntry, langCode, baseLangCode, uiLangCode) {
+		
+		let url = "";
+		
+		let urlTemplate = this.getWordspace().getExternalDic(baseLangCode);
+		
+		let headword = dicEntry.getHeadword(langCode);
+		
+		let params = {"headword"    : headword, 
+					  "target_lang" : langCode,
+					  "base_lang"   : baseLangCode,
+					  "ui_lang"     : uiLangCode};
+		
+		let externalDicLinkTemplate = this.getWordspace().getExternalDic(baseLangCode);
+		
+		let splitter = new SubstFormalSplitter(externalDicLinkTemplate); 		
+		
+		return splitter.split().substStr(params);
 	}
 
 	assembleHtml() {

@@ -469,28 +469,4 @@ class Wordspace {
 			this.subjectDomainTagIndex.selectItemsByKeyValues(...tags) :
 			this.subjectDomainTagIndex.selectAllItems();
 	}
-	
-	assembleExtDicUrl(dicEntry, langCode) {
-		
-		let url = "";
-		
-		if(langCode == this.getTargetLangCode()) {
-			
-			let headword = dicEntry.getHeadword(langCode);
-			
-			let params = 
-					{"headword"    : headword, 
-			         "target_lang" : this.getTargetLang(),
-				     "base_lang"   : getGlobalApp().getGame().getCurrBaseLangCode(),
-					 "ui_lang"     : getGlobalApp().getMainPage().getCurrUiLangCode()
-					};
-			
-			let externalDicLinkTemplate = this.getExternalDic();
-			let splitter = new SubstFormalSplitter(externalDicLinkTemplate); 
-			url = splitter.split().substStr(params);			
-		}	
-		
-		return url;
-	}
-	
 }

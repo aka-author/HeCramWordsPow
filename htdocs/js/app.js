@@ -103,6 +103,30 @@ class Application extends Bureaucrat {
 		this.getI18n().setText(id, langCode, wording);
 	}
 	
+	getTargetLangCode() {
+		return this.getWordspace().getTargetLangCode();
+	}
+	
+	getWordspace() {
+		return this.getGame().getWordspace();
+	}
+	
+	getCurrBaseLangCode() {
+		return this.getGame().getCurrBaseLangCode();
+	}
+	
+	getGame() {
+		return this.game;
+	}
+	
+	getCurrUiLangCode() {
+		return this.getMainPage().getCurrUiLangCode();
+	}
+	
+	getMainPage() {
+		return this.mainPage;
+	}
+	
 	run() {	
 		this.game = new Game(this);
 		this.mainPage = new MainPage(this);

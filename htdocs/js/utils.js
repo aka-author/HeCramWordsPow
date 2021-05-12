@@ -219,6 +219,19 @@ function wrapIntoLink(linkHolder, url, target=undefined) {
 }
 
 
+function wrapIntoSpan(smth) {
+	
+	let resultHtml = null;
+	
+	let innerHtml = guarnteeDomObject(smth);
+		
+	resultHtml = document.createElement("span");
+	resultHtml.appendChild(innerHtml);
+	
+	return resultHtml;
+}
+
+
 function assembleUrlParams() {
 	
 	let urlParams = "";
