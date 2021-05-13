@@ -333,34 +333,6 @@ class WordListSwitch extends UiControl {
 
 class WordList extends UiControl {
 
-	assembleWordListTd(dicEntry, _langCode=undefined) {
-		
-		let wordListTd = document.createElement("td");
-				
-		let langCode = _langCode ?? this.getTargetLangCode();
-		
-		let extDicUrl = 
-			this.assembleExtDicUrl(dicEntry, langCode, 
-					this.getCurrBaseLangCode(), this.getCurrUiLangCode());
-		
-		let headword = dicEntry.getHeadword(langCode);
-		
-		let innerHtml = 
-				langCode == this.getTargetLangCode() ? 
-					wrapIntoLink(headword, extDicUrl, "_blank") : 
-					wrapIntoSpan(headword);
-		
-		if(isHtmlElement(innerHtml))
-			innerHtml.setAttribute("class", "wordListLink");
-		
-		wordListTd.appendChild(innerHtml);
-		
-		wordListTd.setAttribute("lang", langCode);
-		wordListTd.setAttribute("dir", "auto");
-		
-		return wordListTd;
-	}
-	
 	assembleExtDicUrl(dicEntry, langCode, baseLangCode, uiLangCode) {
 		
 		let url = "";
@@ -381,6 +353,34 @@ class WordList extends UiControl {
 		return splitter.split().substStr(params);
 	}
 
+	assembleWordListTd(dicEntry, _langCode=undefined) {
+		
+		let wordListTd = document.createElement("td");
+				
+		let langCode = _langCode ?? this.getTargetLangCode();
+		
+		let extDicUrl = 
+			this.assembleExtDicUrl(dicEntry, langCode, 
+					this.getCurrBaseLangCode(), this.getCurrUiLangCode());
+		
+		let headword = dicEntry.getHeadword(langCode);
+
+		let innerHtml = 
+				langCode == this.getTargetLangCode() ? 
+					wrapIntoLink(headword, extDicUrl, "_blank") : 
+					wrapIntoSpan(headword);
+		
+		if(isHtmlElement(innerHtml))
+			innerHtml.setAttribute("class", "wordListLink");
+		
+		wordListTd.appendChild(innerHtml);
+		
+		wordListTd.setAttribute("lang", langCode);
+		wordListTd.setAttribute("dir", "auto");
+		
+		return wordListTd;
+	}
+	
 	assembleHtml() {
 				
 		let countDicEntries = this.currFilter.countItems();

@@ -6,7 +6,6 @@
 // Func:	Executing user's commands       (^.^)
 //* * ** *** ***** ******** ************* *********************
 
-
 var GLOBAL_PRINT = new Array();
 
 class Game extends Bureaucrat {
@@ -335,9 +334,6 @@ class Game extends Bureaucrat {
 								this.currRiddleLangCode,
 								this.currGuessLangCode);
 	}
-	
-	
-	
 	
 	printCards() {
 		

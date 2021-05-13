@@ -1,8 +1,9 @@
 //* * ** *** ***** ******** ************* *********************
-// Internationalization
-//
-//                                                (\_/)
-//                                                (^.^) 
+// Project: Nakar
+// Module:  Play of Words
+// Layer:	Web front-end
+// File:	i18n.js                           (\_/)
+// Func:	Internationalization              (^.^)
 //* * ** *** ***** ******** ************* *********************
 
 class I18n {

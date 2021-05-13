@@ -81,7 +81,7 @@ class Bureaucrat {
 	}
 	
 	getCurrBaseLangCode() {
-		return this.currUiLangCode ?? this.getChief().getCurrBaseLangCode();
+		return this.currBaseLangCode ?? this.getChief().getCurrBaseLangCode();
 	}
 	
 	getGame() {

@@ -99,6 +99,7 @@ class MainPage extends Bureaucrat {
 		this.printCardsButton = new PrintCardsButton(this, "printButton");
 	}		
 		
+		
 	// UI language 
 	
 	getAvailableUiLangs() {
@@ -141,6 +142,7 @@ class MainPage extends Bureaucrat {
 	// Main menu
 	
 	createMainMenuItems() {
+		
 		this.wordsMainMenuItem   = new MainMenuItem(this, "wordsMenuItemSpan");
 		this.textsMainMenuItem   = new MainMenuItem(this, "textsMenuItemSpan");
 		this.serviceMainMenuItem = new MainMenuItem(this, "serviceMenuItemSpan");
@@ -190,6 +192,7 @@ class MainPage extends Bureaucrat {
 	
 	
 	// Cloud of tags 
+	
 	localizeSubjectDomainTagCloud(localTags, langCode) {
 		this.subjectDomainTagCloud.localize(localTags, langCode);
 	}
