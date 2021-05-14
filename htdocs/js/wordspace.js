@@ -396,9 +396,10 @@ class Wordspace {
 		this.title = title;
 	}
 
-	getExternalDic(langCode=undefined) {
-		let actualLangCode = langCode ? langCode : this.getDefaultBaseLangCode();
-		return this.externalDics[actualLangCode];
+	getExternalDic(_langCode=undefined) {
+		let langCode = _langCode ?? this.getDefaultBaseLangCode();
+		return this.externalDics[langCode] ?? 
+		       this.externalDics[this.getDefaultBaseLangCode()];
 	}
 	
 	setExternalDic(langCode, externalDicUrlTemplate) {

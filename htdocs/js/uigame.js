@@ -185,8 +185,6 @@ class MnemoPhraseArea extends Area {
 	
 		let tokens = this.splitPhraseLine(phraseLine); 
 		
-		console.log(tokens);
-
 		let spans = new Array();
 		
 		for(let tokenIdx in tokens) {
@@ -347,7 +345,7 @@ class WordList extends UiControl {
 					  "ui_lang"     : uiLangCode};
 		
 		let externalDicLinkTemplate = this.getWordspace().getExternalDic(baseLangCode);
-		
+ 
 		let splitter = new SubstFormalSplitter(externalDicLinkTemplate); 		
 		
 		return splitter.split().substStr(params);

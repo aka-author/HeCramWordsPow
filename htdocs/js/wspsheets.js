@@ -189,7 +189,7 @@ class Worksheet {
 	}		
 		
 	getPropValue(propFieldName, valFieldName, propName, langCode=undefined) {
-		
+				
 		let fieldValue = undefined;
 	
 		let countRows = this.countRows();

@@ -58,8 +58,8 @@ class WordspaceFactory {
 		return this.getWorkbook().getFieldValue(sheetName, rowIdx, fieldName);
 	}
 	
-	getPropValue(propFieldName, valFieldName, propName, langCode=undefined) {
-		return this.getWorkbook().getPropValue(propFieldName, 
+	getPropValue(sheetName, propFieldName, valFieldName, propName, langCode=undefined) {
+		return this.getWorkbook().getPropValue(sheetName, propFieldName, 
 					valFieldName, propName, langCode);
 	}
 	
@@ -264,7 +264,7 @@ class WordspaceFactory {
 					this.getPropValue(generalSheetName, "field", "value", 
 				                    "dictionary_url_template", langCode);
 			if(dicUrlTemplate)								
-				this.setExternalDic(langCode, dicUrlTemplate);				
+				this.setExternalDic(langCode, dicUrlTemplate);	
 		}
 	}		
 		
