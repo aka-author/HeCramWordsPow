@@ -9,7 +9,7 @@ class UserConfig {
 	
 	constructor() {
 		this.defaultWordspace        = null;
-		this.defaultCurrLevelNo      = "alef";
+		this.defaultCurrLevelCode    = "all";
 		this.defaultCurrLessonNo     = "all";
 		this.defaultRiddleLangCode   = navigator.language.substring(0,2);
 		this.defaultGuessLangCode    = "he";
@@ -21,8 +21,8 @@ class UserConfig {
 		return this.defaultCurrWirdspace;
 	}
 	
-	getDefaultCurrLevelNo(wordspace=null) {
-		return this.defaultCurrLevelNo;
+	getDefaultCurrLevelCode(wordspace=null) {
+		return this.defaultCurrLevelCode;
 	}
 	
 	getDefaultCurrLessonNo(wordspace=null) {

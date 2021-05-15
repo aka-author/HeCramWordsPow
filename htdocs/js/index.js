@@ -34,7 +34,7 @@ class Index extends Comparator{
 	}
 	
 	compareKeyValues(kv1, kv2) {
-		return String(kv1).locateCompare(String(kv2));
+		return String(kv1).localeCompare(String(kv2));
 	}
 	
 	compareItems(item1, item2) {
@@ -98,7 +98,7 @@ class Index extends Comparator{
 		
 		for(let keyHash in this.keyEntries)
 			keyValues.add(this.keyEntries[keyHash].keyValue);
-		
+				
 		return [...keyValues].sort(this.compareKeyValues);
 	}
 	

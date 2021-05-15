@@ -53,7 +53,7 @@ class LevelCodeIndex extends Index {
 		super("level_code");
 	}
 	
-	getKeyValues(dicEntry) {
+	getItemKeyValues(dicEntry) {
 		return [dicEntry.getLevelCode()];
 	}
 	
@@ -157,7 +157,7 @@ class DicEntry {
 	
 	constructor() {
 		this.lexemes = new Array();
-		this.levelNo = undefined;
+		this.levelCode = undefined;
 		this.lessonNo = undefined;
 	}
 	
@@ -173,12 +173,12 @@ class DicEntry {
 			return undefined;	
 	}
 	
-	getLevelNo() {
-		return this.levelNo;
+	getLevelCode() {
+		return this.levelCode;
 	}
 	
-	setLevelNo(levelNo) {
-		this.levelNo = levelNo;
+	setLevelCode(levelCode) {	
+		this.levelCode = levelCode;
 	}
 	
 	getLessonNo() {
@@ -317,8 +317,6 @@ class Wordspace {
 		this.defaultBaseLangCode = langCode;
 	}
 	
-	
-	
 	checkLangIndex(langCode) {
 		//if(!this.langIndices[langCode]) 
 		//	this.langIndices[langCode] = new Array();
@@ -350,9 +348,12 @@ class Wordspace {
 		return posNames;
 	}
 	
-	checkLessonIndex(lessonNo) {
-		if(!this.lessonNoIndex[lessonNo])
-			this.lessonNoIndex[lessonNo] = new Array();
+	getDefaultLevelCode() {
+		return this.defaultLevelCode;
+	}
+	
+	setDefaultLevelCode(levelCode) {
+		this.defaultLevelCode = levelCode;
 	}
 	
 	appendDicEntry2LangIndex(langCode, dicEntry) {
@@ -367,12 +368,7 @@ class Wordspace {
 		for(let langCode in dicEntry.lexemes)  
 			this.appendDicEntry2LangIndex(langCode, dicEntry);	
 		
-		let lessonNo = dicEntry.getLessonNo();
-		if(lessonNo) {
-			this.checkLessonIndex(lessonNo);
-			this.lessonNoIndex[lessonNo].push(dicEntry);
-		}
-		
+		this.levelCodeIndex.appendItem(dicEntry);
 		this.lessonNoIndex.appendItem(dicEntry);
 		this.partOfSpeachIndex.appendItem(dicEntry);
 		this.subjectDomainTagIndex.appendItem(dicEntry);
@@ -384,6 +380,10 @@ class Wordspace {
 		return translations;
 	}
 		
+	compareLevelCodes(levelCode1, levelCode2) {
+		return String(levelCode1).localeCompare(String(levelCode2)); 
+	}
+	
 	compareLessonNumbers(lessonNo1, lessonNo2) {
 		return parseInt(lessonNo2) - parseInt(lessonNo1);
 	}
@@ -406,7 +406,11 @@ class Wordspace {
 		this.externalDics[langCode] = externalDicUrlTemplate;
 	}
 	
-	getLessons(levelCode) {
+	getLevels() {
+		return this.levelCodeIndex.selectKeyValues().sort(this.compareLevelCodes);
+	}
+	
+	getLessons() {
 		return this.lessonNoIndex.selectKeyValues().sort(this.compareLessonNumbers);
 	}
 	
@@ -451,6 +455,12 @@ class Wordspace {
 			filter = candidates;
 		
 		return filter;
+	}
+	
+	assembleLevelCodeFilter(levelCode) {
+		return levelCode && (levelCode != "all") ?
+			this.levelCodeIndex.selectItemsByKeyValues(levelCode) :
+			this.levelCodeIndex.selectAllItems();
 	}
 	
 	assembleLessonNoFilter(lessonNo) {

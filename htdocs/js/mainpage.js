@@ -28,9 +28,9 @@ class MainPage extends Bureaucrat {
 		this.wordsMainMenuItem.onSwitch();
 		
 		this.levelSelector = new LevelSelector(this, "levelSelectorSelect");
-		//let levels = ["all"].concat(game.getLevels());
-		//this.levelSelector.appendLevels(levels);
-		//this.levelSelector.setUiControlValue(game.getCurrLevelNo());
+		let levels = ["all"].concat(game.getLevels());
+		this.levelSelector.appendLevels(levels);
+		this.levelSelector.setUiControlValue(game.getCurrLevelCode());
 		
 		this.lessonSelector = new LessonSelector(this, "lessonSelectorSelect");
 		let lessons = ["all"].concat(game.getLessons());

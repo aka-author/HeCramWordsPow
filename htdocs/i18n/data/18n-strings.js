@@ -5,6 +5,7 @@ var GLOBAL_UIStrings = {
 	"levelSelectorLabel"  : {"en" : "Level:", "he"  : "רמה:", "ru" : "Уровень:", "es" : "Nivel:", "pt"   : "Nível:"},
 	"lessonSelectorLabel" : {"en" : "Lesson:", "he" : "שיעור:", "ru" : "Урок:", "es"  : "Lección:", "pt" : "Lição:"},
 	"lessonSelectorSelect__all" : {"en" : "All", "he" : "כל", "ru" : "Все", "es"  : "Todas", "pt" : "Todas"},
+	"levelSelectorSelect__all" : {"en" : "All", "he" : "כל", "ru" : "Все", "es"  : "Todas", "pt" : "Todas"},
 	
 	"wordsMenuItemSpan"   : {"en" : "Words",    "he" : "מילים",    "ru" : "Слова",    "es" : "Palabras",  "pt" : "Palavras"},
 	"textsMenuItemSpan"   : {"en" : "Texts",    "he" : "טקסטים",   "ru" : "Тексты",   "es" : "Textos",    "pt" : "Textos"},	

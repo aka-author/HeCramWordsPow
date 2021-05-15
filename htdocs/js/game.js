@@ -23,7 +23,7 @@ class Game extends Bureaucrat {
 		this.currRiddleLangCode = config.getDefaultRiddleLangCode(this.ws);
 		this.currGuessLangCode = config.getDefaultGuessLangCode(this.ws);
 		
-		this.currLevelNo  = config.getDefaultCurrLevelNo(this.ws);		
+		this.currLevelCode = config.getDefaultCurrLevelCode(this.ws);		
 		this.currLessonNo = config.getDefaultCurrLessonNo(this.ws);
 		this.currPartOfSpeachTags = config.getDefaultPartOfSpeachCode(this.ws);
 		this.currFilter = this.ws.assembleLessonNoFilter("all");
@@ -57,7 +57,7 @@ class Game extends Bureaucrat {
 	
 	useWordspaceFromGdocs() {
 				
-		let gdoc = new SimpleGoogleWordspace("1wJZp91_0zq1QbXu--GNme4MsZDLn_d9DOeq4CKU2tyU");
+		let gdoc = new SimpleGoogleWordspace("1Z6vXmRocZhrpLVc_1XP5BsgUwOXu_Q0L5gboDi2nWEg");
 		gdoc.auth();
 		gdoc.load();
 		
@@ -121,20 +121,21 @@ class Game extends Bureaucrat {
 	}
 	
 	getLevels() {
-		return []; //this.getWordspace().getLessons();
+		return this.getWordspace().getLevels();
 	}
 	
 	getLessons() {
 		return this.getWordspace().getLessons();
 	}
 	
-	getCurrLevelNo() {
-		return this.currLevelNo;
+	getCurrLevelCode() {
+		return this.currLevelCode;
 	}
 	
-	setCurrLevel(levelNo) {
-		this.currLevelNo = levelNo;
+	setCurrLevel(levelCode) {
+		this.currLevelCode = levelCode;
 		this.takeNextQuestion();
+		this.updateWordList();
 	}
 	
 	getCurrLessonNo() {
@@ -246,6 +247,8 @@ class Game extends Bureaucrat {
 		
 		let ws = this.getWordspace();
 		
+		let currLevelCodeFilter = 
+			ws.assembleLevelCodeFilter(this.getCurrLevelCode());
 		let currLessonNoFilter = 
 			ws.assembleLessonNoFilter(this.getCurrLessonNo());
 		let currPartOfSpeachFilter = 
@@ -254,8 +257,8 @@ class Game extends Bureaucrat {
 			ws.assembleSubjectDomainTagFilter(this.getCurrSubjectDomainTags());
 			
 		this.currFilter = 
-			currLessonNoFilter.crossWithFilters(currPartOfSpeachFilter, 
-			                               currSubjectDomainTagFilter);	
+			currLessonNoFilter.crossWithFilters(currLevelCodeFilter,
+				currPartOfSpeachFilter, currSubjectDomainTagFilter);	
 	}
 
 	getCurrDicEntry() {

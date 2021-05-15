@@ -180,6 +180,10 @@ class WordspaceFactory {
 		this.getWordspace().getDefaultBaseLangCode();
 	}
 	
+	setDefaultLevelCode(levelCode) {
+		this.getWordspace().setDefaultLevelCode(levelCode);
+	}
+	
 	setDefaultBaseLang(langCode) {
 		this.getWordspace().setDefaultBaseLang(langCode);
 	}
@@ -251,6 +255,11 @@ class WordspaceFactory {
 	importDefaultBaseLangCode(generalSheetName) {
 		this.setDefaultBaseLang(this.getPropValue(generalSheetName, 
 					"field", "value", "default_base_lang_code"));	
+	}
+
+	importDefaultLevelCode(generalSheetName) {
+		this.setDefaultLevelCode(this.getPropValue(generalSheetName, 
+					"field", "value", "default_level_code"));	
 	}	
 		
 	importExternalDics(generalSheetName) {
@@ -275,6 +284,7 @@ class WordspaceFactory {
 		this.importTitle(generalSheetName);
 		this.importTargetLangCode(generalSheetName);	
 		this.importBaseLangCodes();
+		this.importDefaultLevelCode(generalSheetName);
 		this.importDefaultBaseLangCode(generalSheetName);
 		this.importExternalDics(generalSheetName);				
 	}	
@@ -365,12 +375,16 @@ class WordspaceFactory {
 		}
 	}
 		
+	getDefaultLevelCode() {
+		return "א";
+	}		
+		
 	importLevelLessonNo(dicEntry, sheetName, rowIdx) {
 		
 		let wb = this.getWorkbook();
 		
-		let levelNo = wb.getLevelNo(sheetName, rowIdx);				
-		dicEntry.setLevelNo(levelNo);
+		let levelCode = wb.getLevelCode(sheetName, rowIdx);		
+		dicEntry.setLevelCode(levelCode ?? this.getDefaultLevelCode());
 		
 		let lessonNo = wb.getLessonNo(sheetName, rowIdx);
 		dicEntry.setLessonNo(lessonNo);
@@ -432,5 +446,7 @@ class WordspaceFactory {
 		this.importPartsOfSpeach();
 		this.importTags();
 		this.importDicEntries();
+		
+		console.log(this.wordspace);
 	}
 }	

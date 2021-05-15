@@ -508,7 +508,7 @@ class SimpleGoogleWordspace extends SimpleGoogleWorkbook {
 		return this.getFieldValue(sheetName, rowIdx, langCode);
 	}
 	
-	getLevelNo(sheetName, rowIdx) {
+	getLevelCode(sheetName, rowIdx) {
 		return this.getFieldValue(sheetName, rowIdx, "level");
 	}	
 	

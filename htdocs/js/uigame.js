@@ -7,7 +7,7 @@
 //* * ** *** ***** ******** ************* *********************
 
 //
-// Level and lesson selectors
+// Level selector
 //
 
 class LevelSelector extends Selector {
@@ -17,11 +17,16 @@ class LevelSelector extends Selector {
 	}
 	
 	onChange() {
-		// this.getGame().setCurrLesson(this.getUiControlValue());
+		this.getGame().setCurrLevel(this.getUiControlValue());
 	}	
 
 }
 
+
+
+//
+// Lesson selector
+//
 
 class LessonSelector extends Selector {
 	
