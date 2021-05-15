@@ -74,18 +74,9 @@ class LessonNoIndex extends Index {
 	
 	compareKeyValues(kv1, kv2) {
 		
-		let result = 0;
-		
-		if(Boolean(kv1) && Boolean(kv2)) {
-		
-			//let result = kv1.levelCode.locateCompare(kv2.levelCode)
+		let result = compareCompoundNumbers(kv1, kv2);
 			
-			//if(result == 0) 
-			//	result = kv1.lessonNo - kv2.lessonNo;
-			result = kv1 - kv2;
-		}
-			
-		return [result];
+		return [-result];
 	}	
 	
 }
@@ -318,9 +309,9 @@ class Wordspace {
 	}
 	
 	checkLangIndex(langCode) {
-		//if(!this.langIndices[langCode]) 
-		//	this.langIndices[langCode] = new Array();
-	}
+		if(!this.langIndices[langCode]) 
+			this.langIndices[langCode] = new Array();
+	} 
 	
 	appendPartOfSpeach(pos) {
 		this.poses[pos.getCode()] = pos;
@@ -356,17 +347,9 @@ class Wordspace {
 		this.defaultLevelCode = levelCode;
 	}
 	
-	appendDicEntry2LangIndex(langCode, dicEntry) {
-		this.checkLangIndex(langCode);
-		//this.langIndices[langCode][dicEntry.getHeadword(langCode)] = dicEntry;
-	}
-	
 	appendDicEntry(dicEntry) {
 		
 		this.dicEntries.push(dicEntry);
-		
-		for(let langCode in dicEntry.lexemes)  
-			this.appendDicEntry2LangIndex(langCode, dicEntry);	
 		
 		this.levelCodeIndex.appendItem(dicEntry);
 		this.lessonNoIndex.appendItem(dicEntry);
@@ -379,14 +362,10 @@ class Wordspace {
 		translations[0] = this.langIndices[srcLangCode][srcHeadword].getHeadword(targetLangCode);
 		return translations;
 	}
-		
-	compareLevelCodes(levelCode1, levelCode2) {
-		return String(levelCode1).localeCompare(String(levelCode2)); 
-	}
 	
 	compareLessonNumbers(lessonNo1, lessonNo2) {
-		return parseInt(lessonNo2) - parseInt(lessonNo1);
-	}
+		return this.lessonNoIndex.compareKeyValues(lessonNo1, lessonNo2);
+	} 
 	
 	getTitle() {
 		return this.title;
@@ -411,7 +390,12 @@ class Wordspace {
 	}
 	
 	getLessons() {
-		return this.lessonNoIndex.selectKeyValues().sort(this.compareLessonNumbers);
+		
+		function cmpFunc(ln1, ln2) {
+			return compareCompoundNumbers(ln2, ln1);
+		}
+		
+		return this.lessonNoIndex.selectKeyValues().sort(cmpFunc);
 	}
 	
 	getSubjectDomainTags() {
@@ -465,7 +449,7 @@ class Wordspace {
 	
 	assembleLessonNoFilter(lessonNo) {
 		return lessonNo && (lessonNo != "all") ?
-			this.lessonNoIndex.selectItemsByKeyValues(parseInt(lessonNo)) :
+			this.lessonNoIndex.selectItemsByKeyValues(lessonNo) :
 			this.lessonNoIndex.selectAllItems();
 	}
 	

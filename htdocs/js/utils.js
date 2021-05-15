@@ -70,6 +70,16 @@ function safeCompareStrings(s1, s2) {
 // Numeric
 //
 
+function isNumber(smth) {
+	return typeof smth == "number";
+}
+
+
+function areNumbers(smth1, smth2) {
+	return isNumber(smth1) && isNumber(smth2);
+}
+
+
 function max2(a, b) {
 	 return a >= b ? a : b;
 }
@@ -128,6 +138,41 @@ function matrixAssMap(matrix, func) {
 	}
 	
 	return assMap(matrix, mapRow);
+}
+
+
+
+//
+// Compound numbers
+//
+
+function compareCompoundNumbers(kv1, kv2) {
+		
+	let result = 0;
+	
+	if(Boolean(kv1) && Boolean(kv2)) {
+		
+		let lnSep = /\s|-|\.|\//;
+		
+		let kv1Tokens = String(kv1).split(lnSep);
+		let kv2Tokens = String(kv2).split(lnSep);
+		
+		if(kv1Tokens.length != kv2Tokens.length)
+			result = kv1Tokens.length - kv2Tokens.length;
+		else 		
+			for(let i = 0; i < kv1Tokens.length; i++) {
+				
+				if(areNumbers(kv1Tokens[i], kv2Tokens[i]))
+					result = kv1 - kv2;
+				else
+					result = safeCompareStrings(kv1Tokens[i], kv2Tokens[i]);
+		
+				if(result != 0) 
+					break;
+			}
+	}		
+
+	return result;
 }
 
 
