@@ -84,6 +84,7 @@ function max2(a, b) {
 	 return a >= b ? a : b;
 }
 
+
 function maxMulti(getComparableValueFunc) {
 	
 	let max = undefined;
@@ -198,6 +199,22 @@ function getRandomKey(arr) {
 	return keys[randomKeyIdx];
 }
 
+
+
+//
+// Time & timer
+//
+
+function sleep(milliseconds) {
+			
+	const date = Date.now();
+	
+	let currentDate = null;
+	
+	do {
+		currentDate = Date.now();
+	} while (currentDate - date < milliseconds);
+}
 
 
 //

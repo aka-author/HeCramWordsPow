@@ -210,9 +210,9 @@ class Worksheet {
 
 class Workbook extends RemoteDataset {
 
-	constructor(url, creds=null) {
+	constructor(id, url, creds=null) {
 		
-		super(url, creds);
+		super(id, url, creds);
 		
 		this.content.sheets = new Array();
 	}
@@ -371,14 +371,14 @@ class SimpleGoogleWorkbook extends Workbook {
 	
 	constructor(gdocId) {
 		
-		super(assembleSheetUrl(gdocId));
+		super(gdocId, assembleSheetUrl(gdocId));
 		
 		this.gdocId = gdocId;
 		this.tocSheetRawJson = null;
 	}
 
 	getGdocId() {
-		return this.gdocId;
+		return this.id;
 	}
 
 	retrieveSheetRawJson(sheetName) {

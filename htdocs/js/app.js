@@ -65,11 +65,27 @@ class Application extends Bureaucrat {
 		super(null, "APP");
 		
 		this.userConfig = new UserConfig();
-		let userLangCode = this.detectUserLang();
-		this.userConfig.setDefaultRiddleLangCode(userLangCode);
-		this.userConfig.setDefaultUiLangCode(userLangCode);
+		
 		this.i18n = new I18n();
 		this.i18n.setStringTable(GLOBAL_UIStrings);
+	}
+	
+	getLocalUserConfig() {
+		return this.userConfig;
+	}
+	
+	saveLocalUserConfig() {
+		let configJson = this.getUserConfig().assembleJson();
+		document.cookie = configJson;
+	}
+	
+	loadLocalUserConfig() {
+		
+		let configJson = document.cookie;
+		
+		console.log("config: ", configJson);
+		
+		this.getUserConfig().unpackFromJson(configJson);
 	}
 	
 	detectUserLang() {
@@ -128,10 +144,16 @@ class Application extends Bureaucrat {
 	}
 	
 	run() {	
+		this.loadLocalUserConfig();
 		this.game = new Game(this);
 		this.mainPage = new MainPage(this);
 		this.game.play();
 	}
+	
+	quit() {
+		this.saveLocalUserConfig();
+	}
+	
 }
 
 
@@ -151,4 +173,9 @@ function getGlobalApp() {
 function playGame() {
 	GLOBAL_app = new Application();
 	GLOBAL_app.run();
+}
+
+
+function quitGame() {
+	GLOBAL_app.quit();
 }

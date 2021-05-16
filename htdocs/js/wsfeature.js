@@ -33,7 +33,8 @@ class WordspaceFeature {
 	}
 	
 	getName(langCode=undefined) {
-		return langCode ? this.getNames()[langCode] : this.getOriginalName();
+		return langCode ? this.getNames()[langCode] : 
+						  this.getNames()[this.getRelatedLangCode()];
 	}
 
 	getOriginalName() {

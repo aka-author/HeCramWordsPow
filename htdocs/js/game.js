@@ -20,12 +20,12 @@ class Game extends Bureaucrat {
 		
 		this.ws = this.useWordspaceFromGdocs();
 		
-		this.currRiddleLangCode = config.getDefaultRiddleLangCode(this.ws);
-		this.currGuessLangCode = config.getDefaultGuessLangCode(this.ws);
+		this.currRiddleLangCode = config.getRiddleLangCode(this.ws);
+		this.currGuessLangCode = config.getGuessLangCode(this.ws);
 		
-		this.currLevelCode = config.getDefaultCurrLevelCode(this.ws);		
-		this.currLessonNo = config.getDefaultCurrLessonNo(this.ws);
-		this.currPartOfSpeachTags = config.getDefaultPartOfSpeachCode(this.ws);
+		this.currLevelCode = config.getLevelCode(this.ws);		
+		this.currLessonNo = config.getLessonNo(this.ws);
+		this.currPartOfSpeachTags = config.getPosCode(this.ws);
 		this.currFilter = this.ws.assembleLessonNoFilter("all");
 	}		
 	
@@ -166,6 +166,7 @@ class Game extends Bureaucrat {
 		this.updateWordList();
 		let localTags = this.getWordspace().getSubjectDomainTagWordings();
 		this.getMainPage().subjectDomainTagCloud.showLocalWordings(langCode);
+		this.getUserConfig().setRiddleLangCode(this.getWordspace().getId(), langCode);
 	}
 	
 	getCurrGuessLangCode() {

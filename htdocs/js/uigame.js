@@ -126,6 +126,7 @@ class PartOfSpeachSelector extends Selector {
 
 }
 
+
 class LexemeArea extends Area {
 
 	setDomObjectValue(headword) {
@@ -311,6 +312,7 @@ class subjectDomainTagCloudSwitch extends UiControl {
 	}
 	
 }
+
 
 class SubjectDomainTagCloud extends TagCloud {
 	

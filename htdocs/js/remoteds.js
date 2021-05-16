@@ -59,12 +59,17 @@ class AppResponse {
 
 class RemoteDataset {
 
-	constructor(url, creds=null) {
+	constructor(id, url, creds=null) {
+		this.id = id;
 		this.appError = new AppError(ERR_OBJECT_IMMATURE);
 		this.url = url;
 		this.creds = creds;
 		this.authData = null;
 		this.content = new Array();
+	}
+	
+	getId() {
+		return this.id;
 	}
 	
 	getApp() {

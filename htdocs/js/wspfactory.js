@@ -11,7 +11,7 @@ class WordspaceFactory {
 	constructor(workbook) {
 		
 		this.workbook = workbook; 
-		this.wordspace = new Wordspace();
+		this.wordspace = new Wordspace(workbook.getId());
 		console.log(workbook);
 		
 		this.langCodes = new Array();

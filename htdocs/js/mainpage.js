@@ -17,6 +17,7 @@ class MainPage extends Bureaucrat {
 		let game = this.getGame();
 		
 		let ws = game.getWordspace();
+		let wsId = ws.getId();
 		let targetLangCode = ws.getTargetLangCode();
 		let targetLangName = ws.getTargetLangName();
 		let defaultBaseLangCode = ws.getDefaultBaseLangCode();
@@ -41,7 +42,7 @@ class MainPage extends Bureaucrat {
 		this.riddleLangSelector.appendOptions(game.getAvailableBaseLangCodes());
 		this.riddleLangSelector.appendOptions([{"code"    : targetLangCode, 
 		                                        "wording" : targetLangName}]);
-		let defaultRiddleLangCode = this.getUserConfig().getDefaultRiddleLangCode();
+		let defaultRiddleLangCode = this.getUserConfig().getRiddleLangCode();
 		let actualRiddleLangCode = 
 				this.getGame().isBaseLangAvailable(defaultRiddleLangCode) ?
 					defaultRiddleLangCode : defaultBaseLangCode;
@@ -94,7 +95,9 @@ class MainPage extends Bureaucrat {
 		this.wordList = new WordList(this, "wordListDiv");
 		
 		
-		this.setCurrUiLang(this.getUserConfig().getDefaultUiLangCode());
+		this.setCurrUiLang(this.getUserConfig().getUiLangCode(wsId));
+		
+		console.log(wsId, this.getUserConfig().getUiLangCode(wsId));
 		
 		this.printCardsButton = new PrintCardsButton(this, "printButton");
 	}		
@@ -131,6 +134,7 @@ class MainPage extends Bureaucrat {
 		this.currUiLangCode = actualLangCode;
 		this.getI18n().loadLocalLabels(document, actualLangCode);
 		this.uiLangSelector.setUiControlValue({"code" : actualLangCode});
+		this.getUserConfig().setUiLangCode(actualLangCode);
 	}
 	
 	createUiLangSelector() {

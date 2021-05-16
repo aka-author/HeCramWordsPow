@@ -242,7 +242,9 @@ class wordspaceQuery {
 
 class Wordspace {
 	
-	constructor() {
+	constructor(id) {
+		
+		this.id = id;
 		
 		this.title = "Default Wordspace";
 		
@@ -262,6 +264,10 @@ class Wordspace {
 		this.lessonNoIndex = new LessonNoIndex();
 		this.partOfSpeachIndex = new PartOfSpeachIndex();
 		this.subjectDomainTagIndex = new SubjectDomainTagIndex();
+	}
+	
+	getId() {
+		return this.id;
 	}
 	
 	appendLang(lang) {
