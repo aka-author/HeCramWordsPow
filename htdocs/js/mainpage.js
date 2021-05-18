@@ -29,45 +29,13 @@ class MainPage extends Bureaucrat {
 		this.wordsMainMenuItem.onSwitch();
 		
 		this.levelSelector = new LevelSelector(this, "levelSelectorSelect");
-		let levels = ["all"].concat(game.getLevels());
-		this.levelSelector.appendLevels(levels);
-		this.levelSelector.setUiControlValue(game.getCurrLevelCode());
-		
 		this.lessonSelector = new LessonSelector(this, "lessonSelectorSelect");
-		let lessons = ["all"].concat(game.getLessons());
-		this.lessonSelector.appendLessons(lessons);
-		this.lessonSelector.setUiControlValue(game.getCurrLessonNo());
-		
 		this.riddleLangSelector = new RiddleLangSelector(this, "riddleLangSelectorSelect");
-		this.riddleLangSelector.appendOptions(game.getAvailableBaseLangCodes());
-		this.riddleLangSelector.appendOptions([{"code"    : targetLangCode, 
-		                                        "wording" : targetLangName}]);
-		let defaultRiddleLangCode = this.getUserConfig().getRiddleLangCode();
-		let actualRiddleLangCode = 
-				this.getGame().isBaseLangAvailable(defaultRiddleLangCode) ?
-					defaultRiddleLangCode : defaultBaseLangCode;
-		this.riddleLangSelector.setUiControlValue({"code" : actualRiddleLangCode});
-		
 		this.guessLangSelector = new GuessLangSelector(this, "guessLangSelectorSelect");
-		this.guessLangSelector.appendOptions(game.getAvailableBaseLangCodes());
-		this.guessLangSelector.appendOptions([{"code"    : targetLangCode, 
-		                                       "wording" : targetLangName}]);
-		this.guessLangSelector.setUiControlValue({"code" : targetLangCode});
+		this.partOfSpeachSelector = new PartOfSpeachSelector(this, "partOfSpeachSelectorSelect");
 		
-		this.partOfSpeachSelector = 
-			new PartOfSpeachSelector(this, "partOfSpeachSelectorSelect");
-		this.partOfSpeachSelector.appendOptions(game.getPartsOfSpeach());	
-		let posNames = 
-			matrixAssMap(game.getPartOfSpeachLocalNames(), 
-				function(pns, context) {return capitalizeFirstChr(pns)});		
-		
-		this.partOfSpeachSelector.setLocalWordings(posNames);
-				
-		this.subjectDomainTagCloudSwitch = 
-			new subjectDomainTagCloudSwitch(this, "subjectDomainCloudSwitchDiv");
-			
-		this.subjectDomainTagCloud = 
-			new SubjectDomainTagCloud(this, "subjectDomainCloudDiv");
+		this.subjectDomainTagCloudSwitch = new subjectDomainTagCloudSwitch(this, "subjectDomainCloudSwitchDiv");
+		this.subjectDomainTagCloud = new SubjectDomainTagCloud(this, "subjectDomainCloudDiv");
 			
 		this.questionArea = new LexemeArea(this, "questionAreaDiv");
 		this.answerArea = new LexemeArea(this, "answerAreaDiv");
@@ -82,24 +50,16 @@ class MainPage extends Bureaucrat {
 			 
 		this.visibleArea = "question";	 
 		
-		this.giveUpButton = 
-			new GiveUpButton(this, "giveUpButtonImg");
-		this.showPromptButton = 
-			new ShowPromptButton(this, "showPromptButtonImg");
-		this.takeNextQuestionButton = 
-			new TakeNextQuestionButton(this, "takeNextQuestionButtonImg");
+		this.giveUpButton = new GiveUpButton(this, "giveUpButtonImg");
+		this.showPromptButton = new ShowPromptButton(this, "showPromptButtonImg");
+		this.takeNextQuestionButton = new TakeNextQuestionButton(this, "takeNextQuestionButtonImg");
 		
-		this.wordListSwitch = 
-			new WordListSwitch(this, "wordListSwitchSpan");
-		
+		this.wordListSwitch = new WordListSwitch(this, "wordListSwitchSpan");
 		this.wordList = new WordList(this, "wordListDiv");
 		
+		this.setUiLang(this.getUserConfig().getUiLangCode());
 		
-		this.setCurrUiLang(this.getUserConfig().getUiLangCode(wsId));
-		
-		console.log(wsId, this.getUserConfig().getUiLangCode(wsId));
-		
-		this.printCardsButton = new PrintCardsButton(this, "printButton");
+		this.printCardsButton = new PrintCardsButton(this, "printButton");		
 	}		
 		
 		
@@ -124,17 +84,20 @@ class MainPage extends Bureaucrat {
 		return result;
 	}
 	
-	getCurrUiLangCode() {
-		return this.uiLang;
+	getUiLangCode() {
+		return this.uiLangCode;
 	}
 	
-	setCurrUiLang(langCode) {
-		let actualLangCode = 
-				this.isUiLangAvailable(langCode) ? langCode : "en";
-		this.currUiLangCode = actualLangCode;
-		this.getI18n().loadLocalLabels(document, actualLangCode);
-		this.uiLangSelector.setUiControlValue({"code" : actualLangCode});
-		this.getUserConfig().setUiLangCode(actualLangCode);
+	setUiLang(langCode) {		
+		this.uiLangCode = this.isUiLangAvailable(langCode) ? langCode : "en";
+		this.getI18n().loadLocalLabels(document, this.uiLangCode);
+		this.uiLangSelector.setUiControlValue({"code" : this.uiLangCode});
+		this.localizeSubjectDomainTagCloud(langCode);
+		this.getUserConfig().setUiLangCode(this.uiLangCode);
+	}
+	
+	propagateUiLang() {
+		this.setUiLang(this.getUiLangCode());
 	}
 	
 	createUiLangSelector() {
@@ -197,8 +160,13 @@ class MainPage extends Bureaucrat {
 	
 	// Cloud of tags 
 	
-	localizeSubjectDomainTagCloud(localTags, langCode) {
-		this.subjectDomainTagCloud.localize(localTags, langCode);
+	setSubjectDomainTags(tagRecords, tagLocalWordings) {		
+		this.subjectDomainTagCloud.appendTags(tagRecords);
+		this.subjectDomainTagCloud.setTagLocalWordings(tagLocalWordings);
+	}
+	
+	localizeSubjectDomainTagCloud(localTags, langCode) {		
+		this.subjectDomainTagCloud.showLocalWordings(langCode);
 	}
 	
 	

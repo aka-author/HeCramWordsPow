@@ -72,8 +72,8 @@ class Bureaucrat {
 		return this.ws ?? this.getChief().getWordspace();
 	}
 	
-	getCurrUiLangCode() {
-		return this.currUiLangCode ?? this.getChief().getCurrUiLangCode();
+	getUiLangCode() {
+		return this.currUiLangCode ?? this.getChief().getUiLangCode();
 	}
 	
 	getMainPage() {

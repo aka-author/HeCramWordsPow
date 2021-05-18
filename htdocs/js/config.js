@@ -61,9 +61,7 @@ class UserConfig {
 		let paramValue = undefined;
 		
 		let wordspaceId = this.params.ws[_wordspaceId] ? _wordspaceId : "default";
-		
-		console.log( this.params.ws[_wordspaceId]);
-		
+				
 		if(wordspaceId != "default")
 			paramValue = this.params.ws[wordspaceId][paramName] ?? 
 		                 this.params.ws["default"][paramName];

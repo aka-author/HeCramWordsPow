@@ -17,7 +17,7 @@ class LevelSelector extends Selector {
 	}
 	
 	onChange() {
-		this.getGame().setCurrLevel(this.getUiControlValue());
+		this.getGame().selectLevel(this.getUiControlValue());
 	}	
 
 }
@@ -35,7 +35,7 @@ class LessonSelector extends Selector {
 	}
 	
 	onChange() {
-		this.getGame().setCurrLesson(this.getUiControlValue());
+		this.getGame().selectLesson(this.getUiControlValue());
 	}	
 
 }
@@ -66,24 +66,7 @@ class LangSelector extends Selector {
 class RiddleLangSelector extends LangSelector {
 	
 	onChange() {
-		let newRiddleLangCode = this.getUiControlValue();
-		let game = this.getGame();
-		let oldRiddleLangCode = game.getCurrRiddleLangCode();
-		let guessLangCode = game.getCurrGuessLangCode();
-		let targetLangCode = game.getTargetLangCode();
-		game.setCurrRiddleLang(newRiddleLangCode);
-		let parentUiControl = this.getChief();
-		if(newRiddleLangCode == targetLangCode && guessLangCode == targetLangCode) {
-			parentUiControl.guessLangSelector.setUiControlValue({"code" : oldRiddleLangCode});
-			game.setCurrGuessLang(oldRiddleLangCode);
-		} 
-		else if(newRiddleLangCode != targetLangCode && guessLangCode != targetLangCode) {
-			parentUiControl.guessLangSelector.setUiControlValue({"code" : targetLangCode});
-			game.setCurrGuessLang(targetLangCode);
-		}
-		
-		//this.getChief().subjectDomainCloud.showLocalWordings(this.getGame().currBaseLangCode);
-		
+		this.getGame().selectRiddleLang(this.getUiControlValue());
 	}	
 }
 
@@ -91,21 +74,7 @@ class RiddleLangSelector extends LangSelector {
 class GuessLangSelector extends LangSelector {
 	
 	onChange() {	
-		let newGuessLangCode = this.getUiControlValue();
-		let game = this.getGame();
-		let oldGuessLangCode = game.getCurrGuessLangCode();
-		game.setCurrGuessLang(newGuessLangCode);
-		let parentUiControl = this.getChief();
-		let riddleLangCode = game.getCurrRiddleLangCode();
-		let targetLangCode = game.getTargetLangCode();
-		if(newGuessLangCode == targetLangCode && riddleLangCode == targetLangCode) {
-			parentUiControl.riddleLangSelector.setUiControlValue({"code" : oldGuessLangCode});
-			game.setCurrRiddleLang(oldGuessLangCode);
-		} 		
-		else if(newGuessLangCode != targetLangCode && riddleLangCode != targetLangCode){
-			parentUiControl.riddleLangSelector.setUiControlValue({"code" : targetLangCode});
-			game.setCurrRiddleLang(targetLangCode);
-		}
+		this.getGame().selectGuessLang(this.getUiControlValue());
 	}
 }
 
@@ -121,7 +90,7 @@ class PartOfSpeachSelector extends Selector {
 	}
 
 	onChange() {
-		this.getGame().setCurrPartOfSpeach(this.getUiControlValue());
+		this.getGame().selectPartOfSpeach(this.getUiControlValue());
 	}
 
 }
@@ -281,7 +250,7 @@ class UiLangSelector extends LangSelector {
 	
 	onChange() {
 		let lang = this.getUiControlValue();
-		this.getChief().setCurrUiLang(lang);
+		this.getChief().setUiLang(lang);
 	}
 	
 }
@@ -317,7 +286,7 @@ class subjectDomainTagCloudSwitch extends UiControl {
 class SubjectDomainTagCloud extends TagCloud {
 	
 	onChange() {
-		this.getGame().setCurrSubjectDomains(this.getUiControlValue());
+		this.getGame().selectSubjectDomains(this.getUiControlValue());
 	}
 	
 }
@@ -366,7 +335,7 @@ class WordList extends UiControl {
 		
 		let extDicUrl = 
 			this.assembleExtDicUrl(dicEntry, langCode, 
-					this.getCurrBaseLangCode(), this.getCurrUiLangCode());
+					this.getCurrBaseLangCode(), this.getUiLangCode());
 		
 		let headword = dicEntry.getHeadword(langCode);
 

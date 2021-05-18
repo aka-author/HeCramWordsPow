@@ -465,6 +465,28 @@ class Wordspace {
 			this.partOfSpeachIndex.selectAllItems();
 	}
 	
+	assembleTagRecord(code, relativeSize){
+		return {"code"         : code,  
+		        "wording"      : code, 
+				"relativeSize" : relativeSize};
+	}
+	
+	getSubjectDomainTagRecords() {
+				
+		let tags = this.getSubjectDomainTags();
+		
+		let tagRecords = new Array();
+		
+		for(let tagIdx in tags) {
+			let tag = tags[tagIdx];
+			let stat = this.getSubjectDomainTagStat(tag);
+			let tagRecord = this.assembleTagRecord(tag, stat.relativeSize);
+			tagRecords[tag] = tagRecord;
+		}
+		
+		return tagRecords;
+	}
+	
 	assembleSubjectDomainTagFilter(tags) {
 		return tags ? 
 			this.subjectDomainTagIndex.selectItemsByKeyValues(...tags) :

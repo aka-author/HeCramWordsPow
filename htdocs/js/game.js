@@ -14,46 +14,26 @@ class Game extends Bureaucrat {
 		
 		super(app, "GAME");
 		
-		this.mainPage = null;
-		
 		let config = this.getUserConfig();
-		
+
+		this.mainPage = null;
+						
 		this.ws = this.useWordspaceFromGdocs();
+		let wsId = this.getWordspaceId();
+
+		this.currLevelCode = config.getLevelCode(wsId);		
+		this.currLessonNo = config.getLessonNo(wsId);
 		
-		this.currRiddleLangCode = config.getRiddleLangCode(this.ws);
-		this.currGuessLangCode = config.getGuessLangCode(this.ws);
+		this.currRiddleLangCode = config.getRiddleLangCode(wsId);
+		this.currGuessLangCode = config.getGuessLangCode(wsId);
 		
-		this.currLevelCode = config.getLevelCode(this.ws);		
-		this.currLessonNo = config.getLessonNo(this.ws);
-		this.currPartOfSpeachTags = config.getPosCode(this.ws);
+		this.currPartOfSpeachCode = config.getPosCode(wsId);
+		
 		this.currFilter = this.ws.assembleLessonNoFilter("all");
 	}		
 	
-	assembleTagRecord(code, relativeSize){
-		return {"code"         : code,  
-		        "wording"      : code, 
-				"relativeSize" : relativeSize};
-	}
 	
-	getSubjectDomainTagRecords(wordspace) {
-		
-		let tags = wordspace.getSubjectDomainTags();
-		
-		let tagRecords = new Array();
-		
-		for(let tagIdx in tags) {
-			let tag = tags[tagIdx];
-			let stat = wordspace.getSubjectDomainTagStat(tag);
-			let tagRecord = this.assembleTagRecord(tag, stat.relativeSize);
-			tagRecords[tag] = tagRecord;
-		}
-		
-		return tagRecords;
-	}
-	
-	getSubjectDomainTagLocalWordings(wordspace) {
-		return wordspace.getSubjectDomainTagWordings();
-	}
+	// Managing wordspace
 	
 	useWordspaceFromGdocs() {
 				
@@ -62,17 +42,19 @@ class Game extends Bureaucrat {
 		gdoc.load();
 		
 		let wsf = new WordspaceFactory(gdoc);
-		wsf.importWordspace();
-		let ws = wsf.getWordspace();
+		let ws = wsf.importWordspace().getWordspace();
 				
-		this.subjectDomainTagRecords = 
-			this.getSubjectDomainTagRecords(ws);
+		this.subjectDomainTagRecords = ws.getSubjectDomainTagRecords();
 		
 		return ws;
 	}
 	
 	getWordspace() {
 		return this.ws;
+	}
+	
+	getWordspaceId() {
+		return this.getWordspace().getId();
 	}
 	
 	getAvailableBaseLangCodes() {
@@ -93,13 +75,17 @@ class Game extends Bureaucrat {
 	}
 	
 	isBaseLangAvailable(langCode) {
+		
 		let langs = this.getAvailableBaseLangCodes();
+		
 		let result = false;
+		
 		for(let langIdx in langs)
 			if(langs[langIdx].code == langCode) {
 				result = true;
 				break;
 			}	
+		
 		return result;
 	}
 	
@@ -113,74 +99,12 @@ class Game extends Bureaucrat {
 					undefined;
 	}
 	
-	getTargetLangOriginalWording() {
-	}
-
-	getLevelList() {
-		return this.getWordspace().getLevelLessonList();
-	}
-	
 	getLevels() {
 		return this.getWordspace().getLevels();
 	}
 	
 	getLessons() {
 		return this.getWordspace().getLessons();
-	}
-	
-	getCurrLevelCode() {
-		return this.currLevelCode;
-	}
-	
-	setCurrLevel(levelCode) {
-		this.currLevelCode = levelCode;
-		this.takeNextQuestion();
-		this.updateWordList();
-	}
-	
-	getCurrLessonNo() {
-		return this.currLessonNo;
-	}
-
-	setCurrLesson(lessonNo) {
-		this.currLessonNo = lessonNo;
-		this.takeNextQuestion();
-		this.updateWordList();
-	}
-
-	getCurrRiddleLangCode() {
-		return this.currRiddleLangCode;
-	}
-	
-	getCurrBaseLangCode() {
-		let targetLangCode = this.getTargetLangCode();
-		let riddleLangCode = this.getCurrRiddleLangCode();
-		let guessLangCode = this.getCurrGuessLangCode();
-		
-		return guessLangCode == targetLangCode ?  riddleLangCode : guessLangCode;
-	}
-	
-	setCurrRiddleLang(langCode) {
-		this.currRiddleLangCode = langCode;
-		this.takeNextQuestion();
-		this.updateWordList();
-		let localTags = this.getWordspace().getSubjectDomainTagWordings();
-		this.getMainPage().subjectDomainTagCloud.showLocalWordings(langCode);
-		this.getUserConfig().setRiddleLangCode(this.getWordspace().getId(), langCode);
-	}
-	
-	getCurrGuessLangCode() {
-		return this.currGuessLangCode;
-	}
-	
-	setCurrGuessLang(langCode) {
-		
-		this.currGuessLangCode = langCode;
-		this.takeNextQuestion();
-		this.updateWordList();
-		
-		let localTags = this.getWordspace().getSubjectDomainTagWordings();
-		this.getMainPage().subjectDomainTagCloud.showLocalWordings(langCode);
 	}
 	
 	getPartsOfSpeach() {
@@ -204,71 +128,193 @@ class Game extends Bureaucrat {
 	
 	getPartOfSpeachLocalNames() {
 		return this.getWordspace().getPartOfSpeachLocalNames();
-	}
+	}	
 	
-	getCurrPartOfSpeachCode() {
-		return this.currPartOfSpeachCode;
-	}
 	
-	setCurrPartOfSpeach(partOfSpeachCode) {
-		this.currPartOfSpeachCode = partOfSpeachCode;
-		this.takeNextQuestion();
-		this.updateWordList();
-	}
+	// Managing game current state
 	
-	setSubjectDomainTags(wordspace) {
-		
-		let mainPage = this.getMainPage();
-		
-		let tagRecords = this.getSubjectDomainTagRecords(wordspace);
-		mainPage.subjectDomainTagCloud.appendTags(tagRecords);
-		
-		let tagLocalWordings = this.getSubjectDomainTagLocalWordings(wordspace);
-		mainPage.subjectDomainTagCloud.setTagLocalWordings(tagLocalWordings);
-		
-		this.takeNextQuestion();
-		this.updateWordList();
-	}
-	
-	getCurrSubjectDomainTags(subjectDomainTags) {
-		return this.currSubjectDomainTags;
-	}
-	
-	setCurrSubjectDomains(subjectDomainTags) {
-		this.currSubjectDomainTags = subjectDomainTags;
-		this.takeNextQuestion();
-		this.updateWordList();
-	}
-	
-	getCurrFilter() {
-		return this.currFilter;
-	}
-
-	updateCurrFilter() {
-		
-		let ws = this.getWordspace();
-		
-		let currLevelCodeFilter = 
-			ws.assembleLevelCodeFilter(this.getCurrLevelCode());
-		let currLessonNoFilter = 
-			ws.assembleLessonNoFilter(this.getCurrLessonNo());
-		let currPartOfSpeachFilter = 
-			ws.assemblePartOfSpeachFilter(this.getCurrPartOfSpeachCode());	
-		let currSubjectDomainTagFilter = 
-			ws.assembleSubjectDomainTagFilter(this.getCurrSubjectDomainTags());
-			
-		this.currFilter = 
-			currLessonNoFilter.crossWithFilters(currLevelCodeFilter,
-				currPartOfSpeachFilter, currSubjectDomainTagFilter);	
-	}
-
 	getCurrDicEntry() {
 		return this.currDicEntry;
 	}
 	
 	setCurrDicEntry(dicEntry) {
 		this.currDicEntry = dicEntry;
+	}
 	
+	getCurrFilter() {
+		return this.currFilter;
+	}
+
+	rebuildCurrFilter() {
+		
+		let ws = this.getWordspace();
+		
+		let currLevelCodeFilter = ws.assembleLevelCodeFilter(this.getCurrLevelCode());
+		let currLessonNoFilter = ws.assembleLessonNoFilter(this.getCurrLessonNo());
+		let currPartOfSpeachFilter = ws.assemblePartOfSpeachFilter(this.getCurrPartOfSpeachCode());	
+		let currSubjectDomainTagFilter = ws.assembleSubjectDomainTagFilter(this.getCurrSubjectDomainTags());
+			
+		this.currFilter = 
+			currLessonNoFilter.crossWithFilters(currLevelCodeFilter,
+				currPartOfSpeachFilter, currSubjectDomainTagFilter);	
+	}
+	
+	getCurrLevelCode() {
+		return this.currLevelCode;
+	}
+	
+	setCurrLevel(levelCode) {
+		this.currLevelCode = levelCode;
+		this.rebuildCurrFilter();
+		this.getUserConfig().setLevelCode(this.getWordspaceId(), levelCode);
+	}
+	
+	getCurrLessonNo() {
+		return this.currLessonNo;
+	}
+
+	setCurrLesson(lessonNo) {
+		this.currLessonNo = lessonNo;
+		this.rebuildCurrFilter();
+		this.getUserConfig().setLessonNo(this.getWordspaceId(), lessonNo);
+	}
+
+	getCurrSubjectDomainTags(subjectDomainTags) {
+		return this.currSubjectDomainTags;
+	}
+	
+	setCurrSubjectDomains(subjectDomainTags) {
+		this.currSubjectDomainTags = subjectDomainTags;
+		this.rebuildCurrFilter();
+	}
+
+	getCurrPartOfSpeachCode() {
+		return this.currPartOfSpeachCode;
+	}
+	
+	setCurrPartOfSpeach(posCode) {
+		this.currPartOfSpeachCode = posCode;
+		this.rebuildCurrFilter();
+		this.getUserConfig().setPosCode(this.getWordspaceId(), posCode);
+	}
+
+	getCurrBaseLangCode() {
+		
+		let targetLangCode = this.getTargetLangCode();
+		let riddleLangCode = this.getCurrRiddleLangCode();
+		let guessLangCode = this.getCurrGuessLangCode();
+		
+		return guessLangCode == targetLangCode ? riddleLangCode : guessLangCode;
+	}
+
+	getCurrRiddleLangCode() {
+		return this.currRiddleLangCode;
+	}
+	
+	setCurrRiddleLang(langCode) {
+		
+		if(langCode != this.currRiddleLangCode) {
+			
+			if(
+			   (this.currRiddleLangCode == this.getTargetLangCode()) ||
+			   (langCode == this.getTargetLangCode())
+			  )
+				this.currGuessLangCode = this.currRiddleLangCode;
+				
+			this.currRiddleLangCode = langCode;
+			
+			let wsId = this.getWordspaceId();
+			
+			this.getUserConfig().setRiddleLangCode(wsId, this.currRiddleLangCode);
+			this.getUserConfig().setGuessLangCode(wsId, this.currGuessLangCode);
+		}
+	}
+	
+	getCurrGuessLangCode() {
+		return this.currGuessLangCode;
+	}
+	
+	setCurrGuessLang(langCode) {
+		
+		if(langCode != this.currGuessLangCode) {
+			
+			if(
+			   (this.currGuessLangCode == this.getTargetLangCode()) ||
+			   (langCode == this.getTargetLangCode())
+			  )
+				this.currRiddleLangCode = this.currGuessLangCode;
+		
+			this.currGuessLangCode = langCode;
+			
+			let wsId = this.getWordspaceId();
+			
+			this.getUserConfig().setRiddleLangCode(wsId, this.currRiddleLangCode);
+			this.getUserConfig().setGuessLangCode(wsId, this.currGuessLangCode);
+		}
+	}
+	
+	
+	// Performing game activities
+	
+	updateSubjectDomainTagCloud() {
+		let langCode = this.getCurrBaseLangCode();
+		this.getMainPage().subjectDomainTagCloud.showLocalWordings(langCode);
+	}
+	
+	updateRiddleLangSelector() {
+		let langValue = {"code" : this.getCurrRiddleLangCode()};
+		this.getMainPage().riddleLangSelector.setUiControlValue(langValue);
+	}
+	
+	updateGuessLangSlector() {
+		let langValue = {"code" : this.getCurrGuessLangCode()};
+		this.getMainPage().guessLangSelector.setUiControlValue(langValue);
+	}
+	
+	updateWordList() {
+		this.getMainPage().wordList.setParams(this.currFilter, 
+					this.currRiddleLangCode, this.currGuessLangCode);
+	}
+	
+	updatePage() {
+		this.updateRiddleLangSelector();
+		this.updateGuessLangSlector();
+		this.updateWordList();
+		this.updateSubjectDomainTagCloud();		
+	}
+	
+	selectLevel(levelCode) {
+		this.setCurrLevel(levelCode);
+		this.updatePage();
+		this.takeNextQuestion();
+	}
+	
+	selectLesson(lessonNo) {
+		this.setCurrLesson(lessonNo);
+		this.updatePage();
+		this.takeNextQuestion();
+	}
+
+	selectSubjectDomains(subjectDomainTags) {
+		this.setCurrSubjectDomains(subjectDomainTags);
+		this.updatePage();
+		this.takeNextQuestion();
+	}
+
+	selectPartOfSpeach(posCode) {
+		this.setCurrPartOfSpeach(posCode);
+		this.updatePage();
+		this.takeNextQuestion();
+	}
+
+	selectRiddleLang(langCode) {
+		this.setCurrRiddleLang(langCode);
+		this.updatePage();
+	}		
+
+	selectGuessLang(langCode) {
+		this.setCurrGuessLang(langCode);
+		this.updatePage();
 	}
 	
 	giveUp() {
@@ -312,9 +358,7 @@ class Game extends Bureaucrat {
 	}
 
 	takeNextQuestion() {
-		
-		this.updateCurrFilter();
-		
+				
 		let currFilter = this.getCurrFilter();
 			
 		if(currFilter.countItems() > 0) {
@@ -332,12 +376,8 @@ class Game extends Bureaucrat {
 		}
 	}
 	
-	updateWordList() {
-		let mainPage = this.getMainPage();
-		mainPage.wordList.setParams(this.currFilter, 
-								this.currRiddleLangCode,
-								this.currGuessLangCode);
-	}
+	
+	// Service activities
 	
 	printCards() {
 		
@@ -350,14 +390,102 @@ class Game extends Bureaucrat {
 		
 		let win1 = window.open("print/cards.html");	
 	}
+
+
+	// Starting a game	
 	
-	play() {
+	setupLevelSelector() {
+		
 		let mainPage = this.getMainPage();
 		
-		this.setSubjectDomainTags(this.getWordspace());
-		this.setCurrRiddleLang(mainPage.riddleLangSelector.getUiControlValue());
-		this.setCurrGuessLang(mainPage.guessLangSelector.getUiControlValue());
-			
+		let levels = ["all"].concat(this.getLevels());
+		
+		mainPage.levelSelector.appendLevels(levels);
+		mainPage.levelSelector.setUiControlValue(this.getCurrLevelCode());
+	}
+	
+	setupLessonSelector() {
+		
+		let mainPage = this.getMainPage();
+		
+		let lessons = ["all"].concat(this.getLessons());
+		
+		mainPage.lessonSelector.appendLessons(lessons);
+		mainPage.lessonSelector.setUiControlValue(this.getCurrLessonNo());
+	}
+	
+	setupSubjectDomainTagCloud() {
+		
+		let mainPage = this.getMainPage();
+
+		let ws = this.getWordspace();
+
+		let tagRecords = ws.getSubjectDomainTagRecords();
+		let tagLocalWordings = ws.getSubjectDomainTagWordings();
+				
+		mainPage.setSubjectDomainTags(tagRecords, tagLocalWordings);
+	}
+	
+	setupPartOfSpeachSelector() {
+		
+		let mainPage = this.getMainPage();
+		
+		let selector = mainPage.partOfSpeachSelector;
+		
+		selector.appendOptions(this.getPartsOfSpeach());
+		
+		function capFirstChar(pns, context) {
+			return capitalizeFirstChr(pns);
+		}
+		
+		let posNames = matrixAssMap(this.getPartOfSpeachLocalNames(), capFirstChar);		
+
+		selector.setLocalWordings(posNames);
+		
+		selector.setUiControlValue({"code" : this.getCurrPartOfSpeachCode()});
+	}
+	
+	appendBaseLangsToSelector(selector) {
+		selector.appendOptions(this.getAvailableBaseLangCodes());
+	}
+	
+	appendTargetLangToSelector(selector) {
+		let langName = this.getWordspace().getTargetLang().getOriginalName();
+		let optionData = {"code" : this.getTargetLangCode(), "wording" : langName};
+		selector.appendOptions([optionData]);
+	}
+	
+	setupRiddleLangSelector() {
+		let selector = this.getMainPage().riddleLangSelector;
+		this.appendBaseLangsToSelector(selector);
+		this.appendTargetLangToSelector(selector);
+		selector.setUiControlValue({"code" : this.getCurrRiddleLangCode()});
+	}
+	
+	setupGuessLangSelector() {
+		let selector = this.getMainPage().guessLangSelector;
+		this.appendBaseLangsToSelector(selector);
+		this.appendTargetLangToSelector(selector);
+		selector.setUiControlValue({"code" : this.getCurrGuessLangCode()});
+	}
+	
+	setupPage() {
+		
+		this.setupLevelSelector();
+		this.setupLessonSelector();
+		this.setupSubjectDomainTagCloud();
+		this.setupPartOfSpeachSelector();
+		this.setupRiddleLangSelector();
+		this.setupGuessLangSelector();
+		
+		this.getMainPage().propagateUiLang();
+		
+		this.updatePage();
+	}
+	
+	play() {
+		this.rebuildCurrFilter();
+		this.setupPage();
 		this.takeNextQuestion();
 	}
 }
