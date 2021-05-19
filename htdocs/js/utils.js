@@ -30,13 +30,49 @@ function firstChr(str) {
 }
 
 
+function trimFirstChr(str) {
+	return str ? str.substring(1) : "";
+}
+
+
+function isSubstring(str, substr) {
+	return str.indexOf(substr) > -1;
+}
+
+
 function lastChr(str) {
 	return str ? str[str.length - 1] : "";
 }
 
 
-function trimFirstChr(str) {
-	return str ? str.substring(1) : "";
+function substringBefore(str, sep) {
+	let pos = String(str).indexOf(sep);
+	return pos > -1 ? str.substring(0, pos) : str;
+}
+
+
+function substringAfter(str, sep) {
+	let sepStartPos = String(str).indexOf(sep);
+	let substrStartPos = sepStartPos + sep.length;
+	return sepStartPos > -1 ? str.substring(substrStartPos, str.length) : "";
+}
+
+
+function substringReverseBefore(str, sep) {
+	let pos = str.lastIndexOf(sep);
+	return pos > -1 ? str.substring(0, pos) : str;
+}
+
+
+function substringReverseAfter(str, sep) {
+	let sepStartPos = str.lastIndexOf(sep);
+	let substrStartPos = sepStartPos + sep.length;
+	return sepStartPos > -1 ? str.substring(substrStartPos, str.length) : "";
+}
+
+
+function substringBetween(str, before, after) {
+	return substringReverseBefore(substringAfter(str, before), after);
 }
 
 
@@ -47,6 +83,31 @@ function multiChr(chr, num) {
 
 function capitalizeFirstChr(str) {
 	return firstChr(str).toUpperCase() + trimFirstChr(str);
+}
+
+
+function snakeToCamel(name) {
+	
+	function reducer(acc, curr) {
+		return acc + capitalizeFirstChr(curr);
+	}
+
+	return name.split("_").reduce(reducer);	
+}
+
+
+function CamelToSnake(name) {
+
+	let snake = "";
+	
+	for(let i = 0; i < name.length; i++) { 
+		let currChr = name.charAt(i);
+		snake += currChr == currChr.toUpperCase() ? 
+					"_" + currChr.toLowerCase() : 
+					currChr;
+	}	
+
+	return snake;
 }
 
 
@@ -97,6 +158,7 @@ function maxMulti(getComparableValueFunc) {
 	
 	return max;
 }
+
 
 function safeDiv(a, b) {
 	return b != 0 ? a/b : undefined;
@@ -217,6 +279,7 @@ function sleep(milliseconds) {
 }
 
 
+
 //
 // HTML
 //
@@ -294,6 +357,24 @@ function wrapIntoSpan(smth) {
 }
 
 
+function parseUrlParams(url) {
+	
+	let params = {};
+
+	paramsStr = substringBetween(url, "?", "#");
+	
+	paramClauses = paramsStr.split("&");
+		
+	for(let paramIdx in paramClauses) {
+			let paramName = substringBefore(paramClauses[paramIdx], "=");
+			let paramValue = substringAfter(paramClauses[paramIdx], "=");
+			params[paramName] =	paramValue;
+		}
+		
+	return params;
+}
+
+
 function assembleUrlParams() {
 	
 	let urlParams = "";
@@ -319,4 +400,15 @@ function assembleUrlParams() {
 	}
 		
 	return urlParams;
+}
+
+
+function camelizeParams(params) {
+	
+	let camelizedParams = {};
+	
+	for(let paramName in params)
+		camelizedParams[snakeToCamel(paramName)] = params[paramName];
+	
+	return camelizedParams;
 }

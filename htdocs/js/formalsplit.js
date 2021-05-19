@@ -93,7 +93,7 @@ class FormalSlider {
 	}
 	
 	shiftSlider(numberOfAtoms=undefined) {
-		let shift = numberOfAtoms ?? this.getSliceLength();
+		let shift = numberOfAtoms ? numberOfAtoms : this.getSliceLength();
 		this.setSliderPos(this.getSliderPos() + shift);
 		return this;
 	}
@@ -149,7 +149,7 @@ class FormalSplitter {
 
 	assembleClause(slice, _slider=null) {
 		
-		let slider = _slider ?? this.getSlider();
+		let slider = _slider ? _slider : this.getSlider();
 				
 		let metadata = this.assembleClauseMetadata(slice, slider);
 		
@@ -166,7 +166,7 @@ class FormalSplitter {
 	
 	takeClauseFromStak(_slider=null) {
 		
-		let slider = _slider ?? this.getSlider();
+		let slider = _slider ? _slider : this.getSlider();
 		
 		let slice = this.extractStack();
 			
@@ -185,7 +185,7 @@ class FormalSplitter {
 	
 	splitSlice(_slider=null, evidence=null) {
 	
-		let slider = _slider ?? this.getSlider();
+		let slider = _slider ? _slider : this.getSlider();
 	
 		if(slider.eof() > 0) {
 			
@@ -288,7 +288,7 @@ class SubstFormalSplitter extends StringFormalSplitter {
 	}
 	
 	getSubstClauses() {
-		return this.substClauses ?? [];
+		return this.substClauses ? this.substClauses : [];
 	}
 	
 	subst(substValues) {

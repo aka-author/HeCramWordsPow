@@ -125,30 +125,16 @@ class Application extends Bureaucrat {
 	}
 	
 	getPageUrlParams() {
-		console.log(window.location.search);
-		
-		let rawQuery = window.location.search;
-		let query = rawQuery.substring(1, rawQuery.length);
-		
-		let paramsStr = query.split("&");
-		
-		let params = [];
-		
-		for(let i in paramsStr) {
-			let eqPos = paramsStr[i].indexOf("=");
-			params[paramsStr[i].substring(0, eqPos)] = 
-				paramsStr[i].substring(eqPos + 1, paramsStr[i].length);
-		}
-		
-		console.log({"srcId" : params["src_id"], 
-			    "wspId" : params["wsp_id"]});
-		
-		return {"srcId" : params["src_id"], 
-			    "wspId" : params["wsp_id"]};
+		let params = parseUrlParams(String(window.location));
+		return camelizeParams(params);
+	}
+	
+	validateSrcId(srcId) {
+		return srcId == SRC_SIMPLE_GDOC;
 	}
 	
 	validateWordspaceAccessParams(params) {
-		return Boolean(params.srcId) && Boolean(params.wspId); 
+		return this.validateSrcId(params.srcId) && Boolean(params.wspId); 
 	}
 	
 	getWordspaceAccessParams() {

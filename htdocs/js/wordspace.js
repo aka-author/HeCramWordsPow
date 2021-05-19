@@ -382,8 +382,8 @@ class Wordspace {
 	}
 
 	getExternalDic(_langCode=undefined) {
-		let langCode = _langCode ?? this.getDefaultBaseLangCode();
-		return this.externalDics[langCode] ?? 
+		let langCode = _langCode ? _langCode : this.getDefaultBaseLangCode();
+		return this.externalDics[langCode] ? this.externalDics[langCode] : 
 		       this.externalDics[this.getDefaultBaseLangCode()];
 	}
 	

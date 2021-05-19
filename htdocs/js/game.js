@@ -26,8 +26,11 @@ class Game extends Bureaucrat {
 		
 		this.currPartOfSpeachCode = config.getPosCode(wsId);
 
-		this.currRiddleLangCode = config.getRiddleLangCode(wsId);
-		this.currGuessLangCode = config.getGuessLangCode(wsId);
+		this.currRiddleLangCode = this.getDefaultBaseLangCode();
+		this.currGuessLangCode = this.getTargetLangCode();
+		
+		this.setCurrRiddleLang(config.getRiddleLangCode(wsId));
+		this.setCurrGuessLang(config.getGuessLangCode(wsId));
 		
 		this.currFilter = this.ws.assembleLessonNoFilter("all");
 	}		
@@ -113,6 +116,12 @@ class Game extends Bureaucrat {
 	getTargetLangCode() {
 		return this.getWordspace() ? 
 					this.getWordspace().getTargetLangCode() : 
+					undefined;
+	}
+	
+	getDefaultBaseLangCode() {
+		return  this.getWordspace() ?  
+					this.getWordspace().getDefaultBaseLangCode() :
 					undefined;
 	}
 	
@@ -228,17 +237,39 @@ class Game extends Bureaucrat {
 		return this.currRiddleLangCode;
 	}
 	
+	getActualLangCode(langCode) {
+	
+		let actualLangCode = langCode;
+	
+		console.log(langCode);
+	
+		switch (actualLangCode) {
+			case LANG_TARGET_CODE:
+				actualLangCode = this.getTargetLangCode();
+				break;
+			case LANG_BASE_DEFAULT_CODE: 
+				let navLangCode = navigator.language.substring(0,2);
+				actualLangCode = 
+					navLangCode != this.getTargetLangCode ? 
+						navLangCode : this.getDefaultBaseLangCode(); 				
+		}
+	
+		return actualLangCode;
+	}
+	
 	setCurrRiddleLang(langCode) {
 		
-		if(langCode != this.currRiddleLangCode) {
+		let actualLangCode = this.getActualLangCode(langCode);
+		
+		if(actualLangCode != this.currRiddleLangCode) {
 			
 			if(
 			   (this.currRiddleLangCode == this.getTargetLangCode()) ||
-			   (langCode == this.getTargetLangCode())
+			   (actualLangCode == this.getTargetLangCode())
 			  )
 				this.currGuessLangCode = this.currRiddleLangCode;
 				
-			this.currRiddleLangCode = langCode;
+			this.currRiddleLangCode = actualLangCode;
 			
 			let wsId = this.getWordspaceId();
 			
@@ -253,15 +284,17 @@ class Game extends Bureaucrat {
 	
 	setCurrGuessLang(langCode) {
 		
-		if(langCode != this.currGuessLangCode) {
+		let actualLangCode = this.getActualLangCode(langCode);
+		
+		if(actualLangCode != this.currGuessLangCode) {
 			
 			if(
 			   (this.currGuessLangCode == this.getTargetLangCode()) ||
-			   (langCode == this.getTargetLangCode())
+			   (actualLangCode == this.getTargetLangCode())
 			  )
 				this.currRiddleLangCode = this.currGuessLangCode;
 		
-			this.currGuessLangCode = langCode;
+			this.currGuessLangCode = actualLangCode;
 			
 			let wsId = this.getWordspaceId();
 			
@@ -415,7 +448,7 @@ class Game extends Bureaucrat {
 		
 		let mainPage = this.getMainPage();
 		
-		let levels = ["all"].concat(this.getLevels());
+		let levels = ["all"];//.concat(this.getLevels());
 		
 		mainPage.levelSelector.appendLevels(levels);
 		mainPage.levelSelector.setUiControlValue(this.getCurrLevelCode());
@@ -425,7 +458,7 @@ class Game extends Bureaucrat {
 		
 		let mainPage = this.getMainPage();
 		
-		let lessons = ["all"].concat(this.getLessons());
+		let lessons = ["all"];//.concat(this.getLessons());
 		
 		mainPage.lessonSelector.appendLessons(lessons);
 		mainPage.lessonSelector.setUiControlValue(this.getCurrLessonNo());

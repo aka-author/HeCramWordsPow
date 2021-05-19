@@ -385,7 +385,7 @@ class WordspaceFactory {
 		let wb = this.getWorkbook();
 		
 		let levelCode = wb.getLevelCode(sheetName, rowIdx);		
-		dicEntry.setLevelCode(levelCode ?? this.getDefaultLevelCode());
+		dicEntry.setLevelCode(levelCode ? levelCode : this.getDefaultLevelCode());
 		
 		let lessonNo = wb.getLessonNo(sheetName, rowIdx);
 		dicEntry.setLessonNo(lessonNo);

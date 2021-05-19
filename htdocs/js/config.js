@@ -6,6 +6,12 @@
 // Func:	Configuration of an application       (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
+
+const LANG_TARGET_CODE = "t";
+
+const LANG_BASE_DEFAULT_CODE = "b";
+
+
 class UserConfig {
 	
 	constructor() {
@@ -16,8 +22,8 @@ class UserConfig {
 	setDefaults() {
 		this.setLevelCode("default", "all");
 		this.setLessonNo("default", "all");
-		this.setRiddleLangCode("default", navigator.language.substring(0,2));
-		this.setGuessLangCode("default", "he");
+		this.setRiddleLangCode("default", LANG_BASE_DEFAULT_CODE);
+		this.setGuessLangCode("default", LANG_TARGET_CODE);
 		this.setPosCode("default", "all");
 	}
 	
@@ -65,7 +71,8 @@ class UserConfig {
 		let wordspaceId = this.params.ws[_wordspaceId] ? _wordspaceId : "default";
 				
 		if(wordspaceId != "default")
-			paramValue = this.params.ws[wordspaceId][paramName] ?? 
+			paramValue = this.params.ws[wordspaceId][paramName] ?
+		                 this.params.ws[wordspaceId][paramName] :
 		                 this.params.ws["default"][paramName];
 		else
 			paramValue = this.params.ws["default"][paramName];	
@@ -87,7 +94,8 @@ class UserConfig {
 	}
 	
 	getUiLangCode() {
-		return this.getSystemConfigParam("uiLangCode") ?? this.getBrowserLangCode();
+		return this.getSystemConfigParam("uiLangCode") ? 
+		          this.getSystemConfigParam("uiLangCode") : this.getBrowserLangCode();
 	}
 	
 	setUiLangCode(langCode) {

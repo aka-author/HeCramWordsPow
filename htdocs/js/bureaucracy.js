@@ -65,31 +65,34 @@ class Bureaucrat {
 	}
 	
 	getTargetLangCode() {
-		return this.targetLangCode ?? this.getChief().getTargetLangCode();
+		return this.targetLangCode ? this.targetLangCode : 
+									 this.getChief().getTargetLangCode();
 	}
 	
 	getWordspace() {
-		return this.ws ?? this.getChief().getWordspace();
+		return this.ws ? this.ws : this.getChief().getWordspace();
 	}
 	
 	getUiLangCode() {
-		return this.currUiLangCode ?? this.getChief().getUiLangCode();
+		return this.currUiLangCode ? this.currUiLangCode :
+                          		     this.getChief().getUiLangCode();
 	}
 	
 	getMainPage() {
-		return this.mainPage ?? this.getChief().getMainPage();
+		return this.mainPage ? this.mainPage : this.getChief().getMainPage();
 	}
 	
 	getCurrBaseLangCode() {
-		return this.currBaseLangCode ?? this.getChief().getCurrBaseLangCode();
+		return this.currBaseLangCode ? this.currBaseLangCode : 
+									   this.getChief().getCurrBaseLangCode();
 	}
 	
 	getGame() {
-		return this.game ?? this.getChief().getGame();
+		return this.game ? this.game : this.getChief().getGame();
 	}
 	
 	getApp() {
-		return this.app ?? this.getChief().getApp();
+		return this.app ? this.app : this.getChief().getApp();
 	}
 	
 	getSubordinateById(id) {

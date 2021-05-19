@@ -331,7 +331,7 @@ class WordList extends UiControl {
 		
 		let wordListTd = document.createElement("td");
 				
-		let langCode = _langCode ?? this.getTargetLangCode();
+		let langCode = _langCode ? _langCode : this.getTargetLangCode();
 		
 		let extDicUrl = 
 			this.assembleExtDicUrl(dicEntry, langCode, 
