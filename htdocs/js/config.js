@@ -14,18 +14,11 @@ class UserConfig {
 	}
 	
 	setDefaults() {
-		
-		this.setDefaultWordspaceId(this.getDemoWordspaceId());
-		
 		this.setLevelCode("default", "all");
 		this.setLessonNo("default", "all");
 		this.setRiddleLangCode("default", navigator.language.substring(0,2));
 		this.setGuessLangCode("default", "he");
 		this.setPosCode("default", "all");
-	}
-	
-	getDemoWordspaceId() {
-		return "1w9Pq-b-98yrtg9lfIkCGtl1iSjcas4sBH3pFKJ07lhw";
 	}
 	
 	getSystemConfigParam(paramName) {
@@ -36,24 +29,33 @@ class UserConfig {
 		this.params.sys[paramName] = paramValue;
 	}
 	
-	getDefaultWordspaceId() {
-		return this.getSystemConfigParam("defaultWordspaceId");
+	assembleWordspaceAccessParams(srcId, wspId) {
+		return {"srcId" : srcId, "wspId" : wspId};
 	}
 	
-	setDefaultWordspaceId(wordspaceId) {
-		this.setSystemConfigParam("defaultWordspaceId", wordspaceId);
+	getSrcId() {
+		return this.getSystemConfigParam("srcId");
 	}
 	
-	getBrowserLangCode() {
-		return navigator.language.substring(0,2);
+	getWspId() {
+		return this.getSystemConfigParam("wspId");
 	}
 	
-	getUiLangCode() {
-		return this.getSystemConfigParam("uiLangCode") ?? this.getBrowserLangCode();
+	getWordspaceAccessParams() {
+		return this.assembleWordspaceAccessParams(
+						this.getSrcId(), 
+		                this.getWspId());
 	}
 	
-	setUiLangCode(langCode) {
-		this.setSystemConfigParam("uiLangCode", langCode);
+	setWordspaceAccessParams(params) {
+		this.setSystemConfigParam("srcId", params.srcId);
+		this.setSystemConfigParam("wspId", params.wspId);
+	}
+	
+	getDemoWordspaceAccessParams() {
+		return this.assembleWordspaceAccessParams(
+						SRC_SIMPLE_GDOC, 
+		                "1w9Pq-b-98yrtg9lfIkCGtl1iSjcas4sBH3pFKJ07lhw");
 	}
 	
 	getWordspaceConfigParam(_wordspaceId, paramName) {
@@ -78,6 +80,18 @@ class UserConfig {
 	setWordspaceConfigParam(wordspaceId, paramName, paramValue) {
 		this.checkWordspace(wordspaceId);
 		this.params.ws[wordspaceId][paramName] = paramValue;
+	}
+	
+	getBrowserLangCode() {
+		return navigator.language.substring(0,2);
+	}
+	
+	getUiLangCode() {
+		return this.getSystemConfigParam("uiLangCode") ?? this.getBrowserLangCode();
+	}
+	
+	setUiLangCode(langCode) {
+		this.setSystemConfigParam("uiLangCode", langCode);
 	}
 	
 	getLevelCode(wordspaceId=undefined) {
@@ -121,7 +135,7 @@ class UserConfig {
 	}
 	
 	assembleJson() {
-		
+
 		console.log("Final JSON: ", JSON.stringify(this.params));
 		
 		sleep(5000);

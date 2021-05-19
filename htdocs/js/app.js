@@ -112,12 +112,66 @@ class Application extends Bureaucrat {
 		return this.assembleServUrl("wordspace");
 	}
 	
+	getApp() {
+		return this;
+	}
+	
 	getI18n() {
 		return this.i18n;
 	}
 	
 	setI18nText(id, langCode, wording) {
 		this.getI18n().setText(id, langCode, wording);
+	}
+	
+	getPageUrlParams() {
+		console.log(window.location.search);
+		
+		let rawQuery = window.location.search;
+		let query = rawQuery.substring(1, rawQuery.length);
+		
+		let paramsStr = query.split("&");
+		
+		let params = [];
+		
+		for(let i in paramsStr) {
+			let eqPos = paramsStr[i].indexOf("=");
+			params[paramsStr[i].substring(0, eqPos)] = 
+				paramsStr[i].substring(eqPos + 1, paramsStr[i].length);
+		}
+		
+		console.log({"srcId" : params["src_id"], 
+			    "wspId" : params["wsp_id"]});
+		
+		return {"srcId" : params["src_id"], 
+			    "wspId" : params["wsp_id"]};
+	}
+	
+	validateWordspaceAccessParams(params) {
+		return Boolean(params.srcId) && Boolean(params.wspId); 
+	}
+	
+	getWordspaceAccessParams() {
+		
+		let config = this.getUserConfig();
+		
+		let params = this.getPageUrlParams(); 
+				
+		if(!this.validateWordspaceAccessParams(params)) {
+		
+			params = config.getWordspaceAccessParams();
+			
+			if(!this.validateWordspaceAccessParams(params))
+				params = config.getDemoWordspaceAccessParams();
+		}
+		else
+			config.setWordspaceAccessParams(params);
+		
+		return params;
+	}
+	
+	setWordspaceAccessParams(params) {
+		this.getConfig().setWordspaceAccessParams(params);
 	}
 	
 	getTargetLangCode() {

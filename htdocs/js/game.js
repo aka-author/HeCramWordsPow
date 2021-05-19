@@ -13,7 +13,7 @@ class Game extends Bureaucrat {
 	constructor(app) {
 		
 		super(app, "GAME");
-		
+				
 		let config = this.getUserConfig();
 
 		this.mainPage = null;
@@ -24,20 +24,37 @@ class Game extends Bureaucrat {
 		this.currLevelCode = config.getLevelCode(wsId);		
 		this.currLessonNo = config.getLessonNo(wsId);
 		
+		this.currPartOfSpeachCode = config.getPosCode(wsId);
+
 		this.currRiddleLangCode = config.getRiddleLangCode(wsId);
 		this.currGuessLangCode = config.getGuessLangCode(wsId);
-		
-		this.currPartOfSpeachCode = config.getPosCode(wsId);
 		
 		this.currFilter = this.ws.assembleLessonNoFilter("all");
 	}		
 	
 	
-	// Managing wordspace
+	// Managing wordspace access parametrs
+	
+	getWordspaceAccessParams() {
+		return this.getApp().getWordspaceAccessParams();
+	}
+	
+	getWspId() {
+		return this.wspId;
+	}
+	
+	
+	// Managing a wordspace
 	
 	useWordspaceFromGdocs() {
 				
-		let gdoc = new SimpleGoogleWordspace("1w9Pq-b-98yrtg9lfIkCGtl1iSjcas4sBH3pFKJ07lhw");
+		let wssFactory = new WorkbookFactory();
+		wssFactory.createWorkbook(this.getWordspaceAccessParams());
+		
+		console.log("access: ", this.getWordspaceAccessParams());
+		
+		let gdoc = wssFactory.getWorkbook();
+		
 		gdoc.auth();
 		gdoc.load();
 		
@@ -131,7 +148,7 @@ class Game extends Bureaucrat {
 	}	
 	
 	
-	// Managing game current state
+	// Managing a game current state
 	
 	getCurrDicEntry() {
 		return this.currDicEntry;
@@ -272,7 +289,7 @@ class Game extends Bureaucrat {
 	}
 	
 	updateWordList() {
-		this.getMainPage().wordList.setParams(this.currFilter, 
+		this.getMainPage().wordList.setParams(this.getCurrFilter(), 
 					this.currRiddleLangCode, this.currGuessLangCode);
 	}
 	
@@ -381,8 +398,8 @@ class Game extends Bureaucrat {
 	
 	printCards() {
 		
-		let carder = new CardGenerator(this.currFilter, this.getCurrRiddleLangCode(), 
-										this.getCurrGuessLangCode());
+		let carder = new CardGenerator(this.getCurrFilter(), 
+						this.getCurrRiddleLangCode(), this.getCurrGuessLangCode());
 										
 		var html = carder.assembleHtml();	
 		
