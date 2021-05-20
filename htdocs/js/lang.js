@@ -8,8 +8,13 @@
 
 class Lang extends WordspaceFeature {
 	
-	constructor(langCode) {
+	constructor(langCode, originalName=undefined) {
+		
 		super(langCode, langCode);
+		
+		if(originalName) 
+			this.setName(langCode, originalName);
+		
 	}
 	
 }

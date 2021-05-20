@@ -20,6 +20,11 @@ function comparableBooleanStr(v1) {
 }
 
 
+function useful(primaryValue, defaultValue) {
+	return Boolean(primaryValue) ? primaryValue : defaultValue;
+}
+
+
 
 //
 // Characters and strings

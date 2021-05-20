@@ -314,6 +314,14 @@ class Wordspace {
 		this.defaultBaseLangCode = langCode;
 	}
 	
+	getLangs() {
+		return this.langs;
+	}
+	
+	getLang(langCode) {
+		return this.getLangs()[langCode];
+	}
+	
 	checkLangIndex(langCode) {
 		if(!this.langIndices[langCode]) 
 			this.langIndices[langCode] = new Array();

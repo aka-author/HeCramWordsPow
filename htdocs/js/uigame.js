@@ -48,13 +48,19 @@ class LessonSelector extends Selector {
 
 class LangSelector extends Selector {
 	
-	assembleDomObjectValue(uiControlValue) {
-		return uiControlValue.code;
+	assembleDomObjectValue(lang) {
+		console.log("=*= ", lang);
+		return lang.getCode();
 	}
 	
-	assembleDomObjectValueAppearance(uiControlValue) {
-		return uiControlValue.wording;
+	assembleEmptyUiControlValue() {
+		return new Lang("un");
 	}
+	
+	assembleDomObjectValueAppearance(lang) {
+		return lang.getOriginalName();
+	}
+	
 }
 
 
@@ -80,14 +86,6 @@ class GuessLangSelector extends LangSelector {
 
 
 class PartOfSpeachSelector extends Selector {
-	
-	assembleDomObjectValue(uiControlValue) {
-		return uiControlValue.code;
-	}
-	
-	assembleDomObjectValueAppearance(uiControlValue) {
-		return uiControlValue.wording;
-	}
 
 	onChange() {
 		this.getGame().selectPartOfSpeach(this.getUiControlValue());
@@ -250,6 +248,7 @@ class UiLangSelector extends LangSelector {
 	
 	onChange() {
 		let lang = this.getUiControlValue();
+		console.log("555555555555 ", lang);
 		this.getChief().setUiLang(lang);
 	}
 	

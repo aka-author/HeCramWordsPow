@@ -77,6 +77,10 @@ class Game extends Bureaucrat {
 		return this.getWordspace().getId();
 	}
 	
+	getWordspaceLangs() {
+		return this.getWordspace().getLangs();
+	}
+	
 	getAvailableBaseLangCodes() {
 				
 		let ws = this.getWordspace();			
@@ -109,6 +113,10 @@ class Game extends Bureaucrat {
 		return result;
 	}
 	
+	getLang(langCode) {
+		return this.getWordspace().getLang(langCode);
+	}		
+	
 	getTargetLang() {
 		return this.getWordspace().getTargetLang();
 	}
@@ -123,6 +131,14 @@ class Game extends Bureaucrat {
 		return  this.getWordspace() ?  
 					this.getWordspace().getDefaultBaseLangCode() :
 					undefined;
+	}
+	
+	getCurrRiddleLang() {
+		return this.getLang(this.getCurrRiddleLangCode());
+	}
+	
+	getCurrGuessLang() {
+		return this.getLang(this.getCurrGuessLangCode());
 	}
 	
 	getLevels() {
@@ -312,13 +328,13 @@ class Game extends Bureaucrat {
 	}
 	
 	updateRiddleLangSelector() {
-		let langValue = {"code" : this.getCurrRiddleLangCode()};
-		this.getMainPage().riddleLangSelector.setUiControlValue(langValue);
+		let lang = this.getCurrRiddleLang();
+		this.getMainPage().riddleLangSelector.setUiControlValue(lang);
 	}
 	
 	updateGuessLangSlector() {
-		let langValue = {"code" : this.getCurrGuessLangCode()};
-		this.getMainPage().guessLangSelector.setUiControlValue(langValue);
+		let lang = this.getCurrGuessLang();
+		this.getMainPage().guessLangSelector.setUiControlValue(lang);
 	}
 	
 	updateWordList() {
@@ -357,13 +373,13 @@ class Game extends Bureaucrat {
 		this.takeNextQuestion();
 	}
 
-	selectRiddleLang(langCode) {
-		this.setCurrRiddleLang(langCode);
+	selectRiddleLang(lang) {
+		this.setCurrRiddleLang(lang.code);
 		this.updatePage();
 	}		
 
-	selectGuessLang(langCode) {
-		this.setCurrGuessLang(langCode);
+	selectGuessLang(lang) {
+		this.setCurrGuessLang(lang.code);
 		this.updatePage();
 	}
 	
@@ -448,7 +464,7 @@ class Game extends Bureaucrat {
 		
 		let mainPage = this.getMainPage();
 		
-		let levels = ["all"];//.concat(this.getLevels());
+		let levels = ["all"].concat(this.getLevels());
 		
 		mainPage.levelSelector.appendLevels(levels);
 		mainPage.levelSelector.setUiControlValue(this.getCurrLevelCode());
@@ -458,7 +474,7 @@ class Game extends Bureaucrat {
 		
 		let mainPage = this.getMainPage();
 		
-		let lessons = ["all"];//.concat(this.getLessons());
+		let lessons = ["all"].concat(this.getLessons());
 		
 		mainPage.lessonSelector.appendLessons(lessons);
 		mainPage.lessonSelector.setUiControlValue(this.getCurrLessonNo());
@@ -495,28 +511,20 @@ class Game extends Bureaucrat {
 		selector.setUiControlValue({"code" : this.getCurrPartOfSpeachCode()});
 	}
 	
-	appendBaseLangsToSelector(selector) {
-		selector.appendOptions(this.getAvailableBaseLangCodes());
-	}
-	
-	appendTargetLangToSelector(selector) {
-		let langName = this.getWordspace().getTargetLang().getOriginalName();
-		let optionData = {"code" : this.getTargetLangCode(), "wording" : langName};
-		selector.appendOptions([optionData]);
-	}
-	
 	setupRiddleLangSelector() {
+		
 		let selector = this.getMainPage().riddleLangSelector;
-		this.appendBaseLangsToSelector(selector);
-		this.appendTargetLangToSelector(selector);
-		selector.setUiControlValue({"code" : this.getCurrRiddleLangCode()});
+		console.log("-------------- ", this.getWordspaceLangs());
+		selector.appendOptions(this.getWordspaceLangs());
+		selector.setUiControlValue(this.getCurrRiddleLang());
 	}
 	
 	setupGuessLangSelector() {
+		
 		let selector = this.getMainPage().guessLangSelector;
-		this.appendBaseLangsToSelector(selector);
-		this.appendTargetLangToSelector(selector);
-		selector.setUiControlValue({"code" : this.getCurrGuessLangCode()});
+		
+		selector.appendOptions(this.getWordspaceLangs());
+		selector.setUiControlValue(this.getCurrGuessLang());
 	}
 	
 	setupPage() {
@@ -524,7 +532,9 @@ class Game extends Bureaucrat {
 		this.setupLevelSelector();
 		this.setupLessonSelector();
 		this.setupSubjectDomainTagCloud();
-		this.setupPartOfSpeachSelector();
+		console.log("--------------");
+		//this.setupPartOfSpeachSelector();
+		
 		this.setupRiddleLangSelector();
 		this.setupGuessLangSelector();
 		

@@ -57,7 +57,9 @@ class MainPage extends Bureaucrat {
 		this.wordListSwitch = new WordListSwitch(this, "wordListSwitchSpan");
 		this.wordList = new WordList(this, "wordListDiv");
 		
-		this.setUiLang(this.getUserConfig().getUiLangCode());
+		
+		this.uiLangs = this.detectUiLangs();
+		this.setUiLang(this.getAvailableUiLangs()[this.getUserConfig().getUiLangCode()]);
 		
 		this.printCardsButton = new PrintCardsButton(this, "printButton");		
 	}		
@@ -65,39 +67,43 @@ class MainPage extends Bureaucrat {
 		
 	// UI language 
 	
-	getAvailableUiLangs() {
-		return [{"code" : "en", "wording" : "English"},
-			    {"code" : "es", "wording" : "Española"},
-			    {"code" : "he", "wording" : "עברית"},
-				{"code" : "pt", "wording" : "Português"},
-				{"code" : "ru", "wording" : "Русский"}];
+	detectUiLangs() {
+		return {"en" : new Lang("en", "English"),
+		        "es" : new Lang("es", "Española"),
+		        "he" : new Lang("he", "עברית"),
+				"pt" : new Lang("pt", "Português"),
+				"ru" : new Lang("ru", "Русский")};
 	}
 	
 	isUiLangAvailable(langCode) {
-		let langs = this.getAvailableUiLangs();
-		let result = false;
-		for(let langIdx in langs) 
-			if(langs[langIdx].code == langCode) {
-				result = true;
-				break;
-			}	
-		return result;
+		return Boolean(this.uiLangs[langCode]);
 	}
 	
-	getUiLangCode() {
-		return this.uiLangCode;
+	getUiLang(langCode) {
+		return this.uiLangs[langCode];
 	}
 	
-	setUiLang(langCode) {		
+	getCurrUiLangCode() {
+		return this.uiCurrLangCode;
+	}
+	
+	getCurrUiLang() {
+		return this.uiLangs[this.getCurrUiLangCode()];
+	}
+	
+	setCurrUiLang(lang) {		
+		console.log("000", lang);
+		let langCode = lang.getCode();
 		this.uiLangCode = this.isUiLangAvailable(langCode) ? langCode : "en";
+			
 		this.getI18n().loadLocalLabels(document, this.uiLangCode);
-		this.uiLangSelector.setUiControlValue({"code" : this.uiLangCode});
+		this.uiLangSelector.setUiControlValue(this.getAvailableUiLangs()[this.uiLangCode]);
 		this.localizeSubjectDomainTagCloud(langCode);
 		this.getUserConfig().setUiLangCode(this.uiLangCode);
 	}
 	
 	propagateUiLang() {
-		this.setUiLang(this.getUiLangCode());
+		this.setUiLang(this.getAvailableUiLangs()[this.getUiLangCode()]);
 	}
 	
 	createUiLangSelector() {

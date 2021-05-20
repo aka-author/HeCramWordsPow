@@ -67,6 +67,10 @@ class UiControl extends Bureaucrat {
 		return String(uiControlValue);
 	}	
 	
+	assembleEmptyUiControlValue() {
+		return undefined;
+	}
+	
 	getUiControlValue() {
 		this.domObject = this.getDomObject();
 		this.domObjectValue = this.getDomObjectValue();
@@ -101,30 +105,61 @@ class UiControl extends Bureaucrat {
 
 class Selector extends UiControl {
 	
-	assembleOptionId(value) {
-		return this.getId() + "__" + value;
+	constructor(parentUiControl, id) {
+		super(parentUiControl, id);
+		this.hashes = new Array();
+	}
+	
+	assembleOptionId(uiControlValue) {
+		return this.getId() + "__" + uiControlValue;
+	}
+	
+	assembleDomObjectValue(uiControlValue) {
+		console.log("=== ", useful(uiControlValue.code, String(uiControlValue)));
+		return useful(uiControlValue.code, String(uiControlValue));
+	}
+	
+	assembleDomObjectValueAppearance(uiControlValue) {
+		return useful(uiControlValue.wording, String(uiControlValue));
+	}
+	
+	hash(domObjectValue) {
+		return encodeURIComponent(domObjectValue).replace("%", "_");
+	}
+	
+	storeHash(uiControlValue, hash) {
+		this.hashes[hash] = uiControlValue;
+	}
+	
+	restoreUiControlValue(hash) {
+		return this.hashes ? this.hashes[hash] : undefined;
+	}
+	
+	assembleOptionElement(uiControlValue) {
+		console.log(uiControlValue);
+		let optionElement = document.createElement("option");
+			
+		let hash = this.hash(this.assembleDomObjectValue(uiControlValue));
+		this.storeHash(uiControlValue, hash);
+		
+		optionElement.setAttribute("value", hash);
+		
+		optionElement.setAttribute("id", this.assembleOptionId(hash));
+		
+		let optionWording = this.assembleDomObjectValueAppearance(uiControlValue);
+				
+		let optionTextNode = document.createTextNode(optionWording);
+		optionElement.appendChild(optionTextNode);
+		
+		return optionElement;
 	}
 	
 	appendOptions(uiControlValues) {
 		
 		let selectElement = this.getDomObject();
 		
-		for(let uiControlValueIdx in uiControlValues) {
-			
-			let optionElement = document.createElement("option");
-			
-			let optionValue = 
-					this.assembleDomObjectValue(uiControlValues[uiControlValueIdx]);
-			
-			optionElement.setAttribute("value", optionValue);
-			optionElement.setAttribute("id", this.assembleOptionId(optionValue));
-			
-			let optionWording = 
-					this.assembleDomObjectValueAppearance(uiControlValues[uiControlValueIdx]);
-					
-			let optionTextNode = document.createTextNode(optionWording);
-			optionElement.appendChild(optionTextNode);
-			
+		for(let valIdx in uiControlValues) {
+			let optionElement = this.assembleOptionElement(uiControlValues[valIdx]);
 			selectElement.appendChild(optionElement);
 		}
 	}
@@ -139,6 +174,18 @@ class Selector extends UiControl {
 			for(let langCode in localWordings[id])
 				this.setLocalWording(id, langCode, localWordings[id][langCode]);
 	}
+	
+	getUiControlValue() {
+		console.log(this.getDomObjectValue());
+		return this.restoreUiControlValue(this.getDomObjectValue());
+	}
+	
+	setUiControlValue(uiControlValue) {
+		console.log("***", uiControlValue);
+		console.log(this.hash(this.assembleDomObjectValue(uiControlValue)));
+		this.setDomObjectValue(this.hash(this.assembleDomObjectValue(uiControlValue)));
+	}
+	
 }
 
 
