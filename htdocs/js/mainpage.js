@@ -14,6 +14,9 @@ class MainPage extends Bureaucrat {
 		
 		this.app = app;
 		
+		this.uiLangs = this.fetchUiLangs();
+
+		
 		let game = this.getGame();
 		
 		let ws = game.getWordspace();
@@ -57,9 +60,7 @@ class MainPage extends Bureaucrat {
 		this.wordListSwitch = new WordListSwitch(this, "wordListSwitchSpan");
 		this.wordList = new WordList(this, "wordListDiv");
 		
-		
-		this.uiLangs = this.detectUiLangs();
-		this.setUiLang(this.getAvailableUiLangs()[this.getUserConfig().getUiLangCode()]);
+		this.setCurrUiLang(this.getUiLang(this.getUserConfig().getUiLangCode()));
 		
 		this.printCardsButton = new PrintCardsButton(this, "printButton");		
 	}		
@@ -67,20 +68,24 @@ class MainPage extends Bureaucrat {
 		
 	// UI language 
 	
-	detectUiLangs() {
-		return {"en" : new Lang("en", "English"),
-		        "es" : new Lang("es", "Española"),
-		        "he" : new Lang("he", "עברית"),
-				"pt" : new Lang("pt", "Português"),
-				"ru" : new Lang("ru", "Русский")};
+	fetchUiLangs() {
+		return new Factor(new Lang("en", "English"),
+					      new Lang("es", "Española"),
+					      new Lang("he", "עברית"),
+					      new Lang("pt", "Português"),
+					      new Lang("ru", "Русский"));
+	}
+	
+	getUiLangs() {
+		return this.uiLangs;
 	}
 	
 	isUiLangAvailable(langCode) {
-		return Boolean(this.uiLangs[langCode]);
+		return this.getUiLangs().exists(langCode);
 	}
 	
 	getUiLang(langCode) {
-		return this.uiLangs[langCode];
+		return this.getUiLangs().getValue(langCode);
 	}
 	
 	getCurrUiLangCode() {
@@ -88,27 +93,29 @@ class MainPage extends Bureaucrat {
 	}
 	
 	getCurrUiLang() {
-		return this.uiLangs[this.getCurrUiLangCode()];
+		return this.getUiLangs().getValue(this.getCurrUiLangCode());
 	}
 	
 	setCurrUiLang(lang) {		
 		console.log("000", lang);
+		
 		let langCode = lang.getCode();
-		this.uiLangCode = this.isUiLangAvailable(langCode) ? langCode : "en";
+		this.currUiLangCode = this.isUiLangAvailable(langCode) ? langCode : "en";
 			
-		this.getI18n().loadLocalLabels(document, this.uiLangCode);
-		this.uiLangSelector.setUiControlValue(this.getAvailableUiLangs()[this.uiLangCode]);
-		this.localizeSubjectDomainTagCloud(langCode);
-		this.getUserConfig().setUiLangCode(this.uiLangCode);
+		this.getI18n().loadLocalLabels(document, this.currUiLangCode);
+		this.localizeSubjectDomainTagCloud(this.currUiLangCode);
+		this.uiLangSelector.setUiControlValue(lang);
+
+		this.getUserConfig().setUiLangCode(this.currUiLangCode);
 	}
 	
-	propagateUiLang() {
-		this.setUiLang(this.getAvailableUiLangs()[this.getUiLangCode()]);
+	propagateCurrUiLang() {
+		this.setCurrUiLang(this.getUiLang(this.currUiLangCode));
 	}
 	
 	createUiLangSelector() {
 		this.uiLangSelector = new UiLangSelector(this, "uiLangSelectorSelect");
-		this.uiLangSelector.appendOptions(this.getAvailableUiLangs());
+		this.uiLangSelector.appendOptions(this.getUiLangs().getValues());
 	}
 	
 	
@@ -221,4 +228,14 @@ class MainPage extends Bureaucrat {
 		this.answerArea.setUiControlValue(Lexeme);
 		this.displayLexemeArea("answer");
 	}
+}
+
+
+class UiLangSelector extends LangSelector {
+	
+	onChange() {
+		let lang = this.getUiControlValue();
+		this.getChief().setCurrUiLang(lang);
+	}
+	
 }

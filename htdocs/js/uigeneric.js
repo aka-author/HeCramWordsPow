@@ -110,12 +110,11 @@ class Selector extends UiControl {
 		this.hashes = new Array();
 	}
 	
-	assembleOptionId(uiControlValue) {
-		return this.getId() + "__" + uiControlValue;
+	assembleOptionId(hash) {
+		return this.getId() + "__" + hash;
 	}
 	
 	assembleDomObjectValue(uiControlValue) {
-		console.log("=== ", useful(uiControlValue.code, String(uiControlValue)));
 		return useful(uiControlValue.code, String(uiControlValue));
 	}
 	
@@ -136,7 +135,7 @@ class Selector extends UiControl {
 	}
 	
 	assembleOptionElement(uiControlValue) {
-		console.log(uiControlValue);
+		
 		let optionElement = document.createElement("option");
 			
 		let hash = this.hash(this.assembleDomObjectValue(uiControlValue));
@@ -176,16 +175,12 @@ class Selector extends UiControl {
 	}
 	
 	getUiControlValue() {
-		console.log(this.getDomObjectValue());
 		return this.restoreUiControlValue(this.getDomObjectValue());
 	}
 	
 	setUiControlValue(uiControlValue) {
-		console.log("***", uiControlValue);
-		console.log(this.hash(this.assembleDomObjectValue(uiControlValue)));
 		this.setDomObjectValue(this.hash(this.assembleDomObjectValue(uiControlValue)));
 	}
-	
 }
 
 

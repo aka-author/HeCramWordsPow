@@ -6,7 +6,7 @@
 // Func:	Managing language metadata        (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
-class Lang extends WordspaceFeature {
+class Lang extends FactorValue {
 	
 	constructor(langCode, originalName=undefined) {
 		
@@ -14,7 +14,6 @@ class Lang extends WordspaceFeature {
 		
 		if(originalName) 
 			this.setName(langCode, originalName);
-		
 	}
 	
 }

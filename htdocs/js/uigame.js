@@ -49,7 +49,6 @@ class LessonSelector extends Selector {
 class LangSelector extends Selector {
 	
 	assembleDomObjectValue(lang) {
-		console.log("=*= ", lang);
 		return lang.getCode();
 	}
 	
@@ -86,6 +85,14 @@ class GuessLangSelector extends LangSelector {
 
 
 class PartOfSpeachSelector extends Selector {
+	
+	assembleDomObjectValue(pos) {
+		return pos.getCode();
+	}
+	
+	assembleDomObjectValueAppearance(pos) {
+		return pos.getOriginalName();
+	}
 
 	onChange() {
 		this.getGame().selectPartOfSpeach(this.getUiControlValue());
@@ -244,15 +251,7 @@ class TakeNextQuestionButton extends GraphButton {
 }
 
 
-class UiLangSelector extends LangSelector {
-	
-	onChange() {
-		let lang = this.getUiControlValue();
-		console.log("555555555555 ", lang);
-		this.getChief().setUiLang(lang);
-	}
-	
-}
+
 	
 
 class MainMenuItem extends PaneLabel {

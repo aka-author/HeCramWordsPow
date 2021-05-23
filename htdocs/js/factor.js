@@ -3,10 +3,10 @@
 // Module:  Play of Words
 // Layer:	Web front-end
 // File:	wsfeature.js                    (\_/)
-// Func:	Wordspace features              (^.^) 
+// Func:	Factors                         (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
-class WordspaceFeature {
+class FactorValue {
 	
 	constructor(code, relatedLangCode=undefined) {
 		this.code = code;
@@ -44,4 +44,54 @@ class WordspaceFeature {
 	setName(langCode, name) {
 		this.names[langCode] = name;
 	}
+}
+
+
+class Factor extends Comparator {
+
+	constructor() {
+		
+		super();
+		
+		this.values = [];
+		this.valuesByCode = {};
+	
+		for(let argIdx in arguments) 
+			this.appendValue(arguments[argIdx]);	
+	}
+	
+	appendValue(value) {
+		this.values.push(value);
+		this.valuesByCode[value.getCode()] = value;
+	}
+	
+	getValue(valueCode) {
+		return this.valuesByCode[valueCode];
+	}
+	
+	getValues() {
+		return this.values;
+	}
+	
+	getValueCodes() {
+		return Object.keys(this.valuesByCode);
+	}
+	
+	getValueNames() {
+		
+		let names = {};
+		
+		let codes = this.getValueCodes();
+				
+		for(let codeIdx in codes) {
+			let value = this.getValue(codes[codeIdx]);
+			names[codes[codeIdx]] = value.getNames();
+		}
+		
+		return names;
+	}
+	
+	exists(valueCode) {
+		return Boolean(this.valuesByCode[valueCode]);
+	}		
 }

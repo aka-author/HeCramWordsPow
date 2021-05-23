@@ -128,7 +128,7 @@ class Game extends Bureaucrat {
 	}
 	
 	getDefaultBaseLangCode() {
-		return  this.getWordspace() ?  
+		return this.getWordspace() ?  
 					this.getWordspace().getDefaultBaseLangCode() :
 					undefined;
 	}
@@ -151,8 +151,8 @@ class Game extends Bureaucrat {
 	
 	getPartsOfSpeach() {
 				
-		let ws = this.getWordspace();			
-				
+		/*let ws = this.getWordspace();			
+						
 		let partOfSpeachCodes = ws.getPartOfSpeachCodes();
 						
 		let options = new Array();
@@ -163,9 +163,9 @@ class Game extends Bureaucrat {
 				{"code" : pos.getCode(), 
 			     "wording" : 
 					capitalizeFirstChr(pos.getName(this.getCurrRiddleLangCode()))});
-		}
+		}*/
 				
-		return options;
+		return this.getWordspace().getPartsOfSpeach();
 	}
 	
 	getPartOfSpeachLocalNames() {
@@ -234,10 +234,10 @@ class Game extends Bureaucrat {
 		return this.currPartOfSpeachCode;
 	}
 	
-	setCurrPartOfSpeach(posCode) {
-		this.currPartOfSpeachCode = posCode;
+	setCurrPartOfSpeach(pos) {
+		this.currPartOfSpeachCode = pos.getCode();
 		this.rebuildCurrFilter();
-		this.getUserConfig().setPosCode(this.getWordspaceId(), posCode);
+		this.getUserConfig().setPosCode(this.getWordspaceId(), pos.getCode());
 	}
 
 	getCurrBaseLangCode() {
@@ -367,8 +367,8 @@ class Game extends Bureaucrat {
 		this.takeNextQuestion();
 	}
 
-	selectPartOfSpeach(posCode) {
-		this.setCurrPartOfSpeach(posCode);
+	selectPartOfSpeach(pos) {
+		this.setCurrPartOfSpeach(pos);
 		this.updatePage();
 		this.takeNextQuestion();
 	}
@@ -467,6 +467,7 @@ class Game extends Bureaucrat {
 		let levels = ["all"].concat(this.getLevels());
 		
 		mainPage.levelSelector.appendLevels(levels);
+		console.log(this.getCurrLevelCode());
 		mainPage.levelSelector.setUiControlValue(this.getCurrLevelCode());
 	}
 	
@@ -498,6 +499,8 @@ class Game extends Bureaucrat {
 		
 		let selector = mainPage.partOfSpeachSelector;
 		
+		console.log(")))) ", this.getPartsOfSpeach());
+		
 		selector.appendOptions(this.getPartsOfSpeach());
 		
 		function capFirstChar(pns, context) {
@@ -508,7 +511,9 @@ class Game extends Bureaucrat {
 
 		selector.setLocalWordings(posNames);
 		
-		selector.setUiControlValue({"code" : this.getCurrPartOfSpeachCode()});
+		console.log(this.getWordspace().getPartOfSpeach(this.getCurrPartOfSpeachCode()));
+		
+		selector.setUiControlValue(this.getWordspace().getPartOfSpeach(this.getCurrPartOfSpeachCode()));
 	}
 	
 	setupRiddleLangSelector() {
@@ -533,12 +538,12 @@ class Game extends Bureaucrat {
 		this.setupLessonSelector();
 		this.setupSubjectDomainTagCloud();
 		console.log("--------------");
-		//this.setupPartOfSpeachSelector();
+		this.setupPartOfSpeachSelector();
 		
 		this.setupRiddleLangSelector();
 		this.setupGuessLangSelector();
 		
-		this.getMainPage().propagateUiLang();
+		this.getMainPage().propagateCurrUiLang();
 		
 		this.updatePage();
 	}

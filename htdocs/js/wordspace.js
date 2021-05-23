@@ -253,7 +253,7 @@ class Wordspace {
 		this.baseLangCodes = new Array();
 		this.defaultBaseLangCode = "en";
 		
-		this.poses = new Array();
+		this.poses = new Factor();
 		
 		this.externalDics = new Array();
 		
@@ -328,29 +328,24 @@ class Wordspace {
 	} 
 	
 	appendPartOfSpeach(pos) {
-		this.poses[pos.getCode()] = pos;
+		this.poses.appendValue(pos);
 	}
 	
 	getPartOfSpeachCodes() {
 		return Object.keys(this.poses);
 	}
 	
+	getPartsOfSpeach() {
+		return this.poses.getValues();
+	}
+	
 	getPartOfSpeach(posCode) {
-		return this.poses[posCode];
+		console.log(posCode);
+		return this.poses.getValue(posCode);
 	}
 	
 	getPartOfSpeachLocalNames() {
-		
-		let posNames = new Array();
-		
-		let posCodes = this.getPartOfSpeachCodes();
-				
-		for(let posCodeIdx in posCodes) {
-			let pos = this.getPartOfSpeach(posCodes[posCodeIdx]);
-			posNames[pos.getCode()] = pos.getNames();
-		}
-		
-		return posNames;
+		return this.poses.getValueNames();
 	}
 	
 	getDefaultLevelCode() {

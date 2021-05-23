@@ -6,6 +6,6 @@
 // Func:	Parts of speach        (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
-class PartOfSpeach extends WordspaceFeature {
+class PartOfSpeach extends FactorValue {
 	
 }
