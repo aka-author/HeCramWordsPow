@@ -28,10 +28,6 @@ class FactorValue {
 		this.relatedLangCode = langCode;
 	}
 	
-	getNames() {
-		return this.names;
-	}
-	
 	getName(langCode=undefined) {
 		return langCode ? this.getNames()[langCode] : 
 						  this.getNames()[this.getRelatedLangCode()];
@@ -40,6 +36,10 @@ class FactorValue {
 	getOriginalName() {
 		return this.getName(this.getRelatedLangCode());
 	}	
+	
+	getNames() {
+		return this.names;
+	}
 	
 	setName(langCode, name) {
 		this.names[langCode] = name;

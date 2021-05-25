@@ -19,6 +19,10 @@ class UserConfig {
 		this.setDefaults();
 	}
 	
+	safe(paramValue) {
+		return isAsciiSafeEncoded(paramValue) ? paramValue : asciiSafeEncode(paramValue);
+	}		
+	
 	setDefaults() {
 		this.setLevelCode("default", "all");
 		this.setLessonNo("default", "all");
@@ -28,11 +32,11 @@ class UserConfig {
 	}
 	
 	getSystemConfigParam(paramName) {
-		return this.params.sys[paramName];
+		return asciiSafeDecode(this.params.sys[paramName]);
 	}
 	
 	setSystemConfigParam(paramName, paramValue) {
-		this.params.sys[paramName] = paramValue;
+		this.params.sys[paramName] = this.safe(paramValue);
 	}
 	
 	assembleWordspaceAccessParams(srcId, wspId) {
@@ -76,8 +80,8 @@ class UserConfig {
 		                 this.params.ws["default"][paramName];
 		else
 			paramValue = this.params.ws["default"][paramName];	
-		
-		return paramValue;
+				
+		return asciiSafeDecode(paramValue);
 	}
 	
 	checkWordspace(wordspaceId) {
@@ -86,7 +90,7 @@ class UserConfig {
 	
 	setWordspaceConfigParam(wordspaceId, paramName, paramValue) {
 		this.checkWordspace(wordspaceId);
-		this.params.ws[wordspaceId][paramName] = paramValue;
+		this.params.ws[wordspaceId][paramName] = this.safe(paramValue);
 	}
 	
 	getBrowserLangCode() {
@@ -175,7 +179,9 @@ class UserConfig {
 				for(let paramName in params.ws[wsId]) 
 					this.setWordspaceConfigParam(wsId, paramName, params.ws[wsId][paramName]);
 		}
-		
+				
 		return parseSuccess;
 	}
+	
+	
 }

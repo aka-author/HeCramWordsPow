@@ -116,6 +116,56 @@ function CamelToSnake(name) {
 }
 
 
+const CHR_ASCII_SAFE_SEP = ":";
+
+
+function isAsciiUnsafe(str) {
+	return !str.match(/^[A-Za-z\d_\-]*$/);
+}
+
+
+function isAsciiSafeEncoded(str) {
+	return String(str).includes(CHR_ASCII_SAFE_SEP);
+}
+
+
+function asciiSafeToken(chr) {
+	return  chr.charCodeAt(0).toString();
+}
+
+
+function asciiSafeChr(token) {
+	return String.fromCharCode(parseInt(token));
+}
+
+
+function asciiSafeEncode(str) {
+
+	return isAsciiUnsafe(str) ? 
+				CHR_ASCII_SAFE_SEP + 
+				str.split("").map(asciiSafeToken).join(CHR_ASCII_SAFE_SEP) : 
+				str; 
+}
+
+
+function asciiSafeDecode(str) {
+
+	return isAsciiSafeEncoded(str) ? 
+				trimFirstChr(str).split(CHR_ASCII_SAFE_SEP).map(asciiSafeChr).join("") : 
+				str;
+}
+
+
+function idSafeEncode(str) {
+	
+	let restricted = /[^A-Za-z\d]/g;
+	
+	let rawId = encodeURIComponent(str).replace(restricted, "_");
+	
+	return rawId.match(/^\d.*/) ? "_" : "" + rawId;
+}
+
+
 function safeCompareStrings(s1, s2) {
 	
 	if(!Boolean(s1) && Boolean(s2))

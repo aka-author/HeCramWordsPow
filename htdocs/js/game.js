@@ -208,6 +208,7 @@ class Game extends Bureaucrat {
 	setCurrLevel(levelCode) {
 		this.currLevelCode = levelCode;
 		this.rebuildCurrFilter();
+		console.log("level code ", levelCode);
 		this.getUserConfig().setLevelCode(this.getWordspaceId(), levelCode);
 	}
 	
@@ -256,9 +257,7 @@ class Game extends Bureaucrat {
 	getActualLangCode(langCode) {
 	
 		let actualLangCode = langCode;
-	
-		console.log(langCode);
-	
+		
 		switch (actualLangCode) {
 			case LANG_TARGET_CODE:
 				actualLangCode = this.getTargetLangCode();
@@ -467,7 +466,6 @@ class Game extends Bureaucrat {
 		let levels = ["all"].concat(this.getLevels());
 		
 		mainPage.levelSelector.appendLevels(levels);
-		console.log(this.getCurrLevelCode());
 		mainPage.levelSelector.setUiControlValue(this.getCurrLevelCode());
 	}
 	
@@ -498,9 +496,7 @@ class Game extends Bureaucrat {
 		let mainPage = this.getMainPage();
 		
 		let selector = mainPage.partOfSpeachSelector;
-		
-		console.log(")))) ", this.getPartsOfSpeach());
-		
+				
 		selector.appendOptions(this.getPartsOfSpeach());
 		
 		function capFirstChar(pns, context) {
@@ -510,16 +506,13 @@ class Game extends Bureaucrat {
 		let posNames = matrixAssMap(this.getPartOfSpeachLocalNames(), capFirstChar);		
 
 		selector.setLocalWordings(posNames);
-		
-		console.log(this.getWordspace().getPartOfSpeach(this.getCurrPartOfSpeachCode()));
-		
+				
 		selector.setUiControlValue(this.getWordspace().getPartOfSpeach(this.getCurrPartOfSpeachCode()));
 	}
 	
 	setupRiddleLangSelector() {
 		
 		let selector = this.getMainPage().riddleLangSelector;
-		console.log("-------------- ", this.getWordspaceLangs());
 		selector.appendOptions(this.getWordspaceLangs());
 		selector.setUiControlValue(this.getCurrRiddleLang());
 	}
@@ -537,7 +530,6 @@ class Game extends Bureaucrat {
 		this.setupLevelSelector();
 		this.setupLessonSelector();
 		this.setupSubjectDomainTagCloud();
-		console.log("--------------");
 		this.setupPartOfSpeachSelector();
 		
 		this.setupRiddleLangSelector();

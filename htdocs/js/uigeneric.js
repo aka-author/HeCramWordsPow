@@ -123,7 +123,7 @@ class Selector extends UiControl {
 	}
 	
 	hash(domObjectValue) {
-		return encodeURIComponent(domObjectValue).replace("%", "_");
+		return idSafeEncode(domObjectValue);
 	}
 	
 	storeHash(uiControlValue, hash) {
@@ -131,6 +131,7 @@ class Selector extends UiControl {
 	}
 	
 	restoreUiControlValue(hash) {
+		console.log('::: ', hash);
 		return this.hashes ? this.hashes[hash] : undefined;
 	}
 	
@@ -139,6 +140,7 @@ class Selector extends UiControl {
 		let optionElement = document.createElement("option");
 			
 		let hash = this.hash(this.assembleDomObjectValue(uiControlValue));
+		console.log("---", hash);
 		this.storeHash(uiControlValue, hash);
 		
 		optionElement.setAttribute("value", hash);
@@ -164,7 +166,7 @@ class Selector extends UiControl {
 	}
 	
 	setLocalWording(id, langCode, wording) {
-		this.getApp().setI18nText(this.assembleOptionId(id), langCode, wording);
+		this.getApp().setI18nText(idSafeEncode(this.assembleOptionId(id)), langCode, wording);
 	}
 	
 	setLocalWordings(localWordings) {
