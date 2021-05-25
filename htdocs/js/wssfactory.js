@@ -1,4 +1,10 @@
-
+//* * ** *** ***** ******** ************* *********************
+// Project: Nakar
+// Module:  Play of Words
+// Layer:	Web front-end
+// File:	wssfactory.js                   (\_/)
+// Func:	Creating workbooks              (^.^) 
+//* * ** *** ***** ******** ************* *********************
 
 const SRC_SIMPLE_GDOC = "gdocs";
 

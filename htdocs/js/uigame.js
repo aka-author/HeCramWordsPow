@@ -17,7 +17,6 @@ class LevelSelector extends Selector {
 	}
 	
 	onChange() {
-		console.log(asciiSafeDecode(asciiSafeEncode(this.getUiControlValue())));
 		this.getGame().selectLevel(this.getUiControlValue());
 	}	
 
@@ -88,7 +87,7 @@ class GuessLangSelector extends LangSelector {
 class PartOfSpeachSelector extends Selector {
 	
 	assembleDomObjectValue(pos) {
-		return pos? pos.getCode() : "all";
+		return pos ? pos.getCode() : "all";
 	}
 	
 	assembleDomObjectValueAppearance(pos) {

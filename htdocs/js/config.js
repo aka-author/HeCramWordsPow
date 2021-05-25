@@ -7,8 +7,9 @@
 //* * ** *** ***** ******** ************* *********************
 
 
+const CFG_SYSTEM_PARAMS = undefined;
+const DEFAULT_WORDSPACE_ID = "default";
 const LANG_TARGET_CODE = "t";
-
 const LANG_BASE_DEFAULT_CODE = "b";
 
 
@@ -17,26 +18,37 @@ class UserConfig {
 	constructor() {
 		this.params = {"sys" : {}, "ws" : {}};
 		this.setDefaults();
-	}
-	
-	safe(paramValue) {
-		return isAsciiSafeEncoded(paramValue) ? paramValue : asciiSafeEncode(paramValue);
 	}		
 	
-	setDefaults() {
-		this.setLevelCode("default", "all");
-		this.setLessonNo("default", "all");
-		this.setRiddleLangCode("default", LANG_BASE_DEFAULT_CODE);
-		this.setGuessLangCode("default", LANG_TARGET_CODE);
-		this.setPosCode("default", "all");
+	peekConfigParam(wordspaceId, paramName) {
+	
+		let safeParamValue = wordspaceId ? 
+					this.params.ws[wordspaceId][paramName] : 
+					this.params.sys[paramName];
+		
+		return safeParamValue;
+	}
+	
+	checkWordspace(wordspaceId) {
+		if(!this.params.ws[wordspaceId]) this.params.ws[wordspaceId] = {};
+	}
+	
+	pokeConfigParam(wordspaceId, paramName, safeParamValue) {
+				
+		if(wordspaceId) {
+			this.checkWordspace(wordspaceId);
+			this.params.ws[wordspaceId][paramName] = safeParamValue;	
+		}
+		else
+			this.params.sys[paramName] = safeParamValue;
 	}
 	
 	getSystemConfigParam(paramName) {
-		return asciiSafeDecode(this.params.sys[paramName]);
+		return asciiSafeDecode(this.peekConfigParam(CFG_SYSTEM_PARAMS, paramName));
 	}
 	
 	setSystemConfigParam(paramName, paramValue) {
-		this.params.sys[paramName] = this.safe(paramValue);
+		this.pokeConfigParam(CFG_SYSTEM_PARAMS, paramName, asciiSafeEncode(paramValue));
 	}
 	
 	assembleWordspaceAccessParams(srcId, wspId) {
@@ -70,27 +82,25 @@ class UserConfig {
 	
 	getWordspaceConfigParam(_wordspaceId, paramName) {
 		
-		let paramValue = undefined;
+		let safeParamValue = undefined;
 		
-		let wordspaceId = this.params.ws[_wordspaceId] ? _wordspaceId : "default";
+		let wordspaceId = this.params.ws[_wordspaceId] ? 
+							_wordspaceId : DEFAULT_WORDSPACE_ID;
+		
+		let defautValue = this.peekConfigParam(DEFAULT_WORDSPACE_ID, paramName);
 				
-		if(wordspaceId != "default")
-			paramValue = this.params.ws[wordspaceId][paramName] ?
-		                 this.params.ws[wordspaceId][paramName] :
-		                 this.params.ws["default"][paramName];
+		if(wordspaceId != DEFAULT_WORDSPACE_ID) {
+			let explicitValue = this.peekConfigParam(wordspaceId, paramName);
+			safeParamValue = useful(explicitValue, defautValue);
+		}				 
 		else
-			paramValue = this.params.ws["default"][paramName];	
+			safeParamValue = defautValue;	
 				
-		return asciiSafeDecode(paramValue);
-	}
-	
-	checkWordspace(wordspaceId) {
-		if(!this.params.ws[wordspaceId]) this.params.ws[wordspaceId] = {};
+		return asciiSafeDecode(safeParamValue);
 	}
 	
 	setWordspaceConfigParam(wordspaceId, paramName, paramValue) {
-		this.checkWordspace(wordspaceId);
-		this.params.ws[wordspaceId][paramName] = this.safe(paramValue);
+		this.pokeConfigParam(wordspaceId, paramName, asciiSafeEncode(paramValue));
 	}
 	
 	getBrowserLangCode() {
@@ -152,7 +162,7 @@ class UserConfig {
 		
 		sleep(5000);
 		
-		delete this.params.ws["default"];
+		delete this.params.ws[DEFAULT_WORDSPACE_ID];
 		
 		return JSON.stringify(this.params);
 	}	
@@ -173,15 +183,21 @@ class UserConfig {
 		if(parseSuccess) {
 						
 			for(let paramName in params.sys) 
-				this.setSystemConfigParam(paramName, params.sys[paramName]);
+				this.pokeConfigParam(CFG_SYSTEM_PARAMS, paramName, params.sys[paramName]);
 				
 			for(let wsId in params.ws) 
 				for(let paramName in params.ws[wsId]) 
-					this.setWordspaceConfigParam(wsId, paramName, params.ws[wsId][paramName]);
+					this.pokeConfigParam(wsId, paramName, params.ws[wsId][paramName]);
 		}
 				
 		return parseSuccess;
 	}
 	
-	
+	setDefaults() {
+		this.setLevelCode(DEFAULT_WORDSPACE_ID, "all");
+		this.setLessonNo(DEFAULT_WORDSPACE_ID, "all");
+		this.setRiddleLangCode(DEFAULT_WORDSPACE_ID, LANG_BASE_DEFAULT_CODE);
+		this.setGuessLangCode(DEFAULT_WORDSPACE_ID, LANG_TARGET_CODE);
+		this.setPosCode(DEFAULT_WORDSPACE_ID, "all");
+	}
 }

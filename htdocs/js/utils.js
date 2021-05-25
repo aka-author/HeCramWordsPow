@@ -116,11 +116,33 @@ function CamelToSnake(name) {
 }
 
 
-const CHR_ASCII_SAFE_SEP = ":";
+function safeCompareStrings(s1, s2) {
+	
+	if(!Boolean(s1) && Boolean(s2))
+		return -1;
+	else 
+		if(Boolean(s1) && !Boolean(s2))
+			return 1;
+		else 
+			if(!Boolean(s1) && !Boolean(s2))
+				return 0;
+			else
+				return String(s1).localeCompare(String(s2));	
+}
+
+
+
+//
+// Transliterating and encoding strings
+//
+
+const CHR_ASCII_SAFE_SEP     = ":";
+const RXP_ASCII_SAFE_CHRS    = /^[A-Za-z\d_\-]*$/; 
+const RXP_ID_RESTRICTED_CHRS = /[^A-Za-z\d]/g;
 
 
 function isAsciiUnsafe(str) {
-	return !str.match(/^[A-Za-z\d_\-]*$/);
+	return !str.match(RXP_ASCII_SAFE_CHRS);
 }
 
 
@@ -158,26 +180,9 @@ function asciiSafeDecode(str) {
 
 function idSafeEncode(str) {
 	
-	let restricted = /[^A-Za-z\d]/g;
-	
-	let rawId = encodeURIComponent(str).replace(restricted, "_");
+	let rawId = encodeURIComponent(str).replace(RXP_ID_RESTRICTED_CHRS, "_");
 	
 	return rawId.match(/^\d.*/) ? "_" : "" + rawId;
-}
-
-
-function safeCompareStrings(s1, s2) {
-	
-	if(!Boolean(s1) && Boolean(s2))
-		return -1;
-	else 
-		if(Boolean(s1) && !Boolean(s2))
-			return 1;
-		else 
-			if(!Boolean(s1) && !Boolean(s2))
-				return 0;
-			else
-				return String(s1).localeCompare(String(s2));	
 }
 
 
