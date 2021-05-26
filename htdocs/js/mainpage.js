@@ -228,6 +228,7 @@ class MainPage extends Bureaucrat {
 		this.answerArea.setUiControlValue(Lexeme);
 		this.displayLexemeArea("answer");
 	}
+	
 }
 
 

@@ -57,11 +57,13 @@ class Game extends Bureaucrat {
 		console.log("access: ", this.getWordspaceAccessParams());
 		
 		let gdoc = wssFactory.getWorkbook();
-		
+
 		gdoc.auth();
 		gdoc.load();
 		
 		let wsf = new WordspaceFactory(gdoc);
+		wsf.setReporter(this.getApp());
+		
 		let ws = wsf.importWordspace().getWordspace();
 				
 		this.subjectDomainTagRecords = ws.getSubjectDomainTagRecords();
@@ -150,21 +152,6 @@ class Game extends Bureaucrat {
 	}
 	
 	getPartsOfSpeach() {
-				
-		/*let ws = this.getWordspace();			
-						
-		let partOfSpeachCodes = ws.getPartOfSpeachCodes();
-						
-		let options = new Array();
-		
-		for(let posCodeIdx in partOfSpeachCodes) {
-			let pos = ws.getPartOfSpeach(partOfSpeachCodes[posCodeIdx]);
-			options.push(
-				{"code" : pos.getCode(), 
-			     "wording" : 
-					capitalizeFirstChr(pos.getName(this.getCurrRiddleLangCode()))});
-		}*/
-				
 		return this.getWordspace().getPartsOfSpeach();
 	}
 	
@@ -236,7 +223,7 @@ class Game extends Bureaucrat {
 	}
 	
 	setCurrPartOfSpeach(pos) {
-		this.currPartOfSpeachCode = pos.getCode();
+		this.currPartOfSpeachCode = pos ? pos.getCode() : "all";
 		this.rebuildCurrFilter();
 		this.getUserConfig().setPosCode(this.getWordspaceId(), pos.getCode());
 	}
@@ -259,10 +246,10 @@ class Game extends Bureaucrat {
 		let actualLangCode = langCode;
 		
 		switch (actualLangCode) {
-			case LANG_TARGET_CODE:
+			case CFG_TARGET_LANG_CODE:
 				actualLangCode = this.getTargetLangCode();
 				break;
-			case LANG_BASE_DEFAULT_CODE: 
+			case CFG_DEFAULT_BASE_LANG_CODE: 
 				let navLangCode = navigator.language.substring(0,2);
 				actualLangCode = 
 					navLangCode != this.getTargetLangCode ? 
@@ -541,8 +528,12 @@ class Game extends Bureaucrat {
 	}
 	
 	play() {
+		
 		this.rebuildCurrFilter();
 		this.setupPage();
 		this.takeNextQuestion();
+		
+		let loadPane = document.getElementById("loadingDiv");
+		loadPane.style.display = "none";
 	}
 }

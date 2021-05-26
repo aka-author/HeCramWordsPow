@@ -9,8 +9,18 @@
 
 const CFG_SYSTEM_PARAMS = undefined;
 const DEFAULT_WORDSPACE_ID = "default";
-const LANG_TARGET_CODE = "t";
-const LANG_BASE_DEFAULT_CODE = "b";
+
+const CFG_SRC_ID = "srcId";
+const CFG_WSP_ID = "wspId";
+const CFG_UI_LANG_CODE = "uiLangCode";
+const CFG_LEVEL_CODE = "levelCode";
+const CFG_LESSON_NO = "lessonNo";
+const CFG_RIDDLE_LANG_CODE = "riddleLangCode";
+const CFG_GUESS_LANG_CODE = "guessLangCode";
+const CFG_POS_CODE = "posCode";
+
+const CFG_TARGET_LANG_CODE = "t";
+const CFG_DEFAULT_BASE_LANG_CODE = "b";
 
 
 class UserConfig {
@@ -52,15 +62,15 @@ class UserConfig {
 	}
 	
 	assembleWordspaceAccessParams(srcId, wspId) {
-		return {"srcId" : srcId, "wspId" : wspId};
+		return {CFG_SRC_ID : srcId, CFG_WSP_ID : wspId};
 	}
 	
 	getSrcId() {
-		return this.getSystemConfigParam("srcId");
+		return this.getSystemConfigParam(CFG_SRC_ID);
 	}
 	
 	getWspId() {
-		return this.getSystemConfigParam("wspId");
+		return this.getSystemConfigParam(CFG_WSP_ID);
 	}
 	
 	getWordspaceAccessParams() {
@@ -70,8 +80,8 @@ class UserConfig {
 	}
 	
 	setWordspaceAccessParams(params) {
-		this.setSystemConfigParam("srcId", params.srcId);
-		this.setSystemConfigParam("wspId", params.wspId);
+		this.setSystemConfigParam(CFG_SRC_ID, params.srcId);
+		this.setSystemConfigParam(CFG_WSP_ID, params.wspId);
 	}
 	
 	getDemoWordspaceAccessParams() {
@@ -108,52 +118,52 @@ class UserConfig {
 	}
 	
 	getUiLangCode() {
-		return this.getSystemConfigParam("uiLangCode") ? 
-		          this.getSystemConfigParam("uiLangCode") : this.getBrowserLangCode();
+		return this.getSystemConfigParam(CFG_UI_LANG_CODE) ? 
+		          this.getSystemConfigParam(CFG_UI_LANG_CODE) : this.getBrowserLangCode();
 	}
 	
 	setUiLangCode(langCode) {
-		this.setSystemConfigParam("uiLangCode", langCode);
+		this.setSystemConfigParam(CFG_UI_LANG_CODE, langCode);
 	}
 	
 	getLevelCode(wordspaceId=undefined) {
-		return this.getWordspaceConfigParam(wordspaceId, "levelCode");
+		return this.getWordspaceConfigParam(wordspaceId, CFG_LEVEL_CODE);
 	}
 	
 	setLevelCode(wordspaceId, levelCode) {
-		this.setWordspaceConfigParam(wordspaceId, "levelCode", levelCode);
+		this.setWordspaceConfigParam(wordspaceId, CFG_LEVEL_CODE, levelCode);
 	}
 	
 	getLessonNo(wordspaceId=undefined) {
-		return this.getWordspaceConfigParam(wordspaceId, "lessonNo");
+		return this.getWordspaceConfigParam(wordspaceId, CFG_LESSON_NO);
 	}
 	
 	setLessonNo(wordspaceId, lessonNo) {
-		this.setWordspaceConfigParam(wordspaceId, "lessonNo", lessonNo);
+		this.setWordspaceConfigParam(wordspaceId, CFG_LESSON_NO, lessonNo);
 	}
 	
 	getRiddleLangCode(wordspaceId=undefined) {
-		return this.getWordspaceConfigParam(wordspaceId, "riddleLangCode"); 
+		return this.getWordspaceConfigParam(wordspaceId, CFG_RIDDLE_LANG_CODE); 
 	}
 	
 	setRiddleLangCode(wordspaceId, langCode) {
-		this.setWordspaceConfigParam(wordspaceId, "riddleLangCode", langCode);
+		this.setWordspaceConfigParam(wordspaceId, CFG_RIDDLE_LANG_CODE, langCode);
 	}
 	
 	getGuessLangCode(wordspaceId=undefined) {
-		return this.getWordspaceConfigParam(wordspaceId, "guessLangCode");
+		return this.getWordspaceConfigParam(wordspaceId, CFG_GUESS_LANG_CODE);
 	}
 	
 	setGuessLangCode(wordspaceId, langCode) {
-		this.setWordspaceConfigParam(wordspaceId, "guessLangCode", langCode);
+		this.setWordspaceConfigParam(wordspaceId, CFG_GUESS_LANG_CODE, langCode);
 	}
 	
 	getPosCode(wordspaceId=undefined) {
-		return this.getWordspaceConfigParam(wordspaceId, "posCode");
+		return this.getWordspaceConfigParam(wordspaceId, CFG_POS_CODE);
 	}
 	
 	setPosCode(wordspaceId, posCode) {
-		this.setWordspaceConfigParam(wordspaceId, "posCode", posCode);
+		this.setWordspaceConfigParam(wordspaceId, CFG_POS_CODE, posCode);
 	}
 	
 	assembleJson() {
@@ -196,8 +206,8 @@ class UserConfig {
 	setDefaults() {
 		this.setLevelCode(DEFAULT_WORDSPACE_ID, "all");
 		this.setLessonNo(DEFAULT_WORDSPACE_ID, "all");
-		this.setRiddleLangCode(DEFAULT_WORDSPACE_ID, LANG_BASE_DEFAULT_CODE);
-		this.setGuessLangCode(DEFAULT_WORDSPACE_ID, LANG_TARGET_CODE);
+		this.setRiddleLangCode(DEFAULT_WORDSPACE_ID, CFG_DEFAULT_BASE_LANG_CODE);
+		this.setGuessLangCode(DEFAULT_WORDSPACE_ID, CFG_TARGET_LANG_CODE);
 		this.setPosCode(DEFAULT_WORDSPACE_ID, "all");
 	}
 }

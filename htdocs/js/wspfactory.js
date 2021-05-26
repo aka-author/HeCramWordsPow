@@ -440,12 +440,29 @@ class WordspaceFactory {
 	
 	// Entire import procedure
 	
+	setReporter(reporter) {
+		this.reporter = reporter;
+	}
+	
+	report(message) {
+		this.reporter.reportProcessInfo(message);
+	}
+	
 	importWordspace() {
 	
+		this.report("Languages");
 		this.importLangs();
+		
+		this.report("General properties...");
 		this.importGeneral();
+		
+		this.report("Parts of speach...");
 		this.importPartsOfSpeach();
+		
+		this.report("Subject domain tags...");
 		this.importTags();
+		
+		this.report("Dictionary records...");
 		this.importDicEntries();
 		
 		console.log(this.wordspace);

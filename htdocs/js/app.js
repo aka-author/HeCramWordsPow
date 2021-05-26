@@ -184,11 +184,27 @@ class Application extends Bureaucrat {
 		return this.mainPage;
 	}
 	
+	reportProcessInfo(message) {
+		
+		let loadPane = document.getElementById("loadingDiv");
+		
+		let p = document.createElement("p");
+		p.setAttribute("class", "processInfo");
+		p.innerHTML = message;
+		loadPane.appendChild(p);
+	}
+	
 	run() {	
 		this.loadLocalUserConfig();
 		this.game = new Game(this);
 		this.mainPage = new MainPage(this);
-		this.game.play();
+		
+		let loadPane = document.getElementById("loadingDiv");
+		loadPane.style.display = "";
+		
+		let game = this.game;
+		
+		setTimeout(function() {game.play();}, 5000);
 	}
 	
 	quit() {
@@ -220,3 +236,4 @@ function playGame() {
 function quitGame() {
 	GLOBAL_app.quit();
 }
+

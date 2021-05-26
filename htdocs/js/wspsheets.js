@@ -281,6 +281,14 @@ class Workbook extends RemoteDataset {
 		let sheet = this.getSheet(sheetName);		
 		return sheet.getPropValue(propFieldName, valFieldName, propName, langCode);
 	}	
+	
+	setReporter(reporter) {
+		this.reporter = reporter;
+	}
+	
+	report(message) {
+		this.reporter.reportProcessInfo(message);
+	}
 }
 
 
