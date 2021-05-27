@@ -19,11 +19,11 @@ class WorkbookFactory {
 		return this.workbook;
 	}
 	
-	createWorkbook(params) {
+	createWorkbook(chief, params) {
 		
 		switch (params.srcId) {
 			case SRC_SIMPLE_GDOC: 
-				this.workbook = new SimpleGoogleWordspace(params.wspId);
+				this.workbook = new SimpleGoogleWordspace(chief, params.wspId);
 				break;
 			default:
 				this.workbook = null;

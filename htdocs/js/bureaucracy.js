@@ -16,6 +16,7 @@ class Bureaucrat {
 		
 		this.userConfig = null;
 		this.i18n = null;
+		this.reporter = null;
 		this.mainPage = null;
 		this.game = null;
 		this.app = null;
@@ -37,7 +38,7 @@ class Bureaucrat {
 	
 	registerSubordinate(subordinate) {
 		
-		let id = subordinate.getId()
+		let id = subordinate.getId();
 		
 		let regRec = {"id": id, "subordinate" : subordinate};
 		
@@ -87,6 +88,15 @@ class Bureaucrat {
 									   this.getChief().getCurrBaseLangCode();
 	}
 	
+	getProcessReporter() {
+		return this.reporter ? this.reporter : 
+		                       this.getChief().getProcessReporter();
+	}
+	
+	setProcessReporter(processReporter) {
+		this.reporter = processReporter;
+	}
+	
 	getGame() {
 		return this.game ? this.game : this.getChief().getGame();
 	}
@@ -99,6 +109,13 @@ class Bureaucrat {
 		return this.subordinatesByIds[id] ? 
 					this.subordinatesByIds[id] : 
 					null;
+	}
+	
+	reportFromI18n(strId, substs=null) {
+		let reporter = this.getProcessReporter();		
+		let msgId = reporter.appendMessageFromI18n(strId, substs);
+		reporter.showMessage(msgId);
+		return msgId;
 	}
 	
 	doMyself(methodName, argsObject) {

@@ -210,9 +210,9 @@ class Worksheet {
 
 class Workbook extends RemoteDataset {
 
-	constructor(id, url, creds=null) {
+	constructor(chief, id, url, creds=null) {
 		
-		super(id, url, creds);
+		super(chief, id, url, creds);
 		
 		this.content.sheets = new Array();
 	}
@@ -377,9 +377,9 @@ function assembleSheetUrl(gdocId, sheetName=undefined) {
 	
 class SimpleGoogleWorkbook extends Workbook {
 	
-	constructor(gdocId) {
+	constructor(chief, gdocId) {
 		
-		super(gdocId, assembleSheetUrl(gdocId));
+		super(chief, gdocId, assembleSheetUrl(gdocId));
 		
 		this.gdocId = gdocId;
 		this.tocSheetRawJson = null;
@@ -393,7 +393,7 @@ class SimpleGoogleWorkbook extends Workbook {
 
 	retrieveSheetRawJson(sheetName) {
 		
-		this.reportSheet(sheetName);
+		this.reportFromI18n("loadingSheet", {"sheet" : sheetName});
 
 		let resp = new AppResponse();
 		
@@ -427,16 +427,6 @@ class SimpleGoogleWorkbook extends Workbook {
 		return [""];
 	}
 
-	reportSheet(sheetName) {
-		let reporter = this.getProcessReporter(); 
-		let msgId = reporter.appendMessageFromI18n("loadingSheet", {"sheet" : sheetName});
-		reporter.showMessage(msgId);
-	}
-
-	isLoaded() {
-		return this.loaded;
-	}
-	
 	sendLoadRequest() {
 				
 		let error = new AppError(ERR_OK);
@@ -445,7 +435,7 @@ class SimpleGoogleWorkbook extends Workbook {
 				
 		this.loadResp.payload = {};	
 		let sheets = this.loadResp.payload;
-
+		
 		if(this.tocSheetRawJson)
 			sheets["TOC"] = this.tocSheetRawJson;
 		
@@ -453,6 +443,9 @@ class SimpleGoogleWorkbook extends Workbook {
 		
 		let thisDataSet = this;
 		
+		function reportParsing() {
+			thisDataSet.reportFromI18n("loadingParsing");
+		}
 		
 		function doWithSheet(timestamp) {
 						
@@ -467,8 +460,10 @@ class SimpleGoogleWorkbook extends Workbook {
 				
 				window.requestAnimationFrame(doWithSheet);
 			}
-			else
+			else {
 				thisDataSet.setLoadRequestComplete();
+				window.requestAnimationFrame(reportParsing);
+			}	
 
 		}
 				

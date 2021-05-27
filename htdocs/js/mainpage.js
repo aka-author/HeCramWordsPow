@@ -15,15 +15,6 @@ class MainPage extends Bureaucrat {
 		this.app = app;
 		
 		this.uiLangs = this.fetchUiLangs();
-
-		
-		let game = this.getGame();
-		
-		let ws = game.getWordspace();
-		let wsId = ws.getId();
-		let targetLangCode = ws.getTargetLangCode();
-		let targetLangName = ws.getTargetLangName();
-		let defaultBaseLangCode = ws.getDefaultBaseLangCode();
 				
 		this.createUiLangSelector();
 		
@@ -64,6 +55,20 @@ class MainPage extends Bureaucrat {
 		
 		this.printCardsButton = new PrintCardsButton(this, "printButton");		
 	}		
+		
+	
+	// Game and wordspace	
+	
+	setGame() {
+	
+		let game = this.getGame();
+		
+		let ws = game.getWordspace();
+		let wsId = ws.getId();
+		let targetLangCode = ws.getTargetLangCode();
+		let targetLangName = ws.getTargetLangName();
+		let defaultBaseLangCode = ws.getDefaultBaseLangCode();
+	}
 		
 		
 	// UI language 

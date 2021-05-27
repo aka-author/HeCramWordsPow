@@ -28,12 +28,11 @@ class Game extends Bureaucrat {
 	startGettingReady() {
 		
 		let wssFactory = new WorkbookFactory();
-		wssFactory.createWorkbook(this.getWordspaceAccessParams());
+		wssFactory.createWorkbook(this, this.getWordspaceAccessParams());
 		
 		console.log("access: ", this.getWordspaceAccessParams());
 		
 		this.wb = wssFactory.getWorkbook();
-		this.wb.setReporter(this.getApp().getProcessReporter());
 		this.wb.setOnLoad(playGame);
 
 		this.wb.auth();
@@ -551,9 +550,8 @@ class Game extends Bureaucrat {
 		this.setupPage();
 		this.takeNextQuestion();
 		
-		this.getApp().getProcessReporter().hide();
+		sleep(2000);
 		
-		//let loadPane = document.getElementById("loadingDiv");
-		//loadPane.style.display = "none";
+		this.getProcessReporter().hide();
 	}
 }

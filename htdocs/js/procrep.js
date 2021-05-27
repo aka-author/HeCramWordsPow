@@ -77,8 +77,8 @@ class ProcessReporter {
 		
 		let app = this.getApp();
 		let i18n = app.getI18n();
-		let uiLangCode = app.getCurrUiLangCode();
-		
+		let uiLangCode = app.getUiLangCode();
+				
 		let content = "";
 		
 		let rawContent = i18n.getText(stringId, uiLangCode);

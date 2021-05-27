@@ -62,7 +62,10 @@ class UserConfig {
 	}
 	
 	assembleWordspaceAccessParams(srcId, wspId) {
-		return {CFG_SRC_ID : srcId, CFG_WSP_ID : wspId};
+		let params = {};
+		params[CFG_SRC_ID] = srcId;
+		params[CFG_WSP_ID] = wspId;
+		return params;
 	}
 	
 	getSrcId() {

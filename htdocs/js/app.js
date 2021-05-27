@@ -70,7 +70,7 @@ class Application extends Bureaucrat {
 		this.i18n = new I18n();
 		this.i18n.setStringTable(GLOBAL_UIStrings);
 		
-		this.processReporter = new ProcessReporter("processReporterDiv");
+		this.reporter = new ProcessReporter("processReporterDiv");
 	}
 	
 	getLocalUserConfig() {
@@ -127,7 +127,9 @@ class Application extends Bureaucrat {
 	}
 	
 	getPageUrlParams() {
+		
 		let params = parseUrlParams(String(window.location));
+				
 		return camelizeParams(params);
 	}
 	
@@ -148,13 +150,13 @@ class Application extends Bureaucrat {
 		if(!this.validateWordspaceAccessParams(params)) {
 		
 			params = config.getWordspaceAccessParams();
-			
+			console.log("***", params);
 			if(!this.validateWordspaceAccessParams(params))
 				params = config.getDemoWordspaceAccessParams();
 		}
 		else
 			config.setWordspaceAccessParams(params);
-		
+				
 		return params;
 	}
 	
@@ -178,11 +180,11 @@ class Application extends Bureaucrat {
 		return this.game;
 	}
 	
-	getCurrUiLangCode() {
+	getUiLangCode() {
 	
 		let mainPage = this.getMainPage();
-	
-		return mainPage ? mainPage.getCurrUiLangCode() : 
+		
+		return mainPage ? mainPage.getUiLangCode() : 
 						  this.getLocalUserConfig().getUiLangCode();  	
 	}
 	
@@ -190,15 +192,14 @@ class Application extends Bureaucrat {
 		return this.mainPage;
 	}
 	
-	
-	getProcessReporter() {
-		return this.processReporter;
-	}
-	
 	run() {	
 	
 		this.loadLocalUserConfig();
 		
+		this.reportFromI18n("loadingWordspace");
+		
+		this.mainPage = new MainPage(this);
+
 		this.game = new Game(this);
 		this.game.startGettingReady();
 	}
@@ -209,7 +210,7 @@ class Application extends Bureaucrat {
 		
 		game.finishGettingReady();
 		
-		this.mainPage = new MainPage(this);
+		this.mainPage.setGame();
 		
 		game.play();
 	}
@@ -242,10 +243,6 @@ function playGame() {
 function runApp() {
 	
 	GLOBAL_app = new Application();
-	
-	let reporter = GLOBAL_app.getProcessReporter();		
-	let msgId = reporter.appendMessageFromI18n("loadingWordspace");
-	reporter.showMessage(msgId);
 	
 	GLOBAL_app.run();	
 }

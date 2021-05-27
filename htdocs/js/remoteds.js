@@ -57,9 +57,12 @@ class AppResponse {
 }
 
 
-class RemoteDataset {
+class RemoteDataset extends Bureaucrat {
 
-	constructor(id, url, creds=null) {
+	constructor(chief, id, url, creds=null) {
+		
+		super(chief, id);
+		
 		this.id = id;
 		this.appError = new AppError(ERR_OBJECT_IMMATURE);
 		this.url = url;
@@ -75,10 +78,6 @@ class RemoteDataset {
 	
 	getId() {
 		return this.id;
-	}
-	
-	getApp() {
-		return getGlobalApp();
 	}
 	
 	getUrl() {
@@ -133,13 +132,7 @@ class RemoteDataset {
 		this.content = content;
 	}
 	
-	getProcessReporter() {
-		return this.reporter;
-	}
 	
-	setProcessReporter(processReporter) {
-		this.reporter = processReporter;
-	}
 	
 	setOnLoad(func) {
 		this.onLoad = func;
