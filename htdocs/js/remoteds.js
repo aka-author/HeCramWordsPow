@@ -66,6 +66,7 @@ class RemoteDataset {
 		this.creds = creds;
 		this.authData = null;
 		this.content = new Array();
+		this.reporter = null;
 	}
 	
 	getId() {
@@ -118,6 +119,14 @@ class RemoteDataset {
 	
 	setContent(content) {
 		this.content = content;
+	}
+	
+	getProcessReporter() {
+		return this.reporter;
+	}
+	
+	setProcessReporter(processReporter) {
+		this.reporter = processReporter;
 	}
 	
 	isAuthorized() {

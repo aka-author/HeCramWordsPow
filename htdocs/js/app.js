@@ -69,6 +69,8 @@ class Application extends Bureaucrat {
 		
 		this.i18n = new I18n();
 		this.i18n.setStringTable(GLOBAL_UIStrings);
+		
+		this.processReporter = new ProcessReporter("processReporterDiv");
 	}
 	
 	getLocalUserConfig() {
@@ -177,34 +179,34 @@ class Application extends Bureaucrat {
 	}
 	
 	getCurrUiLangCode() {
-		return this.getMainPage().getCurrUiLangCode();
+	
+		let mainPage = this.getMainPage();
+	
+		return mainPage ? mainPage.getCurrUiLangCode() : 
+						  this.getLocalUserConfig().getUiLangCode();  	
 	}
 	
 	getMainPage() {
 		return this.mainPage;
 	}
 	
-	reportProcessInfo(message) {
-		
-		let loadPane = document.getElementById("loadingDiv");
-		
-		let p = document.createElement("p");
-		p.setAttribute("class", "processInfo");
-		p.innerHTML = message;
-		loadPane.appendChild(p);
+	
+	getProcessReporter() {
+		return this.processReporter;
 	}
 	
 	run() {	
+	
 		this.loadLocalUserConfig();
+		
+		
+		
 		this.game = new Game(this);
 		this.mainPage = new MainPage(this);
 		
-		let loadPane = document.getElementById("loadingDiv");
-		loadPane.style.display = "";
-		
-		let game = this.game;
-		
-		setTimeout(function() {game.play();}, 5000);
+		//let game = this.game;
+		//setTimeout(function() {game.play();}, 1000);
+		this.game.play();
 	}
 	
 	quit() {
@@ -229,7 +231,14 @@ function getGlobalApp() {
 
 function playGame() {
 	GLOBAL_app = new Application();
-	GLOBAL_app.run();
+	
+	let reporter = GLOBAL_app.getProcessReporter();		
+	let msgId = reporter.appendMessageFromI18n("loadingWordspace");
+	reporter.showMessage(msgId);
+	
+	setTimeout(function() {GLOBAL_app.run();}, 1000);
+	
+	//GLOBAL_app.run();
 }
 
 

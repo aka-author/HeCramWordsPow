@@ -391,6 +391,10 @@ class SimpleGoogleWorkbook extends Workbook {
 
 	retrieveSheetRawJson(sheetName) {
 		
+		this.reportSheet(sheetName);
+
+		console.log(sheetName);
+
 		let resp = new AppResponse();
 		
 		let xmlHttp = new XMLHttpRequest();
@@ -423,6 +427,12 @@ class SimpleGoogleWorkbook extends Workbook {
 		return [""];
 	}
 
+	reportSheet(sheetName) {
+		let reporter = this.getProcessReporter(); 
+		let msgId = reporter.appendMessageFromI18n("loadingSheet", {"sheet" : sheetName});
+		reporter.showMessage(msgId);
+	}
+
 	sendLoadRequest() {
 				
 		let error = new AppError(ERR_OK);
@@ -435,7 +445,7 @@ class SimpleGoogleWorkbook extends Workbook {
 			sheets["TOC"] = this.tocSheetRawJson;
 		
 		for(let sheetIdx in sheetNames) {
-			
+							
 			let sheetResp = this.retrieveSheetRawJson(sheetNames[sheetIdx]);
 			
 			if(sheetResp.getAppErrorCode() == ERR_OK)

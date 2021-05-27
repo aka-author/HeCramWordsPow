@@ -51,18 +51,22 @@ class Game extends Bureaucrat {
 	
 	useWordspaceFromGdocs() {
 				
+		let reporter = this.getApp().getProcessReporter();
+
 		let wssFactory = new WorkbookFactory();
 		wssFactory.createWorkbook(this.getWordspaceAccessParams());
 		
 		console.log("access: ", this.getWordspaceAccessParams());
 		
+		
 		let gdoc = wssFactory.getWorkbook();
+		gdoc.setReporter(reporter);
 
 		gdoc.auth();
 		gdoc.load();
 		
 		let wsf = new WordspaceFactory(gdoc);
-		wsf.setReporter(this.getApp());
+		wsf.setProcessReporter(reporter);
 		
 		let ws = wsf.importWordspace().getWordspace();
 				
@@ -533,7 +537,9 @@ class Game extends Bureaucrat {
 		this.setupPage();
 		this.takeNextQuestion();
 		
-		let loadPane = document.getElementById("loadingDiv");
-		loadPane.style.display = "none";
+		this.getApp().getProcessReporter().hide();
+		
+		//let loadPane = document.getElementById("loadingDiv");
+		//loadPane.style.display = "none";
 	}
 }

@@ -1,6 +1,16 @@
 var GLOBAL_UIStrings = {
 	
 	"pageTitle" : {"en" : "Cram the words!", "he" : "ללמוד מילים!", "ru" : "Учи слова!", "es" : "Aprender palabras!", "pt" : "Aprender palavras!"},
+
+	"loadingWordspace" : {"en" : "Loading a wordspace", "he" : "טוען מרחב מילים", "es" : "Cargando un espacio de palabras", "pt" : "Carregando um espaço de palavras", "ru" : "Загрузка словаря"},
+	"loadingTOC" : {"en" : "Table of contents", "he" : "תוכן עניינים", "es" : "Tabla de contenido", "pt" : "Índice", "ru" : "Содержание"},	
+	"loadingLanguages" : {"en" : "Loading languages", "he" : "שפות", "es" : "Idiomas", "pt" : "línguas", "ru" : "Языки"},
+	"loadingPOS" : {"en" : "Parts of speach", "he" : "חלק מהדיבור", "es" : "Partes de la oración", "pt" : "Partes do discurso", "ru" : "Части речи"},
+	"loadingTags" : {"en" : "Tags", "he" : "תגים", "es" : "Etiquetas", "pt" : "Etiquetas", "ru" : "Теги"},
+	"loadingWords" : {"en" : "Words", "he" : "מילים", "es" : "Palabras", "pt" : "Palavras", "ru" : "Слова"},
+	"loadingSheet" : {"en" : "Loading sheet {sheet}", "he" : "{sheet} גיליון טעינה", "es" : "Hoja de carga {sheet}", "pt" : "Carregando folha {sheet}", "ru" : "Загрузка листа {sheet}"},
+	"loadingParsing" : {"en" : "Parsing", "he" : "ניתוח", "es" : "Analizando", "pt" : "Análise", "ru" : "Разбор загруженных данных"},
+	
 	
 	"levelSelectorLabel"  : {"en" : "Level:", "he"  : "רמה:", "ru" : "Уровень:", "es" : "Nivel:", "pt"   : "Nível:"},
 	"lessonSelectorLabel" : {"en" : "Lesson:", "he" : "שיעור:", "ru" : "Урок:", "es"  : "Lección:", "pt" : "Lição:"},

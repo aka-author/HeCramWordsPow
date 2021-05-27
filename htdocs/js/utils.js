@@ -472,5 +472,3 @@ function camelizeParams(params) {
 	
 	return camelizedParams;
 }
-
-console.log("----------", escape("корова лошадь собака !@#$%^&**()"));

@@ -440,31 +440,34 @@ class WordspaceFactory {
 	
 	// Entire import procedure
 	
-	setReporter(reporter) {
+	getProcessReporter() {
+		return this.reporter;
+	}
+	
+	setProcessReporter(reporter) {
 		this.reporter = reporter;
 	}
 	
-	report(message) {
-		this.reporter.reportProcessInfo(message);
+	report(strId) {
+		
+		let reporter = this.getProcessReporter();
+		
+		if(reporter) {
+			let msgId = reporter.appendMessageFromI18n(strId);
+			reporter.showMessage(msgId);
+		}
 	}
 	
 	importWordspace() {
 	
-		this.report("Languages");
+		this.report("loadingParsing");
+	
 		this.importLangs();
-		
-		this.report("General properties...");
 		this.importGeneral();
-		
-		this.report("Parts of speach...");
 		this.importPartsOfSpeach();
-		
-		this.report("Subject domain tags...");
-		this.importTags();
-		
-		this.report("Dictionary records...");
+		this.importTags();		
 		this.importDicEntries();
-		
+			
 		console.log(this.wordspace);
 		
 		return this;
