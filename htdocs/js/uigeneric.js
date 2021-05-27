@@ -131,7 +131,6 @@ class Selector extends UiControl {
 	}
 	
 	restoreUiControlValue(hash) {
-		console.log('::: ', hash);
 		return this.hashes ? this.hashes[hash] : undefined;
 	}
 	
@@ -140,7 +139,6 @@ class Selector extends UiControl {
 		let optionElement = document.createElement("option");
 			
 		let hash = this.hash(this.assembleDomObjectValue(uiControlValue));
-		console.log("---", hash);
 		this.storeHash(uiControlValue, hash);
 		
 		optionElement.setAttribute("value", hash);

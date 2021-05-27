@@ -97,7 +97,6 @@ class MainPage extends Bureaucrat {
 	}
 	
 	setCurrUiLang(lang) {		
-		console.log("000", lang);
 		
 		let langCode = lang.getCode();
 		this.currUiLangCode = this.isUiLangAvailable(langCode) ? langCode : "en";

@@ -220,9 +220,7 @@ class RemoteDataset {
 	finishLoad() {
 			
 		this.setAppError(this.loadResp.getAppError());
-		
-		console.log("========= resp: ", this.loadResp);
-		
+				
 		if(this.loadResp.getAppErrorCode() == ERR_OK) {
 			let rawData = this.loadResp.getPayload();
 			let parseResp = this.parseRawData(rawData);
@@ -234,7 +232,6 @@ class RemoteDataset {
 		}
 
 		if(this.onLoad) this.onLoad(this.loadResp);
-		
 	}
 	
 }

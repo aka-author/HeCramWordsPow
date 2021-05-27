@@ -17,22 +17,6 @@ class Game extends Bureaucrat {
 		let config = this.getUserConfig();
 
 		this.mainPage = null;
-						
-		/*this.ws = this.useWordspaceFromGdocs();
-		let wsId = this.getWordspaceId();
-
-		this.currLevelCode = config.getLevelCode(wsId);		
-		this.currLessonNo = config.getLessonNo(wsId);
-		
-		this.currPartOfSpeachCode = config.getPosCode(wsId);
-
-		this.currRiddleLangCode = this.getDefaultBaseLangCode();
-		this.currGuessLangCode = this.getTargetLangCode();
-		
-		this.setCurrRiddleLang(config.getRiddleLangCode(wsId));
-		this.setCurrGuessLang(config.getGuessLangCode(wsId));
-		
-		this.currFilter = this.ws.assembleLessonNoFilter("all");*/
 	}		
 	
 	// Getting ready
@@ -41,7 +25,7 @@ class Game extends Bureaucrat {
 		return this.wb ? this.wb.isLoaded() : false;
 	}
 	
-	getReady() {
+	startGettingReady() {
 		
 		let wssFactory = new WorkbookFactory();
 		wssFactory.createWorkbook(this.getWordspaceAccessParams());
@@ -50,17 +34,14 @@ class Game extends Bureaucrat {
 		
 		this.wb = wssFactory.getWorkbook();
 		this.wb.setReporter(this.getApp().getProcessReporter());
-		this.wb.setOnLoad(proceed);
+		this.wb.setOnLoad(playGame);
 
 		this.wb.auth();
 		this.wb.startLoad();
-		
 	}
 	
 	useWordspaceFromGdocs() {
-				
-		console.log("--", this.wb);		
-				
+								
 		let wsf = new WordspaceFactory(this.wb);
 		wsf.setProcessReporter(this.getApp().getProcessReporter());
 		
@@ -71,14 +52,12 @@ class Game extends Bureaucrat {
 		return ws;
 	}
 	
-	finishSetup() {
+	finishGettingReady() {
 	
 		let config = this.getApp().getLocalUserConfig();
 		
 		this.ws = this.useWordspaceFromGdocs();
-		
-		console.log("-----WS: ", this.ws);
-		
+				
 		let wsId = this.getWordspaceId();
 
 		this.currLevelCode = config.getLevelCode(wsId);		
@@ -93,7 +72,6 @@ class Game extends Bureaucrat {
 		this.setCurrGuessLang(config.getGuessLangCode(wsId));
 		
 		this.currFilter = this.ws.assembleLessonNoFilter("all");
-		
 	}
 	
 	
@@ -236,7 +214,6 @@ class Game extends Bureaucrat {
 	setCurrLevel(levelCode) {
 		this.currLevelCode = levelCode;
 		this.rebuildCurrFilter();
-		console.log("level code ", levelCode);
 		this.getUserConfig().setLevelCode(this.getWordspaceId(), levelCode);
 	}
 	

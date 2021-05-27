@@ -395,8 +395,6 @@ class SimpleGoogleWorkbook extends Workbook {
 		
 		this.reportSheet(sheetName);
 
-		console.log(sheetName);
-
 		let resp = new AppResponse();
 		
 		let xmlHttp = new XMLHttpRequest();
@@ -457,15 +455,11 @@ class SimpleGoogleWorkbook extends Workbook {
 		
 		
 		function doWithSheet(timestamp) {
-			
-			console.log("?????", sheetIdx, sheetNames.length);
-			
+						
 			if(sheetIdx < sheetNames.length) {
 				
 				let sheetResp = thisDataSet.retrieveSheetRawJson(sheetNames[sheetIdx]);
-			
-				console.log(sheetResp);	
-			
+						
 				if(sheetResp.getAppErrorCode() == ERR_OK)
 					sheets[sheetNames[sheetIdx]] = sheetResp.getPayload();
 				
@@ -477,28 +471,8 @@ class SimpleGoogleWorkbook extends Workbook {
 				thisDataSet.setLoadRequestComplete();
 
 		}
-		
-		//while(sheetIdx < sheetNames.length);
-		
-		console.log("!!!!!");
-		
+				
 		let tmp = window.requestAnimationFrame(doWithSheet);
-		
-		console.log(tmp);
-
-		console.log("!!!!!");
-		
-		/* for(let sheetIdx in sheetNames) {
-							
-			let sheetResp = this.retrieveSheetRawJson(sheetNames[sheetIdx]);
-			
-			if(sheetResp.getAppErrorCode() == ERR_OK)
-				sheets[sheetNames[sheetIdx]] = sheetResp.getPayload();
-		} */
-						
-		//let resp = new AppResponse(this.sheets, error);
-		
-		//return resp;
 	}
 		
 	createBlankSheet(sheetName) {

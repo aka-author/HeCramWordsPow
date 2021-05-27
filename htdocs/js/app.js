@@ -200,14 +200,18 @@ class Application extends Bureaucrat {
 		this.loadLocalUserConfig();
 		
 		this.game = new Game(this);
-		this.game.getReady();
-		//setTimeout(waitForWorkbookGotLoaded, 1000);
-		
-		//this.game.play();
+		this.game.startGettingReady();
 	}
 	
-	setupMainPage() {
+	playGame() {
+		
+		let game = getGlobalApp().getGame();
+		
+		game.finishGettingReady();
+		
 		this.mainPage = new MainPage(this);
+		
+		game.play();
 	}
 	
 	quit() {
@@ -230,29 +234,12 @@ function getGlobalApp() {
 }	
 
 
-function proceed() {
-
-	console.log("We proceed");
-
-	let game = getGlobalApp().getGame();
-	game.finishSetup();
-	getGlobalApp().setupMainPage();
-	game.play();
-
-	
-	/*
-	if(game.isReady()) { 
-		console.log("1111111");
-		game.finishSetup();
-		game.play();
-	}	
-	else
-		setTimeout(waitForWorkbookGotLoaded, 1000);
-	*/
+function playGame() {
+	getGlobalApp().playGame();
 }
 
 
-function playGame() {
+function runApp() {
 	
 	GLOBAL_app = new Application();
 	
@@ -260,11 +247,11 @@ function playGame() {
 	let msgId = reporter.appendMessageFromI18n("loadingWordspace");
 	reporter.showMessage(msgId);
 	
-	setTimeout(function() {GLOBAL_app.run();}, 1000);	
+	GLOBAL_app.run();	
 }
 
 
-function quitGame() {
+function quitApp() {
 	GLOBAL_app.quit();
 }
 
