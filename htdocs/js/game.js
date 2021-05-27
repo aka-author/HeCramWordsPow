@@ -18,7 +18,67 @@ class Game extends Bureaucrat {
 
 		this.mainPage = null;
 						
+		/*this.ws = this.useWordspaceFromGdocs();
+		let wsId = this.getWordspaceId();
+
+		this.currLevelCode = config.getLevelCode(wsId);		
+		this.currLessonNo = config.getLessonNo(wsId);
+		
+		this.currPartOfSpeachCode = config.getPosCode(wsId);
+
+		this.currRiddleLangCode = this.getDefaultBaseLangCode();
+		this.currGuessLangCode = this.getTargetLangCode();
+		
+		this.setCurrRiddleLang(config.getRiddleLangCode(wsId));
+		this.setCurrGuessLang(config.getGuessLangCode(wsId));
+		
+		this.currFilter = this.ws.assembleLessonNoFilter("all");*/
+	}		
+	
+	// Getting ready
+	
+	isReady() {
+		return this.wb ? this.wb.isLoaded() : false;
+	}
+	
+	getReady() {
+		
+		let wssFactory = new WorkbookFactory();
+		wssFactory.createWorkbook(this.getWordspaceAccessParams());
+		
+		console.log("access: ", this.getWordspaceAccessParams());
+		
+		this.wb = wssFactory.getWorkbook();
+		this.wb.setReporter(this.getApp().getProcessReporter());
+		this.wb.setOnLoad(proceed);
+
+		this.wb.auth();
+		this.wb.startLoad();
+		
+	}
+	
+	useWordspaceFromGdocs() {
+				
+		console.log("--", this.wb);		
+				
+		let wsf = new WordspaceFactory(this.wb);
+		wsf.setProcessReporter(this.getApp().getProcessReporter());
+		
+		let ws = wsf.importWordspace().getWordspace();
+				
+		this.subjectDomainTagRecords = ws.getSubjectDomainTagRecords();
+		
+		return ws;
+	}
+	
+	finishSetup() {
+	
+		let config = this.getApp().getLocalUserConfig();
+		
 		this.ws = this.useWordspaceFromGdocs();
+		
+		console.log("-----WS: ", this.ws);
+		
 		let wsId = this.getWordspaceId();
 
 		this.currLevelCode = config.getLevelCode(wsId);		
@@ -33,7 +93,8 @@ class Game extends Bureaucrat {
 		this.setCurrGuessLang(config.getGuessLangCode(wsId));
 		
 		this.currFilter = this.ws.assembleLessonNoFilter("all");
-	}		
+		
+	}
 	
 	
 	// Managing wordspace access parametrs
@@ -49,31 +110,7 @@ class Game extends Bureaucrat {
 	
 	// Managing a wordspace
 	
-	useWordspaceFromGdocs() {
-				
-		let reporter = this.getApp().getProcessReporter();
-
-		let wssFactory = new WorkbookFactory();
-		wssFactory.createWorkbook(this.getWordspaceAccessParams());
-		
-		console.log("access: ", this.getWordspaceAccessParams());
-		
-		
-		let gdoc = wssFactory.getWorkbook();
-		gdoc.setReporter(reporter);
-
-		gdoc.auth();
-		gdoc.load();
-		
-		let wsf = new WordspaceFactory(gdoc);
-		wsf.setProcessReporter(reporter);
-		
-		let ws = wsf.importWordspace().getWordspace();
-				
-		this.subjectDomainTagRecords = ws.getSubjectDomainTagRecords();
-		
-		return ws;
-	}
+	
 	
 	getWordspace() {
 		return this.ws;

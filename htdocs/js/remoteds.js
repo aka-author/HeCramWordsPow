@@ -67,6 +67,10 @@ class RemoteDataset {
 		this.authData = null;
 		this.content = new Array();
 		this.reporter = null;
+		this.timeout = 60*1000;
+		this.checkStatusTime = 1000;
+		this.loadRequestComplete = false;
+		this.onLoad = null;
 	}
 	
 	getId() {
@@ -101,6 +105,14 @@ class RemoteDataset {
 		this.authData = authData;
 	}
 	
+	getCheckStatusTime() {
+		return this.checkStatusTime;
+	}
+	
+	setCheckStatusTime(msec) {
+		this.checkStatusTime = msec;
+	}
+	
 	getAppError() {
 		return this.appError;
 	}
@@ -127,6 +139,10 @@ class RemoteDataset {
 	
 	setProcessReporter(processReporter) {
 		this.reporter = processReporter;
+	}
+	
+	setOnLoad(func) {
+		this.onLoad = func;
 	}
 	
 	isAuthorized() {
@@ -161,37 +177,64 @@ class RemoteDataset {
 		return this;
 	}
 	
+	isLoadRequestComplete() {
+		return this.loadRequestComplete;
+	}
+	
+	setLoadRequestComplete() {
+		this.loadRequestComplete = true;
+	}
+	
 	sendLoadRequest() {
-		return new AppResponse();
+		this.setLoadRequestComplete();
 	}
 	
 	parseRawData(rawData) {
 		return new AppResponse();
 	}
 	
-	load() {
+	startLoad() {
+		
+		this.loadResp = new AppResponse();
+		
+		let thisDataSet = this;
+		let checkStatusTime = this.getCheckStatusTime();
+		
+		function checkStatus() {
+			if(thisDataSet.isLoadRequestComplete())
+				thisDataSet.finishLoad();
+			else
+				setTimeout(checkStatus, checkStatusTime);
+		}
 		
 		if(this.isAuthorized()) {
-			
-			let loadResp = this.sendLoadRequest();
-			this.setAppError(loadResp.getAppError());
-			
-			if(loadResp.getAppErrorCode() == ERR_OK) {
-				let rawData = loadResp.getPayload();
-				let parseResp = this.parseRawData(rawData);
-				this.setAppError(parseResp.getAppError());
-				if(parseResp.getAppErrorCode() == ERR_OK) {
-					let content = parseResp.getPayload();
-					this.setContent(content);
-				}	
-			}	
-		}
+			setTimeout(checkStatus, checkStatusTime);
+			this.sendLoadRequest();
+		}	
 		else {
 			let appError = new AppError(ERR_AUTH_FAILURE);
 			this.setAppError(appError);
-		}	
+		}
+	}
+	
+	finishLoad() {
+			
+		this.setAppError(this.loadResp.getAppError());
 		
-		return this;
+		console.log("========= resp: ", this.loadResp);
+		
+		if(this.loadResp.getAppErrorCode() == ERR_OK) {
+			let rawData = this.loadResp.getPayload();
+			let parseResp = this.parseRawData(rawData);
+			this.setAppError(parseResp.getAppError());
+			if(parseResp.getAppErrorCode() == ERR_OK) {
+				let content = parseResp.getPayload();
+				this.setContent(content);
+			}	
+		}
+
+		if(this.onLoad) this.onLoad(this.loadResp);
+		
 	}
 	
 }

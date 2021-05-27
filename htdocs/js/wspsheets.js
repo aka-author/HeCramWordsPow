@@ -383,6 +383,8 @@ class SimpleGoogleWorkbook extends Workbook {
 		
 		this.gdocId = gdocId;
 		this.tocSheetRawJson = null;
+		
+		this.loaded = false;
 	}
 
 	getGdocId() {
@@ -433,28 +435,70 @@ class SimpleGoogleWorkbook extends Workbook {
 		reporter.showMessage(msgId);
 	}
 
+	isLoaded() {
+		return this.loaded;
+	}
+	
 	sendLoadRequest() {
 				
 		let error = new AppError(ERR_OK);
 		
 		let sheetNames = this.retrieveSheetNames();
-		
-		let sheets = new Array();
-		
+				
+		this.loadResp.payload = {};	
+		let sheets = this.loadResp.payload;
+
 		if(this.tocSheetRawJson)
 			sheets["TOC"] = this.tocSheetRawJson;
 		
-		for(let sheetIdx in sheetNames) {
+		let sheetIdx = 0; 
+		
+		let thisDataSet = this;
+		
+		
+		function doWithSheet(timestamp) {
+			
+			console.log("?????", sheetIdx, sheetNames.length);
+			
+			if(sheetIdx < sheetNames.length) {
+				
+				let sheetResp = thisDataSet.retrieveSheetRawJson(sheetNames[sheetIdx]);
+			
+				console.log(sheetResp);	
+			
+				if(sheetResp.getAppErrorCode() == ERR_OK)
+					sheets[sheetNames[sheetIdx]] = sheetResp.getPayload();
+				
+				sheetIdx++;
+				
+				window.requestAnimationFrame(doWithSheet);
+			}
+			else
+				thisDataSet.setLoadRequestComplete();
+
+		}
+		
+		//while(sheetIdx < sheetNames.length);
+		
+		console.log("!!!!!");
+		
+		let tmp = window.requestAnimationFrame(doWithSheet);
+		
+		console.log(tmp);
+
+		console.log("!!!!!");
+		
+		/* for(let sheetIdx in sheetNames) {
 							
 			let sheetResp = this.retrieveSheetRawJson(sheetNames[sheetIdx]);
 			
 			if(sheetResp.getAppErrorCode() == ERR_OK)
 				sheets[sheetNames[sheetIdx]] = sheetResp.getPayload();
-		}
-			
-		let resp = new AppResponse(sheets, error);
+		} */
+						
+		//let resp = new AppResponse(this.sheets, error);
 		
-		return resp;
+		//return resp;
 	}
 		
 	createBlankSheet(sheetName) {
