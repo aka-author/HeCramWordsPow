@@ -405,3 +405,36 @@ class PrintCardsButton extends Button {
 	}
 
 }
+
+
+class ExternalLinkInput extends UiControl {
+	
+	onChange() {
+	
+		console.log("!!!");
+	
+		let externalLink = this.getUiControlValue();
+		
+		let gdocId = substringBefore(substringAfter(externalLink,"/d/"), "/");
+		
+		let nakarLink = "http://www.cramwords.com?src_id=gdocs&wsp_id=" + gdocId;
+		
+		let nakarLinkA = document.getElementById("extlinkLinkA");
+		
+		nakarLinkA.innerHTML = nakarLink;
+		nakarLinkA.setAttribute("href", nakarLink);
+		
+	} 
+}
+
+
+class ExternalLinkCopyButton extends Button {
+
+	getPressed() {
+		let nakarLinkA = document.getElementById("extlinkLinkA");
+		console.log(nakarLinkA);
+		let promise = navigator.clipboard.writeText(nakarLinkA.textContent);
+	}
+
+}
+

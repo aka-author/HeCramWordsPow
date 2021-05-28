@@ -53,7 +53,10 @@ class MainPage extends Bureaucrat {
 		
 		this.setCurrUiLang(this.getUiLang(this.getUserConfig().getUiLangCode()));
 		
-		this.printCardsButton = new PrintCardsButton(this, "printButton");		
+		this.printCardsButton = new PrintCardsButton(this, "printButton");	
+
+		this.externalLinkInput = new ExternalLinkInput(this, "extlinkInput");
+        this.externalLinkCopyButton = new ExternalLinkCopyButton(this, "extlinkCopyButtonImg");		
 	}		
 		
 	

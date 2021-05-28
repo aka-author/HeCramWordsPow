@@ -61,6 +61,10 @@ var GLOBAL_UIStrings = {
 	                    "he" : "מילון Pealim בעברית:", 
 						"ru" : "Исходная таблица:", 
 						"es" : "Tabla de origen:", 
-						"pt" : "Tabela de origem:"}
+						"pt" : "Tabela de origem:"},
 						
+	"extlinkHeader" : {"en" : "Use Your Own Wordspace", "he" : "השתמש במרחב המילים שלך", "es" : "Usa tu propio espacio de palabras", "pt" : "Use seu próprio espaço de palavras", "ru" : "Подключите свой словарь"},	
+    "extlinkSourceLabel" : {"en" : "Source table link", "he" : "קישור לטבלת המקור", "es" : "Enlace de la tabla de origen", "pt" : "Link da tabela de origem", "ru" : "Ссылка на исходную таблицу"},	
+    "extlinkLinkLabel" : {"en" : "Wordspace link", "he" : "קישור שטח מילים", "es" : "Enlace de espacio de palabras", "pt" : "Link de espaço de palavras", "ru" : "Ссылка на словарь"}
+	
 };
