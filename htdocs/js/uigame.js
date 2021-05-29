@@ -409,9 +409,14 @@ class PrintCardsButton extends Button {
 
 class ExternalLinkInput extends UiControl {
 	
-	onChange() {
+	setLink(url) {
+		console.log(url);
+		let nakarLinkA = document.getElementById("extlinkLinkA");
+		nakarLinkA.innerHTML = url;
+		nakarLinkA.setAttribute("href", url);
+	}
 	
-		console.log("!!!");
+	onChange() {
 	
 		let externalLink = this.getUiControlValue();
 		
@@ -419,12 +424,19 @@ class ExternalLinkInput extends UiControl {
 		
 		let nakarLink = "http://www.cramwords.com?src_id=gdocs&wsp_id=" + gdocId;
 		
-		let nakarLinkA = document.getElementById("extlinkLinkA");
-		
-		nakarLinkA.innerHTML = nakarLink;
-		nakarLinkA.setAttribute("href", nakarLink);
-		
+		this.setLink(nakarLink);
 	} 
+}
+
+
+class ExternalLinkClearButton extends Button {
+
+	getPressed() {		
+		let input = this.getChief().externalLinkInput;
+		input.setUiControlValue("");
+		input.getDomObject().focus();
+		input.setLink("");
+	}
 }
 
 
@@ -432,9 +444,9 @@ class ExternalLinkCopyButton extends Button {
 
 	getPressed() {
 		let nakarLinkA = document.getElementById("extlinkLinkA");
-		console.log(nakarLinkA);
-		let promise = navigator.clipboard.writeText(nakarLinkA.textContent);
+		let promise = navigator.clipboard ? 
+						navigator.clipboard.writeText(nakarLinkA.textContent) : 
+						null;
 	}
-
 }
 

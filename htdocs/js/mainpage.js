@@ -56,6 +56,7 @@ class MainPage extends Bureaucrat {
 		this.printCardsButton = new PrintCardsButton(this, "printButton");	
 
 		this.externalLinkInput = new ExternalLinkInput(this, "extlinkInput");
+		this.externalLinkClearButton = new ExternalLinkClearButton(this, "extlinkClearImg");
         this.externalLinkCopyButton = new ExternalLinkCopyButton(this, "extlinkCopyButtonImg");		
 	}		
 		
