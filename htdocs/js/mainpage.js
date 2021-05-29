@@ -51,13 +51,16 @@ class MainPage extends Bureaucrat {
 		this.wordListSwitch = new WordListSwitch(this, "wordListSwitchSpan");
 		this.wordList = new WordList(this, "wordListDiv");
 		
+		this.createLongreads();	
+
 		this.setCurrUiLang(this.getUiLang(this.getUserConfig().getUiLangCode()));
 		
 		this.printCardsButton = new PrintCardsButton(this, "printButton");	
 
 		this.externalLinkInput = new ExternalLinkInput(this, "extlinkInput");
 		this.externalLinkClearButton = new ExternalLinkClearButton(this, "extlinkClearImg");
-        this.externalLinkCopyButton = new ExternalLinkCopyButton(this, "extlinkCopyButtonImg");		
+        this.externalLinkCopyButton = new ExternalLinkCopyButton(this, "extlinkCopyButtonImg");
+
 	}		
 		
 	
@@ -113,6 +116,8 @@ class MainPage extends Bureaucrat {
 		this.getI18n().loadLocalLabels(document, this.currUiLangCode);
 		this.localizeSubjectDomainTagCloud(this.currUiLangCode);
 		this.uiLangSelector.setUiControlValue(lang);
+		
+		this.update();
 
 		this.getUserConfig().setUiLangCode(this.currUiLangCode);
 	}
@@ -190,6 +195,29 @@ class MainPage extends Bureaucrat {
 		this.subjectDomainTagCloud.showLocalWordings(langCode);
 	}
 	
+	
+	// Longreads 
+	
+	assembleLongreadUrl(localPath) {
+		return "/cramwords/topics/{lang_code}/" + localPath;
+	}		
+	
+	createLongreads() {
+	
+		this.aboutPage = new Longread(this, "aboutUsLongreadDiv", 
+			this.assembleLongreadUrl("about.html"));
+			
+		this.partnerPage = new Longread(this, "partnerLongreadDiv", 
+			this.assembleLongreadUrl("partner.html"));
+
+		this.docsPage = new Longread(this, "techdocLongreadDiv", 
+			this.assembleLongreadUrl("techdoc.html"));
+
+		this.helpPage = new Longread(this, "helpLongreadDiv", 
+			this.assembleLongreadUrl("help.html"));		
+		
+		//this.aboutPage.update();
+	}
 	
 	// Game
 	

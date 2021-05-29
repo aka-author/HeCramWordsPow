@@ -88,11 +88,6 @@ class Bureaucrat {
 									   this.getChief().getCurrBaseLangCode();
 	}
 	
-	getProcessReporter() {
-		return this.reporter ? this.reporter : 
-		                       this.getChief().getProcessReporter();
-	}
-	
 	setProcessReporter(processReporter) {
 		this.reporter = processReporter;
 	}
@@ -111,11 +106,19 @@ class Bureaucrat {
 					null;
 	}
 	
-	reportFromI18n(strId, substs=null) {
-		let reporter = this.getProcessReporter();		
-		let msgId = reporter.appendMessageFromI18n(strId, substs);
-		reporter.showMessage(msgId);
-		return msgId;
+	isDirectSubordinate(bureaucrat) {
+		return bureaucrat.getChief().getId() == this.getId();
+	}
+	
+	getDirectSubordinates() {
+		
+		let directSubordinates = [];
+		
+		for(let subIdx in this.subordinates) 
+			if(this.isDirectSubordinate(this.subordinates[subIdx].subordinate))
+				directSubordinates.push(this.subordinates[subIdx].subordinate);
+			
+		return directSubordinates;	
 	}
 	
 	doMyself(methodName, argsObject) {
@@ -156,5 +159,47 @@ class Bureaucrat {
 		
 		return result;
 	}
+	
+	checkUpdateAgenda(agenda, stuff) {
+		return true;
+	}
+	
+	createUpdateStuff() {
+		return {};
+	}
+	
+	startUpdate(agenda, stuff) {
+	}
+	
+	finishUpdate(agenda, stuff) {	
+	}
 
+	update(agenda, _stuff=null) {
+		
+		let stuff = useful(_stuff, this.createUpdateStuff());
+		
+		if(this.checkUpdateAgenda(agenda, stuff)) {
+		
+			this.startUpdate(agenda, stuff);
+
+			let directSubordinates = this.getDirectSubordinates();
+			
+			for(let subIdx in directSubordinates)
+				directSubordinates[subIdx].update(agenda, stuff);
+
+			this.finishUpdate(agenda, stuff);
+		}
+	}
+	
+	getProcessReporter() {
+		return this.reporter ? this.reporter : 
+		                       this.getChief().getProcessReporter();
+	}
+	
+	reportFromI18n(strId, substs=null) {
+		let reporter = this.getProcessReporter();		
+		let msgId = reporter.appendMessageFromI18n(strId, substs);
+		reporter.showMessage(msgId);
+		return msgId;
+	}
 }
