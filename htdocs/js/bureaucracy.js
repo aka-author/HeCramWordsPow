@@ -6,6 +6,9 @@
 // Func:	Abstract object-to-object interaction     (^.^)
 //* * ** *** ***** ******** ************* *********************
 
+const BUR_TYPE_CODE_GENERIC = "generic";
+
+
 class Bureaucrat {
 	
 	constructor(chief, id=undefined) {
@@ -13,6 +16,8 @@ class Bureaucrat {
 		this.chief = chief;
 		
 		this.id = id;
+		
+		this.setType();
 		
 		this.userConfig = null;
 		this.i18n = null;
@@ -22,7 +27,7 @@ class Bureaucrat {
 		this.app = null;
 		
 		this.subordinates = new Array();
-		this.subordinatesByIds = new Array();
+		this.subordinatesById = new Array();
 		
 		if(chief)
 			chief.registerSubordinate(this);
@@ -36,6 +41,14 @@ class Bureaucrat {
 		return this.id;
 	}
 	
+	getType() {
+		return this.typeCode;
+	}
+	
+	setType(typeCode=undefined) {
+		this.typeCode = useful(typeCode, BUR_TYPE_CODE_GENERIC);
+	}
+	
 	registerSubordinate(subordinate) {
 		
 		let id = subordinate.getId();
@@ -45,7 +58,7 @@ class Bureaucrat {
 		this.subordinates.push(regRec);
 		
 		if(id)
-			this.subordinatesByIds[id] = subordinate;
+			this.subordinatesById[id] = subordinate;
 		
 		let chief = this.getChief();
 		if(chief)
@@ -100,9 +113,17 @@ class Bureaucrat {
 		return this.app ? this.app : this.getChief().getApp();
 	}
 	
+	countSubordinates() {
+		return this.subordinates.length;
+	}
+	
+	getSubordinateByNo(idx) {
+		return this.subordinates[idx].subordinate;
+	}
+	
 	getSubordinateById(id) {
-		return this.subordinatesByIds[id] ? 
-					this.subordinatesByIds[id] : 
+		return this.subordinatesById[id] ? 
+					this.subordinatesById[id] : 
 					null;
 	}
 	
@@ -114,9 +135,13 @@ class Bureaucrat {
 		
 		let directSubordinates = [];
 		
-		for(let subIdx in this.subordinates) 
-			if(this.isDirectSubordinate(this.subordinates[subIdx].subordinate))
-				directSubordinates.push(this.subordinates[subIdx].subordinate);
+		for(let i = 0; i < this.countSubordinates(); i++) {
+			
+			let subordinate = this.getSubordinateByNo(i);
+			
+			if(this.isDirectSubordinate(subordinate))
+						directSubordinates.push(subordinate);
+		}	
 			
 		return directSubordinates;	
 	}

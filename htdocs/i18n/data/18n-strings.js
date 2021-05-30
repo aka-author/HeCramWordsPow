@@ -63,8 +63,32 @@ var GLOBAL_UIStrings = {
 						"es" : "Tabla de origen:", 
 						"pt" : "Tabela de origem:"},
 						
-	"extlinkHeader" : {"en" : "Use Your Own Wordspace", "he" : "השתמש במרחב המילים שלך", "es" : "Usa tu propio espacio de palabras", "pt" : "Use seu próprio espaço de palavras", "ru" : "Подключите свой словарь"},	
-    "extlinkSourceLabel" : {"en" : "Source table link", "he" : "קישור לטבלת המקור", "es" : "Enlace de la tabla de origen", "pt" : "Link da tabela de origem", "ru" : "Ссылка на исходную таблицу"},	
-    "extlinkLinkLabel" : {"en" : "Wordspace link", "he" : "קישור שטח מילים", "es" : "Enlace de espacio de palabras", "pt" : "Link de espaço de palavras", "ru" : "Ссылка на словарь"}
+	"extlinkHeader" : {"en" : "Start Using Your Own Wordspace", 
+	                   "he" : "השתמש במרחב המילים שלך", 
+					   "es" : "Usa tu propio espacio de palabras", 
+					   "pt" : "Use seu próprio espaço de palavras", 
+					   "ru" : "Подключите свой словарь"},
+					   
+	
+	"extlinkCreateTableLabel" : {
+		"en" : "1. Create your wordspace spreadsheet", 
+		"he" : "צור את הגיליון האלקטרוני שלך במרחב", 
+		"es" : "1. Crea tu hoja de cálculo de espacio de palabras", 
+		"pt" : "1. Crie sua planilha de espaço de palavras", 
+		"ru" : "1. Подготовьте свою словарную таблицу"},		
+								   	   
+    "extlinkSourceLabel" : {
+		"en" : "2. Paste a link on your spreadsheet into the field", 
+		"he" : "הדבק קישור לשולחן שלך בשדה", 
+		"es" : "2. Pegue un enlace en su tabla en el campo", 
+		"pt" : "2. Cole um link da sua tabela no campo", 
+		"ru" : "2. Вставьте ссылку на вашу таблицу это поле"},
+							
+    "extlinkLinkLabel" : {
+		"en" : "3. Follow the link below or copy it", 
+		"he" : "עקוב אחר הקישור למטה או העתק אותו", 
+		"es" : "3. Siga el enlace a continuación o cópielo", 
+		"pt" : "3. Siga o link abaixo ou copie-o", 
+		"ru" : "3. Перейдите по ссылке или скопируйте ее"}
 	
 };

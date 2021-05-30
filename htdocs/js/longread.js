@@ -6,11 +6,16 @@
 // Func:	Publishing static HTML content         (^.^)
 //* * ** *** ***** ******** ************* *********************
 
+const BUR_TYPE_CODE_LONGREAD = "longread";
+
+
 class Longread extends Bureaucrat {
 
 	constructor(chief, id, url) {
 		
 		super(chief, id);
+		
+		this.setType(BUR_TYPE_CODE_LONGREAD);
 		
 		this.url = url;
 	}
@@ -37,15 +42,11 @@ class Longread extends Bureaucrat {
 		let containerDomObject = this.getDomObject();
 		
 		function updateContainerDomObject(html) {
-			
 			containerDomObject.innerHTML = html;
-			
-			console.log("--- ", containerDomObject);
-			console.log(html);
 		}
 		
-		function processResponseBody(response) {
-			response.text().then(function(html) {updateContainerDomObject(html)});
+		function processResponseBody(response) {			
+			response.text().then(updateContainerDomObject);
 		}
 	
 		fetch(requestUrl).then(processResponseBody);

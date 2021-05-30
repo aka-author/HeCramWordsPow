@@ -83,7 +83,7 @@ class MainPage extends Bureaucrat {
 	fetchUiLangs() {
 		return new Factor(new Lang("en", "English"),
 					      new Lang("es", "Española"),
-					      new Lang("he", "עברית"),
+					      //new Lang("he", "עברית"),
 					      new Lang("pt", "Português"),
 					      new Lang("ru", "Русский"));
 	}
@@ -204,6 +204,9 @@ class MainPage extends Bureaucrat {
 	
 	createLongreads() {
 	
+		this.createWordsheet = new Longread(this, "extlinkCreateTableProcDiv",
+			this.assembleLongreadUrl("create-wordsheet.html"))
+	
 		this.aboutPage = new Longread(this, "aboutUsLongreadDiv", 
 			this.assembleLongreadUrl("about.html"));
 			
@@ -214,9 +217,7 @@ class MainPage extends Bureaucrat {
 			this.assembleLongreadUrl("techdoc.html"));
 
 		this.helpPage = new Longread(this, "helpLongreadDiv", 
-			this.assembleLongreadUrl("help.html"));		
-		
-		//this.aboutPage.update();
+			this.assembleLongreadUrl("help.html"));				
 	}
 	
 	// Game
