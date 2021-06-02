@@ -87,8 +87,6 @@ class Game extends Bureaucrat {
 	
 	// Managing a wordspace
 	
-	
-	
 	getWordspace() {
 		return this.ws;
 	}

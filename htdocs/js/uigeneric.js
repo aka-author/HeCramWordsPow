@@ -488,9 +488,169 @@ class TagCloud extends UiControl {
 //  Sections
 //
 
+
+const SCT_HEADER_ALWAYS_VISIBLE = 0;
+const SCT_VISIBLE_WHEN_COLLAPSED = 1;
+const SCT_EXPANDED = "exp";
+const SCT_COLLAPSED = "col";
+
+
+class SectionClicker extends UiControl {
+	
+	constructor(chief, id) {
+	
+		super(chief, id);
+		
+		this.collapsedImgPath = "img/glaz-otkr.svg";
+		this.expandedImgPath = "img/glaz-zakr.svg";
+	}
+
+	isCollapsed() {
+		return this.getChief().isCollapsed();
+	}
+	
+	isExpanded() {
+		return this.getChief().isExpanded();
+	}
+	
+	getCollapsedImg() {
+		return this.collapsedImgPath;
+	}
+	
+	setCollapsedImg(imgPath) {
+		this.collapsedImgPath = imgPath;
+	}
+	
+	getExpandedImg() {
+		return this.expandedImgPath;
+	}
+	
+	setExpandedImg(imgPath) {
+		this.expandedImgPath = imgPath;
+	}
+	
+	getCollapsed() {
+		this.getDomObject().src = getCollapsedImg();
+	}
+		
+	getExpanded() {
+		this.getDomObject().src = getExpandedImg();
+	}
+
+	onChange() {
+		this.getChief().onChange();
+	}		
+	
+}
+
+
 class SectionHeader extends UiControl {
+	
+	isCollapsed() {
+		return this.getChief().isCollapsed();
+	}
+	
+	isExpanded() {
+		return this.getChief().isExpanded();
+	}
+		
+	getExpanded() {
+	}
+	
+	update() {
+	}
+	
 }
 
 
 class Section extends UiControl {
+	
+	constructor(chief, id, clickerId, headerId, contentAreaId) {
+	
+		super(chief, id);
+		
+		this.clickerId = clickerId;
+		this.headerId = headerId;
+		this.contentAreaId = contentAreaId;
+		
+		this.clicker = this.assembleClicker();
+		this.header = this.assembleHeader();
+		this.contentArea = this.assembleContentArea();
+		
+		this.headerVisibilityMode = SCT_HEADER_ALWAYS_VISIBLE;
+	}
+	
+	getClickerId() {
+		return this.clickerId;
+	}
+	
+	getHeaderId() {
+		return this.headerId;
+	}
+	
+	getContentAreaId() {
+		return this.contentAreaId;
+	}
+	
+	assembleClicker() {
+		return new SectionClicker(this, this.getClickerId());
+	}
+	
+	assembleHeading() {
+		return new SectionHeader(this, this.getHeaderId());
+	}
+	
+	assembleContentArea() {
+		return new SectionContentArea(this, this.getContentAreaId());
+	}
+	
+	getHeaderVisibilityMode(mode) {
+		return this.headerVisibilityMode; 
+	}
+	
+	setHeaderVisibilityMode(mode) {
+		this.headerVisibilityMode = mode; 
+	}
+	
+	isCollapsed() {
+		return this.getDomObject().style.display == "none";
+	}
+	
+	isExpanded() {
+		return this.getDomObject().style.display != "none";
+	}
+	
+	getUiControlValue() {
+		return this.isExpanded() ? SCT_EXPANDED : SCT_COLLAPSED;
+	}
+	
+	setUiControlValue(value) {
+		let tmp = value == SCT_EXPANDED ? this.expand() : this.collapse();
+	}
+	
+	collapse() {
+		
+		this.clicker.getCollapsed();
+		
+		this.header.getCollapsed();
+		if(this.getHeaderVisibilityMode() == SCT_VISIBLE_WHEN_COLLAPSED)
+			this.header.show();
+
+		this.contentArea.hide();
+	}
+	
+	expand() {
+		
+		this.clicker.getExpanded();
+		
+		this.header.getExpanded();
+		if(this.getHeaderVisibilityMode() == SCT_VISIBLE_WHEN_COLLAPSED)
+			this.header.hide();
+		
+		this.contentArea.show();
+	}
+	
+	onChange() {
+		this.isCollapsed() ? this.expand() : this.collapse();
+	}
 }
