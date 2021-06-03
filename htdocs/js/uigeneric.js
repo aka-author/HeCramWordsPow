@@ -501,16 +501,8 @@ class SectionClicker extends UiControl {
 	
 		super(chief, id);
 		
-		this.collapsedImgPath = "img/glaz-otkr.svg";
-		this.expandedImgPath = "img/glaz-zakr.svg";
-	}
-
-	isCollapsed() {
-		return this.getChief().isCollapsed();
-	}
-	
-	isExpanded() {
-		return this.getChief().isExpanded();
+		this.collapsedImgPath = "img/ain-patoh.svg";
+		this.expandedImgPath = "img/ain-sagur.svg";
 	}
 	
 	getCollapsedImg() {
@@ -528,13 +520,35 @@ class SectionClicker extends UiControl {
 	setExpandedImg(imgPath) {
 		this.expandedImgPath = imgPath;
 	}
+
+	isCollapsed() {
+		return this.getChief().isCollapsed();
+	}
+	
+	isExpanded() {
+		return this.getChief().isExpanded();
+	}
+	
+	getDomImg() {
+		
+		let img = null;
+	
+		let container = this.getDomObject();
+		
+		if(container.tagNamw == "img") 
+			img = container;
+		else 
+			img = container.children[0];
+	
+		return img;
+	}
 	
 	getCollapsed() {
-		this.getDomObject().src = getCollapsedImg();
+		this.getDomImg().src = this.getCollapsedImg();
 	}
 		
 	getExpanded() {
-		this.getDomObject().src = getExpandedImg();
+		this.getDomImg().src = this.getExpandedImg();
 	}
 
 	onChange() {
@@ -550,6 +564,9 @@ class SectionHeader extends UiControl {
 		return this.getChief().isCollapsed();
 	}
 	
+	getCollapsed() {
+	}
+	
 	isExpanded() {
 		return this.getChief().isExpanded();
 	}
@@ -560,6 +577,12 @@ class SectionHeader extends UiControl {
 	update() {
 	}
 	
+}
+
+
+class SectionContentArea extends UiControl {
+	
+	// This class is formal so far
 }
 
 
@@ -596,11 +619,12 @@ class Section extends UiControl {
 		return new SectionClicker(this, this.getClickerId());
 	}
 	
-	assembleHeading() {
+	assembleHeader() {
 		return new SectionHeader(this, this.getHeaderId());
 	}
 	
 	assembleContentArea() {
+		console.log(this.getContentAreaId(), document.getElementById(this.getContentAreaId()));
 		return new SectionContentArea(this, this.getContentAreaId());
 	}
 	
@@ -613,7 +637,7 @@ class Section extends UiControl {
 	}
 	
 	isCollapsed() {
-		return this.getDomObject().style.display == "none";
+		return this.contentArea.getDomObject().style.display == "none";
 	}
 	
 	isExpanded() {

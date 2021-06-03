@@ -22,6 +22,8 @@ class MainPage extends Bureaucrat {
 		this.createMainGroupOfPanes();
 		this.wordsMainMenuItem.onSwitch();
 		
+		this.createSections();
+		
 		this.levelSelector = new LevelSelector(this, "levelSelectorSelect");
 		this.lessonSelector = new LessonSelector(this, "lessonSelectorSelect");
 		this.riddleLangSelector = new RiddleLangSelector(this, "riddleLangSelectorSelect");
@@ -83,7 +85,6 @@ class MainPage extends Bureaucrat {
 	fetchUiLangs() {
 		return new Factor(new Lang("en", "English"),
 					      new Lang("es", "Española"),
-					      //new Lang("he", "עברית"),
 					      new Lang("pt", "Português"),
 					      new Lang("ru", "Русский"));
 	}
@@ -196,6 +197,24 @@ class MainPage extends Bureaucrat {
 	}
 	
 	
+	// Sections
+	
+	createSections() {
+	
+		this.subjectDomainTagsSection = new Section(this, 
+			"subjectDomainSectionDiv", "subjectDomainSectionClickerDiv", 
+			"subjectDomainSectionHeaderDiv", "subjectDomainContentAreaDiv");
+			
+		this.gamingSection = new Section(this, 
+			"gamingSectionDiv", "gamingSectionClickerDiv", 
+			"gamingSectionHeaderDiv", "gamingSectionContentAreaDiv");	
+	
+		this.wordListSection = new Section(this, 
+			"wordListSectionDiv", "wordListSectionClickerDiv", 
+			"wordListSectionHeaderDiv", "wordListSectionContentAreaDiv");	
+	}
+	
+	
 	// Longreads 
 	
 	assembleLongreadUrl(localPath) {
@@ -219,6 +238,7 @@ class MainPage extends Bureaucrat {
 		this.helpPage = new Longread(this, "helpLongreadDiv", 
 			this.assembleLongreadUrl("help.html"));				
 	}
+	
 	
 	// Game
 	
