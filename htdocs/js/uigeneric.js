@@ -233,6 +233,7 @@ class GroupOfPanes extends UiControl {
 		this.getFrontPane().show();
 		this.getFrontPaneLabel().sendFront();
 	}
+	
 }
 
 

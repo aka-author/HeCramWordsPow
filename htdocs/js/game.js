@@ -536,6 +536,11 @@ class Game extends Bureaucrat {
 		mp.subjectDomainTagsSection.setUiControlValue(config.getWordspaceConfigParam(wspId, CFG_SCT_TAGS));
 		mp.gamingSection.setUiControlValue(config.getWordspaceConfigParam(wspId, CFG_SCT_GAMING));
 		mp.wordListSection.setUiControlValue(config.getWordspaceConfigParam(wspId, CFG_SCT_WORD_LIST));
+		
+		this.getMainPage().mainGroupOfPanes.show();
+		document.getElementById("contentHeaderDiv").style.display = "";
+		document.getElementById("footerDiv").style.display = "";
+		
 	}
 	
 	setupPage() {
