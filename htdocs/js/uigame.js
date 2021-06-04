@@ -108,6 +108,8 @@ class SubjectDomainTagsSection extends Section {
 	constructor(chief) {
 		super(chief, "subjectDomainSectionDiv", "subjectDomainSectionClickerDiv", 
 			"subjectDomainSectionHeaderDiv", "subjectDomainContentAreaDiv");
+			
+		this.setHeaderVisibilityMode(SCT_VISIBLE_WHEN_COLLAPSED);	
 	}
 	
 	getWordspaceConfigParams() {
@@ -123,7 +125,9 @@ class GamingSection extends Section {
 	constructor(chief) {
 	
 		super(chief, "gamingSectionDiv", "gamingSectionClickerDiv", 
-			"gamingSectionHeaderDiv", "gamingSectionContentAreaDiv");		
+			"gamingSectionHeaderDiv", "gamingSectionContentAreaDiv");	
+
+		this.setHeaderVisibilityMode(SCT_VISIBLE_WHEN_COLLAPSED);		
 	}
 
 	getWordspaceConfigParams() {
@@ -141,12 +145,12 @@ class WordListSection extends Section {
 
 		super(chief, "wordListSectionDiv", "wordListSectionClickerDiv", 
 			"wordListSectionHeaderDiv", "wordListSectionContentAreaDiv");	
+			
+		this.setHeaderVisibilityMode(SCT_VISIBLE_WHEN_COLLAPSED);	
 	}
 	
 	getWordspaceConfigParams() {
 		let params = {};
-		
-		console.log('=====', this.getUiControlValue());
 		params[CFG_SCT_WORD_LIST] = this.getUiControlValue();
 		return params;
 	}
@@ -464,7 +468,6 @@ class PrintCardsButton extends Button {
 class ExternalLinkInput extends UiControl {
 	
 	setLink(url) {
-		console.log(url);
 		let nakarLinkA = document.getElementById("extlinkLinkA");
 		nakarLinkA.innerHTML = url;
 		nakarLinkA.setAttribute("href", url);

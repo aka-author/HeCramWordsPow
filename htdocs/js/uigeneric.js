@@ -626,7 +626,6 @@ class Section extends UiControl {
 	}
 	
 	assembleContentArea() {
-		console.log(this.getContentAreaId(), document.getElementById(this.getContentAreaId()));
 		return new SectionContentArea(this, this.getContentAreaId());
 	}
 	

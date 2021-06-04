@@ -39,9 +39,9 @@ var GLOBAL_UIStrings = {
 	"partOfSpeachSelectorSelect__conjunction" : {"en" : "Conjunction", "he" : "צירוף", "ru" : "Союз", "es"  : "Conjunción", "pt" : "Conjunção"},
 	"partOfSpeachSelectorSelect__other" : {"en" : "Other", "he" : "אַחֵר", "ru" : "Прочее", "es"  : "Otro", "pt" : "Outro"},
 	
-	"subjectDomainCloudSwitchLabel" : {"en" : "Subject Domain Tags", "he" : "תגי תחום נושא", "ru" : "Слова по темам", "es"  : "Etiquetas de dominio de asunto", "pt" : "Tags de domínio do assunto"},
-	"gamingLabel" : {"en" : "Cramming the Selected Words", "he" : "לימוד המילים שנבחרו", "es"  : "Aprendiendo las palabras seleccionadas", "pt" : "Aprendendo as palavras selecionadas", "ru" : "Повторение выбранных слов"},
-	"wordListLabel" : {"en" : "Selected Words", "he" : "המילים שנבחרו", "es"  : "Las palabras seleccionadas", "pt" : "As palavras selecionadas", "ru" : "Выбранные слова"},
+	"subjectDomainCloudSwitchLabel" : {"en" : "Subject Domain Tags", "he" : "תגי תחום נושא", "es"  : "Etiquetas de dominio de asunto", "pt" : "Tags de domínio do assunto", "ru" : "Отбор слов"},
+	"gamingLabel" : {"en" : "Cramming the Selected Words", "he" : "לימוד המילים שנבחרו", "es"  : "Aprendiendo las palabras seleccionadas", "pt" : "Aprendendo as palavras selecionadas", "ru" : "Повторение отобранных слов"},
+	"wordListLabel" : {"en" : "Selected Words", "he" : "המילים שנבחרו", "es"  : "Las palabras seleccionadas", "pt" : "As palavras selecionadas", "ru" : "Список отобранных слов"},
 	
 	"uiLangSelectorLabel" : {"en" : "User interface language", "he" : "שפת ממשק", "ru" : "Язык интерфейса", "es" : "Lenguaje de interfaz", "pt" : "Idioma da interface"},
 	

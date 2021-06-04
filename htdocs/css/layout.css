@@ -17,8 +17,8 @@
 	--h2-font-size:						16pt;
 	--h3-font-size:						12pt;
 	
-	--header-margin-bottom:				40px;
-	--footer-margin-top:				80px;
+	--header-margin-bottom:				20px;
+	--footer-margin-top:				40px;
 	
 	--content-margin-left:         		15vw;
 	--content-margin-right:          	15vw;
@@ -26,9 +26,10 @@
 	
 	--logo-img-width:					9vw;
 	
-	--section-margin-top:				20px;
-	--section-margin-bottom:			20px;
+	--section-margin-top:				15px;
+	--section-margin-bottom:			15px;
 	--section-header-height:			40px;
+	--section-content-margin-top:		10px;
 	
 	--func-block-margin-top:       		15px;
 	--func-block-margin-bottom:    		15px;
@@ -49,7 +50,8 @@
 /* Generic elements */
 
 body {
-	font-family: sans-serif;
+	overflow-x: 	hidden;
+	font-family: 	sans-serif;
 }
 
 div.genericPageContent {
@@ -210,7 +212,7 @@ div.sectionHeader {
 }
 
 div.sectionContentArea {
-	margin-top:		var(--func-block-margin-top);
+	margin-top:		var(--section-content-margin-top); 
 }
 
 
@@ -343,18 +345,18 @@ div.sectionContentArea {
 /* Browsing word */
 
 #wordAreaDiv {
-	min-height: 	100px;
+	min-height: 	80px;
 	margin-bottom: 	var(--func-block-margin-bottom);
 	border-radius: 	var(--area-border-radius);
-	padding: 		20pt;
+	padding: 		15pt;
 	text-align: 	center;
 	vertical-align: middle;
 	background: 	var(--playground-back);
-	font-size: 		76px;
+	font-size: 		60px;
 }
 
 #mnemoPhraseAreaDiv {
-	font-size: 		40px;
+	font-size: 		32px;
 }
 
 span.hebrewWordInMnemoPhrase {
