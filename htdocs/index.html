@@ -5,40 +5,26 @@
 		
 		<meta charset="utf-8"/>
 		
-		<link rel="stylesheet" href="css/layout.css">
-		
-		<!-- Fetching a static dictionary (legacy) -->
-		<script src="data/heru.js"></script>
-			
-		<!-- Fetching an on-line dictionary from a Google spreadsheet -->
-		<!--
-		<script src="js/fetchwords.js"></script>
-		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Nouns"></script>
-		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Adjectives"></script>
-		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Verbs"></script>
-		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Adverbs"></script>
-		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Pronouns"></script>
-		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Prepositions"></script>
-		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Conjunctions"></script>
-		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Other"></script>
-		-->
-		
-		<!-- Fetching service sheets -->
-		<!--
-		<script src="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M/gviz/tq?tqx=out:json&sheet=Tags"></script>
-		-->
+		<link rel="stylesheet" 
+		      href="css/layout.css">
 		
 		<!-- The gaming code -->
 		<script src="js/utils.js"></script>
 		<script src="js/setops.js"></script>
+		<script src="js/formalsplit.js"></script>
 		<script src="js/comparator.js"></script>
+		<script src="js/procrep.js"></script>
+		<script src="js/bureaucracy.js"></script>
+		<script src="js/longread.js"></script>
 		<script src="js/remoteds.js"></script>
+		<script src="js/wssfactory.js"></script>
 		<script src="js/wspsheets.js"></script>
 		<script src="js/index.js"></script>
 		<script src="js/filter.js"></script>
-		<script src="js/bureaucracy.js"></script>
 		<script src="js/config.js"></script>
+		<script src="js/factor.js"></script>
 		<script src="js/lang.js"></script>
+		<script src="js/pos.js"></script>
 		<script src="langs/en/js/en.js"></script>
 		<script src="langs/he/js/he.js"></script>
 		<script src="langs/ru/js/ru.js"></script>
@@ -65,32 +51,40 @@
 		</script>	
 		-->
 	</head>
-	<body onload="playGame()">
+	<body onload="runApp()" 
+	      onunload="quitApp()">
 
-		<div id="pageHeader">
+
+		<!-- 
+			Page header 
+		-->
+		
+		<div id="pageHeaderDiv">
 			
 			<!-- Logo -->	
-			<div>
-				<img src="img/nakar-actual-size.svg" id="nakarlogo" alt="אנחנו דולבידים" title="אנחנו דולבידים">
-			</div>
+			<div id="logoDiv">
+				<img id="logoImg"
+					 src="img/nakar-actual-size.svg"	
+				     alt="אנחנו דולבידים" 
+					 title="אנחנו דולבידים">
+			</div> <!-- Logo -->
 			
-			<!-- Entire main menu block -->
-			<div id="mainMenuBlockDiv">
+			<!-- Content header -->
+			<div id="contentHeaderDiv">
 			
-				<!-- Learning scope -->
-				<div id="currScopeOfLearning">
+				<div id="scopeOfLearningDiv">
 				
-					<!-- Wordspace selecting controls -->
-					<div id="currWordspaceSelectorDiv">
-						<span id="currWordspaceSelectorSpan">&nbsp;Hebrew Ulpan&nbsp;</span>
+					<div id="wordspaceTitleDiv">
+						<span id="wordspaceTitleSpan">&nbsp;Hebrew Ulpan&nbsp;</span>
 					</div> 
 					
-					<!-- Level, lesson -->
-					<div id="currScopeOfLearningDetailsDiv">
+					<div id="scopeOfLearningDetailsDiv">
 					
 						<label id="levelSelectorLabel">Level:</label>
-						<select value="alef" id="levelSelectorSelect">
-							<option value="alef">א</option>
+						<select 
+							name="levelSelectorSelect" 
+							id="levelSelectorSelect"
+							onchange="GLOBAL_app.process(this.id, 'onChange')">
 						</select>
 						
 						<label id="lessonSelectorLabel">Lesson:</label>
@@ -101,10 +95,9 @@
 						
 					</div>
 					
-				</div> <!-- /Learning scope -->
+				</div> 
 				
-				<!-- Main menu items  -->
-				<div id="mainMenuLineDiv">
+				<div id="mainMenuDiv">
 				
 					<span id="wordsMenuItemSpan" 
 						  class="mainMenuItem" 
@@ -118,135 +111,312 @@
 						  class="mainMenuItem"
 						  onclick="GLOBAL_app.process(this.id, 'onSwitch')">Service</span>
 					
-				</div> <!-- /Main menu items  -->
+				</div> 
 				
-			</div>
-		</div> <!-- Page header -->
-	
-		<!-- Working area -->
-		<div id="mainGroupOfPanesDiv">
-		
-			<div id="wordsPaneDiv" style="display: " class="mainPaneDiv">
+			</div> <!-- Content header -->
 			
-				<form>
+		</div> <!-- Page header -->
+		
+		
+		<!-- 
+			Process reporter
+		-->
+		
+		<div id="processReporterDiv">
+			
+		</div>
+			
+			
+		<!-- 
+			Panes
+		-->	
+			
+		<div id="contentArea">
+			
+			<!-- 
+				Working and playing with words
+			-->	
+			
+			<div id="wordsPaneDiv" 
+				 style="display: " 
+				 class="mainPaneDiv"> 
+						
+				<div id="gameModeAreaDiv">
 				
-					<div id="gameAreaDiv">
-					
-						<div id="gameModeArea">
+					<div id="fromToSelectorsArea">
 						
-							<!-- Selecting a mode of a game  -->
-							<div id="fromToSelectorsArea">
-								
-								<select id="riddleLangSelectorSelect" 
-										onchange="GLOBAL_app.process(this.id, 'onChange')">
-								</select>
-								<span id="fromToArrowSpan">&#9654;</span>
-								<select id="guessLangSelectorSelect"
-										onchange="GLOBAL_app.process(this.id, 'onChange')">
-								</select>	
+						<select id="riddleLangSelectorSelect" 
+								onchange="GLOBAL_app.process(this.id, 'onChange')">
+						</select>
+						
+						<span id="fromToArrowSpan">&#9654;</span>
+						
+						<select id="guessLangSelectorSelect"
+								onchange="GLOBAL_app.process(this.id, 'onChange')">
+						</select>	
 
-								<label id="partOfSpeachSelectorLabel">Part of speach:</label>
-								<select id="partOfSpeachSelectorSelect"
-										onchange="GLOBAL_app.process(this.id, 'onChange')">
-									<option value="all" id="partOfSpeachSelectorSelect__all">All</option>
-									<option value="nouns" id="partOfSpeachSelectorSelect__noun">Noun</option>
-									<option value="adjectives" id="partOfSpeachSelectorSelect__adjective">Adjective</option>
-									<option value="verbs" id="partOfSpeachSelectorSelect__verb">Verb</option>
-									<option value="adverbs" id="partOfSpeachSelectorSelect__adverb">Adverb</option>
-									<option value="prepositions" id="partOfSpeachSelectorSelect__preposition">Preposition</option>
-									<option value="pronouns" id="partOfSpeachSelectorSelect__pronoun">Pronoun</option>
-									<option value="conjunctions" id="partOfSpeachSelectorSelect__conjunction">Conjunction</option>
-									<option value="other" id="partOfSpeachSelectorSelect__other">Other</option>
-								</select>
-									
-							</div>	
+						<label id="partOfSpeachSelectorLabel">Part of speach:</label>
 						
-						</div>
-
-						<!-- Cloud of tags -->
-						
-						<!--
-						<div id="subjectDomainCloudSwitchDiv"
-							 onclick="GLOBAL_app.process(this.id, 'onChange')">[-]</div>
-						-->	 
-						<div id="subjectDomainCloudSwitchDiv"
-							 onclick="GLOBAL_app.process(this.id, 'onChange')"><img id="subjectDomainCloudSwitchImg" src="img/ain-sagur.svg" class="showHideImg"> <label id="subjectDomainCloudSwitchLabel" class="showHideLabel">Subject domain tags</label></div>
-						<div id="subjectDomainCloudDiv"></div>
-						
-						<!-- Displaying content (questions, answrs, etc.) -->
-						<div id="wordAreaDiv">					
-							<div id="questionAreaDiv" style="display:">Word</div>
-							<div id="answerAreaDiv" style="display: none"></div>
-							<div id="promptAreaDiv" style="display: none"></div>
-							<div id="mnemoPhraseAreaDiv" style="display: none"></div>
-						</div>
-						
-						<!-- Performing game activities -->
-						<div id="userActionPaneDiv">
-							<img src="img/targum70x70.png" 
-								 id="giveUpButtonImg" 
-								 onclick="GLOBAL_app.process(this.id, 'getPressed')">
-							<img src="img/menora70x70.png" 
-								 id="showPromptButtonImg"
-								 onclick="GLOBAL_app.process(this.id, 'getPressed')">						 
-							<img src="img/kadima70x70.png" 
-								 id="takeNextQuestionButtonImg"
-								 onclick="GLOBAL_app.process(this.id, 'getPressed')">
-						</div>
-						
-					</div>
-					
-				</form>
-				
-				<div id="wordListBlockDiv">
-					<div id="wordListHeadlineDiv">
-						<span id="wordListSwitchSpan"
-							  onclick="GLOBAL_app.process(this.id, 'onChange')"><img id="wordListSwitchImg" src="img/ain-patoh.svg" class="showHideImg"></span> <label id="wordListLabel" class="showHideLabel">List of words</label>	
+						<select id="partOfSpeachSelectorSelect"
+								onchange="GLOBAL_app.process(this.id, 'onChange')">
+							<option value="all" 
+									id="partOfSpeachSelectorSelect__all">All</option>
+						</select>
+							
 					</div>	
-					<div id="wordListSubBlockDiv" style="display: none">
-						<div id="wordListDiv"></div>
-						<div id="printButton" onclick="GLOBAL_app.process(this.id, 'getPressed')"><img id="printButtonImg" src="img/madpeset50x50.png"></div>
+				
+				</div>
+					
+					
+				<!-- 
+					Subject domains 
+				-->
+								
+				<div id="subjectDomainSectionDiv" 
+					 class="section">
+				
+					<div id="subjectDomainSectionClickerDiv" 
+						 class="sectionClicker" 
+						 onclick="GLOBAL_app.process(this.id, 'onChange')">
+						<img id="subjectDomainSectionClickerImg" 
+							 src="img/ain-sagur.svg"
+							 class="sectionClicker">
+					</div> <!-- section clicker -->
+				
+					<div id="subjectDomainBodyDiv"
+						 class="sectionBody">
+					
+						<div id="subjectDomainSectionHeaderDiv"
+							 class="sectionHeader">
+							<label id="subjectDomainCloudSwitchLabel" 
+								   class="sectionLabel">Subject Domain Tags</label>
+						</div> <!-- section header -->
+				
+						<div id="subjectDomainContentAreaDiv" 
+							 class="sectionContentArea">
+							<div id="subjectDomainCloudDiv"></div> 
+						</div> <!-- section content -->	
+						
+					</div> <!-- section body -->
+					
+				</div> <!-- section -->	
+					
+					
+				<!-- 
+					Browsing words 
+				-->
+				
+				<div id="gamingSectionDiv" 
+					 class="section">
+				
+					<div id="gamingSectionClickerDiv" 
+						 class="sectionClicker"
+						 onclick="GLOBAL_app.process(this.id, 'onChange')">
+						<img id="gamingSectionClickerImg" 
+							 src="img/ain-sagur.svg"
+							 class="sectionClicker">
+					</div> <!-- clicker -->
+				
+					<div id="gamingSectionBodyDiv"
+						 class="sectionBody">
+					
+						<div id="gamingSectionHeaderDiv" 
+							 class="sectionHeader"><label id="gamingLabel" 
+														  class="sectionLabel">Cramming the Selected Words</label></div>
+					
+						<div id="gamingSectionContentAreaDiv"
+							 class="sectionContentArea">
+					
+							<div id="wordAreaDiv">					
+								<div id="questionAreaDiv" 
+									 style="display:">Word</div>
+								<div id="answerAreaDiv" 
+									 style="display: none"></div>
+								<div id="promptAreaDiv" 
+									 style="display: none"></div>
+								<div id="mnemoPhraseAreaDiv" 
+									 style="display: none"></div>
+							</div>
+							
+							<!-- Performing game activities -->
+							<div id="userActionPaneDiv">
+								<img src="img/targum70x70.png" 
+									 id="giveUpButtonImg" 
+									 onclick="GLOBAL_app.process(this.id, 'getPressed')">
+								<img src="img/menora70x70.png" 
+									 id="showPromptButtonImg"
+									 onclick="GLOBAL_app.process(this.id, 'getPressed')">						 
+								<img src="img/kadima70x70.png" 
+									 id="takeNextQuestionButtonImg"
+									 onclick="GLOBAL_app.process(this.id, 'getPressed')">
+							</div>
+						
+						</div> <!-- section content -->
+					
+					</div> <!-- section body -->
+					
+				</div> <!-- section -->
+							
+							
+				<!-- 
+					Word list 
+				-->		
+				
+				<div id="wordListSectionDiv" 
+					 class="section">
+				
+					<div id="wordListSectionClickerDiv" 
+						 class="sectionClicker"
+						 onclick="GLOBAL_app.process(this.id, 'onChange')">
+						<img id="gamingSectionClickerImg" 
+							 src="img/ain-sagur.svg"
+							 class="sectionClicker">
 					</div>
+				
+					<div id="wordListBodyDiv"
+						 class="sectionBody">
+					
+						<div id="wordListSectionHeaderDiv"
+							 class="sectionHeader">
+							<label id="wordListLabel" 
+								   class="sectionLabel">The Selected Words</label>	
+						</div>
+						
+						<div id="wordListSectionContentAreaDiv"
+							 class="sectionContentArea">
+						
+							<div id="wordListDiv"></div>
+							
+							<div id="printButtonDiv" 
+								 class=""
+								 onclick="GLOBAL_app.process(this.id, 'getPressed')">
+								<img id="printButtonImg" 
+									 src="img/madpeset50x50.png">
+							</div>
+						
+						</div> <!-- section content -->
+						
+					</div> <!-- section body -->
+					
+				</div> <!-- section -->	
+				
+			</div> <!-- Pane -->	
+				
+			<div id="textsPaneDiv" 
+				 style="display: none" 
+				 class="mainPaneDiv">
+				<div class="genericPageContent">
+					<img src="img/coming-soon01.jpg" 
+						 width="33%" 
+						 style="margin: 30pt;">
+				</div>
+			</div>
+				
+			<div id="servicePaneDiv" 
+				 style="display: none" 
+				 class="mainPaneDiv">
+				<div class="genericPageContent">
+					<form>
+						
+						<h1 id="extlinkHeader">Use Your Own Wordspace</h1>
+								
+						<div id="extlinkCreateTableDiv">
+							
+							<h2 id="extlinkCreateTableLabel">Create your table</h2>
+							<div id="extlinkCreateTableProcDiv">
+							</div> 
+							
+						</div>
+								
+						<div id="extlinkSrcDiv">
+							<h2 id="extlinkSourceLabel">Link you a source table</h2>
+							<p>
+								<select id="extlinkSrcIdSelector">
+									<option value="googleDocs">Google Spreadsheet</option>
+								</select>
+							</p>
+							<p>
+								<input id="extlinkInput" 
+									   oninput="GLOBAL_app.process(this.id, 'onChange'); event.stopPropagation();">
+								<img id="extlinkClearImg" 
+									 src="img/delete.jpg"
+									 onclick="GLOBAL_app.process(this.id, 'getPressed')">
+							</p>	 
+						</div>
+						
+						<div id="extlinkLinkDiv">
+							<h2><label id="extlinkLinkLabel">Wordspace link:</label></h2>
+							<div>
+								<span id="extlinkLinkSpan"><a id="extlinkLinkA" 
+															  href="" 
+															  target="_new"></a></span>
+								<img id="extlinkCopyButtonImg" 
+									 src="img/icon-copy.png" 
+									 onclick="GLOBAL_app.process(this.id, 'getPressed')">
+							</div>	
+						</div>
+									
+					</form>
 				</div>
 				
+			</div>
 				
-				
+			<div id="aboutUsPaneDiv" 
+				 style="display: none" 
+				 class="mainPaneDiv">
+				<div class="genericPageContent">
+					<div id="aboutUsLongreadDiv"></div>
+					<p id="aboutCramwordsP"></p>
+					<p>E-mail: <a href="mailto:info@cramwords.com">info@cramwords.com</a></p>
+					<p>Fax: +97237618197*</p>
+				</div>	
 			</div>
 			
-			<div id="textsPaneDiv" style="display: none" class="mainPaneDiv">
-				<div><img src="img/coming-soon01.jpg" width="33%" style="margin: 30pt;"></div>
+			<div id="partnerPaneDiv" 
+				 style="display: none" 
+				 class="mainPaneDiv">
+				<div class="genericPageContent">
+					<div id="partnerLongreadDiv">
+						<img src="img/coming-soon01.jpg" 
+							 width="33%" 
+							 style="margin: 30pt;">
+					</div>
+				</div>	
 			</div>
 			
-			<div id="servicePaneDiv" style="display: none" class="mainPaneDiv">
-				<p><span id="pealimLinkSpan">Pealim Hebrew dictionary:</span>&nbsp;<a href="http://pealim.com" target="_blank">http://pealim.com</a>.</p>
-				<p><span id="sourceTableSpan">Source table:</span>&nbsp;<a target="_blank" href="https://docs.google.com/spreadsheets/d/1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M">Google Docs</a>.</p>
+			<div id="techdocPaneDiv" 
+				 style="display: none" 
+				 class="mainPaneDiv">
+				<div class="genericPageContent">
+					<div id="techdocLongreadDiv">
+						<img src="img/coming-soon01.jpg" 
+							 width="33%" 
+							 style="margin: 30pt;">
+					</div>
+				</div>
 			</div>
 			
-			<div id="aboutUsPaneDiv" style="display: none" class="mainPaneDiv">
-				<h2 id="aboutUsH2">About Us</h2>
-				<p id="aboutCramwordsP"></p>
-				<p>E-mail: <a href="mailto:info@cramwords.com">info@cramwords.com</a></p>
-				<p>Fax: +97237618197*</p>
+			<div id="helpPaneDiv" 
+				 style="display: none" 
+				 class="mainPaneDiv">
+				<div class="genericPageContent">
+					<div id="helpLongreadDiv">
+						<img src="img/coming-soon01.jpg" 
+							 width="33%" 
+							 style="margin: 30pt;">
+					</div>
+				</div>
 			</div>
-			
-			<div id="partnerPaneDiv" style="display: none" class="mainPaneDiv">
-				<div><img src="img/coming-soon01.jpg" width="33%" style="margin: 30pt;"></div>
-			</div>
-			
-			<div id="techdocPaneDiv" style="display: none" class="mainPaneDiv">
-				<div><img src="img/coming-soon01.jpg" width="33%" style="margin: 30pt;"></div>
-			</div>
-			
-			<div id="helpPaneDiv" style="display: none" class="mainPaneDiv">
-				<div><img src="img/coming-soon01.jpg" width="33%" style="margin: 30pt;"></div>
-			</div>
-			
-		</div>	<!-- /Main group of panes -->
 		
-		<!-- Footer -->
+		<div> <!-- Content area -->
+		
+		
+		<!-- 
+			Footer
+		-->
+			
 		<div id="footerDiv">
 			
-			<!-- Footer menu -->
 			<div id="footerMenuDiv">
 			
 				<span id="aboutUsMenuItemSpan" 
@@ -265,22 +435,21 @@
 					  class="footerMenuItem"
 					  onclick="GLOBAL_app.process(this.id, 'onSwitch')">Help</span>		
 					  
-			</div> <!-- /Footer menu -->	  
-			  
-			<!-- UI language selector  -->
+			</div>   
+				  
 			<div id="uiLangSeletorDiv">
 				<label id="uiLangSelectorLabel">User interface language</label>
 				<select id="uiLangSelectorSelect"
 						onchange="GLOBAL_app.process(this.id, 'onChange')"></select>
-			</div> <!-- /UI language selector  -->			  
+			</div> 		  
 
-		</div> <!-- /Footer -->
-		
-		<!-- Verinfo -->
-		<div id="sysVersionArea">
-			<p>&copy; <a target="_blank" href="https://www.linkedin.com/in/mikhail-ostrogorskij-22b2b5/">Mikhail Ostrogorskiy</a>, 2021.</p>
-			<p>v. 1.1.02a, 2021-04-05</p>
-		</div> <!-- /Verinfo -->
+			<div id="sysVersionAreaDiv">
+				<p>&copy; <a target="_blank" 
+				             href="https://www.linkedin.com/in/mikhail-ostrogorskij-22b2b5/">Mikhail Ostrogorskiy</a>, 2021.</p>
+				<p>v. 1.1.02a, 2021-04-05</p>
+			</div> 
+			
+		</div> <!-- Footer -->
 		
 	</body>
 </html>

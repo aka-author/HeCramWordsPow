@@ -20,6 +20,8 @@ class Bureaucrat {
 		this.setType();
 		
 		this.userConfig = null;
+		this.configSystemParamNames = [];
+		this.configWordspaceParamNames = [];
 		this.i18n = null;
 		this.reporter = null;
 		this.mainPage = null;
@@ -72,6 +74,42 @@ class Bureaucrat {
 	
 	getUserConfig() {
 		return this.getProperty("userConfig");
+	}
+	
+	getWordspaceConfigParamNames() {
+		return this.wordspaceConfigParamNames;
+	}
+	
+	setWordspaceConfigParamNames() {
+		this.wordspaceConfigParamNames = [...arguments];
+	}
+	
+	getWordspaceConfigParams() {
+		
+		let configParams = {};
+		
+		let paramNames = this.getWordspaceConfigParamNames();
+		
+		for(let paramNameIdx in paramNames) {
+			let paramName = paramNames[paramNameIdx];
+			configParams[paramName] = this.getProperty(paramName);
+		}	
+	
+		return configParams;
+	}
+	
+	commitConfigParams() {
+		
+		let configParams = this.getWordspaceConfigParams();
+		
+		console.log("-------------", configParams);
+		
+		let wspId = this.getWordspace().getId();
+		
+		let config = this.getUserConfig();
+		
+		for(let paramName in configParams)
+			config.setWordspaceConfigParam(wspId, paramName, configParams[paramName]);		
 	}
 	
 	getI18n() {

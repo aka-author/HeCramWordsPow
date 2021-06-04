@@ -160,7 +160,7 @@ class MainPage extends Bureaucrat {
 	
 	createMainGroupOfPanes() {
 		
-		this.mainGroupOfPanes = new GroupOfPanes(this, "mainGroupOfPanes");
+		this.mainGroupOfPanes = new GroupOfPanes(this, "contentArea");
 		
 		this.wordsPane = new Pane(this.mainGroupOfPanes, "wordsPaneDiv");
 		this.mainGroupOfPanes.appendPane(this.wordsPane, this.wordsMainMenuItem);
@@ -185,6 +185,15 @@ class MainPage extends Bureaucrat {
 	}
 	
 	
+	// Sections
+	
+	createSections() {
+		this.subjectDomainTagsSection = new SubjectDomainTagsSection(this);
+		this.gamingSection = new GamingSection(this);	
+		this.wordListSection = new WordListSection(this);	
+	}
+	
+	
 	// Cloud of tags 
 	
 	setSubjectDomainTags(tagRecords, tagLocalWordings) {		
@@ -194,24 +203,6 @@ class MainPage extends Bureaucrat {
 	
 	localizeSubjectDomainTagCloud(localTags, langCode) {		
 		this.subjectDomainTagCloud.showLocalWordings(langCode);
-	}
-	
-	
-	// Sections
-	
-	createSections() {
-	
-		this.subjectDomainTagsSection = new Section(this, 
-			"subjectDomainSectionDiv", "subjectDomainSectionClickerDiv", 
-			"subjectDomainSectionHeaderDiv", "subjectDomainContentAreaDiv");
-			
-		this.gamingSection = new Section(this, 
-			"gamingSectionDiv", "gamingSectionClickerDiv", 
-			"gamingSectionHeaderDiv", "gamingSectionContentAreaDiv");	
-	
-		this.wordListSection = new Section(this, 
-			"wordListSectionDiv", "wordListSectionClickerDiv", 
-			"wordListSectionHeaderDiv", "wordListSectionContentAreaDiv");	
 	}
 	
 	

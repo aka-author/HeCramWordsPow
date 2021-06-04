@@ -1,95 +1,520 @@
+
+/* Layout core parameters */
+
 :root {
-	--content-left-margin:         		180px;
-	--func-block-top-margin:       		15px;
-	--func-block-top-margin-large: 		30px;
-	--func-block-bottom-margin:    		15px;
-	--last-func-block-bottom-margin:	10%;
+	--heading-lite:						#ffffff;
+	--heading-dark:						#494d5f;
+	--text-look-at-me:					#c60021;
+	--playground-back:					#fcd0c2;
+	--marker-red:                       #ffccdd;
+	--marker-yellow:					#ffff66;	
+	--marker-green:						#ccffdd;
+	--delimiter-lite:					#ffccdd;
+	--modal-dark:						#8076a3;
+	
+	--main-menu-font-size:				20px;
+	--h1-font-size:						18pt;
+	--h2-font-size:						16pt;
+	--h3-font-size:						12pt;
+	
+	--header-margin-bottom:				40px;
+	--footer-margin-top:				80px;
+	
+	--content-margin-left:         		15vw;
+	--content-margin-right:          	15vw;
+	--content-width:					70vw;
+	
+	--logo-img-width:					9vw;
+	
+	--section-margin-top:				20px;
+	--section-margin-bottom:			20px;
+	--section-header-height:			40px;
+	
+	--func-block-margin-top:       		15px;
+	--func-block-margin-bottom:    		15px;
+	--service-func-block-margin-top: 	30px;
 	--area-border-radius:          		10px;
-	--action-button-width:	       		70px;
-	--action-button-height:	       		70px;
-	--action-button-radius:	       		36px;
-	--action-button-margin:	       		35px;
-	--action-button-normal-border: 		2px solid black;
-	--supreme-font-size:           		14pt;
-	--normal-font-size:            		12pt;
-	--service-font-size:           		9pt;
-	--nakar-emphased-color:        		#c60021;
+	
 	--tag-margin-right:			   		0px;
 	--tag-padding:                 		5px;
 	--tag-border-radius:           		5px;
+	
+	--action-button-margin:	       		35px;
+	
+	--service-font-size:           		9pt;
 }
+
+
+/* Generic elements */
 
 body {
 	font-family: sans-serif;
 }
 
-#pageHeader {
-	display: flex;
+div.genericPageContent {
+	margin-left: 	var(--content-margin-left);
+}
+
+
+/* Page header */
+
+#pageHeaderDiv {
+	margin-bottom: 	var(--header-margin-bottom);
 	vertical-align: middle;
+	display: 		inline-flex;
 }
 
-#nakarlogo {
-	width: 150px;
+#logoDiv {
+	width: 			var(--content-margin-left);
 }
 
-#currWordspaceSelectorDiv {
-	font-weight: bold;
-	font-size: 	24pt;
-	
+#logoImg {
+	width: 			var(--logo-img-width);
 }
 
-#currWordspaceSelectorSpan {
-	padding: 5px;
-	border-radius: var(--area-border-radius);
-	background: #494d5f;
-	color: #ffffff;
+#contentHeaderDiv {
+	width:			var(--content-width);
+	min-height:		80pt;
+	position: 		relative;
 }
 
-#currScopeOfLearning {
-	display: 		flex;
-	margin-top: 	15pt;
-	color: 			#494d5f;
+#scopeOfLearningDiv {
+	width:			var(--content-width);
+	display:		inline-flex;
+}
+
+#wordspaceTitleDiv {
+	width:			fit-content;
+	width:			-moz-fit-content;
+	padding: 		5px;
+	border-radius: 	var(--area-border-radius);
+	background: 	var(--heading-dark);
 	font-weight: 	bold;
-	font-size: 	 	18pt;
+	font-size: 		24pt;
+	color: 			var(--heading-lite);
 }
 
-#currScopeOfLearningDetailsDiv {
+#scopeOfLearningDetailsDiv {
 	margin-left: 	1em;
 	font-size: 		14pt;
 }
 
+#levelSelectorLabel {
+	margin-left: 	1em;
+}
+
 #levelSelectorSelect {
-	font-weight: bold;
-	font-size: 	 14pt;
+	font-weight: 	bold;
+	font-size: 	 	14pt;
 }
 
 #lessonSelectorLabel {
-	margin-left: 1em;
+	margin-left: 	1em;
 }
 
 #lessonSelectorSelect {
-	font-weight: bold;
-	font-size: 	 14pt;
+	font-weight: 	bold;
+	font-size: 	 	14pt;
 }
 
-#mainMenuBlockDiv {
-	margin-top: 10px;
-	margin-left: 30px;
-}
-
-#mainMenuLineDiv {
-	margin-top: 40px;
-	margin-bottom: 20px;
+#mainMenuDiv {
+	position: 		absolute;
+    bottom: 		0px;
 }
 
 .mainMenuItem {
-	margin-right: 2em;
-	font-weight: bold;
-	font-size: 20px;
-	text-decoration: underline;
-	cursor: pointer;
-	color: var(--nakar-emphased-color);
+	margin-right: 		2em;
+	font-size: 			var(--main-menu-font-size);
+	font-weight: 		bold;
+	text-decoration: 	underline;
+	color: 				var(--text-look-at-me);
+	cursor:				pointer;
 }
+
+#gameModeAreaDiv {
+	margin-top:		var(--section-margin-top);
+	margin-bottom:	var(--section-margin-bottom);
+	margin-left: 	var(--content-margin-left);
+}
+
+#partOfSpeachSelectorLabel {
+	margin-left: 		10px;
+}
+
+
+/* Process reporter */
+
+#processReporterDiv {
+	position: 		absolute;
+	top: 			15hw;
+	left: 			40vw;
+	width: 			20vw;
+	min-height: 	15hw;
+	color: 			#ffffff;
+	background: 	var(--modal-dark);
+	padding: 		var(--area-border-radius);
+	border-radius:	var(--area-border-radius);
+	box-shadow: 	3px 3px gray;
+}
+
+.processInfo {
+	margin-top: 	3px;
+	margin-bottom: 	3px;
+}
+
+
+/* Sections */
+
+div.section {
+	margin-top:		var(--section-margin-top);
+	margin-bottom:	var(--section-margin-bottom);
+	margin-left: 	var(--content-margin-left);
+	margin-right: 	var(--content-margin-right);
+	width:			var(--content-width);
+	display: 		inline-flex;
+}
+
+div.sectionClicker {
+	display: 		table-cell;
+	margin-left: 	-50px;
+	width: 			50px;
+	height:			var(--section-header-height);
+	cursor: 		pointer;
+}
+
+img.sectionClicker {
+	display: 		inline-block;
+	width: 			40px;
+	height: 		100%;
+	vertical-align:	middle;
+}
+
+div.sectionBody {
+	width: 			var(--content-width);
+}
+
+div.sectionHeader {
+	display: 		table-cell;
+	margin-bottom:	var(--func-block-margin-bottom);
+	height: 		var(--section-header-height);
+	vertical-align:	middle;
+}
+
+.sectionLabel {
+	font-size:		var(--h2-font-size);
+	font-weight:	bold;
+	color: 			var(--heading-dark);
+}
+
+div.sectionContentArea {
+	margin-top:		var(--func-block-margin-top);
+}
+
+
+/* Domain tag cloud */
+
+#subjectDomainCloudDiv {
+	text-align: 	left;
+	line-height: 	24pt;
+}
+
+.tag0 {
+	display: 		none;
+	margin-right: 	var(--tag-margin-right);
+	padding: 		var(--tag-padding);
+	border-radius: 	var(--tag-border-radius);
+	white-space: 	nowrap;
+	cursor: 		pointer;
+	font-size: 		6px;
+}
+
+.tag1 {
+	display: 		none;
+	margin-right: 	var(--tag-margin-right);
+	padding: 		var(--tag-padding);
+	border-radius: 	var(--tag-border-radius);
+	white-space: 	nowrap;
+	cursor: 		pointer;
+	font-size: 		8px;
+}
+
+.tag2 {
+	margin-right: 	var(--tag-margin-right);
+	padding: 		var(--tag-padding);
+	border-radius: 	var(--tag-border-radius);
+	white-space: 	nowrap;
+	cursor: 		pointer;
+	font-size: 		10px;
+}
+
+.tag3 {
+	margin-right: 	var(--tag-margin-right);
+	padding: 		var(--tag-padding);
+	border-radius: 	var(--tag-border-radius);
+	white-space: 	nowrap;
+	cursor: 		pointer;
+	font-size: 		12px;
+}
+
+.tag4 {
+	margin-right: 	var(--tag-margin-right);
+	padding: 		var(--tag-padding);
+	border-radius: 	var(--tag-border-radius);
+	white-space: 	nowrap;
+	cursor: 		pointer;
+	font-size: 		14px;
+}
+
+.tag5 {
+	margin-right: 	var(--tag-margin-right);
+	padding: 		var(--tag-padding);
+	border-radius: 	var(--tag-border-radius);
+	white-space: 	nowrap;
+	cursor: 		pointer;
+	font-size: 		16px;
+}
+
+.tag6 {
+	margin-right: 	var(--tag-margin-right);
+	padding: 		var(--tag-padding);
+	border-radius: 	var(--tag-border-radius);
+	white-space: 	nowrap;
+	cursor: 		pointer;
+	font-size: 		18px;
+}
+
+.tag7 {
+	margin-right: 	var(--tag-margin-right);
+	padding: 		var(--tag-padding);
+	border-radius: 	var(--tag-border-radius);
+	white-space: 	nowrap;
+	cursor: 		pointer;
+	font-size: 		20px;
+}
+
+.tag8 {
+	margin-right: 	var(--tag-margin-right);
+	padding: 		var(--tag-padding);
+	border-radius: 	var(--tag-border-radius);
+	white-space: 	nowrap;
+	cursor: 		pointer;
+	font-size: 		22px;
+}
+
+.tag9 {
+	margin-right: 	var(--tag-margin-right);
+	padding: 		var(--tag-padding);
+	border-radius: 	var(--tag-border-radius);
+	white-space: 	nowrap;
+	cursor: 		pointer;
+	font-size: 		24px;
+}
+
+.tag10 {
+	margin-right: 	var(--tag-margin-right);
+	padding: 		var(--tag-padding);
+	border-radius: 	var(--tag-border-radius);
+	white-space: 	nowrap;
+	cursor: 		pointer;
+	font-size: 		26px;
+}
+
+
+/* Browsing word */
+
+#wordAreaDiv {
+	min-height: 	100px;
+	margin-bottom: 	var(--func-block-margin-bottom);
+	border-radius: 	var(--area-border-radius);
+	padding: 		20pt;
+	text-align: 	center;
+	vertical-align: middle;
+	background: 	var(--playground-back);
+	font-size: 		76px;
+}
+
+#mnemoPhraseAreaDiv {
+	font-size: 		40px;
+}
+
+span.hebrewWordInMnemoPhrase {
+	background: 	#000000;
+	color: 			#000000;
+	font-weight: 	bold;
+}
+
+span.hebrewDisclosedWordInMnemoPhrase {
+	background: 	var(--playground-back);
+	color: 			var(--text-look-at-me);
+	font-weight: 	bold;
+}
+
+#userActionPaneDiv {
+	margin-top:    	var(--func-block-margin-top);
+	text-align:		center;
+}
+
+#giveUpButtonImg {
+	cursor:        pointer;
+}
+
+#showPromptButtonImg {	
+	margin-left:   var(--action-button-margin);
+	margin-right:  var(--action-button-margin);
+	cursor:        pointer;
+}
+
+#takeNextQuestionButtonImg {
+	cursor:        pointer;
+}
+
+
+/* Word list */
+
+#wordListDiv {
+	column-width: 		17em;
+	column-count: 		auto;
+	-moz-column-count: 	2;
+	column-gap:   		2em;
+	column-rule: 		4px double var(--delimiter-lite);
+}
+
+#wordListTable {
+	width: 100%;
+	border-collapse: 	collapse;
+}
+
+#wordListTable tr {
+	break-inside: 		avoid;
+}
+
+#wordListTable tr td {
+	border-bottom: 		1px dashed var(--delimiter-lite);
+	break-inside: 		avoid;
+}
+
+#wordListTable tr td:nth-child(2) {
+	padding-left: 		1em;
+}
+
+.wordListLink:link {
+	text-decoration: 	none;
+}
+
+.wordListLink:hover, .wordListLink:active, .wordListLink:focus {
+	text-decoration: 	underline;
+}
+
+#printButtonDiv {
+	margin-top:			var(--func-block-margin-top);
+	text-align: 		center;
+}
+
+
+/* Assembling wordspace links */
+
+#extlinkCreateTableDiv {
+	margin-bottom: 		30pt;
+}
+
+#extlinkSrcDiv {
+	margin-bottom: 		30pt;
+}
+
+#extlinkLinkDiv {
+	margin-bottom: 		30pt;
+}
+
+#extlinkInput {
+	min-width: 			500pt;
+	height: 			25px;
+	padding: 			3px;
+	box-shadow: 		none;
+	border: 			1px solid #494d5f;
+	border-radius: 		var(--area-border-radius);
+}
+
+#extlinkLinkSpan {
+	float: 				left;
+	min-width: 			500pt;
+	height: 			25px;
+	padding-left: 		3px;
+	padding-top: 		6px;
+	padding-bottom: 	0px;
+	border-radius: 		var(--area-border-radius);
+    background: 		#ffeedd;
+	border: 			1px solid #494d5f;
+	font-size: 			10pt;
+}
+
+#extlinkClearImg {
+	width: 25px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+#extlinkCopyButtonImg {
+	width: 25px;
+	margin-left: 5px;
+	vertical-align: middle;
+	padding-top: 3px;
+	cursor: pointer;
+}
+
+
+/* Longreads */
+
+h1 {
+	font-size: 		var(--h1-font-size);
+	font-weight: 	bold;
+	color: 			var(--heading-dark);
+	
+}
+
+h2 {
+	font-size: 		var(--h2-font-size);
+	font-weight: 	bold;
+	color: 			var(--heading-dark);
+}
+
+
+/* Footer */
+
+#footerDiv {
+	margin-top:			var(--footer-margin-top);
+	margin-left: 		var(--content-margin-left);
+	font-size:   		var(--service-font-size);
+}
+
+.footerMenuItem {
+	margin-right: 		2em;
+	font-weight: 		bold;
+	text-decoration: 	underline;
+	cursor: 			pointer;
+	color: 				var(--text-look-at-me);
+}
+
+#uiLangSeletorDiv {
+	margin-top:			var(--service-func-block-margin-top);
+}
+
+#uiLangSelectorSelect {
+	font-size:   		var(--service-font-size);
+	margin-left:		10px;
+}
+
+#sysVersionAreaDiv {
+	margin-top:			var(--footer-margin-top);
+	margin-left: 		var(--content-left-margin);
+}
+
+
+
+
+
+/*
+
+
 
 #mainGroupOfPanesDiv {
 	margin-left: var(--content-left-margin);
@@ -100,7 +525,7 @@ body {
 	--margin-bottom: 10%;
 	margin-right: 10%;
 	border-radius: 10px;
-	text-align: center;
+	--text-align: center;
 }
 
 #gameModeArea {
@@ -114,109 +539,7 @@ body {
 	cursor: pointer;
 }
 
-#subjectDomainCloudDiv {
-	text-align: left;
-	line-height: 24pt;
-}
 
-.tag0 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 6px;
-}
-
-.tag1 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 8px;
-}
-
-.tag2 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 10px;
-}
-
-.tag3 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 12px;
-}
-
-.tag4 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 14px;
-}
-
-.tag5 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 16px;
-}
-
-.tag6 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 18px;
-}
-
-.tag7 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 20px;
-}
-
-.tag8 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 22px;
-}
-
-.tag9 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 24px;
-}
-
-.tag10 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 26px;
-}
 
 .showHideImg {
 	vertical-align: middle;
@@ -229,17 +552,7 @@ body {
 	
 }
 
-#wordAreaDiv {
-	height: 80%;
-	min-height: 100px;
-	margin-top: 10pt;
-	margin-bottom: 10pt;
-	border-radius: var(--area-border-radius);
-	padding: 20pt;
-	vertical-align: middle;
-	background: #fcd0c2;
-	font-size: 76px;
-}
+
 
 #lessonSelectorArea {
 	margin-top:    var(--func-block-top-margin);
@@ -255,52 +568,7 @@ body {
 	font-size: 12pt;
 }
 
-#userActionPaneDiv {
-	margin-top:    var(--func-block-top-margin);
-	margin-bottom: var(--func-block-bottom-margin);
-}
 
-#mnemoPhraseAreaDiv {
-	font-size: 40px;
-}
-
-span.hebrewWordInMnemoPhrase {
-	background: 	#000000;
-	color: 			#000000;
-	font-weight: 	bold;
-}
-
-span.hebrewDisclosedWordInMnemoPhrase {
-	background: 	#fcd0c2;
-	color: 			var(--nakar-emphased-color);
-	font-weight: 	bold;
-}
-
-#giveUpButtonImg {
-	--width:         var(--action-button-width);
-	--height:        var(--action-button-height);
-	--border:        var(--action-button-normal-border);
-	--border-radius: var(--action-button-radius);
-	cursor:        pointer;
-}
-
-#showPromptButtonImg {	
-	--width:         var(--action-button-width);
-	--height:        var(--action-button-height);
-	margin-left:   var(--action-button-margin);
-	margin-right:  var(--action-button-margin);
-	--border:        var(--action-button-normal-border);
-	--border-radius: var(--action-button-radius);
-	cursor:        pointer;
-}
-
-#takeNextQuestionButtonImg {
-	--width:         var(--action-button-width);
-	--height:        var(--action-button-height);
-	--border:        var(--action-button-normal-border);
-	--border-radius: var(--action-button-radius);
-	cursor:        pointer;
-}
 
 #wordListBlockDiv {
 	margin-top:    var(--func-block-top-margin);
@@ -316,50 +584,9 @@ span.hebrewDisclosedWordInMnemoPhrase {
 	cursor: pointer;
 }
 
-#wordListDiv {
-	margin-right:	10%;
-	column-width: 	15em;
-	--column-count: 	auto;
-	-moz-column-count: 2;
-	column-gap:   	3em;
-	column-rule: 	4px double #ffccdd;
-}
 
-#wordListTable {
-	width: 100%;
-	border-collapse: collapse;
-}
 
-#wordListTable tr {
-	--break-inside: avoid;
-}
 
-#wordListTable tr td {
-	border-bottom: 1px dashed #cccccc;
-	break-inside: avoid;
-}
-
-#wordListTable tr td:nth-child(2) {
-	padding-left: 1em;
-}
-
-.wordListLink:link {
-	text-decoration: none;
-}
-
-.wordListLink:hover, .wordListLink:active, .wordListLink:focus {
-	text-decoration: underline;
-}
-
-#printButton {
-	margin-right:	10%;
-	text-align: center;
-}
-
-#footerDiv {
-	margin-left: var(--content-left-margin);
-	font-size:   var(--service-font-size);
-}
 
 #printButtonImg {
 	margin-top: 10px;
@@ -367,31 +594,13 @@ span.hebrewDisclosedWordInMnemoPhrase {
 	cursor: pointer;
 }
 
-.footerMenuItem {
-	margin-right: 		2em;
-	font-weight: 		bold;
-	font-size: 			var(--service-font-size);
-	text-decoration: 	underline;
-	cursor: 			pointer;
-	color: 				var(--nakar-emphased-color);
+
 }
 
-#uiLangSelectorDiv {
-	font-size: var(--service-font-size);
-}
 
-#partOfSpeachSelectorLabel {
-	margin-left: 10px;
-}
 
-#uiLangSelectorSelect {
-	margin-top:		var(--func-block-top-margin-large);
-	margin-left:	10px;
-	font-size: 		var(--service-font-size);
-}
 
-#sysVersionArea {
-	margin-top:		var(--func-block-top-margin-large);
-	margin-left: 	var(--content-left-margin);
-	font-size: 		var(--service-font-size);
-}
+
+
+
+ */

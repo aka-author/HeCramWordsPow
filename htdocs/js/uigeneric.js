@@ -491,8 +491,8 @@ class TagCloud extends UiControl {
 
 const SCT_HEADER_ALWAYS_VISIBLE = 0;
 const SCT_VISIBLE_WHEN_COLLAPSED = 1;
-const SCT_EXPANDED = "exp";
-const SCT_COLLAPSED = "col";
+const SCT_EXPANDED = "e";
+const SCT_COLLAPSED = "c";
 
 
 class SectionClicker extends UiControl {
@@ -600,6 +600,7 @@ class Section extends UiControl {
 		this.header = this.assembleHeader();
 		this.contentArea = this.assembleContentArea();
 		
+		
 		this.headerVisibilityMode = SCT_HEADER_ALWAYS_VISIBLE;
 	}
 	
@@ -637,17 +638,17 @@ class Section extends UiControl {
 	}
 	
 	isCollapsed() {
-		return this.contentArea.getDomObject().style.display == "none";
+		return this.contentArea ? this.contentArea.getDomObject().style.display == "none" : false;
 	}
 	
 	isExpanded() {
-		return this.getDomObject().style.display != "none";
+		return this.contentArea ? !this.isCollapsed() : false;
 	}
 	
 	getUiControlValue() {
 		return this.isExpanded() ? SCT_EXPANDED : SCT_COLLAPSED;
 	}
-	
+		
 	setUiControlValue(value) {
 		let tmp = value == SCT_EXPANDED ? this.expand() : this.collapse();
 	}
@@ -674,7 +675,12 @@ class Section extends UiControl {
 		this.contentArea.show();
 	}
 	
+	applyChanges() {
+		this.commitConfigParams();
+	}
+	
 	onChange() {
 		this.isCollapsed() ? this.expand() : this.collapse();
+		this.applyChanges();
 	}
 }

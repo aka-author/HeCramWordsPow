@@ -2,7 +2,7 @@
 // Project: Nakar
 // Module:  Play of Words
 // Layer:	Web front-end
-// File:	utils.js                              (\_/)
+// File:	config.js                              (\_/)
 // Func:	Configuration of an application       (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
@@ -18,6 +18,9 @@ const CFG_LESSON_NO = "lessonNo";
 const CFG_RIDDLE_LANG_CODE = "riddleLangCode";
 const CFG_GUESS_LANG_CODE = "guessLangCode";
 const CFG_POS_CODE = "posCode";
+const CFG_SCT_TAGS = "sctTags";
+const CFG_SCT_GAMING = "sctGaming";
+const CFG_SCT_WORD_LIST = "sctWordList";
 
 const CFG_TARGET_LANG_CODE = "t";
 const CFG_DEFAULT_BASE_LANG_CODE = "b";
@@ -169,6 +172,30 @@ class UserConfig {
 		this.setWordspaceConfigParam(wordspaceId, CFG_POS_CODE, posCode);
 	}
 	
+	getSubjectDomainTagsSectionState(wordspaceId) {
+		return this.getWordspaceConfigParam(wordspaceId, CFG_SCT_TAGS);
+	}
+	
+	setSubjectDomainTagsSectionState(wordspaceId, state) {
+		this.setWordspaceConfigParam(wordspaceId, CFG_SCT_TAGS, state);
+	}
+	
+	getGamingSectionState(wordspaceId) {
+		return this.setWordspaceConfigParam(wordspaceId, CFG_SCT_GAMING);
+	}
+	
+	setGamingSectionState(wordspaceId, state) {
+		this.setWordspaceConfigParam(wordspaceId, CFG_SCT_GAMING, state);
+	}
+	
+	getWordListSectionState(wordspaceId) {
+		return this.setWordspaceConfigParam(wordspaceId, CFG_SCT_WORD_LIST);
+	}
+	
+	setWordListSectionState(wordspaceId, state) {
+		this.setWordspaceConfigParam(wordspaceId, CFG_SCT_WORD_LIST, state);
+	}
+	
 	assembleJson() {
 
 		console.log("Final JSON: ", JSON.stringify(this.params));
@@ -212,5 +239,8 @@ class UserConfig {
 		this.setRiddleLangCode(DEFAULT_WORDSPACE_ID, CFG_DEFAULT_BASE_LANG_CODE);
 		this.setGuessLangCode(DEFAULT_WORDSPACE_ID, CFG_TARGET_LANG_CODE);
 		this.setPosCode(DEFAULT_WORDSPACE_ID, "all");
+		this.setSubjectDomainTagsSectionState(DEFAULT_WORDSPACE_ID, SCT_EXPANDED);
+		this.setGamingSectionState(DEFAULT_WORDSPACE_ID, SCT_EXPANDED);
+		this.setWordListSectionState(DEFAULT_WORDSPACE_ID, SCT_COLLAPSED);
 	}
 }

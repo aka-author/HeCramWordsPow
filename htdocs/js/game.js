@@ -527,6 +527,17 @@ class Game extends Bureaucrat {
 		selector.setUiControlValue(this.getCurrGuessLang());
 	}
 	
+	setupSections() {
+	
+		let config = this.getUserConfig();
+		let wspId = this.getWordspace().getId();
+		let mp = this.getMainPage();
+			
+		mp.subjectDomainTagsSection.setUiControlValue(config.getWordspaceConfigParam(wspId, CFG_SCT_TAGS));
+		mp.gamingSection.setUiControlValue(config.getWordspaceConfigParam(wspId, CFG_SCT_GAMING));
+		mp.wordListSection.setUiControlValue(config.getWordspaceConfigParam(wspId, CFG_SCT_WORD_LIST));
+	}
+	
 	setupPage() {
 		
 		this.setupLevelSelector();
@@ -536,6 +547,8 @@ class Game extends Bureaucrat {
 		
 		this.setupRiddleLangSelector();
 		this.setupGuessLangSelector();
+		
+		this.setupSections();
 		
 		this.getMainPage().propagateCurrUiLang();
 		

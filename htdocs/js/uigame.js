@@ -101,6 +101,60 @@ class PartOfSpeachSelector extends Selector {
 }
 
 
+// Sections 
+
+class SubjectDomainTagsSection extends Section {
+
+	constructor(chief) {
+		super(chief, "subjectDomainSectionDiv", "subjectDomainSectionClickerDiv", 
+			"subjectDomainSectionHeaderDiv", "subjectDomainContentAreaDiv");
+	}
+	
+	getWordspaceConfigParams() {
+		let params = {};
+		params[CFG_SCT_TAGS] = this.getUiControlValue();
+		return params;
+	}
+}
+
+
+class GamingSection extends Section {
+
+	constructor(chief) {
+	
+		super(chief, "gamingSectionDiv", "gamingSectionClickerDiv", 
+			"gamingSectionHeaderDiv", "gamingSectionContentAreaDiv");		
+	}
+
+	getWordspaceConfigParams() {
+		let params = {};
+		params[CFG_SCT_GAMING] = this.getUiControlValue();
+		return params;
+	}
+
+}
+
+
+class WordListSection extends Section {
+
+	constructor(chief) {
+
+		super(chief, "wordListSectionDiv", "wordListSectionClickerDiv", 
+			"wordListSectionHeaderDiv", "wordListSectionContentAreaDiv");	
+	}
+	
+	getWordspaceConfigParams() {
+		let params = {};
+		
+		console.log('=====', this.getUiControlValue());
+		params[CFG_SCT_WORD_LIST] = this.getUiControlValue();
+		return params;
+	}
+}
+
+
+// Gaming
+
 class LexemeArea extends Area {
 
 	setDomObjectValue(headword) {
