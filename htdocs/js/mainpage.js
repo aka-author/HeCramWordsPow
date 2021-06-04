@@ -65,6 +65,18 @@ class MainPage extends Bureaucrat {
 
 	}		
 		
+	// Title
+	
+	setTitle(title) {
+		
+		let appName = this.getI18n().getText("appName", this.getCurrUiLang());
+		
+		document.title = appName + " - " + title;
+		
+		document.getElementById("wordspaceTitleDiv").innerHTML = title;
+		
+	}
+	
 	
 	// Game and wordspace	
 	

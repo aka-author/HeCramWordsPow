@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title id="pageTitle">מילה חדשה</title>
+		<title id="pageTitle">Cram The Words</title>
 		
 		<meta charset="utf-8"/>
 		
@@ -75,24 +75,28 @@
 			
 				<div id="scopeOfLearningDiv">
 				
-					<div id="wordspaceTitleDiv">
-						<span id="wordspaceTitleSpan">&nbsp;Hebrew Ulpan&nbsp;</span>
-					</div> 
+					<div id="wordspaceTitleDiv">Wordspace</div> 
 					
 					<div id="scopeOfLearningDetailsDiv">
 					
-						<label id="levelSelectorLabel">Level:</label>
-						<select 
-							name="levelSelectorSelect" 
-							id="levelSelectorSelect"
-							onchange="GLOBAL_app.process(this.id, 'onChange')">
-						</select>
+						<span class="labelAndControl">
+							<label id="levelSelectorLabel" 
+							       class="fieldLabel">Level:</label>
+							<select 
+								name="levelSelectorSelect" 
+								id="levelSelectorSelect"
+								onchange="GLOBAL_app.process(this.id, 'onChange')">
+							</select>
+						</span>
 						
-						<label id="lessonSelectorLabel">Lesson:</label>
-						<select
-							name="lessonSelectorSelect"
-							id="lessonSelectorSelect"
-							onchange="GLOBAL_app.process(this.id, 'onChange')"></select>
+						<span class="labelAndControl">
+							<label id="lessonSelectorLabel" 
+							       class="fieldLabel">Lesson:</label>
+							<select
+								name="lessonSelectorSelect"
+								id="lessonSelectorSelect"
+								onchange="GLOBAL_app.process(this.id, 'onChange')"></select>
+						</span>	
 						
 					</div>
 					
@@ -124,7 +128,7 @@
 		-->
 		
 		<div id="processReporterDiv">
-			
+			<h1>CRAMWORDS</h1>
 		</div>
 			
 			

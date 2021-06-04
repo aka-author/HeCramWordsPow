@@ -55,6 +55,14 @@ div.genericPageContent {
 	margin-left: 	var(--content-margin-left);
 }
 
+.labelAndControl {
+	white-space: 	nowrap;
+}
+
+.fieldLabel {
+	margin-right:	0.5em;
+}
+
 
 /* Page header */
 
@@ -86,9 +94,10 @@ div.genericPageContent {
 #wordspaceTitleDiv {
 	width:			fit-content;
 	width:			-moz-fit-content;
-	padding: 		5px;
+	padding: 		5px 1em 5px 1em;
 	border-radius: 	var(--area-border-radius);
 	background: 	var(--heading-dark);
+	text-align:		center;
 	font-weight: 	bold;
 	font-size: 		24pt;
 	color: 			var(--heading-lite);
@@ -118,8 +127,9 @@ div.genericPageContent {
 }
 
 #mainMenuDiv {
-	position: 		absolute;
-    bottom: 		0px;
+	--position: 		absolute;
+    --bottom: 		0px;
+	margin-top:		var(--main-menu-font-size);
 }
 
 .mainMenuItem {

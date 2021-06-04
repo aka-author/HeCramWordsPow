@@ -545,6 +545,8 @@ class Game extends Bureaucrat {
 	
 	setupPage() {
 		
+		this.getMainPage().setTitle(this.getWordspace().getTitle());
+		
 		this.setupLevelSelector();
 		this.setupLessonSelector();
 		this.setupSubjectDomainTagCloud();
