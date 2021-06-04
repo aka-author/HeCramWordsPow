@@ -128,7 +128,7 @@
 		-->
 		
 		<div id="processReporterDiv">
-			<h1>CRAMWORDS</h1>
+			<h1 id="processReporterTitle">Cramwords</h1>
 		</div>
 			
 			
@@ -146,33 +146,7 @@
 			<div id="wordsPaneDiv" 
 				 style="display: " 
 				 class="mainPaneDiv"> 
-						
-				<div id="gameModeAreaDiv">
-				
-					<div id="fromToSelectorsArea">
-						
-						<select id="riddleLangSelectorSelect" 
-								onchange="GLOBAL_app.process(this.id, 'onChange')">
-						</select>
-						
-						<span id="fromToArrowSpan">&#9654;</span>
-						
-						<select id="guessLangSelectorSelect"
-								onchange="GLOBAL_app.process(this.id, 'onChange')">
-						</select>	
-
-						<label id="partOfSpeachSelectorLabel">Part of speach:</label>
-						
-						<select id="partOfSpeachSelectorSelect"
-								onchange="GLOBAL_app.process(this.id, 'onChange')">
-							<option value="all" 
-									id="partOfSpeachSelectorSelect__all">All</option>
-						</select>
-							
-					</div>	
-				
-				</div>
-					
+				 
 					
 				<!-- 
 					Subject domains 
@@ -200,6 +174,33 @@
 				
 						<div id="subjectDomainContentAreaDiv" 
 							 class="sectionContentArea">
+							 
+							<div id="wordSelectorsArea">
+							
+								<span class="labelAndControl">
+									<select id="riddleLangSelectorSelect" 
+											onchange="GLOBAL_app.process(this.id, 'onChange')">
+									</select>
+								
+									<span id="fromToArrowSpan">&#9654;</span>
+									
+									<select id="guessLangSelectorSelect"
+											onchange="GLOBAL_app.process(this.id, 'onChange')">
+									</select>	
+								</span>
+							
+								<span class="labelAndControl">
+									<label id="partOfSpeachSelectorLabel" 
+										   class="fieldLabel">Part of speach:</label>
+									<select id="partOfSpeachSelectorSelect"
+											onchange="GLOBAL_app.process(this.id, 'onChange')">
+										<option value="all" 
+												id="partOfSpeachSelectorSelect__all">All</option>
+									</select>
+								</span>
+							</div> 
+							 
+							 
 							<div id="subjectDomainCloudDiv"></div> 
 						</div> <!-- section content -->	
 						
