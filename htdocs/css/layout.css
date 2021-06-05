@@ -50,22 +50,22 @@
 /* Generic elements */
 
 body {
-	overflow-x: 	hidden;
-	font-family: 	sans-serif;
+	overflow-x: 		hidden;
+	font-family: 		sans-serif;
 }
 
 div.genericPageContent {
-	margin-left: 	var(--content-margin-left);
+	margin-left: 		var(--content-margin-left);
 }
 
 .labelAndControl {
-	margin-right:	1em;
-	white-space: 	var(heading-dark);
+	margin-right:		1em;
+	white-space: 		var(heading-dark);
 }
 
 .fieldLabel {
-	margin-right:	0.5em;
-	font-weight: 	bold;
+	margin-right:		0.5em;
+	font-weight: 		bold;
 }
 
 
@@ -156,82 +156,82 @@ div.genericPageContent {
 }
 
 #gameModeAreaDiv {
-	margin-top:		var(--section-margin-top);
-	margin-bottom:	var(--section-margin-bottom);
-	margin-left: 	var(--content-margin-left);
+	margin-top:			var(--section-margin-top);
+	margin-bottom:		var(--section-margin-bottom);
+	margin-left: 		var(--content-margin-left);
 }
 
 
 /* Process reporter */
 
 #processReporterDiv {
-	position: 		absolute;
-	top: 			15hw;
-	left: 			40vw;
-	width: 			20vw;
-	min-height: 	15hw;
-	color: 			#ffffff;
-	background: 	var(--modal-dark);
-	padding: 		var(--area-border-radius);
-	border-radius:	var(--area-border-radius);
-	box-shadow: 	3px 3px gray;
+	position: 			absolute;
+	top: 				10hw;
+	left: 				40vw;
+	width: 				20vw;
+	min-height: 		15hw;
+	color: 				#ffffff;
+	background: 		var(--modal-dark);
+	padding: 			var(--area-border-radius);
+	border-radius:		var(--area-border-radius);
+	box-shadow: 		3px 3px gray;
 }
 
 #processReporterTitle {
-	color:		var(--marker-yellow);
+	color:			var(--marker-yellow);
 }
 
 .processInfo {
-	margin-top: 	3px;
-	margin-bottom: 	3px;
+	margin-top: 		3px;
+	margin-bottom: 		3px;
 }
 
 
 /* Sections */
 
 div.section {
-	margin-top:		var(--section-margin-top);
-	margin-bottom:	var(--section-margin-bottom);
-	margin-left: 	var(--content-margin-left);
-	margin-right: 	var(--content-margin-right);
-	width:			var(--content-width);
-	display: 		inline-flex;
+	margin-top:			var(--section-margin-top);
+	margin-bottom:		var(--section-margin-bottom);
+	margin-left: 		var(--content-margin-left);
+	margin-right: 		var(--content-margin-right);
+	width:				var(--content-width);
+	display: 			inline-flex;
 }
 
 div.sectionClicker {
-	display: 		table-cell;
-	margin-left: 	-50px;
-	width: 			50px;
-	height:			var(--section-header-height);
-	cursor: 		pointer;
+	display: 			table-cell;
+	margin-left: 		-50px;
+	width: 				50px;
+	height:				var(--section-header-height);
+	cursor: 			pointer;
 }
 
 img.sectionClicker {
-	display: 		inline-block;
-	width: 			40px;
-	height: 		100%;
-	vertical-align:	middle;
+	display: 			inline-block;
+	width: 				40px;
+	height: 			100%;
+	vertical-align:		middle;
 }
 
 div.sectionBody {
-	width: 			var(--content-width);
+	width: 				var(--content-width);
 }
 
 div.sectionHeader {
-	display: 		table-cell;
-	margin-bottom:	var(--func-block-margin-bottom);
-	height: 		var(--section-header-height);
-	vertical-align:	middle;
+	display: 			table-cell;
+	margin-bottom:		var(--func-block-margin-bottom);
+	height: 			var(--section-header-height);
+	vertical-align:		middle;
 }
 
 .sectionLabel {
-	font-size:		var(--h2-font-size);
-	font-weight:	bold;
-	color: 			var(--heading-dark);
+	font-size:			var(--h2-font-size);
+	font-weight:		bold;
+	color: 				var(--heading-dark);
 }
 
 div.sectionContentArea {
-	margin-top:		var(--section-content-margin-top); 
+	margin-top:			var(--section-content-margin-top); 
 }
 
 
@@ -252,161 +252,161 @@ div.sectionContentArea {
 /* Domain tag cloud */
 
 #subjectDomainCloudDiv {
-	margin-top:		var(--func-block-margin-top);
-	margin-left:	var(--tag-margin-left);
-	text-align: 	left;
-	line-height: 	24pt;
+	margin-top:			var(--func-block-margin-top);
+	margin-left:		var(--tag-margin-left);
+	text-align: 		left;
+	line-height: 		24pt;
 	
 }
 
 .tag0 {
-	display: 		none;
-	margin-right: 	var(--tag-margin-right);
-	padding: 		var(--tag-padding);
-	border-radius: 	var(--tag-border-radius);
-	white-space: 	nowrap;
-	cursor: 		pointer;
-	font-size: 		6px;
+	display: 			none;
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			6px;
 }
 
 .tag1 {
-	display: 		none;
-	margin-right: 	var(--tag-margin-right);
-	padding: 		var(--tag-padding);
-	border-radius: 	var(--tag-border-radius);
-	white-space: 	nowrap;
-	cursor: 		pointer;
-	font-size: 		8px;
+	display: 			none;
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius:	 	var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			8px;
 }
 
 .tag2 {
-	margin-right: 	var(--tag-margin-right);
-	padding: 		var(--tag-padding);
-	border-radius: 	var(--tag-border-radius);
-	white-space: 	nowrap;
-	cursor: 		pointer;
-	font-size: 		10px;
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			10px;
 }
 
 .tag3 {
-	margin-right: 	var(--tag-margin-right);
-	padding: 		var(--tag-padding);
-	border-radius: 	var(--tag-border-radius);
-	white-space: 	nowrap;
-	cursor: 		pointer;
-	font-size: 		12px;
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			12px;
 }
 
 .tag4 {
-	margin-right: 	var(--tag-margin-right);
-	padding: 		var(--tag-padding);
-	border-radius: 	var(--tag-border-radius);
-	white-space: 	nowrap;
-	cursor: 		pointer;
-	font-size: 		14px;
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			14px;
 }
 
 .tag5 {
-	margin-right: 	var(--tag-margin-right);
-	padding: 		var(--tag-padding);
-	border-radius: 	var(--tag-border-radius);
-	white-space: 	nowrap;
-	cursor: 		pointer;
-	font-size: 		16px;
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			16px;
 }
 
 .tag6 {
-	margin-right: 	var(--tag-margin-right);
-	padding: 		var(--tag-padding);
-	border-radius: 	var(--tag-border-radius);
-	white-space: 	nowrap;
-	cursor: 		pointer;
-	font-size: 		18px;
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			18px;
 }
 
 .tag7 {
-	margin-right: 	var(--tag-margin-right);
-	padding: 		var(--tag-padding);
-	border-radius: 	var(--tag-border-radius);
-	white-space: 	nowrap;
-	cursor: 		pointer;
-	font-size: 		20px;
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			20px;
 }
 
 .tag8 {
-	margin-right: 	var(--tag-margin-right);
-	padding: 		var(--tag-padding);
-	border-radius: 	var(--tag-border-radius);
-	white-space: 	nowrap;
-	cursor: 		pointer;
-	font-size: 		22px;
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			22px;
 }
 
 .tag9 {
-	margin-right: 	var(--tag-margin-right);
-	padding: 		var(--tag-padding);
-	border-radius: 	var(--tag-border-radius);
-	white-space: 	nowrap;
-	cursor: 		pointer;
-	font-size: 		24px;
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			24px;
 }
 
 .tag10 {
-	margin-right: 	var(--tag-margin-right);
-	padding: 		var(--tag-padding);
-	border-radius: 	var(--tag-border-radius);
-	white-space: 	nowrap;
-	cursor: 		pointer;
-	font-size: 		26px;
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			26px;
 }
 
 
 /* Browsing word */
 
 #wordAreaDiv {
-	min-height: 	80px;
-	margin-bottom: 	var(--func-block-margin-bottom);
-	border-radius: 	var(--area-border-radius);
-	padding: 		15pt;
-	text-align: 	center;
-	vertical-align: middle;
-	background: 	var(--playground-back);
-	font-size: 		60px;
+	min-height: 		80px;
+	margin-bottom: 		var(--func-block-margin-bottom);
+	border-radius: 		var(--area-border-radius);
+	padding: 			15pt;
+	text-align: 		center;
+	vertical-align: 	middle;
+	background: 		var(--playground-back);
+	font-size: 			60px;
 }
 
 #mnemoPhraseAreaDiv {
-	font-size: 		32px;
+	font-size: 			32px;
 }
 
 span.hebrewWordInMnemoPhrase {
-	background: 	#000000;
-	color: 			#000000;
-	font-weight: 	bold;
+	background: 		#000000;
+	color: 				#000000;
+	font-weight: 		bold;
 }
 
 span.hebrewDisclosedWordInMnemoPhrase {
-	background: 	var(--playground-back);
-	color: 			var(--text-look-at-me);
-	font-weight: 	bold;
+	background: 		var(--playground-back);
+	color: 				var(--text-look-at-me);
+	font-weight: 		bold;
 }
 
 #userActionPaneDiv {
-	margin-top:    	var(--func-block-margin-top);
-	text-align:		center;
+	margin-top:    		var(--func-block-margin-top);
+	text-align:			center;
 }
 
 #giveUpButtonImg {
-	cursor:        pointer;
+	cursor:        		pointer;
 }
 
 #showPromptButtonImg {	
-	margin-left:   var(--action-button-margin);
-	margin-right:  var(--action-button-margin);
-	cursor:        pointer;
+	margin-left:   		var(--action-button-margin);
+	margin-right:  		var(--action-button-margin);
+	cursor:        		pointer;
 }
 
 #takeNextQuestionButtonImg {
-	cursor:        pointer;
+	cursor:        		pointer;
 }
 
 
@@ -489,33 +489,56 @@ span.hebrewDisclosedWordInMnemoPhrase {
 }
 
 #extlinkClearImg {
-	width: 25px;
-	vertical-align: middle;
-	cursor: pointer;
+	width: 				25px;
+	vertical-align: 	middle;
+	cursor: 			pointer;
 }
 
 #extlinkCopyButtonImg {
-	width: 25px;
-	margin-left: 5px;
-	vertical-align: middle;
-	padding-top: 3px;
-	cursor: pointer;
+	width: 				25px;
+	margin-left: 		5px;
+	vertical-align: 	middle;
+	padding-top: 		3px;
+	cursor: 			pointer;
 }
 
 
 /* Longreads */
 
 h1 {
-	font-size: 		var(--h1-font-size);
-	font-weight: 	bold;
-	color: 			var(--heading-dark);
+	font-size: 			var(--h1-font-size);
+	font-weight: 		bold;
+	color: 				var(--heading-dark);
 	
 }
 
 h2 {
-	font-size: 		var(--h2-font-size);
-	font-weight: 	bold;
-	color: 			var(--heading-dark);
+	font-size: 			var(--h2-font-size);
+	font-weight: 		bold;
+	color: 				var(--heading-dark);
+}
+
+
+/* Wordspace directory */
+
+table.wordspaceDirectory {
+	border-bottom:		3px double var(--delimiter-lite); 
+	border-collapse:	collapse;
+	font-size:			10pt;
+}
+
+table.wordspaceDirectory th {
+	border-bottom:		3px double var(--delimiter-lite); 
+	padding:			3pt 2em 3pt 0em;
+	text-align:			left;
+	color:				var(--heading-dark);
+
+}
+
+table.wordspaceDirectory td {
+	border-bottom:		1px solid var(--delimiter-lite); 
+	padding:			3pt 2em 3pt 0em;
+
 }
 
 

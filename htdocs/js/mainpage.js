@@ -192,7 +192,7 @@ class MainPage extends Bureaucrat {
 	createMainMenuItems() {
 		
 		this.wordsMainMenuItem   = new MainMenuItem(this, "wordsMenuItemSpan");
-		this.textsMainMenuItem   = new MainMenuItem(this, "textsMenuItemSpan");
+		this.spacesMainMenuItem  = new MainMenuItem(this, "spacesMenuItemSpan");
 		this.serviceMainMenuItem = new MainMenuItem(this, "serviceMenuItemSpan");
 
 		this.aboutUsMainMenuItem = new MainMenuItem(this, "aboutUsMenuItemSpan");
@@ -219,8 +219,8 @@ class MainPage extends Bureaucrat {
 		this.wordsPane = new Pane(this.mainGroupOfPanes, "wordsPaneDiv");
 		this.mainGroupOfPanes.appendPane(this.wordsPane, this.wordsMainMenuItem);
 		
-		this.textsPane = new Pane(this.mainGroupOfPanes, "textsPaneDiv");
-		this.mainGroupOfPanes.appendPane(this.textsPane, this.textsMainMenuItem);
+		this.spacesPane = new Pane(this.mainGroupOfPanes, "spacesPaneDiv");
+		this.mainGroupOfPanes.appendPane(this.spacesPane, this.spacesMainMenuItem);
 		
 		this.servicePane = new Pane(this.mainGroupOfPanes, "servicePaneDiv");
 		this.mainGroupOfPanes.appendPane(this.servicePane, this.serviceMainMenuItem);
@@ -267,6 +267,9 @@ class MainPage extends Bureaucrat {
 	}		
 	
 	createLongreads() {
+	
+		this.wordspaceDirectory = new Longread(this, "wordspaceDirectoryDiv",
+			this.assembleLongreadUrl("wordspace-directory.html"));
 	
 		this.createWordsheet = new Longread(this, "extlinkCreateTableProcDiv",
 			this.assembleLongreadUrl("create-wordsheet.html"))

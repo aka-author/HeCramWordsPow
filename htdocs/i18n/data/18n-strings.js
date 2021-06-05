@@ -17,16 +17,17 @@ var GLOBAL_UIStrings = {
 	"lessonSelectorSelect__all" : {"en" : "All", "he" : "כל", "ru" : "Все", "es"  : "Todas", "pt" : "Todas"},
 	"levelSelectorSelect__all" : {"en" : "All", "he" : "כל", "ru" : "Все", "es"  : "Todas", "pt" : "Todas"},
 	
-	"wordsMenuItemSpan"   : {"en" : "Words",    "he" : "מילים",    "ru" : "Слова",    "es" : "Palabras",  "pt" : "Palavras"},
-	"textsMenuItemSpan"   : {"en" : "Texts",    "he" : "טקסטים",   "ru" : "Тексты",   "es" : "Textos",    "pt" : "Textos"},	
-	"serviceMenuItemSpan" : {"en" : "Service",  "he" : "שרות",     "ru" : "Сервис",   "es" : "Servicio",  "pt" : "Serviço"},	
-	"learnMenuItemSpan"   : {"en" : "Learn",    "he" : "תלמיד",    "ru" : "Учиться",  "es" : "Estudio",   "pt" : "Estude"},
-	"teachMenuItemSpan"   : {"en" : "Teach",    "he" : "מורה",     "ru" : "Учить",    "es" : "Enseñar",   "pt" : "Ensinar"},
+	"wordsMenuItemSpan"   : {"en" : "Words", "he" : "מילים", "es" : "Palabras",  "pt" : "Palavras", "ru" : "Слова"},
+	"spacesMenuItemSpan"  : {"en" : "Wordspaces", "he" : "טקסטים", "es" : "Diccionarios",    "pt" : "Dicionários", "ru" : "Словари"},	
+	"textsMenuItemSpan"   : {"en" : "Texts", "he" : "טקסטים", "es" : "Textos", "pt" : "Textos", "ru" : "Тексты"},	
+	"serviceMenuItemSpan" : {"en" : "Service", "he" : "שרות", "es" : "Servicio", "pt" : "Serviço", "ru" : "Сервис"},	
+	"learnMenuItemSpan"   : {"en" : "Learn", "he" : "תלמיד",  "es" : "Estudio", "pt" : "Estude", "ru" : "Учиться"},
+	"teachMenuItemSpan"   : {"en" : "Teach", "he" : "מורה", "es" : "Enseñar", "pt" : "Ensinar", "ru" : "Учить"},
 
-	"aboutUsMenuItemSpan" : {"en" : "About us",   "he" : "עלינו",      "ru" : "О нас",     "es" : "Sobre nosotros", "pt" : "Sobre nós"},
-	"partnerMenuItemSpan" : {"en" : "Friends?",   "he" : "חברים?",     "ru" : "Друзья?",   "es" : "¿Amigos?",       "pt" : "Amigos?"},
-    "techdocMenuItemSpan" : {"en" : "Tech. docs", "he" : "טק. מסמכים", "ru" : "Тех. док.", "es" : "Doc. técn.",     "pt" : "Doc. técn."},
-	"helpMenuItemSpan"    : {"en" : "Help",       "he" : "עזרה",       "ru" : "Справка",   "es" : "Ayuda",          "pt" : "Ajuda"},
+	"aboutUsMenuItemSpan" : {"en" : "About us", "he" : "עלינו", "es" : "Sobre nosotros", "pt" : "Sobre nós", "ru" : "О нас"},
+	"partnerMenuItemSpan" : {"en" : "Friends?", "he" : "חברים?",  "es" : "¿Amigos?", "pt" : "Amigos?", "ru" : "Друзья?"},
+    "techdocMenuItemSpan" : {"en" : "Tech. docs", "he" : "טק. מסמכים", "es" : "Doc. técn.", "pt" : "Doc. técn.", "ru" : "Тех. док."},
+	"helpMenuItemSpan"    : {"en" : "Help", "he" : "עזרה", "es" : "Ayuda", "pt" : "Ajuda", "ru" : "Справка"},
 
 	"partOfSpeachSelectorLabel" : {"en" : "Part of speach:", "he" : "חלק מהדיבור:", "ru" : "Часть речи:", "es" : "Parte del discurso:", "pt" : "Parte do discurso:"},
 	"partOfSpeachSelectorSelect__all" : {"en" : "All", "he" : "כל", "ru" : "Все", "es"  : "Todas", "pt" : "Todas"},
@@ -39,7 +40,7 @@ var GLOBAL_UIStrings = {
 	"partOfSpeachSelectorSelect__conjunction" : {"en" : "Conjunction", "he" : "צירוף", "ru" : "Союз", "es"  : "Conjunción", "pt" : "Conjunção"},
 	"partOfSpeachSelectorSelect__other" : {"en" : "Other", "he" : "אַחֵר", "ru" : "Прочее", "es"  : "Otro", "pt" : "Outro"},
 	
-	"subjectDomainCloudSwitchLabel" : {"en" : "Subject Domain Tags", "he" : "תגי תחום נושא", "es"  : "Etiquetas de dominio de asunto", "pt" : "Tags de domínio do assunto", "ru" : "Отбор слов"},
+	"subjectDomainCloudSwitchLabel" : {"en" : "Selecting Words", "he" : "תגי תחום נושא", "es"  : "Etiquetas de dominio de asunto", "pt" : "Tags de domínio do assunto", "ru" : "Отбор слов"},
 	"gamingLabel" : {"en" : "Cramming the Selected Words", "he" : "לימוד המילים שנבחרו", "es"  : "Aprendiendo las palabras seleccionadas", "pt" : "Aprendendo as palavras selecionadas", "ru" : "Повторение отобранных слов"},
 	"wordListLabel" : {"en" : "Selected Words", "he" : "המילים שנבחרו", "es"  : "Las palabras seleccionadas", "pt" : "As palavras selecionadas", "ru" : "Список отобранных слов"},
 	
