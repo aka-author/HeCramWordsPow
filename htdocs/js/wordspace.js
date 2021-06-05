@@ -247,6 +247,7 @@ class Wordspace {
 		this.id = id;
 		
 		this.title = "Default Wordspace";
+		this.provider = {};
 		
 		this.langs = new Array();	
 		this.targetLangCode = "en";
@@ -382,6 +383,14 @@ class Wordspace {
 	
 	setTitle(title) {
 		this.title = title;
+	}
+	
+	getProvider() {
+		return this.provider;
+	}
+	
+	setProvider(provider) {
+		this.provider = provider;
 	}
 
 	getExternalDic(_langCode=undefined) {

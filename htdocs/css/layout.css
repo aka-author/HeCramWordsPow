@@ -108,6 +108,25 @@ div.genericPageContent {
 	color: 				var(--heading-lite);
 }
 
+#providerRefDiv {
+	margin-top:			5px;
+	font-family:		serif;
+	font-size: 			var(--service-font-size);
+	font-weight:		bold;
+	font-style:			italic;
+	color:				var(--heading-dark);
+}
+
+.providerRef:link, .providerRef:visited {
+	color:				var(--heading-dark);
+	text-decoration: 	none;
+}
+
+.providerRef:hover, .wordListLink:active, .wordListLink:focus {
+	color:				var(--heading-dark);
+    text-decoration: 	underline;
+}
+
 #scopeOfLearningDetailsDiv {
 	margin-left: 		1em;
 	font-size: 			14pt;
@@ -529,100 +548,3 @@ h2 {
 	margin-top:			var(--footer-margin-top);
 	margin-left: 		var(--content-left-margin);
 }
-
-
-
-
-
-/*
-
-
-
-#mainGroupOfPanesDiv {
-	margin-left: var(--content-left-margin);
-}
-
-#gameAreaDiv {
-	height: 70%;
-	--margin-bottom: 10%;
-	margin-right: 10%;
-	border-radius: 10px;
-	--text-align: center;
-}
-
-#gameModeArea {
-	text-align: left;
-	margin-bottom: var(--func-block-bottom-margin);
-	border-radius: var(--area-border-radius);
-}
-
-#subjectDomainCloudSwitchDiv {
-	text-align: left;
-	cursor: pointer;
-}
-
-
-
-.showHideImg {
-	vertical-align: middle;
-	width: 2em;
-	
-}
-
-.showHideLabel {
-	height: 2em;
-	
-}
-
-
-
-#lessonSelectorArea {
-	margin-top:    var(--func-block-top-margin);
-	margin-bottom: var(--func-block-bottom-margin);
-}
-
-#fromToSelectorsArea {
-	margin-top:    var(--func-block-top-margin);
-	margin-bottom: var(--func-block-bottom-margin);	
-}
-
-#fromToArrowSpan {
-	font-size: 12pt;
-}
-
-
-
-#wordListBlockDiv {
-	margin-top:    var(--func-block-top-margin);
-	margin-bottom: var(--last-func-block-bottom-margin);
-}
-
-#wordListHeadlineDiv {
-	margin-top:    var(--func-block-top-margin);
-	margin-bottom: var(--func-block-bottom-margin);
-}
-
-#wordListSwitchSpan {
-	cursor: pointer;
-}
-
-
-
-
-
-#printButtonImg {
-	margin-top: 10px;
-	width: 50px;
-	cursor: pointer;
-}
-
-
-}
-
-
-
-
-
-
-
- */

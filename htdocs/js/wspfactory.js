@@ -189,6 +189,10 @@ class WordspaceFactory {
 		this.getWordspace().setDefaultBaseLang(langCode);
 	}
 	
+	setProvider(provider) {
+		this.getWordspace().setProvider(provider);
+	}
+	
 	appendLang(lang) {
 		this.getWordspace().appendLang(lang);
 	}
@@ -278,6 +282,26 @@ class WordspaceFactory {
 		}
 	}		
 		
+	importProvider(generalSheetName) {
+		
+		let provider = {};
+		
+		provider.name = this.getPropValue(generalSheetName, 
+					"field", "value", "provider");
+					
+		provider.website = this.getPropValue(generalSheetName, 
+					"field", "value", "website");
+
+		provider.primaryAuthor = this.getPropValue(generalSheetName, 
+					"field", "value", "primary_author");		
+
+		provider.promaryAuthorUrl = this.getPropValue(generalSheetName, 
+					"field", "value", "primary_author_url"); 	
+
+		this.setProvider(provider);			
+	}		
+		
+		
 	importGeneral() {
 		
 		let generalSheetName = this.getMetaSheetName("general");
@@ -287,7 +311,8 @@ class WordspaceFactory {
 		this.importBaseLangCodes();
 		this.importDefaultLevelCode(generalSheetName);
 		this.importDefaultBaseLangCode(generalSheetName);
-		this.importExternalDics(generalSheetName);				
+		this.importExternalDics(generalSheetName);
+		this.importProvider(generalSheetName);
 	}	
 	
 	// Parts of speach

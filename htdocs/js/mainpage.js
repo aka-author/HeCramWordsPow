@@ -145,6 +145,48 @@ class MainPage extends Bureaucrat {
 	}
 	
 	
+	// Provider info
+	
+	showProviderInfo() {
+	
+		let providerSpan = document.createElement("span");
+	
+		let provider = this.getWordspace().getProvider();
+		
+		if(provider.primaryAuthor) {
+			
+			let primaryAuthorA = wrapIntoLink(provider.primaryAuthor, 
+									provider.primaryAuthorUrl, "_new");
+						
+			if(isHtmlElement(primaryAuthorA))
+				primaryAuthorA.setAttribute("class", "providerRef");								
+									
+			providerSpan.appendChild(primaryAuthorA);
+
+			if(provider.name) {
+			
+				let commaText = document.createTextNode(", ");
+				
+				providerSpan.appendChild(commaText);
+			}
+		}
+		
+		if(provider.name) {
+			
+			let providerA = wrapIntoLink(provider.name, provider.website, "_new");
+			
+			if(isHtmlElement(providerA))
+				providerA.setAttribute("class", "providerRef");
+			
+			providerSpan.appendChild(providerA);
+		}
+		
+		let providerRefDiv = document.getElementById("providerRefDiv");
+		
+		providerRefDiv.innerHTML = "";
+		providerRefDiv.appendChild(providerSpan);
+	}
+	
 	// Main menu
 	
 	createMainMenuItems() {
