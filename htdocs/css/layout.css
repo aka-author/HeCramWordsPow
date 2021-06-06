@@ -56,6 +56,26 @@ body {
 
 div.genericPageContent {
 	margin-left: 		var(--content-margin-left);
+	width:				var(--content-width);
+	line-height:		18pt;
+}
+
+table {
+	border-bottom:		3px double var(--delimiter-lite);
+}
+
+table tr th {
+	border-bottom:		3px double var(--delimiter-lite);
+	text-align:			left;
+}
+
+table tr th, table tr td {
+	padding-right:		1em;
+	vertical-align:		top;
+}	
+
+td ul {
+	padding-left:		1em;
 }
 
 .labelAndControl {
