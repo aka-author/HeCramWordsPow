@@ -278,7 +278,7 @@ class MainPage extends Bureaucrat {
 			this.assembleLongreadUrl("about.html"));
 			
 		this.partnerPage = new Longread(this, "partnerLongreadDiv", 
-			this.assembleLongreadUrl("partner.html"));
+			this.assembleLongreadUrl("friends.html"));
 
 		this.docsPage = new Longread(this, "techdocLongreadDiv", 
 			this.assembleLongreadUrl("techdoc.html"));
