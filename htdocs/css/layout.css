@@ -469,6 +469,7 @@ span.hebrewDisclosedWordInMnemoPhrase {
 #printButtonDiv {
 	margin-top:			var(--func-block-margin-top);
 	text-align: 		center;
+	cursor:				pointer;
 }
 
 
@@ -561,6 +562,16 @@ table.wordspaceDirectory td {
 
 }
 
+.helpControlLabel {
+	font-weight: 		bold;
+} 
+
+.helpValue {
+	font-family: 		sans-serif;
+	font-weight: 		bold;
+	font-style: 		italic;
+}
+
 
 /* Footer */
 
@@ -591,3 +602,4 @@ table.wordspaceDirectory td {
 	margin-top:			var(--footer-margin-top);
 	margin-left: 		var(--content-left-margin);
 }
+

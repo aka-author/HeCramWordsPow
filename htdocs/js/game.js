@@ -29,9 +29,7 @@ class Game extends Bureaucrat {
 		
 		let wssFactory = new WorkbookFactory();
 		wssFactory.createWorkbook(this, this.getWordspaceAccessParams());
-		
-		console.log("access: ", this.getWordspaceAccessParams());
-		
+				
 		this.wb = wssFactory.getWorkbook();
 		this.wb.setOnLoad(playGame);
 

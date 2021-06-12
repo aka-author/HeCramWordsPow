@@ -1,6 +1,6 @@
 var GLOBAL_UIStrings = {
 	
-	"appName" : {"en" : "Cram The Words", "he" : "ללמוד מילים", "ru" : "Учи слова", "es" : "Aprender palabras", "pt" : "Aprender palavras"},
+	"appName" : {"en" : "Cramwords", "he" : "Cramwords", "ru" : "Cramwords", "es" : "Cramwords", "pt" : "Cramwords"},
 
 	"loadingWordspace" : {"en" : "Loading a wordspace...", "he" : "...טוען מרחב מילים", "es" : "Cargando un espacio de palabras...", "pt" : "Carregando um espaço de palavras...", "ru" : "Загрузка словаря..."},
 	"loadingTOC" : {"en" : "Table of contents", "he" : "תוכן עניינים", "es" : "Tabla de contenido", "pt" : "Índice", "ru" : "Содержание"},	

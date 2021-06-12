@@ -86,8 +86,6 @@ class Application extends Bureaucrat {
 		
 		let configJson = document.cookie;
 		
-		console.log("config: ", configJson);
-		
 		this.getUserConfig().unpackFromJson(configJson);
 	}
 	
@@ -150,7 +148,7 @@ class Application extends Bureaucrat {
 		if(!this.validateWordspaceAccessParams(params)) {
 		
 			params = config.getWordspaceAccessParams();
-			console.log("***", params);
+			
 			if(!this.validateWordspaceAccessParams(params))
 				params = config.getDemoWordspaceAccessParams();
 		}

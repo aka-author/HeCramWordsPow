@@ -93,7 +93,7 @@ class UserConfig {
 	getDemoWordspaceAccessParams() {
 		return this.assembleWordspaceAccessParams(
 						SRC_SIMPLE_GDOC, 
-		                "1w9Pq-b-98yrtg9lfIkCGtl1iSjcas4sBH3pFKJ07lhw");
+		                "1gwWY6wcdTS1qILVTQoVTx3tB5h-IqERPLZZWt5Mk7XE");
 	}
 	
 	getWordspaceConfigParam(_wordspaceId, paramName) {
@@ -198,7 +198,7 @@ class UserConfig {
 	
 	assembleJson() {
 
-		console.log("Final JSON: ", JSON.stringify(this.params));
+		// console.log("Final JSON: ", JSON.stringify(this.params));
 		
 		sleep(5000);
 		

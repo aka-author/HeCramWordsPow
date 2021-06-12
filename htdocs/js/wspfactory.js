@@ -11,9 +11,8 @@ class WordspaceFactory {
 	constructor(workbook) {
 		
 		this.workbook = workbook; 
-		console.log("::: ", workbook);
+	
 		this.wordspace = new Wordspace(workbook.getId());
-		console.log(workbook);
 		
 		this.langCodes = new Array();
 		
@@ -492,9 +491,7 @@ class WordspaceFactory {
 		this.importPartsOfSpeach();
 		this.importTags();		
 		this.importDicEntries();
-			
-		console.log(this.wordspace);
-		
+					
 		return this;
 	}
 }	
