@@ -1,7 +1,7 @@
 
 /* Layout core parameters */
 
-/* Default media { */
+/* Generic screens */
 
 	:root {
 		--heading-lite:								#ffffff;
@@ -9,7 +9,7 @@
 		--text-look-at-me:							#c60021;
 		--playground-back:							#fcd0c2;
 		--marker-red:                       		#ffccdd;
-		--marker-yellow:							#ffff66;	
+		--marker-yellow:							#ffbf00;	
 		--marker-green:								#ccffdd;
 		--delimiter-lite:							#ffccdd;
 		--modal-dark:								#8076a3;
@@ -61,6 +61,7 @@
 		--area-border-radius:          				10px;
 		
 		--word-selectors-area-display:				inline-flex;
+		--game-langs-margin-bottom:					0px;
 		--part-of-speach-label-display: 			inline;
 		--part-of-speach-div-margin-top:			0px;
 
@@ -93,10 +94,16 @@
 		--service-font-size:           				9pt;
 	}
 
-/* } Default media */	
+/* TBD:
+@media (min-width:320px)  {  smartphones, portrait iPhone, portrait 480x320 phones (Android)  }
+@media (min-width:480px)  {  smartphones, Android phones, landscape iPhone  }
+@media (min-width:600px)  {  portrait tablets, portrait iPad, e-readers (Nook/Kindle), landscape 800x480 phones (Android)  }
+@media (min-width:801px)  {  tablet, landscape iPad, lo-res laptops ands desktops  }
+@media (min-width:1025px) {  big landscape tablets, laptops, and desktops  }
+@media (min-width:1281px) {  hi-res laptops and desktops }
+*/
 
-
-/* Narrow screens */
+/* Medium screens */
 
 @media screen and (max-width: 800px) {
 
@@ -156,7 +163,7 @@
 		
 		--word-area-div-min-height:                 80px;
 		--word-area-div-font-size:                  25px;
-		--mnemo-phrase-font-size:                   12px;
+		--mnemo-phrase-font-size:                   25px;
 
 		--action-button-margin:	       				35px;
 		
@@ -165,6 +172,9 @@
 	
 } 
 
+
+/* Small screens */
+
 @media screen and (max-width: 550px) {
 
 	:root {
@@ -172,8 +182,8 @@
 		--content-margin-left:         				max(5vw, 15px);
 
 		--scope-of-learning-details-font-size:      10pt;
-
-		--word-selectors-area-display:				block;
+		
+		--game-langs-margin-bottom:					5px;
 		--part-of-speach-label-display: 			none;
 		--part-of-speach-div-margin-top:			6pt;
 
@@ -416,8 +426,8 @@ div.sectionContentArea {
 
 /* Languages and parts of speach */
 
-#partOfSpeachDiv {
-	margin-top:			var(--part-of-speach-div-margin-top);
+#gameLangsDiv {
+	margin-bottom:		var(game-langs-margin-bottom);
 }
 
 #partOfSpeachSelectorLabel {
@@ -551,10 +561,11 @@ div.sectionContentArea {
 #wordAreaDiv {
 	display: 			table-cell;
 	width: 				var(--content-width);
+	height:				var(--word-area-div-min-height);
 	min-height: 		var(--word-area-div-min-height);
 	margin-bottom: 		var(--func-block-margin-bottom);
 	border-radius: 		var(--area-border-radius);
-	padding: 			15pt;
+	padding: 			6pt;
 	text-align: 		center;
 	vertical-align: 	middle;
 	background: 		var(--playground-back);
@@ -563,6 +574,7 @@ div.sectionContentArea {
 
 #mnemoPhraseAreaDiv {
 	font-size: 			var(--mnemo-phrase-font-size);
+	background: #ccddee;
 }
 
 span.hebrewWordInMnemoPhrase {
@@ -572,6 +584,7 @@ span.hebrewWordInMnemoPhrase {
 }
 
 span.hebrewDisclosedWordInMnemoPhrase {
+	height:				100%;
 	background: 		var(--playground-back);
 	color: 				var(--text-look-at-me);
 	font-weight: 		bold;
