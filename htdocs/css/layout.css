@@ -1,49 +1,185 @@
 
 /* Layout core parameters */
 
-:root {
-	--heading-lite:						#ffffff;
-	--heading-dark:						#494d5f;
-	--text-look-at-me:					#c60021;
-	--playground-back:					#fcd0c2;
-	--marker-red:                       #ffccdd;
-	--marker-yellow:					#ffff66;	
-	--marker-green:						#ccffdd;
-	--delimiter-lite:					#ffccdd;
-	--modal-dark:						#8076a3;
+/* Default media { */
+
+	:root {
+		--heading-lite:								#ffffff;
+		--heading-dark:								#494d5f;
+		--text-look-at-me:							#c60021;
+		--playground-back:							#fcd0c2;
+		--marker-red:                       		#ffccdd;
+		--marker-yellow:							#ffff66;	
+		--marker-green:								#ccffdd;
+		--delimiter-lite:							#ffccdd;
+		--modal-dark:								#8076a3;
+		
+		--content-margin-left:         				max(15vw, 60px);
+		--content-margin-right:          			15vw;
+		--content-width:							70vw;
+
+		--logo-div-display:							block;
+
+		--content-header-margin-left:				0px;
+
+		--scope-of-learning-display:				inline-flex;
+		
+		--wordspace-title-width:					fit-content;
+		--moz-wordspace-title-width:        		-moz-fit-content;
+		--wordspace-title-padding-top:				5pt;
+		--wordspace-title-padding-bottom:           5pt;
+		--wordspace-title-padding-left:				1em;
+		--wordspace-title-padding-right:            1em;
+
+		--scope-of-learning-details-margin-top:		10pt;
+		--scope-of-learning-details-margin-left:    1em;
+		--scope-of-learning-details-font-size:      14pt;
+
+		--main-menu-font-size:						20px;
+		--h1-font-size:								18pt;
+		--h2-font-size:								16pt;
+		--h3-font-size:								12pt;
+		
+		--header-margin-bottom:						20px;
+		--footer-margin-top:						40px;
+		
+		--logo-img-width:							9vw;
+		
+		--process-reporter-left:					40vw;			
+		--process-reporter-width:					20vw;
+
+		--section-margin-top:						15px;
+		--section-margin-bottom:					15px;
+		--section-header-height:					40px;
+		--section-content-margin-top:				10px;
+		--section-clicker-margin-left:				-50px;
+		--section-clicker-width:					50px;
+		
+		--func-block-margin-top:       				15px;
+		--func-block-margin-bottom:    				15px;
+		--service-func-block-margin-top: 			30px;
+		--area-border-radius:          				10px;
+		
+		--word-selectors-area-display:				inline-flex;
+		--part-of-speach-label-display: 			inline;
+		--part-of-speach-div-margin-top:			0px;
+
+		--tag-margin-right:			   				0px;
+		--tag-padding:                 				5px;
+		--tag-margin-left:							-5px;
+		--tag-border-radius:           				5px;
+		--tag-margin-right:			   				0px;
+		--tag-padding:                 				5px;
+		--tag-margin-left:							-5px;
+		--tag-border-radius:           				5px;
+		--tag-00-display:							none;
+		--tag-01-display:							none;
+		--tag-02-display:							inline;
+		--tag-03-display:							inline;
+		--tag-04-display:							inline;
+		--tag-05-display:							inline;
+		--tag-06-display:							inline;
+		--tag-07-display:							inline;
+		--tag-08-display:							inline;
+		--tag-09-display:							inline;
+		--tag-10-display:							inline;
+		
+		--word-area-div-min-height:                 80px;
+		--word-area-div-font-size:                  50px;
+		--mnemo-phrase-font-size:                   25px;
+
+		--action-button-margin:	       				35px;
+		
+		--service-font-size:           				9pt;
+	}
+
+/* } Default media */	
+
+
+/* Narrow screens */
+
+@media screen and (max-width: 800px) {
+
+	:root {
+		
+		--content-margin-left:         				max(5vw, 60px);	
+		--content-margin-right:          			max(5vw, 10px);
+		--content-width: 							calc(100vw - 
+														 var(--content-margin-left) - 
+														 var(--content-margin-right));
+
+		--logo-div-display:							none;
+
+		--content-header-margin-left:				var(--content-margin-left);
+
+		--scope-of-learning-display:				block;
+
+		--wordspace-title-width:					var(--content-width);
+		--moz-wordspace-title-width:        		var(--content-width);
+		--wordspace-title-padding-left:				0;
+		--wordspace-title-padding-right:            0;
+
+		--scope-of-learning-details-margin-top:		10pt;
+		--scope-of-learning-details-margin-left:    0pt;
+		--scope-of-learning-details-font-size:      12pt;
+
+		--main-menu-font-size:						12pt;
+		--h1-font-size:								18pt;
+		--h2-font-size:								16pt;
+		--h3-font-size:								12pt;
+		
+		--header-margin-bottom:						20px;
+		--footer-margin-top:						40px;
+		
+		--logo-img-width:							9vw;
+
+		--process-reporter-left:					20vw;			
+		--process-reporter-width:					60vw;	
+		
+		--section-margin-top:						15px;
+		--section-margin-bottom:					15px;
+		--section-header-height:					40px;
+		--section-content-margin-top:				10px;
+		
+		--func-block-margin-top:       				15px;
+		--func-block-margin-bottom:    				15px;
+		--service-func-block-margin-top: 			30px;
+		--area-border-radius:          				10px;
+		
+		--tag-margin-right:			   				0px;
+		--tag-padding:                 				5px;
+		--tag-margin-left:							-5px;
+		--tag-border-radius:           				5px;
+		--tag-02-display:							none;
+		--tag-03-display:							none;
+		--tag-04-display:							none;
+		
+		--word-area-div-min-height:                 80px;
+		--word-area-div-font-size:                  25px;
+		--mnemo-phrase-font-size:                   12px;
+
+		--action-button-margin:	       				35px;
+		
+		--service-font-size:           				9pt;
+	}
 	
-	--main-menu-font-size:				20px;
-	--h1-font-size:						18pt;
-	--h2-font-size:						16pt;
-	--h3-font-size:						12pt;
-	
-	--header-margin-bottom:				20px;
-	--footer-margin-top:				40px;
-	
-	--content-margin-left:         		15vw;
-	--content-margin-right:          	15vw;
-	--content-width:					70vw;
-	
-	--logo-img-width:					9vw;
-	
-	--section-margin-top:				15px;
-	--section-margin-bottom:			15px;
-	--section-header-height:			40px;
-	--section-content-margin-top:		10px;
-	
-	--func-block-margin-top:       		15px;
-	--func-block-margin-bottom:    		15px;
-	--service-func-block-margin-top: 	30px;
-	--area-border-radius:          		10px;
-	
-	--tag-margin-right:			   		0px;
-	--tag-padding:                 		5px;
-	--tag-margin-left:					-5px;
-	--tag-border-radius:           		5px;
-	
-	--action-button-margin:	       		35px;
-	
-	--service-font-size:           		9pt;
+} 
+
+@media screen and (max-width: 550px) {
+
+	:root {
+
+		--content-margin-left:         				max(5vw, 15px);
+
+		--scope-of-learning-details-font-size:      10pt;
+
+		--word-selectors-area-display:				block;
+		--part-of-speach-label-display: 			none;
+		--part-of-speach-div-margin-top:			6pt;
+
+		--section-clicker-margin-left:				-20px;
+		--section-clicker-width:					15px;
+	}
 }
 
 
@@ -56,6 +192,7 @@ body {
 
 div.genericPageContent {
 	margin-left: 		var(--content-margin-left);
+	
 	width:				var(--content-width);
 	line-height:		18pt;
 }
@@ -80,12 +217,13 @@ td ul {
 
 .labelAndControl {
 	margin-right:		1em;
-	white-space: 		var(heading-dark);
+	white-space: 		nowrap;
 }
 
 .fieldLabel {
 	margin-right:		0.5em;
 	font-weight: 		bold;
+	white-space: 		nowrap;
 }
 
 
@@ -98,6 +236,7 @@ td ul {
 }
 
 #logoDiv {
+	display:			var(--logo-div-display);
 	width: 				var(--content-margin-left);
 }
 
@@ -106,20 +245,24 @@ td ul {
 }
 
 #contentHeaderDiv {
+	margin-left:		var(--content-header-margin-left);
 	width:				var(--content-width);
 	min-height:			80pt;
 	position: 			relative;
 }	
 
 #scopeOfLearningDiv {
+	display:			var(--scope-of-learning-display);
 	width:				var(--content-width);
-	display:			inline-flex;
 }
 
 #wordspaceTitleDiv {
-	width:				fit-content;
-	width:				-moz-fit-content;
-	padding: 			5px 1em 5px 1em;
+	width:				var(--wordspace-title-width);
+	width:				var(--moz-wordspace-title-width);
+	padding-top: 		var(--wordspace-title-padding-top);
+	padding-bottom:		var(--wordspace-title-padding-bottom);
+	padding-left:		var(--wordspace-title-padding-left);
+	padding-right: 		var(--wordspace-title-padding-right);
 	border-radius: 		var(--area-border-radius);
 	background: 		var(--heading-dark);
 	text-align:			center;
@@ -148,18 +291,19 @@ td ul {
 }
 
 #scopeOfLearningDetailsDiv {
-	margin-left: 		1em;
-	font-size: 			14pt;
+	margin-top: 		var(--scope-of-learning-details-margin-top);
+	margin-left: 		var(--scope-of-learning-details-margin-left);
+	font-size: 			var(--scope-of-learning-details-font-size);
 }
 
 #levelSelectorSelect {
 	font-weight: 		bold;
-	font-size: 	 		14pt;
+	font-size: 	 		var(--scope-of-learning-details-font-size);
 }
 
 #lessonSelectorSelect {
 	font-weight: 		bold;
-	font-size: 	 		14pt;
+	font-size: 	 		var(--scope-of-learning-details-font-size);
 }
 
 #mainMenuDiv {
@@ -187,8 +331,8 @@ td ul {
 #processReporterDiv {
 	position: 			absolute;
 	top: 				10hw;
-	left: 				40vw;
-	width: 				20vw;
+	left: 				var(--process-reporter-left);
+	width: 				var(--process-reporter-width);
 	min-height: 		15hw;
 	color: 				#ffffff;
 	background: 		var(--modal-dark);
@@ -220,15 +364,15 @@ div.section {
 
 div.sectionClicker {
 	display: 			table-cell;
-	margin-left: 		-50px;
-	width: 				50px;
+	margin-left: 		var(--section-clicker-margin-left);
+	width: 				var(--section-clicker-width);
 	height:				var(--section-header-height);
 	cursor: 			pointer;
 }
 
 img.sectionClicker {
 	display: 			inline-block;
-	width: 				40px;
+	width: 				calc(var(--section-clicker-width)*4/5);
 	height: 			100%;
 	vertical-align:		middle;
 }
@@ -265,7 +409,19 @@ div.sectionContentArea {
 /* Word selectors */
 
 #wordSelectorsArea {
+	display: 			var(--word-selectors-area-display);
 	margin-bottom:		var(--func-block-margin-bottom);
+}
+
+
+/* Languages and parts of speach */
+
+#partOfSpeachDiv {
+	margin-top:			var(--part-of-speach-div-margin-top);
+}
+
+#partOfSpeachSelectorLabel {
+	display:			var(--part-of-speach-label-display);
 }
 
 
@@ -280,7 +436,7 @@ div.sectionContentArea {
 }
 
 .tag0 {
-	display: 			none;
+	display: 			var(--tag-00-display);
 	margin-right: 		var(--tag-margin-right);
 	padding: 			var(--tag-padding);
 	border-radius: 		var(--tag-border-radius);
@@ -290,7 +446,7 @@ div.sectionContentArea {
 }
 
 .tag1 {
-	display: 			none;
+	display: 			var(--tag-01-display);
 	margin-right: 		var(--tag-margin-right);
 	padding: 			var(--tag-padding);
 	border-radius:	 	var(--tag-border-radius);
@@ -300,6 +456,7 @@ div.sectionContentArea {
 }
 
 .tag2 {
+	display: 			var(--tag-02-display);
 	margin-right: 		var(--tag-margin-right);
 	padding: 			var(--tag-padding);
 	border-radius: 		var(--tag-border-radius);
@@ -309,6 +466,7 @@ div.sectionContentArea {
 }
 
 .tag3 {
+	display: 			var(--tag-03-display);
 	margin-right: 		var(--tag-margin-right);
 	padding: 			var(--tag-padding);
 	border-radius: 		var(--tag-border-radius);
@@ -318,6 +476,7 @@ div.sectionContentArea {
 }
 
 .tag4 {
+	display: 			var(--tag-04-display);
 	margin-right: 		var(--tag-margin-right);
 	padding: 			var(--tag-padding);
 	border-radius: 		var(--tag-border-radius);
@@ -327,6 +486,7 @@ div.sectionContentArea {
 }
 
 .tag5 {
+	display: 			var(--tag-05-display);
 	margin-right: 		var(--tag-margin-right);
 	padding: 			var(--tag-padding);
 	border-radius: 		var(--tag-border-radius);
@@ -336,6 +496,7 @@ div.sectionContentArea {
 }
 
 .tag6 {
+	display: 			var(--tag-06-display);
 	margin-right: 		var(--tag-margin-right);
 	padding: 			var(--tag-padding);
 	border-radius: 		var(--tag-border-radius);
@@ -345,6 +506,7 @@ div.sectionContentArea {
 }
 
 .tag7 {
+	display: 			var(--tag-07-display);
 	margin-right: 		var(--tag-margin-right);
 	padding: 			var(--tag-padding);
 	border-radius: 		var(--tag-border-radius);
@@ -354,6 +516,7 @@ div.sectionContentArea {
 }
 
 .tag8 {
+	display: 			var(--tag-08-display);
 	margin-right: 		var(--tag-margin-right);
 	padding: 			var(--tag-padding);
 	border-radius: 		var(--tag-border-radius);
@@ -363,6 +526,7 @@ div.sectionContentArea {
 }
 
 .tag9 {
+	display: 			var(--tag-09-display);
 	margin-right: 		var(--tag-margin-right);
 	padding: 			var(--tag-padding);
 	border-radius: 		var(--tag-border-radius);
@@ -372,6 +536,7 @@ div.sectionContentArea {
 }
 
 .tag10 {
+	display: 			var(--tag-10-display);
 	margin-right: 		var(--tag-margin-right);
 	padding: 			var(--tag-padding);
 	border-radius: 		var(--tag-border-radius);
@@ -384,18 +549,20 @@ div.sectionContentArea {
 /* Browsing word */
 
 #wordAreaDiv {
-	min-height: 		80px;
+	display: 			table-cell;
+	width: 				var(--content-width);
+	min-height: 		var(--word-area-div-min-height);
 	margin-bottom: 		var(--func-block-margin-bottom);
 	border-radius: 		var(--area-border-radius);
 	padding: 			15pt;
 	text-align: 		center;
 	vertical-align: 	middle;
 	background: 		var(--playground-back);
-	font-size: 			60px;
+	font-size: 			var(--word-area-div-font-size);
 }
 
 #mnemoPhraseAreaDiv {
-	font-size: 			32px;
+	font-size: 			var(--mnemo-phrase-font-size);
 }
 
 span.hebrewWordInMnemoPhrase {

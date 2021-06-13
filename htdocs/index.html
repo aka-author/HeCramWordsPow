@@ -74,7 +74,10 @@
 			
 				<div id="scopeOfLearningDiv">
 				
-					<div id="wordspaceTitleDiv">Wordspace</div> 
+					<div id="wordspaceFullTitleDiv">
+						<div id="wordspaceTitleDiv">Wordspace</div> 
+						<div id="providerRefDiv"></div>
+					</div>
 					
 					<div id="scopeOfLearningDetailsDiv">
 					
@@ -100,8 +103,6 @@
 					</div>
 					
 				</div> 
-				
-				<div id="providerRefDiv"></div>
 				
 				<div id="mainMenuDiv">
 				
@@ -179,31 +180,36 @@
 							 
 							<div id="wordSelectorsArea">
 							
-								<span class="labelAndControl">
-									<select id="riddleLangSelectorSelect" 
-											onchange="GLOBAL_app.process(this.id, 'onChange')">
-									</select>
-								
-									<span id="fromToArrowSpan">&#9654;</span>
+								<div id="gameLangsDiv">
+									<span class="labelAndControl">
+										<select id="riddleLangSelectorSelect" 
+												onchange="GLOBAL_app.process(this.id, 'onChange')">
+										</select>
 									
-									<select id="guessLangSelectorSelect"
-											onchange="GLOBAL_app.process(this.id, 'onChange')">
-									</select>	
-								</span>
+										<span id="fromToArrowSpan"><!--&#9654;--><b>&gt;</b></span>
+										
+										<select id="guessLangSelectorSelect"
+												onchange="GLOBAL_app.process(this.id, 'onChange')">
+										</select>	
+									</span>
+								</div>
 							
-								<span class="labelAndControl">
-									<label id="partOfSpeachSelectorLabel" 
-										   class="fieldLabel">Part of speach:</label>
-									<select id="partOfSpeachSelectorSelect"
-											onchange="GLOBAL_app.process(this.id, 'onChange')">
-										<option value="all" 
-												id="partOfSpeachSelectorSelect__all">All</option>
-									</select>
-								</span>
+								<div id="partOfSpeachDiv">
+									<span id="partOfSpeachSpan" class="labelAndControl">
+										<label id="partOfSpeachSelectorLabel" 
+											class="fieldLabel">Part of speach:</label>
+										<select id="partOfSpeachSelectorSelect"
+												onchange="GLOBAL_app.process(this.id, 'onChange')">
+											<option value="all" 
+													id="partOfSpeachSelectorSelect__all">All</option>
+										</select>
+									</span>
+								</div>
+
 							</div> 
-							 
-							 
+							  
 							<div id="subjectDomainCloudDiv"></div> 
+
 						</div> <!-- section content -->	
 						
 					</div> <!-- section body -->

@@ -238,7 +238,7 @@ class Game extends Bureaucrat {
 	setCurrPartOfSpeach(pos) {
 		this.currPartOfSpeachCode = pos ? pos.getCode() : "all";
 		this.rebuildCurrFilter();
-		this.getUserConfig().setPosCode(this.getWordspaceId(), pos.getCode());
+		this.getUserConfig().setPosCode(this.getWordspaceId(), this.currPartOfSpeachCode);
 	}
 
 	getCurrBaseLangCode() {

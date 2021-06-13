@@ -263,7 +263,7 @@ class MainPage extends Bureaucrat {
 	// Longreads 
 	
 	assembleLongreadUrl(localPath) {
-		return "/cramwords/topics/{lang_code}/" + localPath;
+		return "/topics/{lang_code}/" + localPath;
 	}		
 	
 	createLongreads() {
