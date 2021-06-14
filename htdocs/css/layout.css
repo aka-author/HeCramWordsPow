@@ -73,17 +73,30 @@
 		--tag-padding:                 				5px;
 		--tag-margin-left:							-5px;
 		--tag-border-radius:           				5px;
+		--tag-cloud-line-height:					24px;
+
 		--tag-00-display:							none;
+		--tag-00-font-size: 						6px; 
 		--tag-01-display:							none;
+		--tag-01-font-size: 						8px; 
 		--tag-02-display:							inline;
+		--tag-02-font-size: 						10px; 
 		--tag-03-display:							inline;
+		--tag-03-font-size:							12px;
 		--tag-04-display:							inline;
+		--tag-04-font-size: 						14px;
 		--tag-05-display:							inline;
+		--tag-05-font-size: 						16px;
 		--tag-06-display:							inline;
+		--tag-06-font-size: 						18px;
 		--tag-07-display:							inline;
+		--tag-07-font-size:                         20px;
 		--tag-08-display:							inline;
+		--tag-08-font-size:                         22px; 
 		--tag-09-display:							inline;
+		--tag-09-font-size:                         24px;
 		--tag-10-display:							inline;
+		--tag-10-font-size:                         26px;
 		
 		--word-area-div-min-height:                 80px;
 		--word-area-div-font-size:                  50px;
@@ -157,13 +170,34 @@
 		--tag-padding:                 				5px;
 		--tag-margin-left:							-5px;
 		--tag-border-radius:           				5px;
+		--tag-cloud-line-height:					18px;
+
+		--tag-00-display:							none;
+		--tag-00-font-size: 						6px; 
+		--tag-01-display:							none;
+		--tag-01-font-size: 						6px; 
 		--tag-02-display:							none;
+		--tag-02-font-size: 						6px; 
 		--tag-03-display:							none;
-		--tag-04-display:							none;
-		
+		--tag-03-font-size:							6px;
+		--tag-04-display:							inline;
+		--tag-04-font-size: 						10px;
+		--tag-05-display:							inline;
+		--tag-05-font-size: 						12px;
+		--tag-06-display:							inline;
+		--tag-06-font-size: 						12px;
+		--tag-07-display:							inline;
+		--tag-07-font-size:                         12px;
+		--tag-08-display:							inline;
+		--tag-08-font-size:                         14px; 
+		--tag-09-display:							inline;
+		--tag-09-font-size:                         16px;
+		--tag-10-display:							inline;
+		--tag-10-font-size:                         18px;
+
 		--word-area-div-min-height:                 80px;
-		--word-area-div-font-size:                  25px;
-		--mnemo-phrase-font-size:                   25px;
+		--word-area-div-font-size:                  45px;
+		--mnemo-phrase-font-size:                   18px;
 
 		--action-button-margin:	       				35px;
 		
@@ -189,6 +223,11 @@
 
 		--section-clicker-margin-left:				-20px;
 		--section-clicker-width:					15px;
+
+		--word-area-div-min-height:                 80px;
+		--word-area-div-font-size:                  35px;
+		--mnemo-phrase-font-size:                   18px;
+
 	}
 }
 
@@ -441,7 +480,7 @@ div.sectionContentArea {
 	margin-top:			var(--func-block-margin-top);
 	margin-left:		var(--tag-margin-left);
 	text-align: 		left;
-	line-height: 		24pt;
+	line-height: 		var(--tag-cloud-line-height);
 	
 }
 
@@ -452,7 +491,7 @@ div.sectionContentArea {
 	border-radius: 		var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			6px;
+	font-size: 			var(--tag-00-font-size); /* 6px; */
 }
 
 .tag1 {
@@ -462,7 +501,7 @@ div.sectionContentArea {
 	border-radius:	 	var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			8px;
+	font-size: 			var(--tag-01-font-size); /* 8px; */
 }
 
 .tag2 {
@@ -472,7 +511,7 @@ div.sectionContentArea {
 	border-radius: 		var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			10px;
+	font-size: 			var(--tag-02-font-size); /* 10px; */
 }
 
 .tag3 {
@@ -482,7 +521,7 @@ div.sectionContentArea {
 	border-radius: 		var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			12px;
+	font-size: 			var(--tag-03-font-size); /* 12px; */
 }
 
 .tag4 {
@@ -492,7 +531,7 @@ div.sectionContentArea {
 	border-radius: 		var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			14px;
+	font-size: 			var(--tag-04-font-size); /* 14px; */
 }
 
 .tag5 {
@@ -502,7 +541,7 @@ div.sectionContentArea {
 	border-radius: 		var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			16px;
+	font-size: 			var(--tag-05-font-size); /* 16px; */
 }
 
 .tag6 {
@@ -512,7 +551,7 @@ div.sectionContentArea {
 	border-radius: 		var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			18px;
+	font-size: 			var(--tag-06-font-size); /* 18px; */
 }
 
 .tag7 {
@@ -522,7 +561,7 @@ div.sectionContentArea {
 	border-radius: 		var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			20px;
+	font-size: 			var(--tag-07-font-size); /* 20px; */
 }
 
 .tag8 {
@@ -532,7 +571,7 @@ div.sectionContentArea {
 	border-radius: 		var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			22px;
+	font-size: 			var(--tag-08-font-size); /* 22px; */
 }
 
 .tag9 {
@@ -542,7 +581,7 @@ div.sectionContentArea {
 	border-radius: 		var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			24px;
+	font-size: 			var(--tag-09-font-size); /* 24px; */
 }
 
 .tag10 {
@@ -552,7 +591,7 @@ div.sectionContentArea {
 	border-radius: 		var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			26px;
+	font-size: 			var(--tag-10-font-size); 
 }
 
 
@@ -574,7 +613,7 @@ div.sectionContentArea {
 
 #mnemoPhraseAreaDiv {
 	font-size: 			var(--mnemo-phrase-font-size);
-	background: #ccddee;
+	background:			var(--mnemo-phrase-background);
 }
 
 span.hebrewWordInMnemoPhrase {
