@@ -16,7 +16,10 @@
 		
 		--content-margin-left:         				max(15vw, 60px);
 		--content-margin-right:          			15vw;
-		--content-width:							70vw;
+		/*--content-width:							70vw;*/
+		--content-width: 							calc(100vw - 
+														 var(--content-margin-left) - 
+														 var(--content-margin-right));
 
 		--logo-div-display:							block;
 
@@ -107,6 +110,12 @@
 		--service-font-size:           				9pt;
 	}
 
+@supports (-ms-ime-align:auto) {
+	:root {
+		--content-margin-left:         				15vw;
+	}	
+}	
+
 /* TBD:
 @media (min-width:320px)  {  smartphones, portrait iPhone, portrait 480x320 phones (Android)  }
 @media (min-width:480px)  {  smartphones, Android phones, landscape iPhone  }
@@ -124,9 +133,7 @@
 		
 		--content-margin-left:         				max(5vw, 60px);	
 		--content-margin-right:          			max(5vw, 10px);
-		--content-width: 							calc(100vw - 
-														 var(--content-margin-left) - 
-														 var(--content-margin-right));
+		
 
 		--logo-div-display:							none;
 
@@ -167,9 +174,9 @@
 		--area-border-radius:          				10px;
 		
 		--tag-margin-right:			   				0px;
-		--tag-padding:                 				5px;
-		--tag-margin-left:							-5px;
-		--tag-border-radius:           				5px;
+		--tag-padding:                 				0px 2px 0px 2px;
+		--tag-margin-left:							-2px;
+		--tag-border-radius:           				2px;
 		--tag-cloud-line-height:					18px;
 
 		--tag-00-display:							none;
@@ -204,6 +211,13 @@
 		--service-font-size:           				9pt;
 	}
 	
+	@supports (-ms-ime-align:auto) {
+		:root {
+			--content-margin-left:         			10vw;
+			--content-margin-right:          		10vw;
+		}
+	}	
+	
 } 
 
 
@@ -229,6 +243,13 @@
 		--mnemo-phrase-font-size:                   18px;
 
 	}
+
+	@supports (-ms-ime-align:auto) {
+		:root {
+			--content-margin-left:         			20px;
+			--content-margin-right:          		20px;
+		}
+	}	
 }
 
 
@@ -491,7 +512,7 @@ div.sectionContentArea {
 	border-radius: 		var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			var(--tag-00-font-size); /* 6px; */
+	font-size: 			var(--tag-00-font-size); 
 }
 
 .tag1 {
@@ -501,7 +522,7 @@ div.sectionContentArea {
 	border-radius:	 	var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			var(--tag-01-font-size); /* 8px; */
+	font-size: 			var(--tag-01-font-size); 
 }
 
 .tag2 {
@@ -511,7 +532,7 @@ div.sectionContentArea {
 	border-radius: 		var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			var(--tag-02-font-size); /* 10px; */
+	font-size: 			var(--tag-02-font-size); 
 }
 
 .tag3 {
@@ -521,7 +542,7 @@ div.sectionContentArea {
 	border-radius: 		var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			var(--tag-03-font-size); /* 12px; */
+	font-size: 			var(--tag-03-font-size); 
 }
 
 .tag4 {
@@ -531,7 +552,7 @@ div.sectionContentArea {
 	border-radius: 		var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			var(--tag-04-font-size); /* 14px; */
+	font-size: 			var(--tag-04-font-size); 
 }
 
 .tag5 {
@@ -541,7 +562,7 @@ div.sectionContentArea {
 	border-radius: 		var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			var(--tag-05-font-size); /* 16px; */
+	font-size: 			var(--tag-05-font-size); 
 }
 
 .tag6 {
@@ -551,7 +572,7 @@ div.sectionContentArea {
 	border-radius: 		var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			var(--tag-06-font-size); /* 18px; */
+	font-size: 			var(--tag-06-font-size); 
 }
 
 .tag7 {
@@ -561,7 +582,7 @@ div.sectionContentArea {
 	border-radius: 		var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			var(--tag-07-font-size); /* 20px; */
+	font-size: 			var(--tag-07-font-size); 
 }
 
 .tag8 {
@@ -571,7 +592,7 @@ div.sectionContentArea {
 	border-radius: 		var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			var(--tag-08-font-size); /* 22px; */
+	font-size: 			var(--tag-08-font-size); 
 }
 
 .tag9 {
@@ -581,7 +602,7 @@ div.sectionContentArea {
 	border-radius: 		var(--tag-border-radius);
 	white-space: 		nowrap;
 	cursor: 			pointer;
-	font-size: 			var(--tag-09-font-size); /* 24px; */
+	font-size: 			var(--tag-09-font-size); 
 }
 
 .tag10 {
@@ -821,4 +842,3 @@ table.wordspaceDirectory td {
 	margin-top:			var(--footer-margin-top);
 	margin-left: 		var(--content-left-margin);
 }
-
