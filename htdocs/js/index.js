@@ -82,14 +82,17 @@ class Index extends Comparator{
 		
 		let keyValues = this.getItemKeyValues(item);
 		
-		for(let keyValueIdx in keyValues) {
-			let keyValue = keyValues[keyValueIdx];
-			let keyHash = this.checkKeyValue(keyValue);
-			if(keyHash)
-				this.keyEntries[keyHash].items.add(item);
+		if(keyValues.length > 0) {
+			
+			for(let keyValueIdx in keyValues) {
+				let keyValue = keyValues[keyValueIdx];
+				let keyHash = this.checkKeyValue(keyValue);
+				if(keyHash)
+					this.keyEntries[keyHash].items.add(item);
+			}
+			
+			this.indexedItems.add(item);
 		}
-		
-		this.indexedItems.add(item);
 	}
 	
 	selectKeyValues() {
@@ -141,7 +144,7 @@ class Index extends Comparator{
 	
 	countItemsForKeyValue(keyValue) {
 		let hashValue = this.assembleKeyHash(keyValue);
-		return this.keyEntries[hashValue].items.size;
+		return this.keyEntries[hashValue] ? this.keyEntries[hashValue].items.size : 20;
 	}
 	
 	selectKeyValueStat(keyValue) {

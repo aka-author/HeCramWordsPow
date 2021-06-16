@@ -30,8 +30,9 @@ class MainPage extends Bureaucrat {
 		this.guessLangSelector = new GuessLangSelector(this, "guessLangSelectorSelect");
 		this.partOfSpeachSelector = new PartOfSpeachSelector(this, "partOfSpeachSelectorSelect");
 		
-		this.subjectDomainTagCloudSwitch = new subjectDomainTagCloudSwitch(this, "subjectDomainCloudSwitchDiv");
+		this.subjectDomainTagCloudSwitch = new SubjectDomainTagCloudSwitch(this, "subjectDomainCloudSwitchDiv");
 		this.subjectDomainTagCloud = new SubjectDomainTagCloud(this, "subjectDomainCloudDiv");
+		this.innerTagCloud = new InnerTagCloud(this, "innerTagsCloudDiv");
 			
 		this.questionArea = new LexemeArea(this, "questionAreaDiv");
 		this.answerArea = new LexemeArea(this, "answerAreaDiv");
@@ -257,6 +258,15 @@ class MainPage extends Bureaucrat {
 	
 	localizeSubjectDomainTagCloud(localTags, langCode) {		
 		this.subjectDomainTagCloud.showLocalWordings(langCode);
+	}
+
+	setInnerTags(tagRecords, tagLocalWordings) {		
+		this.innerTagCloud.appendTags(tagRecords);
+		this.innerTagCloud.setTagLocalWordings(tagLocalWordings);
+	}
+	
+	localizeInnerTagCloud(localTags, langCode) {		
+		this.innerTagCloud.showLocalWordings(langCode);
 	}
 	
 	

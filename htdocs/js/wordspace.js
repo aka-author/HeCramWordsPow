@@ -6,6 +6,12 @@
 // Func:	Managing wordspaces            (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
+
+const EVERY_TAG_CODE = "every";
+const OUTER_TAG_CODE = "outer";
+const INNER_TAG_CODE = "inner";
+      
+
 // Parsing headwords
 
 function isHeadwordBaseTerminator(chr) {
@@ -94,14 +100,28 @@ class PartOfSpeachIndex extends StringIndex {
 }
 
 
-class SubjectDomainTagIndex extends StringIndex {
+class TagIndex extends StringIndex {
 	
-	constructor() {
-		super("subject_domain_tag");
+	constructor(indexName, validTags=null) {
+		super(indexName);
+		this.validTags = validTags;
 	}
 	
 	getItemKeyValues(dicEntry) {
-		return dicEntry.getSubjectDomainTags();
+
+		let tags = [];
+		
+		let rawTags = dicEntry.getSubjectDomainTags();
+		
+		if(this.validTags) {
+			for(let i in rawTags)
+				if(this.validTags.includes(rawTags[i])) 
+					tags.push(rawTags[i]);
+		}		
+		else 
+			tags = rawTags;
+
+		return tags;
 	}
 	
 }
@@ -190,7 +210,7 @@ class DicEntry {
 		return partOfSpeachCode;
 	}
 	
-	getSubjectDomainTags() {
+	getSubjectDomainTags(tagClassCode=EVERY_TAG_CODE) {
 		return this.subjectDomainTags;
 	}
 	
@@ -259,12 +279,16 @@ class Wordspace {
 		this.externalDics = new Array();
 		
 		this.dicEntries  = new Array();
+
+		this.outerTags = new Array();
+		this.innerTags = new Array();
 		
 		this.langCodeIndex = new LangCodeIndex();
 		this.levelCodeIndex = new LevelCodeIndex();
 		this.lessonNoIndex = new LessonNoIndex();
 		this.partOfSpeachIndex = new PartOfSpeachIndex();
-		this.subjectDomainTagIndex = new SubjectDomainTagIndex();
+		this.subjectDomainTagIndex = new TagIndex("outer_tags", this.getOuterTags());
+		this.innerTagIndex = new TagIndex("inner_tags", this.getInnerTags());
 	}
 	
 	getId() {
@@ -341,7 +365,6 @@ class Wordspace {
 	}
 	
 	getPartOfSpeach(posCode) {
-		console.log(posCode);
 		return this.poses.getValue(posCode);
 	}
 	
@@ -365,6 +388,7 @@ class Wordspace {
 		this.lessonNoIndex.appendItem(dicEntry);
 		this.partOfSpeachIndex.appendItem(dicEntry);
 		this.subjectDomainTagIndex.appendItem(dicEntry);
+		this.innerTagIndex.appendItem(dicEntry);
 	}
 		
 	translateHeadword(srcLangCode, srcHeadword, targetLangCode) {
@@ -416,12 +440,57 @@ class Wordspace {
 		return this.lessonNoIndex.selectKeyValues().sort(cmpFunc);
 	}
 	
-	getSubjectDomainTags() {
-		return this.subjectDomainTagIndex.selectKeyValues();
+	appendTag(tag, tagClassCode) {
+
+		switch(tagClassCode) {
+			case OUTER_TAG_CODE: 
+				this.outerTags.push(tag);
+				break;
+			case INNER_TAG_CODE:
+				this.innerTags.push(tag)	
+				break;
+			default:
+				this.outerTags.push(tag);	
+		}
+
+	}
+
+	getOuterTags() {
+		return this.outerTags;
+	}
+
+	getInnerTags() {
+		return this.innerTags;
+	}
+
+	getSubjectDomainTags(tagClassCode=EVERY_TAG_CODE) {
+
+		let tags = [];
+
+		switch(tagClassCode) {
+			case OUTER_TAG_CODE:
+				tags = this.getOuterTags();
+				break;
+			case INNER_TAG_CODE:
+				tags = this.getInnerTags();
+				break; 		
+			default:
+				tags = this.subjectDomainTagIndex.selectKeyValues(); 	
+		}
+
+		return tags;
 	}
 	
 	getSubjectDomainTagStat(tag) {
-		return this.subjectDomainTagIndex.selectKeyValueStat(tag);
+
+		if(this.getInnerTags().includes(tag))
+			return this.innerTagIndex.selectKeyValueStat(tag);
+		else		
+			return this.subjectDomainTagIndex.selectKeyValueStat(tag);
+	}
+
+	getInnerTagStat(tag) {
+		return this.innerTagIndex.selectKeyValueStat(tag);
 	}
 	
 	getSubjectDomainTagWordings() {
@@ -483,9 +552,9 @@ class Wordspace {
 				"relativeSize" : relativeSize};
 	}
 	
-	getSubjectDomainTagRecords() {
+	getSubjectDomainTagRecords(tagClassCode) {
 				
-		let tags = this.getSubjectDomainTags();
+		let tags = this.getSubjectDomainTags(tagClassCode);
 		
 		let tagRecords = new Array();
 		
@@ -498,10 +567,32 @@ class Wordspace {
 		
 		return tagRecords;
 	}
+
+	geInnerDomainTagRecords() {
+				
+		let tags = this.getSubjectDomainTags(INNER_TAG_CODE);
+		
+		let tagRecords = new Array();
+		
+		for(let tagIdx in tags) {
+			let tag = tags[tagIdx];
+			let stat = this.getInnerTagStat(tag);
+			let tagRecord = this.assembleTagRecord(tag, stat.relativeSize);
+			tagRecords[tag] = tagRecord;
+		}
+		
+		return tagRecords;
+	}
 	
 	assembleSubjectDomainTagFilter(tags) {
 		return tags ? 
 			this.subjectDomainTagIndex.selectItemsByKeyValues(...tags) :
 			this.subjectDomainTagIndex.selectAllItems();
+	}
+
+	assembleInnerTagFilter(tags) {
+		return tags ? 
+			this.innerTagIndex.selectItemsByKeyValues(...tags) :
+			this.innerTagIndex.selectAllItems();
 	}
 }

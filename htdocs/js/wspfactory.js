@@ -11,7 +11,7 @@ class WordspaceFactory {
 	constructor(workbook) {
 		
 		this.workbook = workbook; 
-	
+		
 		this.wordspace = new Wordspace(workbook.getId());
 		
 		this.langCodes = new Array();
@@ -359,7 +359,9 @@ class WordspaceFactory {
 		let tagsSheetName = this.getMetaSheetName("tags");
 				
 		let baseLangCodes = this.getBaseLangCodes();
-		
+
+		let ws = this.getWordspace();
+
 		let tagWordings = new Array();
 		
 		let countRows = this.countRows(tagsSheetName);
@@ -367,6 +369,8 @@ class WordspaceFactory {
 		for(let rowIdx = 0; rowIdx < countRows; rowIdx++) {
 			
 			let tag = this.getFieldValue(tagsSheetName, rowIdx, "tag");
+			let tagClassCode = String(this.getFieldValue(tagsSheetName, rowIdx, "class"));
+			ws.appendTag(tag, tagClassCode.toLowerCase());
 			
 			tagWordings[tag] = new Array();
 			
@@ -376,8 +380,8 @@ class WordspaceFactory {
 					this.getFieldValue(tagsSheetName, rowIdx, "tag_" + langCode);
 			}
 		}
-		
-		this.getWordspace().setSubjectDomainTagWordings(tagWordings);
+			
+		ws.setSubjectDomainTagWordings(tagWordings);
 	}		
 		
 	// Dictionary entries and lexemes	

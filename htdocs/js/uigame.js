@@ -326,7 +326,7 @@ class MainMenuItem extends PaneLabel {
 }
 
 
-class subjectDomainTagCloudSwitch extends UiControl {
+class SubjectDomainTagCloudSwitch extends UiControl {
 	
 	onChange() {
 		let switchImg = document.getElementById("subjectDomainCloudSwitchImg");
@@ -343,6 +343,14 @@ class SubjectDomainTagCloud extends TagCloud {
 	
 	onChange() {
 		this.getGame().selectSubjectDomains(this.getUiControlValue());
+	}
+	
+}
+
+class InnerTagCloud extends TagCloud {
+	
+	onChange() {
+		this.getGame().selectInnerTags(this.getUiControlValue());
 	}
 	
 }
