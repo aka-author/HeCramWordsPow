@@ -81,18 +81,20 @@ class Index extends Comparator{
 	appendItem(item) {
 		
 		let keyValues = this.getItemKeyValues(item);
-		
-		if(keyValues.length > 0) {
 			
-			for(let keyValueIdx in keyValues) {
-				let keyValue = keyValues[keyValueIdx];
-				let keyHash = this.checkKeyValue(keyValue);
-				if(keyHash)
-					this.keyEntries[keyHash].items.add(item);
-			}
-			
-			this.indexedItems.add(item);
+		for(let keyValueIdx in keyValues) {
+			let keyValue = keyValues[keyValueIdx];
+			let keyHash = this.checkKeyValue(keyValue);
+			if(keyHash)
+				this.keyEntries[keyHash].items.add(item);
 		}
+			
+		// That's not a bug, as I unfairly considered once. An item may 
+		// participate in an index without having key values. Otherwise 
+		// a filter made by "all" excludes appropriate items when we 
+		// intersected it with other filters. We'll implement more indexing 
+		// options later: "strict" and "liberal".
+		this.indexedItems.add(item);
 	}
 	
 	selectKeyValues() {

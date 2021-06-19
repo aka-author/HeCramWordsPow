@@ -216,7 +216,7 @@ class Game extends Bureaucrat {
 
 		this.currFilter = 
 			currLessonNoFilter.crossWithFilters(currLevelCodeFilter,
-				currPartOfSpeachFilter, currTagFilter);	
+				currPartOfSpeachFilter, currTagFilter);		
 	}
 	
 	getCurrLevelCode() {

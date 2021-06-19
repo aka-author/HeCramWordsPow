@@ -11,7 +11,7 @@ class WordspaceFactory {
 	constructor(workbook) {
 		
 		this.workbook = workbook; 
-		
+
 		this.wordspace = new Wordspace(workbook.getId());
 		
 		this.langCodes = new Array();
@@ -460,8 +460,8 @@ class WordspaceFactory {
 			let countRows = this.countRows(posSneetName);
 			for(let rowIdx = 0; rowIdx < countRows; rowIdx++) {
 				let dicEntry = this.fetchDicEntry(posSneetName, rowIdx);
-				if(dicEntry.getHeadword(this.getTargetLangCode()))
-					this.appendDicEntry(dicEntry);
+				if(dicEntry.getHeadword(this.getTargetLangCode())) 
+					this.appendDicEntry(dicEntry); 
 			}	
 		}
 	}
@@ -495,7 +495,6 @@ class WordspaceFactory {
 		this.importPartsOfSpeach();
 		this.importTags();		
 		this.importDicEntries();
-					
 		return this;
 	}
 }	

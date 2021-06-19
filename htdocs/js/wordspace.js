@@ -381,7 +381,7 @@ class Wordspace {
 	}
 	
 	appendDicEntry(dicEntry) {
-		
+
 		this.dicEntries.push(dicEntry);
 		
 		this.levelCodeIndex.appendItem(dicEntry);
