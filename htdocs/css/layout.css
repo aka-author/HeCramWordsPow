@@ -1,397 +1,895 @@
-:root {
-	--content-left-margin:         		180px;
-	--func-block-top-margin:       		15px;
-	--func-block-top-margin-large: 		30px;
-	--func-block-bottom-margin:    		15px;
-	--last-func-block-bottom-margin:	10%;
-	--area-border-radius:          		10px;
-	--action-button-width:	       		70px;
-	--action-button-height:	       		70px;
-	--action-button-radius:	       		36px;
-	--action-button-margin:	       		35px;
-	--action-button-normal-border: 		2px solid black;
-	--supreme-font-size:           		14pt;
-	--normal-font-size:            		12pt;
-	--service-font-size:           		9pt;
-	--nakar-emphased-color:        		#c60021;
-	--tag-margin-right:			   		0px;
-	--tag-padding:                 		5px;
-	--tag-border-radius:           		5px;
+
+/* Layout core parameters */
+
+/* Generic screens */
+
+	:root {
+		--heading-lite:								#ffffff;
+		--heading-dark:								#494d5f;
+		--text-look-at-me:							#c60021;
+		--playground-back:							#fcd0c2;
+		--marker-red:                       		#ffccdd;
+		--marker-yellow:							#ffbf00;	
+		--marker-green:								#ccffdd;
+		--delimiter-lite:							#ffccdd;
+		--modal-dark:								#8076a3;
+		
+		--content-margin-left:         				max(15vw, 60px);
+		--content-margin-right:          			15vw;
+		--content-width: 							calc(100vw - 
+														 var(--content-margin-left) - 
+														 var(--content-margin-right));
+
+		--logo-div-display:							block;
+
+		--content-header-margin-left:				0px;
+
+		--scope-of-learning-display:				inline-flex;
+		
+		--wordspace-title-width:					fit-content;
+		--moz-wordspace-title-width:        		-moz-fit-content;
+		--wordspace-title-padding-top:				5pt;
+		--wordspace-title-padding-bottom:           5pt;
+		--wordspace-title-padding-left:				1em;
+		--wordspace-title-padding-right:            1em;
+
+		--scope-of-learning-details-margin-top:		10pt;
+		--scope-of-learning-details-margin-left:    1em;
+		--scope-of-learning-details-font-size:      14pt;
+
+		--main-menu-font-size:						20px;
+		--h1-font-size:								18pt;
+		--h2-font-size:								16pt;
+		--h3-font-size:								12pt;
+		
+		--header-margin-bottom:						20px;
+		--footer-margin-top:						40px;
+		
+		--logo-img-width:							9vw;
+		
+		--process-reporter-left:					40vw;			
+		--process-reporter-width:					20vw;
+
+		--section-margin-top:						15px;
+		--section-margin-bottom:					15px;
+		--section-header-height:					40px;
+		--section-content-margin-top:				10px;
+		--section-clicker-margin-left:				-50px;
+		--section-clicker-width:					50px;
+		
+		--func-block-margin-top:       				15px;
+		--func-block-margin-bottom:    				15px;
+		--service-func-block-margin-top: 			30px;
+		--area-border-radius:          				10px;
+		
+		--word-selectors-area-display:				inline-flex;
+		--game-langs-margin-bottom:					0px;
+		--part-of-speach-label-display: 			inline;
+		--part-of-speach-div-margin-top:			0px;
+
+		--tag-cloud-div-display:                    inline-flex;
+		--tag-margin-right:			   				0px;
+		--tag-padding:                 				5px;
+		--tag-margin-left:							-5px;
+		--tag-border-radius:           				5px;
+		--tag-margin-right:			   				0px;
+		--tag-padding:                 				5px;
+		--tag-margin-left:							-5px;
+		--tag-border-radius:           				5px;
+		--tag-cloud-line-height:					24px;
+
+		--tag-00-display:							none;
+		--tag-00-font-size: 						6px; 
+		--tag-01-display:							none;
+		--tag-01-font-size: 						8px; 
+		--tag-02-display:							inline;
+		--tag-02-font-size: 						10px; 
+		--tag-03-display:							inline;
+		--tag-03-font-size:							12px;
+		--tag-04-display:							inline;
+		--tag-04-font-size: 						14px;
+		--tag-05-display:							inline;
+		--tag-05-font-size: 						15px;
+		--tag-06-display:							inline;
+		--tag-06-font-size: 						16px;
+		--tag-07-display:							inline;
+		--tag-07-font-size:                         17px;
+		--tag-08-display:							inline;
+		--tag-08-font-size:                         18px; 
+		--tag-09-display:							inline;
+		--tag-09-font-size:                         19px;
+		--tag-10-display:							inline;
+		--tag-10-font-size:                         20px;
+		
+		--word-area-div-min-height:                 80px;
+		--word-area-div-font-size:                  50px;
+		--mnemo-phrase-font-size:                   25px;
+
+		--action-button-margin:	       				35px;
+		
+		--service-font-size:           				9pt;
+	}
+
+	@supports (-ms-ime-align:auto) {
+		:root {
+			--content-margin-left:         			15vw;
+		}	
+	}	
+
+/* TBD:
+@media (min-width:320px)  {  smartphones, portrait iPhone, portrait 480x320 phones (Android)  }
+@media (min-width:480px)  {  smartphones, Android phones, landscape iPhone  }
+@media (min-width:600px)  {  portrait tablets, portrait iPad, e-readers (Nook/Kindle), landscape 800x480 phones (Android)  }
+@media (min-width:801px)  {  tablet, landscape iPad, lo-res laptops ands desktops  }
+@media (min-width:1025px) {  big landscape tablets, laptops, and desktops  }
+@media (min-width:1281px) {  hi-res laptops and desktops }
+*/
+
+/* Medium screens */
+
+@media screen and (max-width: 800px) {
+
+	:root {
+		
+		--content-margin-left:         				max(5vw, 60px);	
+		--content-margin-right:          			max(5vw, 10px);
+		
+		--logo-div-display:							none;
+
+		--content-header-margin-left:				var(--content-margin-left);
+
+		--scope-of-learning-display:				block;
+
+		--wordspace-title-width:					var(--content-width);
+		--moz-wordspace-title-width:        		var(--content-width);
+		--wordspace-title-padding-left:				0;
+		--wordspace-title-padding-right:            0;
+
+		--scope-of-learning-details-margin-top:		10pt;
+		--scope-of-learning-details-margin-left:    0pt;
+		--scope-of-learning-details-font-size:      12pt;
+
+		--main-menu-font-size:						12pt;
+		--h1-font-size:								18pt;
+		--h2-font-size:								16pt;
+		--h3-font-size:								12pt;
+		
+		--header-margin-bottom:						20px;
+		--footer-margin-top:						40px;
+		
+		--logo-img-width:							9vw;
+
+		--process-reporter-left:					20vw;			
+		--process-reporter-width:					60vw;	
+		
+		--section-margin-top:						15px;
+		--section-margin-bottom:					15px;
+		--section-header-height:					40px;
+		--section-content-margin-top:				10px;
+		
+		--func-block-margin-top:       				15px;
+		--func-block-margin-bottom:    				15px;
+		--service-func-block-margin-top: 			30px;
+		--area-border-radius:          				10px;
+		
+		--tag-margin-right:			   				0px;
+		--tag-padding:                 				0px 2px 0px 2px;
+		--tag-margin-left:							-2px;
+		--tag-border-radius:           				2px;
+		--tag-cloud-line-height:					18px;
+
+		--tag-00-display:							none;
+		--tag-00-font-size: 						6px; 
+		--tag-01-display:							none;
+		--tag-01-font-size: 						6px; 
+		--tag-02-display:							none;
+		--tag-02-font-size: 						6px; 
+		--tag-03-display:							none;
+		--tag-03-font-size:							6px;
+		--tag-04-display:							inline;
+		--tag-04-font-size: 						10px;
+		--tag-05-display:							inline;
+		--tag-05-font-size: 						12px;
+		--tag-06-display:							inline;
+		--tag-06-font-size: 						12px;
+		--tag-07-display:							inline;
+		--tag-07-font-size:                         12px;
+		--tag-08-display:							inline;
+		--tag-08-font-size:                         14px; 
+		--tag-09-display:							inline;
+		--tag-09-font-size:                         16px;
+		--tag-10-display:							inline;
+		--tag-10-font-size:                         18px;
+
+		--word-area-div-min-height:                 80px;
+		--word-area-div-font-size:                  45px;
+		--mnemo-phrase-font-size:                   18px;
+
+		--action-button-margin:	       				35px;
+		
+		--service-font-size:           				9pt;
+	}
+	
+	@supports (-ms-ime-align:auto) {
+		:root {
+			--content-margin-left:         			10vw;
+			--content-margin-right:          		10vw;
+		}
+	}	
+	
+} 
+
+
+/* Small screens */
+
+@media screen and (max-width: 550px) {
+
+	:root {
+
+		--content-margin-left:         				max(5vw, 15px);
+
+		--scope-of-learning-details-font-size:      10pt;
+		
+		--game-langs-margin-bottom:					5px;
+		--part-of-speach-label-display: 			none;
+		--part-of-speach-div-margin-top:			6pt;
+
+		--section-clicker-margin-left:				-20px;
+		--section-clicker-width:					15px;
+
+		--tag-cloud-div-display:                    block;
+
+		--word-area-div-min-height:                 80px;
+		--word-area-div-font-size:                  35px;
+		--mnemo-phrase-font-size:                   18px;
+
+	}
+
+	@supports (-ms-ime-align:auto) {
+		:root {
+			--content-margin-left:         			20px;
+			--content-margin-right:          		20px;
+		}
+	}	
 }
+
+
+/* Generic elements */
 
 body {
-	font-family: sans-serif;
+	overflow-x: 		hidden;
+	font-family: 		sans-serif;
 }
 
-#pageHeader {
-	display: flex;
-	vertical-align: middle;
-}
-
-#nakarlogo {
-	width: 150px;
-}
-
-#currWordspaceSelectorDiv {
-	font-weight: bold;
-	font-size: 	24pt;
+div.genericPageContent {
+	margin-left: 		var(--content-margin-left);
 	
+	width:				var(--content-width);
+	line-height:		18pt;
 }
 
-#currWordspaceSelectorSpan {
-	padding: 5px;
-	border-radius: var(--area-border-radius);
-	background: #494d5f;
-	color: #ffffff;
+table {
+	border-bottom:		3px double var(--delimiter-lite);
 }
 
-#currScopeOfLearning {
-	display: 		flex;
-	margin-top: 	15pt;
-	color: 			#494d5f;
-	font-weight: 	bold;
-	font-size: 	 	18pt;
+table tr th {
+	border-bottom:		3px double var(--delimiter-lite);
+	text-align:			left;
 }
 
-#currScopeOfLearningDetailsDiv {
-	margin-left: 	1em;
-	font-size: 		14pt;
+table tr th, table tr td {
+	padding-right:		1em;
+	vertical-align:		top;
+}	
+
+td ul {
+	padding-left:		1em;
+}
+
+.labelAndControl {
+	margin-right:		1em;
+	white-space: 		nowrap;
+}
+
+.fieldLabel {
+	margin-right:		0.5em;
+	font-weight: 		bold;
+	white-space: 		nowrap;
+}
+
+
+/* Page header */
+
+#pageHeaderDiv {
+	margin-bottom: 		var(--header-margin-bottom);
+	vertical-align: 	middle;
+	display: 			inline-flex;
+}
+
+#logoDiv {
+	display:			var(--logo-div-display);
+	width: 				var(--content-margin-left);
+}
+
+#logoImg {
+	width: 				var(--logo-img-width);
+}
+
+#contentHeaderDiv {
+	margin-left:		var(--content-header-margin-left);
+	width:				var(--content-width);
+	min-height:			80pt;
+	position: 			relative;
+}	
+
+#scopeOfLearningDiv {
+	display:			var(--scope-of-learning-display);
+	width:				var(--content-width);
+}
+
+#wordspaceTitleDiv {
+	width:				var(--wordspace-title-width);
+	width:				var(--moz-wordspace-title-width);
+	padding-top: 		var(--wordspace-title-padding-top);
+	padding-bottom:		var(--wordspace-title-padding-bottom);
+	padding-left:		var(--wordspace-title-padding-left);
+	padding-right: 		var(--wordspace-title-padding-right);
+	border-radius: 		var(--area-border-radius);
+	background: 		var(--heading-dark);
+	text-align:			center;
+	font-weight: 		bold;
+	font-size: 			24pt;
+	color: 				var(--heading-lite);
+}
+
+#providerRefDiv {
+	margin-top:			5px;
+	font-family:		serif;
+	font-size: 			var(--service-font-size);
+	font-weight:		bold;
+	font-style:			italic;
+	color:				var(--heading-dark);
+}
+
+.providerRef:link, .providerRef:visited {
+	color:				var(--heading-dark);
+	text-decoration: 	none;
+}
+
+.providerRef:hover, .wordListLink:active, .wordListLink:focus {
+	color:				var(--heading-dark);
+    text-decoration: 	underline;
+}
+
+#scopeOfLearningDetailsDiv {
+	margin-top: 		var(--scope-of-learning-details-margin-top);
+	margin-left: 		var(--scope-of-learning-details-margin-left);
+	font-size: 			var(--scope-of-learning-details-font-size);
 }
 
 #levelSelectorSelect {
-	font-weight: bold;
-	font-size: 	 14pt;
-}
-
-#lessonSelectorLabel {
-	margin-left: 1em;
+	font-weight: 		bold;
+	font-size: 	 		var(--scope-of-learning-details-font-size);
 }
 
 #lessonSelectorSelect {
-	font-weight: bold;
-	font-size: 	 14pt;
+	font-weight: 		bold;
+	font-size: 	 		var(--scope-of-learning-details-font-size);
 }
 
-#mainMenuBlockDiv {
-	margin-top: 10px;
-	margin-left: 30px;
-}
-
-#mainMenuLineDiv {
-	margin-top: 40px;
-	margin-bottom: 20px;
+#mainMenuDiv {
+	margin-top:			var(--main-menu-font-size);
 }
 
 .mainMenuItem {
-	margin-right: 2em;
-	font-weight: bold;
-	font-size: 20px;
-	text-decoration: underline;
-	cursor: pointer;
-	color: var(--nakar-emphased-color);
+	margin-right: 		2em;
+	font-size: 			var(--main-menu-font-size);
+	font-weight: 		bold;
+	text-decoration: 	underline;
+	color: 				var(--text-look-at-me);
+	cursor:				pointer;
 }
 
-#mainGroupOfPanesDiv {
-	margin-left: var(--content-left-margin);
+#gameModeAreaDiv {
+	margin-top:			var(--section-margin-top);
+	margin-bottom:		var(--section-margin-bottom);
+	margin-left: 		var(--content-margin-left);
 }
 
-#gameAreaDiv {
-	height: 70%;
-	--margin-bottom: 10%;
-	margin-right: 10%;
-	border-radius: 10px;
-	text-align: center;
+
+/* Process reporter */
+
+#processReporterDiv {
+	position: 			absolute;
+	top: 				10hw;
+	left: 				var(--process-reporter-left);
+	width: 				var(--process-reporter-width);
+	min-height: 		15hw;
+	color: 				#ffffff;
+	background: 		var(--modal-dark);
+	padding: 			var(--area-border-radius);
+	border-radius:		var(--area-border-radius);
+	box-shadow: 		3px 3px gray;
 }
 
-#gameModeArea {
-	text-align: left;
-	margin-bottom: var(--func-block-bottom-margin);
-	border-radius: var(--area-border-radius);
+#processReporterTitle {
+	color:			var(--marker-yellow);
 }
 
-#subjectDomainCloudSwitchDiv {
-	text-align: left;
-	cursor: pointer;
+.processInfo {
+	margin-top: 		3px;
+	margin-bottom: 		3px;
+}
+
+
+/* Sections */
+
+div.section {
+	margin-top:			var(--section-margin-top);
+	margin-bottom:		var(--section-margin-bottom);
+	margin-left: 		var(--content-margin-left);
+	margin-right: 		var(--content-margin-right);
+	width:				var(--content-width);
+	display: 			inline-flex;
+}
+
+div.sectionClicker {
+	display: 			table-cell;
+	margin-left: 		var(--section-clicker-margin-left);
+	width: 				var(--section-clicker-width);
+	height:				var(--section-header-height);
+	cursor: 			pointer;
+}
+
+img.sectionClicker {
+	display: 			inline-block;
+	width: 				calc(var(--section-clicker-width)*4/5);
+	height: 			100%;
+	vertical-align:		middle;
+}
+
+div.sectionBody {
+	width: 				var(--content-width);
+}
+
+div.sectionHeader {
+	display: 			table-cell;
+	margin-bottom:		var(--func-block-margin-bottom);
+	height: 			var(--section-header-height);
+	vertical-align:		middle;
+}
+
+.sectionLabel {
+	font-size:			var(--h2-font-size);
+	font-weight:		bold;
+	color: 				var(--heading-dark);
+}
+
+div.sectionContentArea {
+	margin-top:			var(--section-content-margin-top); 
+}
+
+
+/* Content area */
+
+#contentArea {
+	
+}
+
+
+/* Word selectors */
+
+#wordSelectorsArea {
+	display: 			var(--word-selectors-area-display);
+	margin-bottom:		var(--func-block-margin-bottom);
+}
+
+
+/* Languages and parts of speach */
+
+#gameLangsDiv {
+	margin-bottom:		var(game-langs-margin-bottom);
+}
+
+#partOfSpeachSelectorLabel {
+	display:			var(--part-of-speach-label-display);
+}
+
+
+/* Domain tag cloud */
+
+#tagCloudsDiv {
+	display:			var(--tag-cloud-div-display);
 }
 
 #subjectDomainCloudDiv {
-	text-align: left;
-	line-height: 24pt;
+	margin-top:			var(--func-block-margin-top);
+	margin-left:		var(--tag-margin-left);
+	text-align: 		right;
+	line-height: 		var(--tag-cloud-line-height);
+}
+
+#innerTagsCloudDiv {
+	margin-top:			15px; /*var(--func-block-margin-top);*/
+	padding-left:       1em;
+	margin-left:		1em; /*var(--tag-margin-left);*/
+	border-left:        3px solid var(--marker-yellow);
+	text-align: 		left;
+	line-height: 		var(--tag-cloud-line-height);
 }
 
 .tag0 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 6px;
+	display: 			var(--tag-00-display);
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			var(--tag-00-font-size); 
 }
 
 .tag1 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 8px;
+	display: 			var(--tag-01-display);
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius:	 	var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			var(--tag-01-font-size); 
+}
+
+#innerTagsCloudDiv span.tag1 {
+	display: 			inline;
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius:	 	var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			var(--tag-03-font-size); 
 }
 
 .tag2 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 10px;
+	display: 			var(--tag-02-display);
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			var(--tag-02-font-size); 
+}
+
+#innerTagsCloudDiv span.tag2 {
+	display: 			inline;
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			var(--tag-03-font-size); 
 }
 
 .tag3 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 12px;
+	display: 			var(--tag-03-display);
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			var(--tag-03-font-size); 
 }
 
+#innerTagsCloudDiv span.tag3 {
+	display: 			inline;
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			var(--tag-03-font-size); 
+}	
+
 .tag4 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 14px;
+	display: 			var(--tag-04-display);
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			var(--tag-04-font-size); 
 }
 
 .tag5 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 16px;
+	display: 			var(--tag-05-display);
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			var(--tag-05-font-size); 
 }
 
 .tag6 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 18px;
+	display: 			var(--tag-06-display);
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			var(--tag-06-font-size); 
 }
 
 .tag7 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 20px;
+	display: 			var(--tag-07-display);
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			var(--tag-07-font-size); 
 }
 
 .tag8 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 22px;
+	display: 			var(--tag-08-display);
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			var(--tag-08-font-size); 
 }
 
 .tag9 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 24px;
+	display: 			var(--tag-09-display);
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			var(--tag-09-font-size); 
 }
 
 .tag10 {
-	margin-right: var(--tag-margin-right);
-	padding: var(--tag-padding);
-	border-radius: var(--tag-border-radius);
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 26px;
+	display: 			var(--tag-10-display);
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			var(--tag-10-font-size); 
 }
 
-.showHideImg {
-	vertical-align: middle;
-	width: 2em;
-	
-}
 
-.showHideLabel {
-	height: 2em;
-	
-}
+/* Browsing word */
 
 #wordAreaDiv {
-	height: 80%;
-	min-height: 100px;
-	margin-top: 10pt;
-	margin-bottom: 10pt;
-	border-radius: var(--area-border-radius);
-	padding: 20pt;
-	vertical-align: middle;
-	background: #fcd0c2;
-	font-size: 76px;
-}
-
-#lessonSelectorArea {
-	margin-top:    var(--func-block-top-margin);
-	margin-bottom: var(--func-block-bottom-margin);
-}
-
-#fromToSelectorsArea {
-	margin-top:    var(--func-block-top-margin);
-	margin-bottom: var(--func-block-bottom-margin);	
-}
-
-#fromToArrowSpan {
-	font-size: 12pt;
-}
-
-#userActionPaneDiv {
-	margin-top:    var(--func-block-top-margin);
-	margin-bottom: var(--func-block-bottom-margin);
+	display: 			table-cell;
+	width: 				var(--content-width);
+	height:				var(--word-area-div-min-height);
+	min-height: 		var(--word-area-div-min-height);
+	margin-bottom: 		var(--func-block-margin-bottom);
+	border-radius: 		var(--area-border-radius);
+	padding: 			6pt;
+	text-align: 		center;
+	vertical-align: 	middle;
+	background: 		var(--playground-back);
+	font-size: 			var(--word-area-div-font-size);
 }
 
 #mnemoPhraseAreaDiv {
-	font-size: 40px;
+	font-size: 			var(--mnemo-phrase-font-size);
+	background:			var(--mnemo-phrase-background);
 }
 
 span.hebrewWordInMnemoPhrase {
-	background: 	#000000;
-	color: 			#000000;
-	font-weight: 	bold;
+	background: 		#000000;
+	color: 				#000000;
+	font-weight: 		bold;
 }
 
 span.hebrewDisclosedWordInMnemoPhrase {
-	background: 	#fcd0c2;
-	color: 			var(--nakar-emphased-color);
-	font-weight: 	bold;
+	height:				100%;
+	background: 		var(--playground-back);
+	color: 				var(--text-look-at-me);
+	font-weight: 		bold;
+}
+
+#userActionPaneDiv {
+	margin-top:    		var(--func-block-margin-top);
+	text-align:			center;
 }
 
 #giveUpButtonImg {
-	width:         var(--action-button-width);
-	height:        var(--action-button-height);
-	border:        var(--action-button-normal-border);
-	border-radius: var(--action-button-radius);
-	cursor:        pointer;
+	cursor:        		pointer;
 }
 
 #showPromptButtonImg {	
-	width:         var(--action-button-width);
-	height:        var(--action-button-height);
-	margin-left:   var(--action-button-margin);
-	margin-right:  var(--action-button-margin);
-	border:        var(--action-button-normal-border);
-	border-radius: var(--action-button-radius);
-	cursor:        pointer;
+	margin-left:   		var(--action-button-margin);
+	margin-right:  		var(--action-button-margin);
+	cursor:        		pointer;
 }
 
 #takeNextQuestionButtonImg {
-	width:         var(--action-button-width);
-	height:        var(--action-button-height);
-	border:        var(--action-button-normal-border);
-	border-radius: var(--action-button-radius);
-	cursor:        pointer;
+	cursor:        		pointer;
 }
 
-#wordListBlockDiv {
-	margin-top:    var(--func-block-top-margin);
-	margin-bottom: var(--last-func-block-bottom-margin);
-}
 
-#wordListHeadlineDiv {
-	margin-top:    var(--func-block-top-margin);
-	margin-bottom: var(--func-block-bottom-margin);
-}
-
-#wordListSwitchSpan {
-	cursor: pointer;
-}
+/* Word list */
 
 #wordListDiv {
-	margin-right:	10%;
-	column-width: 	15em;
-	--column-count: 	auto;
-	-moz-column-count: 2;
-	column-gap:   	3em;
-	column-rule: 	4px double #ffccdd;
+	column-width: 		17em;
+	column-count: 		auto;
+	-moz-column-count: 	2;
+	column-gap:   		2em;
+	column-rule: 		4px double var(--delimiter-lite);
 }
 
 #wordListTable {
-	width: 100%;
-	border-collapse: collapse;
+	width: 				100%;
+	border-collapse: 	collapse;
+	border-bottom: 		none;
 }
 
 #wordListTable tr {
-	--break-inside: avoid;
+	break-inside: 		avoid;
+}
+
+td.wordListDelEntry {
+	width:				5px;
+	padding:			0px;
+	vertical-align:     middle;
+	cursor: 			pointer;	
 }
 
 #wordListTable tr td {
-	border-bottom: 1px dashed #cccccc;
-	break-inside: avoid;
+	border-bottom: 		1px dashed var(--delimiter-lite);
+	break-inside: 		avoid;
 }
 
 #wordListTable tr td:nth-child(2) {
-	padding-left: 1em;
+	padding-left: 		1em;
 }
 
-.wordListLink:link {
-	text-decoration: none;
+a.wordListLink:link {
+	text-decoration: 	none;
 }
 
-.wordListLink:hover, .wordListLink:active, .wordListLink:focus {
-	text-decoration: underline;
+a.wordListLink:hover, a.wordListLink:active, a.wordListLink:focus {
+	text-decoration: 	underline;
 }
 
-#printButton {
-	margin-right:	10%;
-	text-align: center;
+#printButtonDiv {
+	margin-top:			var(--func-block-margin-top);
+	text-align: 		center;
+	cursor:				pointer;
 }
+
+
+/* Assembling wordspace links */
+
+#extlinkCreateTableDiv {
+	margin-bottom: 		30pt;
+}
+
+#extlinkSrcDiv {
+	margin-bottom: 		30pt;
+}
+
+#extlinkLinkDiv {
+	margin-bottom: 		30pt;
+}
+
+#extlinkInput {
+	min-width: 			500pt;
+	height: 			25px;
+	padding: 			3px;
+	box-shadow: 		none;
+	border: 			1px solid #494d5f;
+	border-radius: 		var(--area-border-radius);
+}
+
+#extlinkLinkSpan {
+	float: 				left;
+	min-width: 			500pt;
+	height: 			25px;
+	padding-left: 		3px;
+	padding-top: 		6px;
+	padding-bottom: 	0px;
+	border-radius: 		var(--area-border-radius);
+    background: 		#ffeedd;
+	border: 			1px solid #494d5f;
+	font-size: 			10pt;
+}
+
+#extlinkClearImg {
+	width: 				25px;
+	vertical-align: 	middle;
+	cursor: 			pointer;
+}
+
+#extlinkCopyButtonImg {
+	width: 				25px;
+	margin-left: 		5px;
+	vertical-align: 	middle;
+	padding-top: 		3px;
+	cursor: 			pointer;
+}
+
+
+/* Longreads */
+
+h1 {
+	font-size: 			var(--h1-font-size);
+	font-weight: 		bold;
+	color: 				var(--heading-dark);
+	
+}
+
+h2 {
+	font-size: 			var(--h2-font-size);
+	font-weight: 		bold;
+	color: 				var(--heading-dark);
+}
+
+
+/* Wordspace directory */
+
+table.wordspaceDirectory {
+	border-bottom:		3px double var(--delimiter-lite); 
+	border-collapse:	collapse;
+	font-size:			10pt;
+}
+
+table.wordspaceDirectory th {
+	border-bottom:		3px double var(--delimiter-lite); 
+	padding:			3pt 2em 3pt 0em;
+	text-align:			left;
+	color:				var(--heading-dark);
+
+}
+
+table.wordspaceDirectory td {
+	border-bottom:		1px solid var(--delimiter-lite); 
+	padding:			3pt 2em 3pt 0em;
+
+}
+
+.helpControlLabel {
+	font-weight: 		bold;
+} 
+
+.helpValue {
+	font-family: 		sans-serif;
+	font-weight: 		bold;
+	font-style: 		italic;
+}
+
+
+/* Footer */
 
 #footerDiv {
-	margin-left: var(--content-left-margin);
-	font-size:   var(--service-font-size);
-}
-
-#printButtonImg {
-	margin-top: 10px;
-	width: 50px;
-	cursor: pointer;
+	margin-top:			var(--footer-margin-top);
+	margin-left: 		var(--content-margin-left);
+	font-size:   		var(--service-font-size);
 }
 
 .footerMenuItem {
 	margin-right: 		2em;
 	font-weight: 		bold;
-	font-size: 			var(--service-font-size);
 	text-decoration: 	underline;
 	cursor: 			pointer;
-	color: 				var(--nakar-emphased-color);
+	color: 				var(--text-look-at-me);
 }
 
-#uiLangSelectorDiv {
-	font-size: var(--service-font-size);
-}
-
-#partOfSpeachSelectorLabel {
-	margin-left: 10px;
+#uiLangSeletorDiv {
+	margin-top:			var(--service-func-block-margin-top);
 }
 
 #uiLangSelectorSelect {
-	margin-top:		var(--func-block-top-margin-large);
-	margin-left:	10px;
-	font-size: 		var(--service-font-size);
+	font-size:   		var(--service-font-size);
+	margin-left:		10px;
 }
 
-#sysVersionArea {
-	margin-top:		var(--func-block-top-margin-large);
-	margin-left: 	var(--content-left-margin);
-	font-size: 		var(--service-font-size);
+#sysVersionAreaDiv {
+	margin-top:			var(--footer-margin-top);
+	margin-left: 		var(--content-left-margin);
 }

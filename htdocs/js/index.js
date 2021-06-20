@@ -6,51 +6,23 @@
 // Func:	Indexing and selecting items by keys    (^.^)                                                 (^.^) 
 //* * ** *** ***** ******** ************* *********************
 
-const SORT_NONE       =  0;
-const SORT_ASCENDING  =  1; 
-const SORT_DESCENDING = -1; 
-
-class Index {
+class Index extends Comparator{
 	
 	constructor(fieldName, sortMode=SORT_NONE) {
+		
+		super(sortMode);
+		
 		this.fieldName = fieldName;
 		this.keyEntries = new Array();
 		this.indexedItems = new Set();
-		this.sortMode = sortMode;
 	}
 	
 	getFieldName() {
 		return this.fieldName;
 	}
 	
-	getSortMode() {
-		return this.sortMode;
-	}
-	
-	setSortMode(sortMode) {
-		this.sortMode = sortMode;
-	}
-	
 	countItems() {
 		return this.indexedItems.size;
-	}
-	
-	applySortMode(rawCompareResult) {
-		
-		let compareResult = 0;
-		
-		switch(this.getSortMode()) {
-			case SORT_ASCENDING:
-				compareResult = rawCompareResult;
-				break;
-			case SORT_DESCENDING:
-				compareResult = -rawCompareResult;
-				break;
-			default:
-				compareResult = 0;
-		}			
-		
-		return compareResult; 
 	}
 	
 	getItemKeyValues(item) {
@@ -58,11 +30,11 @@ class Index {
 	}	
 	
 	assembleKeyHash(keyValue) {
-		return String(keyValue);
+		return keyValue ? String(keyValue) : undefined;
 	}
 	
 	compareKeyValues(kv1, kv2) {
-		return String(kv1).locateCompare(String(kv2));
+		return String(kv1).localeCompare(String(kv2));
 	}
 	
 	compareItems(item1, item2) {
@@ -109,13 +81,19 @@ class Index {
 	appendItem(item) {
 		
 		let keyValues = this.getItemKeyValues(item);
-		
+			
 		for(let keyValueIdx in keyValues) {
 			let keyValue = keyValues[keyValueIdx];
 			let keyHash = this.checkKeyValue(keyValue);
-			this.keyEntries[keyHash].items.add(item);
+			if(keyHash)
+				this.keyEntries[keyHash].items.add(item);
 		}
-		
+			
+		// That's not a bug, as I unfairly considered once. An item may 
+		// participate in an index without having key values. Otherwise 
+		// a filter assembled by "all" excludes appropriate items when we 
+		// intersected it with other filters. We'll implement more indexing 
+		// options later: "strict" and "liberal".
 		this.indexedItems.add(item);
 	}
 	
@@ -125,7 +103,7 @@ class Index {
 		
 		for(let keyHash in this.keyEntries)
 			keyValues.add(this.keyEntries[keyHash].keyValue);
-		
+				
 		return [...keyValues].sort(this.compareKeyValues);
 	}
 	
@@ -168,7 +146,7 @@ class Index {
 	
 	countItemsForKeyValue(keyValue) {
 		let hashValue = this.assembleKeyHash(keyValue);
-		return this.keyEntries[hashValue].items.size;
+		return this.keyEntries[hashValue] ? this.keyEntries[hashValue].items.size : 20;
 	}
 	
 	selectKeyValueStat(keyValue) {

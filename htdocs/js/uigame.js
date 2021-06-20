@@ -1,12 +1,13 @@
 //* * ** *** ***** ******** ************* *********************
-// User Interface Controls Specific for the Game
-//
-//                                                (\_/)
-//                                                (^.^) 
+// Project: Nakar
+// Module:  Play of Words
+// Layer:	Web front-end
+// File:	mainpage.js                           (\_/)
+// Func:	UI controls specific for the game     (^.^)
 //* * ** *** ***** ******** ************* *********************
 
 //
-// Level and lesson selectors
+// Level selector
 //
 
 class LevelSelector extends Selector {
@@ -16,11 +17,16 @@ class LevelSelector extends Selector {
 	}
 	
 	onChange() {
-		// this.getGame().setCurrLesson(this.getUiControlValue());
+		this.getGame().selectLevel(this.getUiControlValue());
 	}	
 
 }
 
+
+
+//
+// Lesson selector
+//
 
 class LessonSelector extends Selector {
 	
@@ -29,7 +35,7 @@ class LessonSelector extends Selector {
 	}
 	
 	onChange() {
-		this.getGame().setCurrLesson(this.getUiControlValue());
+		this.getGame().selectLesson(this.getUiControlValue());
 	}	
 
 }
@@ -42,13 +48,18 @@ class LessonSelector extends Selector {
 
 class LangSelector extends Selector {
 	
-	assembleDomObjectValue(uiControlValue) {
-		return uiControlValue.code;
+	assembleDomObjectValue(lang) {
+		return lang.getCode();
 	}
 	
-	assembleDomObjectValueAppearance(uiControlValue) {
-		return uiControlValue.wording;
+	assembleEmptyUiControlValue() {
+		return new Lang("un");
 	}
+	
+	assembleDomObjectValueAppearance(lang) {
+		return lang.getOriginalName();
+	}
+	
 }
 
 
@@ -60,24 +71,7 @@ class LangSelector extends Selector {
 class RiddleLangSelector extends LangSelector {
 	
 	onChange() {
-		let newRiddleLangCode = this.getUiControlValue();
-		let game = this.getGame();
-		let oldRiddleLangCode = game.getCurrRiddleLangCode();
-		let guessLangCode = game.getCurrGuessLangCode();
-		let targetLangCode = game.getTargetLangCode();
-		game.setCurrRiddleLang(newRiddleLangCode);
-		let parentUiControl = this.getChief();
-		if(newRiddleLangCode == targetLangCode && guessLangCode == targetLangCode) {
-			parentUiControl.guessLangSelector.setUiControlValue({"code" : oldRiddleLangCode});
-			game.setCurrGuessLang(oldRiddleLangCode);
-		} 
-		else if(newRiddleLangCode != targetLangCode && guessLangCode != targetLangCode) {
-			parentUiControl.guessLangSelector.setUiControlValue({"code" : targetLangCode});
-			game.setCurrGuessLang(targetLangCode);
-		}
-		
-		//this.getChief().subjectDomainCloud.showLocalWordings(this.getGame().currBaseLangCode);
-		
+		this.getGame().selectRiddleLang(this.getUiControlValue());
 	}	
 }
 
@@ -85,51 +79,104 @@ class RiddleLangSelector extends LangSelector {
 class GuessLangSelector extends LangSelector {
 	
 	onChange() {	
-		let newGuessLangCode = this.getUiControlValue();
-		let game = this.getGame();
-		let oldGuessLangCode = game.getCurrGuessLangCode();
-		game.setCurrGuessLang(newGuessLangCode);
-		let parentUiControl = this.getChief();
-		let riddleLangCode = game.getCurrRiddleLangCode();
-		let targetLangCode = game.getTargetLangCode();
-		if(newGuessLangCode == targetLangCode && riddleLangCode == targetLangCode) {
-			parentUiControl.riddleLangSelector.setUiControlValue({"code" : oldGuessLangCode});
-			game.setCurrRiddleLang(oldGuessLangCode);
-		} 		
-		else if(newGuessLangCode != targetLangCode && riddleLangCode != targetLangCode){
-			parentUiControl.riddleLangSelector.setUiControlValue({"code" : targetLangCode});
-			game.setCurrRiddleLang(targetLangCode);
-		}
+		this.getGame().selectGuessLang(this.getUiControlValue());
 	}
 }
 
 
 class PartOfSpeachSelector extends Selector {
+	
+	assembleDomObjectValue(pos) {
+		return pos ? pos.getCode() : "all";
+	}
+	
+	assembleDomObjectValueAppearance(pos) {
+		return pos.getOriginalName();
+	}
 
 	onChange() {
-		this.getGame().setCurrPartOfSpeach(this.getUiControlValue());
+		this.getGame().selectPartOfSpeach(this.getUiControlValue());
 	}
 
 }
 
-class WordInfoArea extends Area {
+
+// Sections 
+
+class SubjectDomainTagsSection extends Section {
+
+	constructor(chief) {
+		super(chief, "subjectDomainSectionDiv", "subjectDomainSectionClickerDiv", 
+			"subjectDomainSectionHeaderDiv", "subjectDomainContentAreaDiv");
+			
+		this.setHeaderVisibilityMode(SCT_VISIBLE_WHEN_COLLAPSED);	
+	}
+	
+	getWordspaceConfigParams() {
+		let params = {};
+		params[CFG_SCT_TAGS] = this.getUiControlValue();
+		return params;
+	}
+}
+
+
+class GamingSection extends Section {
+
+	constructor(chief) {
+	
+		super(chief, "gamingSectionDiv", "gamingSectionClickerDiv", 
+			"gamingSectionHeaderDiv", "gamingSectionContentAreaDiv");	
+
+		this.setHeaderVisibilityMode(SCT_VISIBLE_WHEN_COLLAPSED);		
+	}
+
+	getWordspaceConfigParams() {
+		let params = {};
+		params[CFG_SCT_GAMING] = this.getUiControlValue();
+		return params;
+	}
+
+}
+
+
+class WordListSection extends Section {
+
+	constructor(chief) {
+
+		super(chief, "wordListSectionDiv", "wordListSectionClickerDiv", 
+			"wordListSectionHeaderDiv", "wordListSectionContentAreaDiv");	
+			
+		this.setHeaderVisibilityMode(SCT_VISIBLE_WHEN_COLLAPSED);	
+	}
+	
+	getWordspaceConfigParams() {
+		let params = {};
+		params[CFG_SCT_WORD_LIST] = this.getUiControlValue();
+		return params;
+	}
+}
+
+
+// Gaming
+
+class LexemeArea extends Area {
 
 	setDomObjectValue(headword) {
 		this.getDomObject().innerHTML = headword;
 	}
 
-	assembleDomObjectValue(wordInfo) {
-		return wordInfo ? wordInfo.getHeadword() : "";
+	assembleDomObjectValue(Lexeme) {
+		return Lexeme ? Lexeme.getHeadword() : "";
 	}
 
 }
 
 
-class PromptWordInfoArea extends WordInfoArea {
+class PromptLexemeArea extends LexemeArea {
 
-	assembleDomObjectValue(wordInfo) {
+	assembleDomObjectValue(Lexeme) {
 		
-		let base = headwordBase(wordInfo.getHeadword());
+		let base = headwordBase(Lexeme.getHeadword());
 		
 		let wordPrompt = firstChr(base);
 			
@@ -149,39 +196,14 @@ class MnemoPhraseArea extends Area {
 		this.getDomObject().appendChild(mnemoPhraseDiv);
 	}
 	
-	splitPhraseLine(phraseLineRemain, stack="", tokens=null) {
-		
-		if(!tokens)
-			var tokens = new Array();
-		
-		if(phraseLineRemain.length > 0) {
-			
-			let currChr = firstChr(phraseLineRemain)		
-			let isCurrChrHebrew = isHebrewChr(currChr);
-			
-			let isPrevChrHebrew = stack.length > 0 ? 
-				isHebrewChr(lastChr(stack)) : isCurrChrHebrew;
-			
-			if(isPrevChrHebrew != isCurrChrHebrew) { 
-				tokens.push(stack);
-				stack = "";
-			}	
-				
-			stack += currChr;	
-				
-			if(phraseLineRemain.length > 0)
-				this.splitPhraseLine(trimFirstChr(phraseLineRemain),
-								   stack,
-								   tokens);
-		}
-		else 
-			if(stack.length > 0 )
-				tokens.push(stack);
+	splitPhraseLine(phraseLine) {
 					   
-		return tokens;					   
+		let splitter = new SubstFormalSplitter(phraseLine);	
+ 
+		return splitter.split().getClauses();				   
 	}
 	
-	hebrewSpan(token) {
+	targetSpan(token) {
 		let span = document.createElement("span");
 		let node = document.createTextNode(token);
 		span.appendChild(node);
@@ -190,7 +212,7 @@ class MnemoPhraseArea extends Area {
 		return span;
 	}
 	
-	usualSpan(token) {
+	baseSpan(token) {
 		let span = document.createElement("span");
 		let node = document.createTextNode(token);
 		span.appendChild(node);
@@ -199,21 +221,21 @@ class MnemoPhraseArea extends Area {
 	
 	markupPhraseLine(phraseLine) {
 	
-		let tokens = this.splitPhraseLine(phraseLine);
-
+		let tokens = this.splitPhraseLine(phraseLine); 
+		
 		let spans = new Array();
 		
 		for(let tokenIdx in tokens) {
 			
 			let token = tokens[tokenIdx];
 			
-			if(isHebrewTextInside(token)) {
-				let hebrewSpan = this.hebrewSpan(token);
-				spans.push(hebrewSpan); 
-				this.hebrewSpans.push(hebrewSpan); 
+			if(token.isSubst()) {
+				let targetSpan = this.targetSpan(token.getContent());
+				spans.push(targetSpan); 
+				this.targetSpans.push(targetSpan); 
 			}	
 			else 
-				spans.push(this.usualSpan(token));
+				spans.push(this.baseSpan(token.getContent()));
 		}
 		
 		return spans;
@@ -235,7 +257,7 @@ class MnemoPhraseArea extends Area {
 		
 		let phraseLines = this.splitPhrase(mnemoPhrase);
 		
-		this.hebrewSpans = new Array();
+		this.targetSpans = new Array();
 		
 		let mnemoPhraseDiv = document.createElement("div");
 		
@@ -255,8 +277,8 @@ class MnemoPhraseArea extends Area {
 	}
 	
 	discloseTargetWords() {
-		for(let hebrewSpanIdx in this.hebrewSpans) {
-			this.hebrewSpans[hebrewSpanIdx].setAttribute("class", 
+		for(let targetSpanIdx in this.targetSpans) {
+			this.targetSpans[targetSpanIdx].setAttribute("class", 
 		"hebrewDisclosedWordInMnemoPhrase"); }
 	}
 	
@@ -287,14 +309,7 @@ class TakeNextQuestionButton extends GraphButton {
 }
 
 
-class UiLangSelector extends LangSelector {
-	
-	onChange() {
-		let lang = this.getUiControlValue();
-		this.getChief().setCurrUiLang(lang);
-	}
-	
-}
+
 	
 
 class MainMenuItem extends PaneLabel {
@@ -311,7 +326,7 @@ class MainMenuItem extends PaneLabel {
 }
 
 
-class subjectDomainTagCloudSwitch extends UiControl {
+class SubjectDomainTagCloudSwitch extends UiControl {
 	
 	onChange() {
 		let switchImg = document.getElementById("subjectDomainCloudSwitchImg");
@@ -323,10 +338,19 @@ class subjectDomainTagCloudSwitch extends UiControl {
 	
 }
 
+
 class SubjectDomainTagCloud extends TagCloud {
 	
 	onChange() {
-		this.getGame().setCurrSubjectDomains(this.getUiControlValue());
+		this.getGame().selectSubjectDomains(this.getUiControlValue());
+	}
+	
+}
+
+class InnerTagCloud extends TagCloud {
+	
+	onChange() {
+		this.getGame().selectInnerTags(this.getUiControlValue());
 	}
 	
 }
@@ -347,26 +371,80 @@ class WordListSwitch extends UiControl {
 
 class WordList extends UiControl {
 
-	assembleWordListTd(dicEntry, langCode) {
+	assembleExtDicUrl(dicEntry, langCode, baseLangCode, uiLangCode) {
+		
+		let url = "";
+		
+		let urlTemplate = this.getWordspace().getExternalDic(baseLangCode);
+		
+		let headword = dicEntry.getHeadword(langCode);
+		
+		let params = {"headword"    : headword, 
+					  "target_lang" : langCode,
+					  "base_lang"   : baseLangCode,
+					  "ui_lang"     : uiLangCode};
+		
+		let externalDicLinkTemplate = this.getWordspace().getExternalDic(baseLangCode);
+ 
+		let splitter = new SubstFormalSplitter(externalDicLinkTemplate); 		
+		
+		return splitter.split().substStr(params);
+	}
+
+	assembleDelEntryTd(id) {
+
+		function delEntry(e) {
+
+			if(e.target) {
+				let trId = substringAfter(e.target.id, "_");
+				let tr = document.getElementById(trId);
+				if(tr)
+					tr.style.display = "none";
+			}
+		}
+
+		let delEntryTd = document.createElement("td");
+		delEntryTd.setAttribute("class", "wordListDelEntry");
+		delEntryTd.onclick = (e => delEntry(e)); 
+
+		let buttonImg = document.createElement("img");
+		buttonImg.setAttribute("id", "_" + id);
+		buttonImg.setAttribute("src", "img/delete.jpg");
+		buttonImg.setAttribute("width", "12pt");
+
+		delEntryTd.appendChild(buttonImg);
+
+		return delEntryTd;
+	}
+
+	assembleWordListTd(dicEntry, _langCode=undefined) {
 		
 		let wordListTd = document.createElement("td");
-		wordListTd.setAttribute("lang", langCode);
-		wordListTd.setAttribute("dir", "auto");
+				
+		let langCode = _langCode ? _langCode : this.getTargetLangCode();
 		
-		let ws = this.getGame().getWordspace();
+		let extDicUrl = 
+			this.assembleExtDicUrl(dicEntry, langCode, 
+					this.getCurrBaseLangCode(), this.getUiLangCode());
 		
-		let extDicUrl = ws.assembleExtDicUrl(dicEntry, langCode);
 		let headword = dicEntry.getHeadword(langCode);
-		let innerHtml = wrapIntoLink(headword, extDicUrl, "_blank");
+
+		let innerHtml = 
+				langCode == this.getTargetLangCode() ? 
+					wrapIntoLink(headword, extDicUrl, "_blank") : 
+					wrapIntoSpan(headword);
 		
 		if(isHtmlElement(innerHtml))
 			innerHtml.setAttribute("class", "wordListLink");
 		
 		wordListTd.appendChild(innerHtml);
 		
+		wordListTd.setAttribute("lang", langCode);
+		wordListTd.setAttribute("dir", "auto");
+		
 		return wordListTd;
 	}
-
+	
 	assembleHtml() {
 				
 		let countDicEntries = this.currFilter.countItems();
@@ -375,10 +453,16 @@ class WordList extends UiControl {
 		wordListTable.setAttribute("id", "wordListTable");
 		
 		for(let dicEntryIdx = 0; dicEntryIdx < countDicEntries; dicEntryIdx++) {
-			
+
+			let id = assembleUniqueId();
+
 			let dicEntry = this.currFilter.fetchItemByIdx(dicEntryIdx);
 			let dicEntryTr = document.createElement("tr");
+			dicEntryTr.setAttribute("id", id);
 			
+			let delEntryTd = this.assembleDelEntryTd(id);
+			dicEntryTr.appendChild(delEntryTd);
+
 			let riddleTd = this.assembleWordListTd(dicEntry, this.currRiddleLangCode);
 			dicEntryTr.appendChild(riddleTd);
 			
@@ -419,3 +503,47 @@ class PrintCardsButton extends Button {
 	}
 
 }
+
+
+class ExternalLinkInput extends UiControl {
+	
+	setLink(url) {
+		let nakarLinkA = document.getElementById("extlinkLinkA");
+		nakarLinkA.innerHTML = url;
+		nakarLinkA.setAttribute("href", url);
+	}
+	
+	onChange() {
+	
+		let externalLink = this.getUiControlValue();
+		
+		let gdocId = substringBefore(substringAfter(externalLink,"/d/"), "/");
+		
+		let nakarLink = "http://www.cramwords.com?src_id=gdocs&wsp_id=" + gdocId;
+		
+		this.setLink(nakarLink);
+	} 
+}
+
+
+class ExternalLinkClearButton extends Button {
+
+	getPressed() {		
+		let input = this.getChief().externalLinkInput;
+		input.setUiControlValue("");
+		input.getDomObject().focus();
+		input.setLink("");
+	}
+}
+
+
+class ExternalLinkCopyButton extends Button {
+
+	getPressed() {
+		let nakarLinkA = document.getElementById("extlinkLinkA");
+		let promise = navigator.clipboard ? 
+						navigator.clipboard.writeText(nakarLinkA.textContent) : 
+						null;
+	}
+}
+

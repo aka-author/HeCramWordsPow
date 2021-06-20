@@ -2,9 +2,15 @@
 // Project: Nakar
 // Module:  Play of Words
 // Layer:	Web front-end
-// File:	wordspace.js                (\_/)
-// Func:	Managing wordspaces         (^.^)                                                 (^.^) 
+// File:	wordspace.js                   (\_/)
+// Func:	Managing wordspaces            (^.^) 
 //* * ** *** ***** ******** ************* *********************
+
+
+const EVERY_TAG_CODE = "every";
+const OUTER_TAG_CODE = "outer";
+const INNER_TAG_CODE = "inner";
+      
 
 // Parsing headwords
 
@@ -53,7 +59,7 @@ class LevelCodeIndex extends Index {
 		super("level_code");
 	}
 	
-	getKeyValues(dicEntry) {
+	getItemKeyValues(dicEntry) {
 		return [dicEntry.getLevelCode()];
 	}
 	
@@ -67,24 +73,16 @@ class LessonNoIndex extends Index {
 	}
 	
 	getItemKeyValues(dicEntry) {
+		
 		let lessonNo = dicEntry.getLessonNo();
 		return lessonNo ? [lessonNo] : [];
 	}
 	
 	compareKeyValues(kv1, kv2) {
 		
-		let result = 0;
-		
-		if(Boolean(kv1) && Boolean(kv2)) {
-		
-			//let result = kv1.levelCode.locateCompare(kv2.levelCode)
+		let result = compareCompoundNumbers(kv1, kv2);
 			
-			//if(result == 0) 
-			//	result = kv1.lessonNo - kv2.lessonNo;
-			result = kv1 - kv2;
-		}
-			
-		return [result];
+		return [-result];
 	}	
 	
 }
@@ -102,59 +100,35 @@ class PartOfSpeachIndex extends StringIndex {
 }
 
 
-class SubjectDomainTagIndex extends StringIndex {
+class TagIndex extends StringIndex {
 	
-	constructor() {
-		super("subject_domain_tag");
+	constructor(indexName, validTags=null) {
+		super(indexName);
+		this.validTags = validTags;
 	}
 	
 	getItemKeyValues(dicEntry) {
-		return dicEntry.getSubjectDomainTags();
-	}
-	
-}
 
+		let tags = [];
+		
+		let rawTags = dicEntry.getSubjectDomainTags();
+		
+		if(this.validTags) {
+			for(let i in rawTags)
+				if(this.validTags.includes(rawTags[i])) 
+					tags.push(rawTags[i]);
+		}		
+		else 
+			tags = rawTags;
 
-// Dictionary Google spreadsheet
-class WsSpreadsheet extends GoogleSpreadsheetSimple {
-	
-	isValidDataRow(row, fields) {
-		return row["tag_no"] || isHebrewTextInside(row["headword"]);
-	}	
-	
-	getHeadword(sheetName, rowIdx) {
-		return this.getFieldValue(sheetName, rowIdx, "headword");
+		return tags;
 	}
 	
-	getRussian(sheetName, rowIdx) {
-		return this.getFieldValue(sheetName, rowIdx, "ru");
-	}
-	
-	getTranslation(sheetName, rowIdx, langCode) {
-		return this.getFieldValue(sheetName, rowIdx, langCode);
-	}
-	
-	getLevelNo(sheetName, rowIdx) {
-		return this.getFieldValue(sheetName, rowIdx, "level");
-	}	
-	
-	getLessonNo(sheetName, rowIdx) {
-		return this.getFieldValue(sheetName, rowIdx, "lesson");
-	}	
-	
-	getSubjectDomainTags(sheetName, rowIdx) {
-		return this.getFieldValue(sheetName, rowIdx, "tags");
-	}
-	
-	getMnemoPhrase(sheetName, rowIdx, langCode) {
-		let mnemoColName = "mnemo_" + langCode;
-		return this.getFieldValue(sheetName, rowIdx, mnemoColName);
-	}
 }
 
 
 // A word with associated grammer data
-class WordInfo {
+class Lexeme {
 	
 	constructor(langCode, headword) {
 		this.langCode         = langCode;
@@ -193,26 +167,29 @@ class WordInfo {
 class DicEntry {
 	
 	constructor() {
-		this.wordInfos = new Array();
-		this.levelNo = undefined;
+		this.lexemes = new Array();
+		this.levelCode = undefined;
 		this.lessonNo = undefined;
 	}
 	
-	appendWordInfo(wordInfo) {
-		let langCode = wordInfo.getLangCode();
-		this.wordInfos[langCode] = wordInfo;
+	appendLexeme(lexeme) {
+		let langCode = lexeme.getLangCode();
+		this.lexemes[langCode] = lexeme;
 	}
 	
 	getHeadword(langCode) {
-		return this.wordInfos[langCode].getHeadword();	
+		if(this.lexemes[langCode]) 
+			return this.lexemes[langCode].getHeadword();
+		else 
+			return undefined;	
 	}
 	
-	getLevelNo() {
-		return this.levelNo;
+	getLevelCode() {
+		return this.levelCode;
 	}
 	
-	setLevelNo(levelNo) {
-		this.levelNo = levelNo;
+	setLevelCode(levelCode) {	
+		this.levelCode = levelCode;
 	}
 	
 	getLessonNo() {
@@ -225,21 +202,21 @@ class DicEntry {
 
 	getPartOfSpeachCode() {
 		let partOfSpeachCode = "";
-		for(let langCode in this.wordInfos) {
+		for(let langCode in this.lexemes) {
 			partOfSpeachCode =
-				this.wordInfos[langCode].getPartOfSpeachCode();
+				this.lexemes[langCode].getPartOfSpeachCode();
 			break;	
 		}
 		return partOfSpeachCode;
 	}
 	
-	getSubjectDomainTags() {
+	getSubjectDomainTags(tagClassCode=EVERY_TAG_CODE) {
 		return this.subjectDomainTags;
 	}
 	
 	setSubjectDomainTags(subjectDomainTagsStr) {
 		let rawTags = subjectDomainTagsStr ? 
-			subjectDomainTagsStr.split(",") : "";
+			String(subjectDomainTagsStr).split(",") : "";
 		this.subjectDomainTags = new Array();
 		for(let tagIdx in rawTags) {
 			let tag = rawTags[tagIdx].trim();
@@ -249,12 +226,12 @@ class DicEntry {
 	}
 
 	getMnemoPhrase(langCode) {
-		return this.wordInfos[langCode].getMnemoPhrase();	
+		return this.lexemes[langCode].getMnemoPhrase();	
 	}	
 	
 	setMnemoPhrase(langCode, mnemoPhrase) {
-		if(this.wordInfos[langCode])
-			this.wordInfos[langCode].setMnemoPprase(mnemoPhrase);
+		if(this.lexemes[langCode])
+			this.lexemes[langCode].setMnemoPprase(mnemoPhrase);
 	}	
 }
 
@@ -285,47 +262,133 @@ class wordspaceQuery {
 
 class Wordspace {
 	
-	constructor() {
+	constructor(id) {
+		
+		this.id = id;
+		
+		this.title = "Default Wordspace";
+		this.provider = {};
+		
+		this.langs = new Array();	
+		this.targetLangCode = "en";
+		this.baseLangCodes = new Array();
+		this.defaultBaseLangCode = "en";
+		
+		this.poses = new Factor();
+		
+		this.externalDics = new Array();
+		
 		this.dicEntries  = new Array();
+
+		this.outerTags = new Array();
+		this.innerTags = new Array();
 		
 		this.langCodeIndex = new LangCodeIndex();
 		this.levelCodeIndex = new LevelCodeIndex();
 		this.lessonNoIndex = new LessonNoIndex();
 		this.partOfSpeachIndex = new PartOfSpeachIndex();
-		this.subjectDomainTagIndex = new SubjectDomainTagIndex();
+		this.subjectDomainTagIndex = new TagIndex("outer_tags", this.getOuterTags());
+		this.innerTagIndex = new TagIndex("inner_tags", this.getInnerTags());
+	}
+	
+	getId() {
+		return this.id;
+	}
+	
+	appendLang(lang) {
+		this.langs[lang.getCode()] = lang;
+	}
+	
+	getLang(langCode) {
+		return this.langs[langCode];
+	}
+	
+	getTargetLangCode() {
+		return this.targetLangCode;
+	}
+	
+	getTargetLang() {
+		return this.getLang(this.getTargetLangCode());
+	}
+	
+	getTargetLangName(langCode=undefined) {
+		return this.getTargetLang().getName(langCode);
+	}
+	
+	setTargetLang(langCode) {
+		this.targetLangCode = langCode;
+	}
+	
+	getLangCodes() {
+		return [this.targetLangCode(), ...this.getBaseLangCodes()];
+	}
+	
+	getBaseLangCodes() {
+		return this.baseLangCodes;
+	}
+	
+	setBaseLangs(baseLangCodes) {
+		this.baseLangCodes = baseLangCodes;
+	}
+	
+	getDefaultBaseLangCode() {
+		return this.defaultBaseLangCode;
+	}
+	
+	setDefaultBaseLang(langCode) {
+		this.defaultBaseLangCode = langCode;
+	}
+	
+	getLangs() {
+		return this.langs;
+	}
+	
+	getLang(langCode) {
+		return this.getLangs()[langCode];
 	}
 	
 	checkLangIndex(langCode) {
-		//if(!this.langIndices[langCode]) 
-		//	this.langIndices[langCode] = new Array();
+		if(!this.langIndices[langCode]) 
+			this.langIndices[langCode] = new Array();
+	} 
+	
+	appendPartOfSpeach(pos) {
+		this.poses.appendValue(pos);
 	}
 	
-	checkLessonIndex(lessonNo) {
-		if(!this.lessonNoIndex[lessonNo])
-			this.lessonNoIndex[lessonNo] = new Array();
+	getPartOfSpeachCodes() {
+		return Object.keys(this.poses);
 	}
 	
-	appendDicEntry2LangIndex(langCode, dicEntry) {
-		this.checkLangIndex(langCode);
-		//this.langIndices[langCode][dicEntry.getHeadword(langCode)] = dicEntry;
+	getPartsOfSpeach() {
+		return this.poses.getValues();
+	}
+	
+	getPartOfSpeach(posCode) {
+		return this.poses.getValue(posCode);
+	}
+	
+	getPartOfSpeachLocalNames() {
+		return this.poses.getValueNames();
+	}
+	
+	getDefaultLevelCode() {
+		return this.defaultLevelCode;
+	}
+	
+	setDefaultLevelCode(levelCode) {
+		this.defaultLevelCode = levelCode;
 	}
 	
 	appendDicEntry(dicEntry) {
-		
+
 		this.dicEntries.push(dicEntry);
 		
-		for(let langCode in dicEntry.wordInfos)  
-			this.appendDicEntry2LangIndex(langCode, dicEntry);	
-		
-		let lessonNo = dicEntry.getLessonNo();
-		if(lessonNo) {
-			this.checkLessonIndex(lessonNo);
-			this.lessonNoIndex[lessonNo].push(dicEntry);
-		}
-		
+		this.levelCodeIndex.appendItem(dicEntry);
 		this.lessonNoIndex.appendItem(dicEntry);
 		this.partOfSpeachIndex.appendItem(dicEntry);
 		this.subjectDomainTagIndex.appendItem(dicEntry);
+		this.innerTagIndex.appendItem(dicEntry);
 	}
 		
 	translateHeadword(srcLangCode, srcHeadword, targetLangCode) {
@@ -333,25 +396,101 @@ class Wordspace {
 		translations[0] = this.langIndices[srcLangCode][srcHeadword].getHeadword(targetLangCode);
 		return translations;
 	}
-		
+	
 	compareLessonNumbers(lessonNo1, lessonNo2) {
-		return parseInt(lessonNo2) - parseInt(lessonNo1);
+		return this.lessonNoIndex.compareKeyValues(lessonNo1, lessonNo2);
+	} 
+	
+	getTitle() {
+		return this.title;
 	}
 	
-	getTargetLangCode() {
-		return "he";
+	setTitle(title) {
+		this.title = title;
 	}
 	
-	getLessons(levelCode) {
-		return this.lessonNoIndex.selectKeyValues().sort(this.compareLessonNumbers);
+	getProvider() {
+		return this.provider;
 	}
 	
-	getSubjectDomainTags() {
-		return this.subjectDomainTagIndex.selectKeyValues();
+	setProvider(provider) {
+		this.provider = provider;
+	}
+
+	getExternalDic(_langCode=undefined) {
+		let langCode = _langCode ? _langCode : this.getDefaultBaseLangCode();
+		return this.externalDics[langCode] ? this.externalDics[langCode] : 
+		       this.externalDics[this.getDefaultBaseLangCode()];
+	}
+	
+	setExternalDic(langCode, externalDicUrlTemplate) {
+		this.externalDics[langCode] = externalDicUrlTemplate;
+	}
+	
+	getLevels() {
+		return this.levelCodeIndex.selectKeyValues().sort(this.compareLevelCodes);
+	}
+	
+	getLessons() {
+		
+		function cmpFunc(ln1, ln2) {
+			return compareCompoundNumbers(ln2, ln1);
+		}
+		
+		return this.lessonNoIndex.selectKeyValues().sort(cmpFunc);
+	}
+	
+	appendTag(tag, tagClassCode) {
+
+		switch(tagClassCode) {
+			case OUTER_TAG_CODE: 
+				this.outerTags.push(tag);
+				break;
+			case INNER_TAG_CODE:
+				this.innerTags.push(tag)	
+				break;
+			default:
+				this.outerTags.push(tag);	
+		}
+
+	}
+
+	getOuterTags() {
+		return this.outerTags;
+	}
+
+	getInnerTags() {
+		return this.innerTags;
+	}
+
+	getSubjectDomainTags(tagClassCode=EVERY_TAG_CODE) {
+
+		let tags = [];
+
+		switch(tagClassCode) {
+			case OUTER_TAG_CODE:
+				tags = this.getOuterTags();
+				break;
+			case INNER_TAG_CODE:
+				tags = this.getInnerTags();
+				break; 		
+			default:
+				tags = this.subjectDomainTagIndex.selectKeyValues(); 	
+		}
+
+		return tags;
 	}
 	
 	getSubjectDomainTagStat(tag) {
-		return this.subjectDomainTagIndex.selectKeyValueStat(tag);
+
+		if(this.getInnerTags().includes(tag))
+			return this.innerTagIndex.selectKeyValueStat(tag);
+		else		
+			return this.subjectDomainTagIndex.selectKeyValueStat(tag);
+	}
+
+	getInnerTagStat(tag) {
+		return this.innerTagIndex.selectKeyValueStat(tag);
 	}
 	
 	getSubjectDomainTagWordings() {
@@ -380,7 +519,7 @@ class Wordspace {
 		
 		if(partOfSpeach != "all") 
 			for(let dicEntryIdx in candidates) { 
-				if(candidates[dicEntryIdx].wordInfos["he"].getPartOfSpeachCode() == partOfSpeach)
+				if(candidates[dicEntryIdx].lexemes["he"].getPartOfSpeachCode() == partOfSpeach)
 					filter.push(candidates[dicEntryIdx]);
 			}
 		else
@@ -389,9 +528,15 @@ class Wordspace {
 		return filter;
 	}
 	
+	assembleLevelCodeFilter(levelCode) {
+		return levelCode && (levelCode != "all") ?
+			this.levelCodeIndex.selectItemsByKeyValues(levelCode) :
+			this.levelCodeIndex.selectAllItems();
+	}
+	
 	assembleLessonNoFilter(lessonNo) {
 		return lessonNo && (lessonNo != "all") ?
-			this.lessonNoIndex.selectItemsByKeyValues(parseInt(lessonNo)) :
+			this.lessonNoIndex.selectItemsByKeyValues(lessonNo) :
 			this.lessonNoIndex.selectAllItems();
 	}
 	
@@ -401,20 +546,53 @@ class Wordspace {
 			this.partOfSpeachIndex.selectAllItems();
 	}
 	
+	assembleTagRecord(code, relativeSize){
+		return {"code"         : code,  
+		        "wording"      : code, 
+				"relativeSize" : relativeSize};
+	}
+	
+	getSubjectDomainTagRecords(tagClassCode) {
+				
+		let tags = this.getSubjectDomainTags(tagClassCode);
+		
+		let tagRecords = new Array();
+		
+		for(let tagIdx in tags) {
+			let tag = tags[tagIdx];
+			let stat = this.getSubjectDomainTagStat(tag);
+			let tagRecord = this.assembleTagRecord(tag, stat.relativeSize);
+			tagRecords[tag] = tagRecord;
+		}
+		
+		return tagRecords;
+	}
+
+	geInnerDomainTagRecords() {
+				
+		let tags = this.getSubjectDomainTags(INNER_TAG_CODE);
+		
+		let tagRecords = new Array();
+		
+		for(let tagIdx in tags) {
+			let tag = tags[tagIdx];
+			let stat = this.getInnerTagStat(tag);
+			let tagRecord = this.assembleTagRecord(tag, stat.relativeSize);
+			tagRecords[tag] = tagRecord;
+		}
+		
+		return tagRecords;
+	}
+	
 	assembleSubjectDomainTagFilter(tags) {
 		return tags ? 
 			this.subjectDomainTagIndex.selectItemsByKeyValues(...tags) :
 			this.subjectDomainTagIndex.selectAllItems();
 	}
-	
-	assembleExtDicUrl(dicEntry, langCode) {
-		let url = "";
-		if(langCode == "he") {
-			let headword = dicEntry.getHeadword(langCode);
-			url = "https://www.pealim.com/search/?q=" + headword;
-		}	
-		
-		return url;
+
+	assembleInnerTagFilter(tags) {
+		return tags ? 
+			this.innerTagIndex.selectItemsByKeyValues(...tags) :
+			this.innerTagIndex.selectAllItems();
 	}
-	
 }

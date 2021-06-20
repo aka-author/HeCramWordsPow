@@ -1,63 +1,246 @@
 //* * ** *** ***** ******** ************* *********************
-// Configuration of an application
-//
-//                                                   (\_/)
-//                                                   (^.^) 
+// Project: Nakar
+// Module:  Play of Words
+// Layer:	Web front-end
+// File:	config.js                              (\_/)
+// Func:	Configuration of an application       (^.^) 
 //* * ** *** ***** ******** ************* *********************
+
+
+const CFG_SYSTEM_PARAMS = undefined;
+const DEFAULT_WORDSPACE_ID = "default";
+
+const CFG_SRC_ID = "srcId";
+const CFG_WSP_ID = "wspId";
+const CFG_UI_LANG_CODE = "uiLangCode";
+const CFG_LEVEL_CODE = "levelCode";
+const CFG_LESSON_NO = "lessonNo";
+const CFG_RIDDLE_LANG_CODE = "riddleLangCode";
+const CFG_GUESS_LANG_CODE = "guessLangCode";
+const CFG_POS_CODE = "posCode";
+const CFG_SCT_TAGS = "sctTags";
+const CFG_SCT_GAMING = "sctGaming";
+const CFG_SCT_WORD_LIST = "sctWordList";
+
+const CFG_TARGET_LANG_CODE = "t";
+const CFG_DEFAULT_BASE_LANG_CODE = "b";
+
 
 class UserConfig {
 	
 	constructor() {
-		this.defaultWordspace        = null;
-		this.defaultCurrLevelNo      = "alef";
-		this.defaultCurrLessonNo     = "all";
-		this.defaultRiddleLangCode   = navigator.language.substring(0,2);
-		this.defaultGuessLangCode    = "he";
-		this.defaultPartOfSpeachCode = "all";
-		this.defaultUiLangCode       = navigator.language.substring(0,2);
+		this.params = {"sys" : {}, "ws" : {}};
+		this.setDefaults();
+	}		
+	
+	peekConfigParam(wordspaceId, paramName) {
+	
+		let safeParamValue = wordspaceId ? 
+					this.params.ws[wordspaceId][paramName] : 
+					this.params.sys[paramName];
+		
+		return safeParamValue;
 	}
 	
-	getDefaultCurrWordspace(wordspace=null) {
-		return this.defaultCurrWirdspace;
+	checkWordspace(wordspaceId) {
+		if(!this.params.ws[wordspaceId]) this.params.ws[wordspaceId] = {};
 	}
 	
-	getDefaultCurrLevelNo(wordspace=null) {
-		return this.defaultCurrLevelNo;
+	pokeConfigParam(wordspaceId, paramName, safeParamValue) {
+				
+		if(wordspaceId) {
+			this.checkWordspace(wordspaceId);
+			this.params.ws[wordspaceId][paramName] = safeParamValue;	
+		}
+		else
+			this.params.sys[paramName] = safeParamValue;
 	}
 	
-	getDefaultCurrLessonNo(wordspace=null) {
-		return this.defaultCurrLessonNo;
+	getSystemConfigParam(paramName) {
+		return asciiSafeDecode(this.peekConfigParam(CFG_SYSTEM_PARAMS, paramName));
 	}
 	
-	getDefaultRiddleLangCode(wordspace=null) {
-		return this.defaultRiddleLangCode;
+	setSystemConfigParam(paramName, paramValue) {
+		this.pokeConfigParam(CFG_SYSTEM_PARAMS, paramName, asciiSafeEncode(paramValue));
 	}
 	
-	setDefaultRiddleLangCode(langCode) {
-		this.defaultRiddleLangCode = langCode;
+	assembleWordspaceAccessParams(srcId, wspId) {
+		let params = {};
+		params[CFG_SRC_ID] = srcId;
+		params[CFG_WSP_ID] = wspId;
+		return params;
 	}
 	
-	getDefaultGuessLangCode(wordspace=null) {
-		return this.defaultGuessLangCode;
+	getSrcId() {
+		return this.getSystemConfigParam(CFG_SRC_ID);
 	}
 	
-	setDefaultGuessLangCode(langCode) {
-		this.defaultGuessLangCode = langCode;
+	getWspId() {
+		return this.getSystemConfigParam(CFG_WSP_ID);
 	}
 	
-	getDefaultPartOfSpeachCode() {
-		return this.defaultPartOfSpeachCode;
+	getWordspaceAccessParams() {
+		return this.assembleWordspaceAccessParams(
+						this.getSrcId(), 
+		                this.getWspId());
 	}
 	
-	setDefaultPartOfSpeach(partOfSpeachCode) {
-		this.defaultPartOfSpeachCode = partOfSpeachCode;
+	setWordspaceAccessParams(params) {
+		this.setSystemConfigParam(CFG_SRC_ID, params.srcId);
+		this.setSystemConfigParam(CFG_WSP_ID, params.wspId);
 	}
 	
-	getDefaultUiLangCode(wordspace=null) {
-		return this.defaultUiLangCode;
+	getDemoWordspaceAccessParams() {
+		return this.assembleWordspaceAccessParams(
+						SRC_SIMPLE_GDOC, 
+		                "1gwWY6wcdTS1qILVTQoVTx3tB5h-IqERPLZZWt5Mk7XE");
 	}
 	
-	setDefaultUiLangCode(langCode) {
-		this.defaultUiLangCode = langCode;
+	getWordspaceConfigParam(_wordspaceId, paramName) {
+		
+		let safeParamValue = undefined;
+		
+		let wordspaceId = this.params.ws[_wordspaceId] ? 
+							_wordspaceId : DEFAULT_WORDSPACE_ID;
+		
+		let defautValue = this.peekConfigParam(DEFAULT_WORDSPACE_ID, paramName);
+				
+		if(wordspaceId != DEFAULT_WORDSPACE_ID) {
+			let explicitValue = this.peekConfigParam(wordspaceId, paramName);
+			safeParamValue = useful(explicitValue, defautValue);
+		}				 
+		else
+			safeParamValue = defautValue;	
+				
+		return asciiSafeDecode(safeParamValue);
+	}
+	
+	setWordspaceConfigParam(wordspaceId, paramName, paramValue) {
+		this.pokeConfigParam(wordspaceId, paramName, asciiSafeEncode(paramValue));
+	}
+	
+	getBrowserLangCode() {
+		return navigator.language.substring(0,2);
+	}
+	
+	getUiLangCode() {
+		return this.getSystemConfigParam(CFG_UI_LANG_CODE) ? 
+		          this.getSystemConfigParam(CFG_UI_LANG_CODE) : this.getBrowserLangCode();
+	}
+	
+	setUiLangCode(langCode) {
+		this.setSystemConfigParam(CFG_UI_LANG_CODE, langCode);
+	}
+	
+	getLevelCode(wordspaceId=undefined) {
+		return this.getWordspaceConfigParam(wordspaceId, CFG_LEVEL_CODE);
+	}
+	
+	setLevelCode(wordspaceId, levelCode) {
+		this.setWordspaceConfigParam(wordspaceId, CFG_LEVEL_CODE, levelCode);
+	}
+	
+	getLessonNo(wordspaceId=undefined) {
+		return this.getWordspaceConfigParam(wordspaceId, CFG_LESSON_NO);
+	}
+	
+	setLessonNo(wordspaceId, lessonNo) {
+		this.setWordspaceConfigParam(wordspaceId, CFG_LESSON_NO, lessonNo);
+	}
+	
+	getRiddleLangCode(wordspaceId=undefined) {
+		return this.getWordspaceConfigParam(wordspaceId, CFG_RIDDLE_LANG_CODE); 
+	}
+	
+	setRiddleLangCode(wordspaceId, langCode) {
+		this.setWordspaceConfigParam(wordspaceId, CFG_RIDDLE_LANG_CODE, langCode);
+	}
+	
+	getGuessLangCode(wordspaceId=undefined) {
+		return this.getWordspaceConfigParam(wordspaceId, CFG_GUESS_LANG_CODE);
+	}
+	
+	setGuessLangCode(wordspaceId, langCode) {
+		this.setWordspaceConfigParam(wordspaceId, CFG_GUESS_LANG_CODE, langCode);
+	}
+	
+	getPosCode(wordspaceId=undefined) {
+		return this.getWordspaceConfigParam(wordspaceId, CFG_POS_CODE);
+	}
+	
+	setPosCode(wordspaceId, posCode) {
+		this.setWordspaceConfigParam(wordspaceId, CFG_POS_CODE, posCode);
+	}
+	
+	getSubjectDomainTagsSectionState(wordspaceId) {
+		return this.getWordspaceConfigParam(wordspaceId, CFG_SCT_TAGS);
+	}
+	
+	setSubjectDomainTagsSectionState(wordspaceId, state) {
+		this.setWordspaceConfigParam(wordspaceId, CFG_SCT_TAGS, state);
+	}
+	
+	getGamingSectionState(wordspaceId) {
+		return this.setWordspaceConfigParam(wordspaceId, CFG_SCT_GAMING);
+	}
+	
+	setGamingSectionState(wordspaceId, state) {
+		this.setWordspaceConfigParam(wordspaceId, CFG_SCT_GAMING, state);
+	}
+	
+	getWordListSectionState(wordspaceId) {
+		return this.setWordspaceConfigParam(wordspaceId, CFG_SCT_WORD_LIST);
+	}
+	
+	setWordListSectionState(wordspaceId, state) {
+		this.setWordspaceConfigParam(wordspaceId, CFG_SCT_WORD_LIST, state);
+	}
+	
+	assembleJson() {
+
+		// console.log("Final JSON: ", JSON.stringify(this.params));
+		
+		sleep(5000);
+		
+		delete this.params.ws[DEFAULT_WORDSPACE_ID];
+		
+		return JSON.stringify(this.params);
+	}	
+	
+	unpackFromJson(paramsJson) {
+		
+		let parseSuccess = true;
+		
+		let params = {}
+	
+		try {
+			params = JSON.parse(paramsJson);
+		}
+		catch(e) {
+			parseSuccess = false;
+		}			
+				
+		if(parseSuccess) {
+						
+			for(let paramName in params.sys) 
+				this.pokeConfigParam(CFG_SYSTEM_PARAMS, paramName, params.sys[paramName]);
+				
+			for(let wsId in params.ws) 
+				for(let paramName in params.ws[wsId]) 
+					this.pokeConfigParam(wsId, paramName, params.ws[wsId][paramName]);
+		}
+				
+		return parseSuccess;
+	}
+	
+	setDefaults() {
+		this.setLevelCode(DEFAULT_WORDSPACE_ID, "all");
+		this.setLessonNo(DEFAULT_WORDSPACE_ID, "all");
+		this.setRiddleLangCode(DEFAULT_WORDSPACE_ID, CFG_DEFAULT_BASE_LANG_CODE);
+		this.setGuessLangCode(DEFAULT_WORDSPACE_ID, CFG_TARGET_LANG_CODE);
+		this.setPosCode(DEFAULT_WORDSPACE_ID, "all");
+		this.setSubjectDomainTagsSectionState(DEFAULT_WORDSPACE_ID, SCT_EXPANDED);
+		this.setGamingSectionState(DEFAULT_WORDSPACE_ID, SCT_EXPANDED);
+		this.setWordListSectionState(DEFAULT_WORDSPACE_ID, SCT_COLLAPSED);
 	}
 }

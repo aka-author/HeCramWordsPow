@@ -1,19 +1,19 @@
-class Lang {
+//* * ** *** ***** ******** ************* *********************
+// Project: Nakar
+// Module:  Play of Words
+// Layer:	Web front-end
+// File:	lang.js                           (\_/)
+// Func:	Managing language metadata        (^.^) 
+//* * ** *** ***** ******** ************* *********************
+
+class Lang extends FactorValue {
 	
-	constructor() {
-		this.setProperties();
+	constructor(langCode, originalName=undefined) {
+		
+		super(langCode, langCode);
+		
+		if(originalName) 
+			this.setName(langCode, originalName);
 	}
 	
-	setProperties() {
-		this.letters2 = "en";
-		this.originalName = "English";
-	}
-	
-	getLetters2() {
-		return this.letters2;
-	}
-	
-	getOriginalName() {
-		return this.originalName;
-	}
 }

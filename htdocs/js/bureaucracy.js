@@ -1,9 +1,13 @@
 //* * ** *** ***** ******** ************* *********************
-// Essential abstract classes
-//
-//                                                   (\_/)
-//                                                   (^.^) 
+// Project: Nakar
+// Module:  Play of Words
+// Layer:	Web front-end
+// File:	bureaucracy.js                            (\_/)
+// Func:	Abstract object-to-object interaction     (^.^)
 //* * ** *** ***** ******** ************* *********************
+
+const BUR_TYPE_CODE_GENERIC = "generic";
+
 
 class Bureaucrat {
 	
@@ -13,14 +17,19 @@ class Bureaucrat {
 		
 		this.id = id;
 		
+		this.setType();
+		
 		this.userConfig = null;
+		this.configSystemParamNames = [];
+		this.configWordspaceParamNames = [];
 		this.i18n = null;
+		this.reporter = null;
 		this.mainPage = null;
 		this.game = null;
 		this.app = null;
 		
 		this.subordinates = new Array();
-		this.subordinatesByIds = new Array();
+		this.subordinatesById = new Array();
 		
 		if(chief)
 			chief.registerSubordinate(this);
@@ -34,16 +43,24 @@ class Bureaucrat {
 		return this.id;
 	}
 	
+	getType() {
+		return this.typeCode;
+	}
+	
+	setType(typeCode=undefined) {
+		this.typeCode = useful(typeCode, BUR_TYPE_CODE_GENERIC);
+	}
+	
 	registerSubordinate(subordinate) {
 		
-		let id = subordinate.getId()
+		let id = subordinate.getId();
 		
 		let regRec = {"id": id, "subordinate" : subordinate};
 		
 		this.subordinates.push(regRec);
 		
 		if(id)
-			this.subordinatesByIds[id] = subordinate;
+			this.subordinatesById[id] = subordinate;
 		
 		let chief = this.getChief();
 		if(chief)
@@ -59,26 +76,112 @@ class Bureaucrat {
 		return this.getProperty("userConfig");
 	}
 	
+	getWordspaceConfigParamNames() {
+		return this.wordspaceConfigParamNames;
+	}
+	
+	setWordspaceConfigParamNames() {
+		this.wordspaceConfigParamNames = [...arguments];
+	}
+	
+	getWordspaceConfigParams() {
+		
+		let configParams = {};
+		
+		let paramNames = this.getWordspaceConfigParamNames();
+		
+		for(let paramNameIdx in paramNames) {
+			let paramName = paramNames[paramNameIdx];
+			configParams[paramName] = this.getProperty(paramName);
+		}	
+	
+		return configParams;
+	}
+	
+	commitConfigParams() {
+		
+		let configParams = this.getWordspaceConfigParams();
+		
+		console.log("-------------", configParams);
+		
+		let wspId = this.getWordspace().getId();
+		
+		let config = this.getUserConfig();
+		
+		for(let paramName in configParams)
+			config.setWordspaceConfigParam(wspId, paramName, configParams[paramName]);		
+	}
+	
 	getI18n() {
 		return this.getProperty("i18n");
 	}
 	
+	getTargetLangCode() {
+		return this.targetLangCode ? this.targetLangCode : 
+									 this.getChief().getTargetLangCode();
+	}
+	
+	getWordspace() {
+		return this.ws ? this.ws : this.getChief().getWordspace();
+	}
+	
+	getUiLangCode() {
+		return this.currUiLangCode ? this.currUiLangCode :
+                          		     this.getChief().getUiLangCode();
+	}
+	
 	getMainPage() {
-		return this.getProperty("mainPage");
+		return this.mainPage ? this.mainPage : this.getChief().getMainPage();
+	}
+	
+	getCurrBaseLangCode() {
+		return this.currBaseLangCode ? this.currBaseLangCode : 
+									   this.getChief().getCurrBaseLangCode();
+	}
+	
+	setProcessReporter(processReporter) {
+		this.reporter = processReporter;
 	}
 	
 	getGame() {
-		return this.getProperty("game");
+		return this.game ? this.game : this.getChief().getGame();
 	}
 	
 	getApp() {
-		return this.getProperty("app");
+		return this.app ? this.app : this.getChief().getApp();
+	}
+	
+	countSubordinates() {
+		return this.subordinates.length;
+	}
+	
+	getSubordinateByNo(idx) {
+		return this.subordinates[idx].subordinate;
 	}
 	
 	getSubordinateById(id) {
-		return this.subordinatesByIds[id] ? 
-					this.subordinatesByIds[id] : 
+		return this.subordinatesById[id] ? 
+					this.subordinatesById[id] : 
 					null;
+	}
+	
+	isDirectSubordinate(bureaucrat) {
+		return bureaucrat.getChief().getId() == this.getId();
+	}
+	
+	getDirectSubordinates() {
+		
+		let directSubordinates = [];
+		
+		for(let i = 0; i < this.countSubordinates(); i++) {
+			
+			let subordinate = this.getSubordinateByNo(i);
+			
+			if(this.isDirectSubordinate(subordinate))
+						directSubordinates.push(subordinate);
+		}	
+			
+		return directSubordinates;	
 	}
 	
 	doMyself(methodName, argsObject) {
@@ -119,5 +222,47 @@ class Bureaucrat {
 		
 		return result;
 	}
+	
+	checkUpdateAgenda(agenda, stuff) {
+		return true;
+	}
+	
+	createUpdateStuff() {
+		return {};
+	}
+	
+	startUpdate(agenda, stuff) {
+	}
+	
+	finishUpdate(agenda, stuff) {	
+	}
 
+	update(agenda, _stuff=null) {
+		
+		let stuff = useful(_stuff, this.createUpdateStuff());
+		
+		if(this.checkUpdateAgenda(agenda, stuff)) {
+		
+			this.startUpdate(agenda, stuff);
+
+			let directSubordinates = this.getDirectSubordinates();
+			
+			for(let subIdx in directSubordinates)
+				directSubordinates[subIdx].update(agenda, stuff);
+
+			this.finishUpdate(agenda, stuff);
+		}
+	}
+	
+	getProcessReporter() {
+		return this.reporter ? this.reporter : 
+		                       this.getChief().getProcessReporter();
+	}
+	
+	reportFromI18n(strId, substs=null) {
+		let reporter = this.getProcessReporter();		
+		let msgId = reporter.appendMessageFromI18n(strId, substs);
+		reporter.showMessage(msgId);
+		return msgId;
+	}
 }

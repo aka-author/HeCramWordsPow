@@ -67,6 +67,10 @@ class UiControl extends Bureaucrat {
 		return String(uiControlValue);
 	}	
 	
+	assembleEmptyUiControlValue() {
+		return undefined;
+	}
+	
 	getUiControlValue() {
 		this.domObject = this.getDomObject();
 		this.domObjectValue = this.getDomObjectValue();
@@ -101,32 +105,81 @@ class UiControl extends Bureaucrat {
 
 class Selector extends UiControl {
 	
-	assembleOptionId(value) {
-		return this.getId() + "__" + value;
+	constructor(parentUiControl, id) {
+		super(parentUiControl, id);
+		this.hashes = new Array();
+	}
+	
+	assembleOptionId(hash) {
+		return this.getId() + "__" + hash;
+	}
+	
+	assembleDomObjectValue(uiControlValue) {
+		return useful(uiControlValue.code, String(uiControlValue));
+	}
+	
+	assembleDomObjectValueAppearance(uiControlValue) {
+		return useful(uiControlValue.wording, String(uiControlValue));
+	}
+	
+	hash(domObjectValue) {
+		return idSafeEncode(domObjectValue);
+	}
+	
+	storeHash(uiControlValue, hash) {
+		this.hashes[hash] = uiControlValue;
+	}
+	
+	restoreUiControlValue(hash) {
+		return this.hashes ? this.hashes[hash] : undefined;
+	}
+	
+	assembleOptionElement(uiControlValue) {
+		
+		let optionElement = document.createElement("option");
+			
+		let hash = this.hash(this.assembleDomObjectValue(uiControlValue));
+		this.storeHash(uiControlValue, hash);
+		
+		optionElement.setAttribute("value", hash);
+		
+		optionElement.setAttribute("id", this.assembleOptionId(hash));
+		
+		let optionWording = this.assembleDomObjectValueAppearance(uiControlValue);
+				
+		let optionTextNode = document.createTextNode(optionWording);
+		optionElement.appendChild(optionTextNode);
+		
+		return optionElement;
 	}
 	
 	appendOptions(uiControlValues) {
 		
 		let selectElement = this.getDomObject();
 		
-		for(let uiControlValueIdx in uiControlValues) {
-			
-			let optionElement = document.createElement("option");
-			
-			let optionValue = 
-					this.assembleDomObjectValue(uiControlValues[uiControlValueIdx]);
-			
-			optionElement.setAttribute("value", optionValue);
-			optionElement.setAttribute("id", this.assembleOptionId(optionValue));
-			
-			let optionWording = 
-					this.assembleDomObjectValueAppearance(uiControlValues[uiControlValueIdx]);
-					
-			let optionTextNode = document.createTextNode(optionWording);
-			optionElement.appendChild(optionTextNode);
-			
+		for(let valIdx in uiControlValues) {
+			let optionElement = this.assembleOptionElement(uiControlValues[valIdx]);
 			selectElement.appendChild(optionElement);
 		}
+	}
+	
+	setLocalWording(id, langCode, wording) {
+		this.getApp().setI18nText(idSafeEncode(this.assembleOptionId(id)), langCode, wording);
+	}
+	
+	setLocalWordings(localWordings) {
+		
+		for(let id in localWordings) 
+			for(let langCode in localWordings[id])
+				this.setLocalWording(id, langCode, localWordings[id][langCode]);
+	}
+	
+	getUiControlValue() {
+		return this.restoreUiControlValue(this.getDomObjectValue());
+	}
+	
+	setUiControlValue(uiControlValue) {
+		this.setDomObjectValue(this.hash(this.assembleDomObjectValue(uiControlValue)));
 	}
 }
 
@@ -180,6 +233,7 @@ class GroupOfPanes extends UiControl {
 		this.getFrontPane().show();
 		this.getFrontPaneLabel().sendFront();
 	}
+	
 }
 
 
@@ -385,7 +439,7 @@ class TagCloud extends UiControl {
 	}		
 	
 	getTagWording(tag, langCode=undefined) {
-		
+			
 		let wording = "";
 		
 		if(this.localTagWordings[tag] && langCode) 
@@ -426,5 +480,207 @@ class TagCloud extends UiControl {
 			if(wording)
 				this.tagSwitches[tag].setWording(wording);
 		}
+	}
+}
+
+
+
+//
+//  Sections
+//
+
+
+const SCT_HEADER_ALWAYS_VISIBLE = 0;
+const SCT_VISIBLE_WHEN_COLLAPSED = 1;
+const SCT_EXPANDED = "e";
+const SCT_COLLAPSED = "c";
+
+
+class SectionClicker extends UiControl {
+	
+	constructor(chief, id) {
+	
+		super(chief, id);
+		
+		this.collapsedImgPath = "img/ain-patoh.svg";
+		this.expandedImgPath = "img/ain-sagur.svg";
+	}
+	
+	getCollapsedImg() {
+		return this.collapsedImgPath;
+	}
+	
+	setCollapsedImg(imgPath) {
+		this.collapsedImgPath = imgPath;
+	}
+	
+	getExpandedImg() {
+		return this.expandedImgPath;
+	}
+	
+	setExpandedImg(imgPath) {
+		this.expandedImgPath = imgPath;
+	}
+
+	isCollapsed() {
+		return this.getChief().isCollapsed();
+	}
+	
+	isExpanded() {
+		return this.getChief().isExpanded();
+	}
+	
+	getDomImg() {
+		
+		let img = null;
+	
+		let container = this.getDomObject();
+		
+		if(container.tagNamw == "img") 
+			img = container;
+		else 
+			img = container.children[0];
+	
+		return img;
+	}
+	
+	getCollapsed() {
+		this.getDomImg().src = this.getCollapsedImg();
+	}
+		
+	getExpanded() {
+		this.getDomImg().src = this.getExpandedImg();
+	}
+
+	onChange() {
+		this.getChief().onChange();
+	}		
+	
+}
+
+
+class SectionHeader extends UiControl {
+	
+	isCollapsed() {
+		return this.getChief().isCollapsed();
+	}
+	
+	getCollapsed() {
+	}
+	
+	isExpanded() {
+		return this.getChief().isExpanded();
+	}
+		
+	getExpanded() {
+	}
+	
+	update() {
+	}
+	
+}
+
+
+class SectionContentArea extends UiControl {
+	
+	// This class is formal so far
+}
+
+
+class Section extends UiControl {
+	
+	constructor(chief, id, clickerId, headerId, contentAreaId) {
+	
+		super(chief, id);
+		
+		this.clickerId = clickerId;
+		this.headerId = headerId;
+		this.contentAreaId = contentAreaId;
+		
+		this.clicker = this.assembleClicker();
+		this.header = this.assembleHeader();
+		this.contentArea = this.assembleContentArea();
+		
+		
+		this.headerVisibilityMode = SCT_HEADER_ALWAYS_VISIBLE;
+	}
+	
+	getClickerId() {
+		return this.clickerId;
+	}
+	
+	getHeaderId() {
+		return this.headerId;
+	}
+	
+	getContentAreaId() {
+		return this.contentAreaId;
+	}
+	
+	assembleClicker() {
+		return new SectionClicker(this, this.getClickerId());
+	}
+	
+	assembleHeader() {
+		return new SectionHeader(this, this.getHeaderId());
+	}
+	
+	assembleContentArea() {
+		return new SectionContentArea(this, this.getContentAreaId());
+	}
+	
+	getHeaderVisibilityMode(mode) {
+		return this.headerVisibilityMode; 
+	}
+	
+	setHeaderVisibilityMode(mode) {
+		this.headerVisibilityMode = mode; 
+	}
+	
+	isCollapsed() {
+		return this.contentArea ? this.contentArea.getDomObject().style.display == "none" : false;
+	}
+	
+	isExpanded() {
+		return this.contentArea ? !this.isCollapsed() : false;
+	}
+	
+	getUiControlValue() {
+		return this.isExpanded() ? SCT_EXPANDED : SCT_COLLAPSED;
+	}
+		
+	setUiControlValue(value) {
+		let tmp = value == SCT_EXPANDED ? this.expand() : this.collapse();
+	}
+	
+	collapse() {
+		
+		this.clicker.getCollapsed();
+		
+		this.header.getCollapsed();
+		if(this.getHeaderVisibilityMode() == SCT_VISIBLE_WHEN_COLLAPSED)
+			this.header.show();
+
+		this.contentArea.hide();
+	}
+	
+	expand() {
+		
+		this.clicker.getExpanded();
+		
+		this.header.getExpanded();
+		if(this.getHeaderVisibilityMode() == SCT_VISIBLE_WHEN_COLLAPSED)
+			this.header.hide();
+		
+		this.contentArea.show();
+	}
+	
+	applyChanges() {
+		this.commitConfigParams();
+	}
+	
+	onChange() {
+		this.isCollapsed() ? this.expand() : this.collapse();
+		this.applyChanges();
 	}
 }

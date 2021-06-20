@@ -175,7 +175,67 @@ class GoogleSpreadsheetSimple extends GoogleSpreadsheet {
 		return doc; 
 	}
 	
+	getGdocId() {
+		return "1ii9CGetudA74mPmuDCYfE1hEbWmt5kHa3IGSZOLSg4M";
+	}
+	
+	assembleRequest(gdocId, sheetName) {
+		
+		return "http://cramwords.com/cgi-bin/wordspace?" + 
+		       "gdoc_id=" + gdocId + 
+			   "&sheet_name=" + sheetName;
+	}
+	
+	retrieveSheet(gdocId, sheetName) {
+		
+		let sheetJson = null; 
+		let xmlHttp = new XMLHttpRequest();
+		let strRequestUrl = this.assembleRequest(gdocId, sheetName);
+		let success = false;
+		
+		try {            
+			xmlHttp.open("GET", strRequestUrl, false); 
+			xmlHttp.send("anonymous");  
+			success = (xmlHttp.status == 200);
+		}	
+		catch(error) {
+			success = false;
+		}
+					
+		if(success) {
+			sheetJson = JSON.parse(xmlHttp.response);
+			console.log(sheetJson);
+		}
+		
+		return sheetJson;
+	}
+	
+	extractPartsOfSpeach(tocJson) {
+		return ["Nouns", "Adjectives", "Verbs", "Adverbs", 
+		        "Pronouns", "Prepositions", "Conjunctions"];
+	}
+	
 	retrieveGdocFromGoogle(queryData) {
-		return google.gdocData;
+		
+		let wsGdoc = new Array();
+		
+		let gdocId = this.getGdocId(); 
+		
+		wsGdoc.passport = this.retrieveSheet(gdocId, "Passport");
+		wsGdoc.toc = this.retrieveSheet(gdocId, "TOC");
+		wsGdoc.tags = this.retrieveSheet(gdocId, "Tags");
+		
+		let partsOfSpeach = this.extractPartsOfSpeach(wsGdoc.toc);
+		
+		for(let posIdx in partsOfSpeach) {
+			let posSheetName = partsOfSpeach[posIdx]
+			wsGdoc[posSheetName] = this.retrieveSheet(gdocId, posSheetName);
+		}	
+		
+		//console.log(this.retrieveSheet(this.getGdocId(), "Nouns"));	
+		
+		return wsGdoc;
+		
+		//return google.gdocData;
 	}
 }

@@ -1,8 +1,9 @@
 //* * ** *** ***** ******** ************* *********************
-// Internationalization
-//
-//                                                (\_/)
-//                                                (^.^) 
+// Project: Nakar
+// Module:  Play of Words
+// Layer:	Web front-end
+// File:	i18n.js                           (\_/)
+// Func:	Internationalization              (^.^)
 //* * ** *** ***** ******** ************* *********************
 
 class I18n {
@@ -33,6 +34,12 @@ class I18n {
 		let stringTable = this.getStringTable();
 		let stringTableRow = stringTable[id];
 		return stringTableRow ? stringTableRow[actualLangCode] : undefined;
+	}
+	
+	setText(id, langCode, wording) {
+		if(!this.stringTable[id])
+			this.stringTable[id] = new Array();
+		this.stringTable[id][langCode] = wording;
 	}
 	
 	loadLocalLabels(rootNode, langCode=undefined) {
