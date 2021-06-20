@@ -724,8 +724,9 @@ span.hebrewDisclosedWordInMnemoPhrase {
 }
 
 #wordListTable {
-	width: 100%;
+	width: 				100%;
 	border-collapse: 	collapse;
+	border-bottom: 		none;
 }
 
 #wordListTable tr {
@@ -741,11 +742,11 @@ span.hebrewDisclosedWordInMnemoPhrase {
 	padding-left: 		1em;
 }
 
-.wordListLink:link {
+a.wordListLink:link {
 	text-decoration: 	none;
 }
 
-.wordListLink:hover, .wordListLink:active, .wordListLink:focus {
+a.wordListLink:hover, a.wordListLink:active, a.wordListLink:focus {
 	text-decoration: 	underline;
 }
 

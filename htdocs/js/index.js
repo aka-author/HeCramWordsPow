@@ -91,7 +91,7 @@ class Index extends Comparator{
 			
 		// That's not a bug, as I unfairly considered once. An item may 
 		// participate in an index without having key values. Otherwise 
-		// a filter made by "all" excludes appropriate items when we 
+		// a filter assembled by "all" excludes appropriate items when we 
 		// intersected it with other filters. We'll implement more indexing 
 		// options later: "strict" and "liberal".
 		this.indexedItems.add(item);
