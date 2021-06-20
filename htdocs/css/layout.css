@@ -538,6 +538,16 @@ div.sectionContentArea {
 	font-size: 			var(--tag-01-font-size); 
 }
 
+#innerTagsCloudDiv span.tag1 {
+	display: 			inline;
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius:	 	var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			var(--tag-03-font-size); 
+}
+
 .tag2 {
 	display: 			var(--tag-02-display);
 	margin-right: 		var(--tag-margin-right);
@@ -546,6 +556,16 @@ div.sectionContentArea {
 	white-space: 		nowrap;
 	cursor: 			pointer;
 	font-size: 			var(--tag-02-font-size); 
+}
+
+#innerTagsCloudDiv span.tag2 {
+	display: 			inline;
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			var(--tag-03-font-size); 
 }
 
 .tag3 {
@@ -557,6 +577,16 @@ div.sectionContentArea {
 	cursor: 			pointer;
 	font-size: 			var(--tag-03-font-size); 
 }
+
+#innerTagsCloudDiv span.tag3 {
+	display: 			inline;
+	margin-right: 		var(--tag-margin-right);
+	padding: 			var(--tag-padding);
+	border-radius: 		var(--tag-border-radius);
+	white-space: 		nowrap;
+	cursor: 			pointer;
+	font-size: 			var(--tag-03-font-size); 
+}	
 
 .tag4 {
 	display: 			var(--tag-04-display);
