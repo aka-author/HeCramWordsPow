@@ -472,3 +472,11 @@ function camelizeParams(params) {
 	
 	return camelizedParams;
 }
+
+
+
+// Misc.
+
+function assembleUniqueId() {
+	return "i" + substringAfter(String(Math.random()),".") + substringAfter(String(Math.random()),".");
+}

@@ -733,6 +733,13 @@ span.hebrewDisclosedWordInMnemoPhrase {
 	break-inside: 		avoid;
 }
 
+td.wordListDelEntry {
+	width:				5px;
+	padding:			0px;
+	vertical-align:     middle;
+	cursor: 			pointer;	
+}
+
 #wordListTable tr td {
 	border-bottom: 		1px dashed var(--delimiter-lite);
 	break-inside: 		avoid;

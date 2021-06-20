@@ -391,6 +391,32 @@ class WordList extends UiControl {
 		return splitter.split().substStr(params);
 	}
 
+	assembleDelEntryTd(id) {
+
+		function delEntry(e) {
+
+			if(e.target) {
+				let trId = substringAfter(e.target.id, "_");
+				let tr = document.getElementById(trId);
+				if(tr)
+					tr.style.display = "none";
+			}
+		}
+
+		let delEntryTd = document.createElement("td");
+		delEntryTd.setAttribute("class", "wordListDelEntry");
+		delEntryTd.onclick = (e => delEntry(e)); 
+
+		let buttonImg = document.createElement("img");
+		buttonImg.setAttribute("id", "_" + id);
+		buttonImg.setAttribute("src", "img/delete.jpg");
+		buttonImg.setAttribute("width", "12pt");
+
+		delEntryTd.appendChild(buttonImg);
+
+		return delEntryTd;
+	}
+
 	assembleWordListTd(dicEntry, _langCode=undefined) {
 		
 		let wordListTd = document.createElement("td");
@@ -427,10 +453,16 @@ class WordList extends UiControl {
 		wordListTable.setAttribute("id", "wordListTable");
 		
 		for(let dicEntryIdx = 0; dicEntryIdx < countDicEntries; dicEntryIdx++) {
-			
+
+			let id = assembleUniqueId();
+
 			let dicEntry = this.currFilter.fetchItemByIdx(dicEntryIdx);
 			let dicEntryTr = document.createElement("tr");
+			dicEntryTr.setAttribute("id", id);
 			
+			let delEntryTd = this.assembleDelEntryTd(id);
+			dicEntryTr.appendChild(delEntryTd);
+
 			let riddleTd = this.assembleWordListTd(dicEntry, this.currRiddleLangCode);
 			dicEntryTr.appendChild(riddleTd);
 			
