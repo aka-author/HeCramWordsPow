@@ -31,8 +31,8 @@ class MainPage extends Bureaucrat {
 		this.partOfSpeachSelector = new PartOfSpeachSelector(this, "partOfSpeachSelectorSelect");
 		
 		this.subjectDomainTagCloudSwitch = new SubjectDomainTagCloudSwitch(this, "subjectDomainCloudSwitchDiv");
-		this.subjectDomainTagCloud = new SubjectDomainTagCloud(this, "subjectDomainCloudDiv");
-		this.innerTagCloud = new InnerTagCloud(this, "innerTagsCloudDiv");
+		this.outerTagCloud = new OuterTagCloud(this, "outerTagCloudDiv");
+		this.innerTagCloud = new InnerTagCloud(this, "innerTagCloudDiv");
 			
 		this.questionArea = new LexemeArea(this, "questionAreaDiv");
 		this.answerArea = new LexemeArea(this, "answerAreaDiv");
@@ -128,7 +128,6 @@ class MainPage extends Bureaucrat {
 		this.currUiLangCode = this.isUiLangAvailable(langCode) ? langCode : "en";
 			
 		this.getI18n().loadLocalLabels(document, this.currUiLangCode);
-		this.localizeSubjectDomainTagCloud(this.currUiLangCode);
 		this.uiLangSelector.setUiControlValue(lang);
 		
 		this.update();
@@ -251,13 +250,13 @@ class MainPage extends Bureaucrat {
 	
 	// Cloud of tags 
 	
-	setSubjectDomainTags(tagRecords, tagLocalWordings) {		
-		this.subjectDomainTagCloud.appendTags(tagRecords);
-		this.subjectDomainTagCloud.setTagLocalWordings(tagLocalWordings);
+	setOuterTags(tagRecords, tagLocalWordings) {		
+		this.outerTagCloud.appendTags(tagRecords);
+		this.outerTagCloud.setTagLocalWordings(tagLocalWordings);
 	}
 	
-	localizeSubjectDomainTagCloud(localTags, langCode) {		
-		this.subjectDomainTagCloud.showLocalWordings(langCode);
+	localizeOuterTagCloud(localTags, langCode) {		
+		this.outerTagCloud.showLocalWordings(langCode);
 	}
 
 	setInnerTags(tagRecords, tagLocalWordings) {		

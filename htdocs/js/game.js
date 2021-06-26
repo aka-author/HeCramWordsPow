@@ -68,7 +68,7 @@ class Game extends Bureaucrat {
 		this.setCurrRiddleLang(config.getRiddleLangCode(wsId));
 		this.setCurrGuessLang(config.getGuessLangCode(wsId));
 
-		this.currSubjectDomainTags = [];
+		this.currOuterTags = [];
 		this.currInnerTags = [];
 		
 		this.currFilter = this.ws.assembleLessonNoFilter("all");
@@ -191,6 +191,29 @@ class Game extends Bureaucrat {
 		return this.currFilter;
 	}
 
+	rebuildSubjectDomainTagFilter() {
+
+		let currTagFilter = null;
+
+		let ws = this.getWordspace();
+
+		let currOuterTagFilter = ws.assembleOuterTagFilter(this.getCurrOuterTags());
+		let currInnerTagFilter = ws.assembleInnerTagFilter(this.getCurrInnerTags());	
+
+		if(this.getCurrInnerTags().length != 0 && this.getCurrOuterTags() != 0)
+  			currTagFilter = currOuterTagFilter.joinFilters(currInnerTagFilter)
+		else 
+		if(this.getCurrInnerTags().length != 0 && this.getCurrOuterTags() == 0)  
+			currTagFilter = currInnerTagFilter;
+		else 
+		if(this.getCurrInnerTags().length == 0 && this.getCurrOuterTags() != 0)
+			currTagFilter = currOuterTagFilter;  
+		else
+			currTagFilter = currOuterTagFilter; 	
+
+		return currTagFilter;
+	}
+
 	rebuildCurrFilter() {
 		
 		let ws = this.getWordspace();
@@ -198,21 +221,8 @@ class Game extends Bureaucrat {
 		let currLevelCodeFilter = ws.assembleLevelCodeFilter(this.getCurrLevelCode());
 		let currLessonNoFilter = ws.assembleLessonNoFilter(this.getCurrLessonNo());
 		let currPartOfSpeachFilter = ws.assemblePartOfSpeachFilter(this.getCurrPartOfSpeachCode());	
-		let currSubjectDomainTagFilter = ws.assembleSubjectDomainTagFilter(this.getCurrSubjectDomainTags());
-		let currInnerTagFilter = ws.assembleInnerTagFilter(this.getCurrInnerTags());	
-
-		let currTagFilter = null;
-
-		if(this.getCurrInnerTags().length != 0 && this.getCurrSubjectDomainTags() != 0)
-  			currTagFilter = currSubjectDomainTagFilter.joinFilters(currInnerTagFilter)
-		else 
-		if(this.getCurrInnerTags().length != 0 && this.getCurrSubjectDomainTags() == 0)  
-			currTagFilter = currInnerTagFilter;
-		else 
-		if(this.getCurrInnerTags().length == 0 && this.getCurrSubjectDomainTags() != 0)
-			currTagFilter = currSubjectDomainTagFilter;  
-		else
-			currTagFilter = currSubjectDomainTagFilter; 		
+		
+		let currTagFilter = this.rebuildSubjectDomainTagFilter();
 
 		this.currFilter = 
 			currLessonNoFilter.crossWithFilters(currLevelCodeFilter,
@@ -239,12 +249,12 @@ class Game extends Bureaucrat {
 		this.getUserConfig().setLessonNo(this.getWordspaceId(), lessonNo);
 	}
 
-	getCurrSubjectDomainTags() {
-		return this.currSubjectDomainTags;
+	getCurrOuterTags() {
+		return this.currOuterTags;
 	}
 	
-	setCurrSubjectDomains(subjectDomainTags) {
-		this.currSubjectDomainTags = subjectDomainTags;
+	setCurrOuterTags(outerTags) {
+		this.currOuterTags = outerTags;
 		this.rebuildCurrFilter();
 	}
 
@@ -347,9 +357,9 @@ class Game extends Bureaucrat {
 	
 	// Performing game activities
 	
-	updateSubjectDomainTagCloud() {
+	updateOuterTagCloud() {
 		let langCode = this.getCurrBaseLangCode();
-		this.getMainPage().subjectDomainTagCloud.showLocalWordings(langCode);
+		this.getMainPage().outerTagCloud.showLocalWordings(langCode);
 	}
 
 	updateInnerTagCloud() {
@@ -376,7 +386,7 @@ class Game extends Bureaucrat {
 		this.updateRiddleLangSelector();
 		this.updateGuessLangSlector();
 		this.updateWordList();
-		this.updateSubjectDomainTagCloud();
+		this.updateOuterTagCloud();
 		this.updateInnerTagCloud();	
 		this.getMainPage().innerTagCloud.show();
 	}
@@ -393,8 +403,8 @@ class Game extends Bureaucrat {
 		this.takeNextQuestion();
 	}
 
-	selectSubjectDomains(subjectDomainTags) {
-		this.setCurrSubjectDomains(subjectDomainTags);
+	selectOuterTags(outerTags) {
+		this.setCurrOuterTags(outerTags);
 		this.updatePage();
 		this.takeNextQuestion();
 	}
@@ -527,7 +537,7 @@ class Game extends Bureaucrat {
 		let tagLocalWordings = ws.getSubjectDomainTagWordings();
 
 		let outerTagRecords = ws.getSubjectDomainTagRecords(OUTER_TAG_CODE);				
-		mainPage.setSubjectDomainTags(outerTagRecords, tagLocalWordings);
+		mainPage.setOuterTags(outerTagRecords, tagLocalWordings);
 
 		let innerTagRecords = ws.getSubjectDomainTagRecords(INNER_TAG_CODE);
 		mainPage.setInnerTags(innerTagRecords, tagLocalWordings);
@@ -587,7 +597,6 @@ class Game extends Bureaucrat {
 		
 		this.getMainPage().setTitle(this.getWordspace().getTitle());
 		this.getMainPage().showProviderInfo();
-		
 		
 		this.setupLevelSelector();
 		this.setupLessonSelector();

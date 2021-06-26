@@ -339,10 +339,10 @@ class SubjectDomainTagCloudSwitch extends UiControl {
 }
 
 
-class SubjectDomainTagCloud extends TagCloud {
+class OuterTagCloud extends TagCloud {
 	
 	onChange() {
-		this.getGame().selectSubjectDomains(this.getUiControlValue());
+		this.getGame().selectOuterTags(this.getUiControlValue());
 	}
 	
 }

@@ -502,14 +502,14 @@ div.sectionContentArea {
 	display:			var(--tag-cloud-div-display);
 }
 
-#subjectDomainCloudDiv {
+#outerTagCloudDiv {
 	margin-top:			var(--func-block-margin-top);
 	margin-left:		var(--tag-margin-left);
 	text-align: 		right;
 	line-height: 		var(--tag-cloud-line-height);
 }
 
-#innerTagsCloudDiv {
+#innerTagCloudDiv {
 	margin-top:			15px; /*var(--func-block-margin-top);*/
 	padding-left:       1em;
 	margin-left:		1em; /*var(--tag-margin-left);*/

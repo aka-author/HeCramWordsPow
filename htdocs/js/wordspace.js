@@ -287,7 +287,7 @@ class Wordspace {
 		this.levelCodeIndex = new LevelCodeIndex();
 		this.lessonNoIndex = new LessonNoIndex();
 		this.partOfSpeachIndex = new PartOfSpeachIndex();
-		this.subjectDomainTagIndex = new TagIndex("outer_tags", this.getOuterTags());
+		this.outerTagIndex = new TagIndex("outer_tags", this.getOuterTags());
 		this.innerTagIndex = new TagIndex("inner_tags", this.getInnerTags());
 	}
 	
@@ -387,7 +387,7 @@ class Wordspace {
 		this.levelCodeIndex.appendItem(dicEntry);
 		this.lessonNoIndex.appendItem(dicEntry);
 		this.partOfSpeachIndex.appendItem(dicEntry);
-		this.subjectDomainTagIndex.appendItem(dicEntry);
+		this.outerTagIndex.appendItem(dicEntry);
 		this.innerTagIndex.appendItem(dicEntry);
 	}
 		
@@ -475,7 +475,7 @@ class Wordspace {
 				tags = this.getInnerTags();
 				break; 		
 			default:
-				tags = this.subjectDomainTagIndex.selectKeyValues(); 	
+				tags = [...this.getOuterTags(), ...this.getInnerTags()];//this.outerTagIndex.selectKeyValues(); 	
 		}
 
 		return tags;
@@ -486,7 +486,7 @@ class Wordspace {
 		if(this.getInnerTags().includes(tag))
 			return this.innerTagIndex.selectKeyValueStat(tag);
 		else		
-			return this.subjectDomainTagIndex.selectKeyValueStat(tag);
+			return this.outerTagIndex.selectKeyValueStat(tag);
 	}
 
 	getInnerTagStat(tag) {
@@ -584,10 +584,10 @@ class Wordspace {
 		return tagRecords;
 	}
 	
-	assembleSubjectDomainTagFilter(tags) {
+	assembleOuterTagFilter(tags) {
 		return tags ? 
-			this.subjectDomainTagIndex.selectItemsByKeyValues(...tags) :
-			this.subjectDomainTagIndex.selectAllItems();
+			this.outerTagIndex.selectItemsByKeyValues(...tags) :
+			this.outerTagIndex.selectAllItems();
 	}
 
 	assembleInnerTagFilter(tags) {

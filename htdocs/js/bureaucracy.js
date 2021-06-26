@@ -102,8 +102,6 @@ class Bureaucrat {
 		
 		let configParams = this.getWordspaceConfigParams();
 		
-		console.log("-------------", configParams);
-		
 		let wspId = this.getWordspace().getId();
 		
 		let config = this.getUserConfig();
