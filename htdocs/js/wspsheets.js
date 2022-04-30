@@ -414,6 +414,7 @@ class SimpleGoogleWorkbook extends Workbook {
 		let sheetJson = null; 
 		
 		if(appError.getCode() == ERR_OK) {
+			console.log(xmlHttp.response);
 			sheetJson = JSON.parse(xmlHttp.response);
 		}
 		
@@ -531,6 +532,10 @@ class SimpleGoogleWordspace extends SimpleGoogleWorkbook {
 		return this.getFieldValue(sheetName, rowIdx, "headword");
 	}
 	
+	getSoundFile(sheetName, rowIdx) {
+		return this.getFieldValue(sheetName, rowIdx, "soundFile");
+	}
+
 	getRussian(sheetName, rowIdx) {
 		return this.getFieldValue(sheetName, rowIdx, "ru");
 	}

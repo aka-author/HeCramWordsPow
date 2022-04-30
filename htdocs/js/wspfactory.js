@@ -439,9 +439,11 @@ class WordspaceFactory {
 		let targetLangCode = this.getTargetLangCode();
 		let baseLangCodes = this.getBaseLangCodes();
 		let targetHeadword = wb.getHeadword(sheetName, rowIdx);
-		
+		let soundFile = wb.getSoundFile(sheetName, rowIdx);
+
 		let targetLexeme = new Lexeme(targetLangCode, targetHeadword);
 		targetLexeme.setPartOfSpeach(sheetName);
+		targetLexeme.setSoundFile(soundFile);
 		
 		dicEntry.appendLexeme(targetLexeme);
 		this.importLexemes(dicEntry, sheetName, rowIdx, baseLangCodes);

@@ -38,7 +38,7 @@ class Game extends Bureaucrat {
 	}
 	
 	useWordspaceFromGdocs() {
-								
+		console.log(this.wb);						
 		let wsf = new WordspaceFactory(this.wb);
 		wsf.setProcessReporter(this.getApp().getProcessReporter());
 		
@@ -439,8 +439,20 @@ class Game extends Bureaucrat {
 			case "question": 
 			case "prompt":
 				let guessLangCode = this.getCurrGuessLangCode();
+				let targetLangCode = this.getWordspace().getTargetLangCode(); 
 				let guessLexeme = this.getCurrDicEntry().lexemes[guessLangCode];
 				this.getMainPage().displayAnswer(guessLexeme);
+
+				if(guessLangCode == targetLangCode) {
+					console.log(this.getCurrDicEntry().lexemes[targetLangCode].getSoundFile());
+
+					let audio = document.getElementById("saywordAudio");
+					audio.src = this.getCurrDicEntry().lexemes[targetLangCode].getSoundFile();
+					audio.play();
+
+				}
+
+				
 				break;
 			case "answer":
 				let riddleLangCode = this.getCurrRiddleLangCode();

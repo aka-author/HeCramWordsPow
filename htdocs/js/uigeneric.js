@@ -317,6 +317,9 @@ class TagSwitch extends UiControl {
 	}
 		
 	assembleClassName() {
+                //console.log(":::", this.tagRecord.relativeSize*10);
+                let className = "tag" + Math.floor(this.tagRecord.relativeSize*10);
+                console.log(":::", className);
 		return "tag" + Math.floor(this.tagRecord.relativeSize*10);
 	}
 	

@@ -265,21 +265,23 @@ class SubstFormalSplitter extends StringFormalSplitter {
 		
 		let buffer = "";
 		
-		for(let i = 0; i < remain.length; i++)	
-			switch(remain.charAt(i)) {
-				case "{":
-					if(buffer)
-						this.clauses.push(new SubstFormalClause(buffer));
-					buffer = "";
-					break;
-				case "}":
-					if(buffer)	
-						this.clauses.push(new SubstFormalClause(buffer, "subst"));
-					buffer = "";
-					break;
-				default:
-					buffer += remain.charAt(i);
-			}
+		// "if" is a crutch here
+		if(remain)
+			for(let i = 0; i < remain.length; i++)	
+				switch(remain.charAt(i)) {
+					case "{":
+						if(buffer)
+							this.clauses.push(new SubstFormalClause(buffer));
+						buffer = "";
+						break;
+					case "}":
+						if(buffer)	
+							this.clauses.push(new SubstFormalClause(buffer, "subst"));
+						buffer = "";
+						break;
+					default:
+						buffer += remain.charAt(i);
+				}
 			
 		if(buffer)
 			this.clauses.push(new SubstFormalClause(buffer));		

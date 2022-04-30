@@ -153,6 +153,14 @@ class Lexeme {
 		this.partOfSpeachCode = partOfSpeachCode;
 	}
 	
+	getSoundFile() {
+		return this.soundFile
+	}
+
+	setSoundFile(soundFile) {
+		this.soundFile = soundFile;
+	}
+
 	getMnemoPhrase() {
 		return this.mnemoPhrase;	
 	}	
@@ -184,6 +192,10 @@ class DicEntry {
 			return undefined;	
 	}
 	
+	getTargetSoundFile() {
+		return this.lexemes["he"].getSoudFile();
+	}
+
 	getLevelCode() {
 		return this.levelCode;
 	}
