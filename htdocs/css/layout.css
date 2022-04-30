@@ -78,9 +78,9 @@
 		--tag-border-radius:           				5px;
 		--tag-cloud-line-height:					24px;
 
-		--tag-00-display:							none;
+		--tag-00-display:							inline;
 		--tag-00-font-size: 						6px; 
-		--tag-01-display:							none;
+		--tag-01-display:							inline;
 		--tag-01-font-size: 						8px; 
 		--tag-02-display:							inline;
 		--tag-02-font-size: 						10px; 
@@ -178,13 +178,13 @@
 		--tag-border-radius:           				2px;
 		--tag-cloud-line-height:					18px;
 
-		--tag-00-display:							none;
+		--tag-00-display:							inline;
 		--tag-00-font-size: 						6px; 
-		--tag-01-display:							none;
+		--tag-01-display:							inline;
 		--tag-01-font-size: 						6px; 
-		--tag-02-display:							none;
+		--tag-02-display:							inline;
 		--tag-02-font-size: 						6px; 
-		--tag-03-display:							none;
+		--tag-03-display:							inline;
 		--tag-03-font-size:							6px;
 		--tag-04-display:							inline;
 		--tag-04-font-size: 						10px;
@@ -691,6 +691,17 @@ span.hebrewDisclosedWordInMnemoPhrase {
 	background: 		var(--playground-back);
 	color: 				var(--text-look-at-me);
 	font-weight: 		bold;
+}
+
+#saywordDiv {
+	margin-top: 		var(--func-block-margin-top);
+	text-align: 		center;
+}
+
+#saywordAudio {
+	width:auto			50pt;
+	height: 			25pt;			
+	border-radius: 		var(--area-border-radius);
 }
 
 #userActionPaneDiv {

@@ -265,7 +265,13 @@
 								<div id="mnemoPhraseAreaDiv" 
 									 style="display: none"></div>
 							</div>
-							
+
+							<div id="saywordDiv">	
+								<audio controls id="saywordAudio">
+									<source src="" type="audio/mpeg">
+								</audio>
+							</div>
+
 							<!-- Performing game activities -->
 							<div id="userActionPaneDiv">
 								<img src="img/targum70x70.png" 
@@ -276,7 +282,7 @@
 									 onclick="GLOBAL_app.process(this.id, 'getPressed')">						 
 								<img src="img/kadima70x70.png" 
 									 id="takeNextQuestionButtonImg"
-									 onclick="GLOBAL_app.process(this.id, 'getPressed')">
+									 onclick="GLOBAL_app.process(this.id, 'getPressed')">	 
 							</div>
 						
 						</div> <!-- section content -->

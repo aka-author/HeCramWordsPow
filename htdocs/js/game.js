@@ -431,6 +431,26 @@ class Game extends Bureaucrat {
 		this.updatePage();
 	}
 	
+	getSaywordAudio() {
+		return document.getElementById("saywordAudio");
+	}
+
+	resetSaywordAudio() {
+		this.getSaywordAudio().src = "";
+	}
+
+	setSaywordAudio(soundFile) {
+		this.getSaywordAudio().src = soundFile;
+	}
+
+	sayword(langCode) {
+		let soundFile = this.getCurrDicEntry().lexemes[langCode].getSoundFile();
+		if(soundFile) {
+			this.setSaywordAudio(soundFile);
+			this.getSaywordAudio().play();
+		}
+	}
+
 	giveUp() {
 		
 		let visibleAreaName = this.getMainPage().getVisibleAreaName();
@@ -443,16 +463,8 @@ class Game extends Bureaucrat {
 				let guessLexeme = this.getCurrDicEntry().lexemes[guessLangCode];
 				this.getMainPage().displayAnswer(guessLexeme);
 
-				if(guessLangCode == targetLangCode) {
-					console.log(this.getCurrDicEntry().lexemes[targetLangCode].getSoundFile());
+				if(guessLangCode == targetLangCode) this.sayword(targetLangCode);
 
-					let audio = document.getElementById("saywordAudio");
-					audio.src = this.getCurrDicEntry().lexemes[targetLangCode].getSoundFile();
-					audio.play();
-
-				}
-
-				
 				break;
 			case "answer":
 				let riddleLangCode = this.getCurrRiddleLangCode();
@@ -500,6 +512,8 @@ class Game extends Bureaucrat {
 			this.getMainPage().promptArea.clear();
 			this.getMainPage().mnemoPhraseArea.clear();
 		}
+
+		this.resetSaywordAudio();
 	}
 	
 	
